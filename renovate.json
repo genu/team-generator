@@ -1,0 +1,29 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:base"],
+  "packageRules": [
+    {
+      "matchDatasources": ["npm"],
+      "matchPackagePrefixes": ["@fortawesome/"],
+      "registryUrls": ["https://npm.fontawesome.com"]
+    },
+    {
+      "matchUpdateTypes": ["minor", "patch", "pin"],
+      "matchCurrentVersion": "!/^0/",
+      "automerge": true
+    }
+  ],
+  "hostRules": [
+    {
+      "hostType": "npm",
+      "matchHost": "https://npm.fontawesome.com/",
+      "token": "46976AD2-A72A-434C-A6B0-148754948D21"
+    }
+  ],
+  "lockFileMaintenance": {
+    "enabled": true,
+    "automerge": true,
+    "automergeType": "pr",
+    "platformAutomerge": true
+  }
+}

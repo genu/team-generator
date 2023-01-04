@@ -1,0 +1,11 @@
+.p-tooltip {
+  @apply text-sm z-20 -ml-2 -mt-1;
+
+  .p-tooltip-top {
+    @apply px-0 !important;
+  }
+
+  .p-tooltip-text {
+    @apply px-2 py-1 text-sm !important;
+  }
+}

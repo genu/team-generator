@@ -1,0 +1,31 @@
+{
+  "name": "teams-generator",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "start": "node .output/server/index.mjs",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview"
+  },
+  "devDependencies": {
+    "@nuxtjs/google-fonts": "3.0.0-1",
+    "@nuxtjs/tailwindcss": "^6.2.0",
+    "@tailwindcss/forms": "^0.5.3",
+    "@tailwindcss/typography": "^0.5.8",
+    "@vueuse/core": "^9.9.0",
+    "@vueuse/nuxt": "^9.9.0",
+    "nuxt": "3.0.0"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-pro": "6.2.1",
+    "@fortawesome/fontawesome-svg-core": "6.2.1",
+    "@fortawesome/free-brands-svg-icons": "6.2.1",
+    "@fortawesome/pro-regular-svg-icons": "6.2.1",
+    "@fortawesome/pro-solid-svg-icons": "6.2.1",
+    "@fortawesome/vue-fontawesome": "3.0.2",
+    "@prisma/client": "^4.8.0",
+    "@vueuse/components": "^9.9.0",
+    "primevue": "^3.21.0"
+  }
+}

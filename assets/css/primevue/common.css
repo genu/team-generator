@@ -1,0 +1,20 @@
+/* Vue based overlay animations */
+.p-connected-overlay-enter-from {
+  @apply opacity-0 transform scale-110;
+}
+
+.p-connected-overlay-leave-to {
+  @apply opacity-0 transform;
+}
+
+.p-connected-overlay-enter-active {
+  @apply duration-75 transition-transform ease-in-out;
+}
+
+.p-connected-overlay-leave-active {
+  @apply transition-all ease-in-out;
+}
+
+.p-inputtext.p-inputtext-sm {
+  @apply py-1 text-xl !important;
+}
