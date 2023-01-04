@@ -21,13 +21,14 @@
         <button
           type="button"
           class="ml-3 inline-flex items-center rounded-md border border-transparent bg-indigo-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-800"
+          @click="save"
         >
           Save
         </button>
       </div>
     </div>
     <div
-      class="flex gap-5 py-5 bg-gray-200 -mt-2 py-2 px-5 z-0 rounjded-b border border-gray-800 shadow-md"
+      class="flex gap-2 py-5 bg-gray-200 -mt-2 py-2 px-5 z-0 rounjded-b border border-gray-800 shadow-md"
     >
       <div class="flex flex-col w-2/4 gap-2">
         <div class="flex gap-2 font-bold">
@@ -36,7 +37,7 @@
           <span>Rank (1-5)</span>
         </div>
         <div class="flex flex-col gap-2">
-          <div v-for="(player, index) in players" class="flex gap-2">
+          <div v-for="(player, index) in decodedData.players" class="flex gap-2">
             <span class="w-16 flex justify-around items-center">
               <InputSwitch v-model="player.enabled" />
             </span>
@@ -52,39 +53,63 @@
           <Divider class="text-sm" align="right">Add Player</Divider>
           <div class="flex gap-2 items-center">
             <span class="w-16"></span>
-            <InputText class="p-inputtext-sm w-28" placeholder="Name" type="text" />
-            <InputText class="p-inputtext-sm w-20" placeholder="Rank" type="text" />
-            <FaIcon icon="plus" class="text-lg" />
+            <InputText
+              class="p-inputtext-sm w-28"
+              placeholder="Name"
+              type="text"
+              v-model="newPlayer.name"
+            />
+            <InputNumber
+              input-class="p-inputtext-sm w-20"
+              placeholder="Rank"
+              v-model="newPlayer.rank"
+            />
+            <Button
+              label="Add"
+              class="p-button-link px-2"
+              @click="addPlayer(newPlayer)"
+            />
           </div>
         </div>
       </div>
       <Divider layout="vertical" />
       <div class="flex flex-col gap-2">
         <h2 class="text-lg font-bold">Options</h2>
-        <div class="font-semibold">
+        <div class="font-semibold flex flex-col gap-2">
           <div class="flex items-center gap-2">
-            <span>Teams:</span>
-            <InputNumber input-class="w-20" :step="1" :min="2" />
+            <span class="w-28 text-right">League Name:</span>
+            <InputText class="p-inputtext-sm" v-model="decodedData.config.league" />
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="w-28 text-right"># of Teams:</span>
+            <InputNumber
+              input-class="p-inputtext-sm w-20"
+              :step="1"
+              :min="2"
+              :max="100"
+              v-model="decodedData.config.teams"
+            />
           </div>
         </div>
       </div>
     </div>
     <div class="flex flex-col py-5 gap-2">
-      <pre>{{ players }}</pre>
-
       <input type="text" placeholder="League name" />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { decode } from 'punycode'
+
 interface Player {
   name: string
-  rank: number
-  enabled: boolean
+  rank?: number
+  enabled?: boolean
 }
 
 interface Config {
+  league?: string
   teams: number
 }
 
@@ -92,29 +117,35 @@ interface DecodedData {
   config: Config
   players: Player[]
 }
-const newPlayer = ref<Player>({ name: '', rank: 0, enabled: true })
+const newPlayer = ref<Player>({ name: '', enabled: true })
 
-const players = ref<Player[]>([
-  { name: 'Player A', rank: 10, enabled: true },
-  { name: 'Player B', rank: 2, enabled: true },
-])
-
-let decodedData = ref<DecodedData>({
+let decodedData = reactive<DecodedData>({
   config: {
     teams: 2,
   },
-  players: players.value,
+  players: [],
 })
 
 const route = useRoute()
+const router = useRouter()
 
 try {
-  decodedData = JSON.parse(atob(route.params.slug[0]))
+  const data: DecodedData = JSON.parse(atob(route.params.slug[0]))
+
+  decodedData.config = { ...data.config }
+  decodedData.players = [...data.players]
 } catch (err) {
   console.log(err)
 }
 
 const save = () => {
-  const encoded = btoa(JSON.stringify(data.value))
+  const encoded = btoa(JSON.stringify(decodedData))
+  console.log(decodedData)
+  router.push(`/${encoded}`)
+}
+
+const addPlayer = (player: Player) => {
+  decodedData.players = [...decodedData.players, { enabled: true, ...player }]
+  newPlayer.value = { name: '' }
 }
 </script>

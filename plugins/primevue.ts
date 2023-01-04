@@ -9,6 +9,7 @@ import InputText from 'primevue/inputtext'
 import InputNumber from 'primevue/inputnumber'
 import Divider from 'primevue/divider'
 import InputSwitch from 'primevue/inputswitch'
+import Button from 'primevue/button'
 
 export default defineNuxtPlugin((nuxt) => {
   nuxt.vueApp.use(PrimeVue)
@@ -26,4 +27,5 @@ export default defineNuxtPlugin((nuxt) => {
   nuxt.vueApp.component('InputNumber', InputNumber)
   nuxt.vueApp.component('Divider', Divider)
   nuxt.vueApp.component('InputSwitch', InputSwitch)
+  nuxt.vueApp.component('Button', Button)
 })
