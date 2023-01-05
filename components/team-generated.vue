@@ -17,7 +17,7 @@
       >
         <div class="relative">
           <h2 class="text-lg font-medium leading-6 text-gray-900 px-5 pt-5">
-            Team {{ +key + 1 }}
+            Team {{ +key + 1 }} <span class="text-xs">({{ players.length }} players)</span>
           </h2>
           <span
             class="absolute top-0 left-0 text-sm bg-green-500 px-2 text-white text-xs"
