@@ -7,12 +7,23 @@ import {
   faMinus,
   faPlus,
   faTimes,
+  faAngleDown,
+  faAngleUp,
 } from '@fortawesome/pro-solid-svg-icons'
 
 // This is important, we are going to let Nuxt worry about the CSS
 config.autoAddCss = false
 
-library.add(faMagnifyingGlass, faEye, faEyeSlash, faMinus, faPlus, faTimes)
+library.add(
+  faMagnifyingGlass,
+  faEye,
+  faEyeSlash,
+  faMinus,
+  faPlus,
+  faTimes,
+  faAngleDown,
+  faAngleUp
+)
 
 export default defineNuxtPlugin((nuxt) => {
   nuxt.vueApp.component('FaIcon', FontAwesomeIcon)

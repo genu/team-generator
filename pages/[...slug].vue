@@ -37,7 +37,7 @@
         <div class="flex gap-2 font-bold">
           <span class="w-24">Yay or Nay</span>
           <span class="w-48">Players</span>
-          <span>Rank (1-10)</span>
+          <span class="w-28">Rank (1-10)</span>
         </div>
         <div class="flex flex-col gap-2">
           <div v-for="(player, index) in data.players" class="flex items-center gap-2">
@@ -112,17 +112,21 @@
     </div>
     <div class="absolute flex flex-col py-5 gap-2 absolute mt-16 w-full left-0 top-0">
       <div class="w-11/12 md:w-10/12 md:w-2/3 mx-auto max-w-4xl">
-        <TeamGenerated :players="activePlayers" :team-count="data.config.teams" />
+        <TeamGenerated
+          :players="activePlayers"
+          :team-count="data.config.teams"
+          @shuffled="onShuffled"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { filter } from 'lodash-es'
+import { filter, find, maxBy } from 'lodash-es'
 import { Config, Player } from '~/interfaces'
 
-const newPlayer = ref<Player>({ name: '', enabled: true, rank: 1 })
+const newPlayer = ref<Player>({ id: -1, name: '', enabled: true, rank: 1 })
 const isEditing = ref(false)
 
 const data = reactive<{ config: Config; players: Player[] }>({
@@ -145,6 +149,13 @@ if (decodedData) {
 
 const activePlayers = computed(() => filter(data.players, { enabled: true }))
 
+const getNextId = () => {
+  const maxId = maxBy(data.players, 'id')
+
+  if (maxId) return maxId.id + 1
+
+  return 1
+}
 // Actions
 const save = () => {
   const encoded = encode(data)
@@ -153,14 +164,22 @@ const save = () => {
 }
 
 const addPlayer = (player: Player) => {
+  // No empty strings
   if (player.name === '') return
 
-  data.players = [...data.players, { ...player }]
+  // No existing players
+  if (find(data.players, { name: player.name })) return
 
-  newPlayer.value = { name: '', enabled: true, rank: 1 }
+  data.players = [...data.players, { ...player, id: getNextId() }]
+
+  newPlayer.value = { id: -1, name: '', enabled: true, rank: 1 }
 }
 
 const removePlayer = (index: number) => {
   data.players.splice(index, 1)
+}
+
+const onShuffled = (teams: any) => {
+  console.log(teams)
 }
 </script>

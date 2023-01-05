@@ -18,7 +18,11 @@ export default defineNuxtConfig({
       '@fortawesome/pro-solid-svg-icons',
     ],
   },
-
+  app: {
+    head: {
+      htmlAttrs: { class: 'bg-gray-100' },
+    },
+  },
   /**
    * Module configurations
    **/
