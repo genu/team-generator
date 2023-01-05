@@ -6,7 +6,7 @@
       <h2
         class="text-xl md:text-2xl font-bold leading-7 text-white sm:truncate sm:text-3xl sm:tracking-tight capitalize"
       >
-        {{ data.c.l }}
+        {{ data.config.leagueName }}
       </h2>
       <div class="flex md:mt-0 md:ml-4">
         <button
@@ -40,17 +40,21 @@
           <span class="w-28">Rank (1-10)</span>
         </div>
         <div class="flex flex-col gap-2">
-          <div v-for="(player, index) in data.p" class="flex items-center gap-2">
+          <div v-for="(player, index) in data.players" class="flex items-center gap-2">
             <span class="w-24 flex justify-around items-center">
-              <InputSwitch v-model="player.e" />
+              <InputSwitch v-model="player.yes" />
             </span>
             <span class="flex w-48">
-              <InputText class="p-inputtext-sm w-full" type="text" v-model="player.n" />
+              <InputText
+                class="p-inputtext-sm w-full"
+                type="text"
+                v-model="player.name"
+              />
             </span>
             <span class="flex w-20">
               <InputNumber
                 input-class="p-inputtext-sm w-full"
-                v-model="player.r"
+                v-model="player.rank"
                 :step="1"
                 :min="1"
                 :max="10"
@@ -69,7 +73,7 @@
               class="p-inputtext-sm ml-24 w-48"
               placeholder="Name"
               type="text"
-              v-model="newPlayer.n"
+              v-model="newPlayer.name"
               @keyup.enter="addPlayer(newPlayer)"
             />
             <Button
@@ -81,7 +85,7 @@
           <div class="flex justify-end text-lg items-center">
             Active Players:
             <span class="font-semibold ml-1">{{ activePlayers.length }}</span>
-            <span class="text-sm">&nbsp; ({{ data.p.length }} total)</span>
+            <span class="text-sm">&nbsp; ({{ data.players.length }} total)</span>
           </div>
         </div>
       </div>
@@ -91,7 +95,7 @@
         <div class="font-semibold flex flex-col gap-2">
           <div class="flex flex-col items-start gap-0">
             <span class="w-28 text-right">League Name:</span>
-            <InputText class="p-inputtext-sm" v-model="data.c.l" />
+            <InputText class="p-inputtext-sm" v-model="data.config.leagueName" />
           </div>
           <div class="flex flex-col items-start gap-0">
             <span class="w-28"># of teams:</span>
@@ -100,7 +104,7 @@
               :step="1"
               :min="2"
               :max="100"
-              v-model="data.c.t"
+              v-model="data.config.teamCount"
             />
           </div>
         </div>
@@ -110,9 +114,9 @@
       <div class="w-11/12 md:w-10/12 md:w-2/3 mx-auto max-w-4xl">
         <TeamGenerated
           :players="activePlayers"
-          :team-count="data.c.t"
+          :team-count="data.config.teamCount"
           @shuffled="onShuffled"
-          :previously-generated="data.i"
+          :previously-generated="data.init"
         />
       </div>
     </div>
@@ -125,15 +129,15 @@ import { compress, decompress } from 'compress-json'
 
 import { Config, Player } from '~/interfaces'
 
-const newPlayer = ref<Player>({ i: -1, n: '', e: true, r: 1 })
+const newPlayer = ref<Player>({ id: -1, name: '', yes: true, rank: 1 })
 const isEditing = ref(false)
 
-const data = reactive<{ c: Config; p: Player[]; i: any }>({
-  c: {
-    t: 2,
+const data = reactive<{ config: Config; players: Player[]; init: any }>({
+  config: {
+    teamCount: 2,
   },
-  p: [],
-  i: null,
+  players: [],
+  init: null,
 })
 
 const route = useRoute()
@@ -142,24 +146,25 @@ const router = useRouter()
 try {
   if (route.params.slug[0]) {
     const jsonParsed = JSON.parse(route.params.slug[0])
-    const decodedData = decompress(jsonParsed)
+    const decodedData: { config: Config; players: Player[]; init: any } =
+      decompress(jsonParsed)
 
     if (decodedData) {
-      data.c = { ...decodedData.c }
-      data.p = [...decodedData.p]
-      data.i = { ...decodedData.i }
+      data.config = { ...decodedData.config }
+      data.players = [...decodedData.players]
+      data.init = { ...decodedData.init }
     }
   }
 } catch (err) {
   console.log(`Invalid buffer. Can't decode`)
 }
 
-const activePlayers = computed<Player[]>(() => filter(data.p, { e: true }))
+const activePlayers = computed<Player[]>(() => filter(data.players, { yes: true }))
 
 const getNextId = () => {
-  const maxId = maxBy(data.p, 'i')
+  const maxId = maxBy(data.players, 'id')
 
-  if (maxId) return maxId.i + 1
+  if (maxId) return maxId.id + 1
 
   return 1
 }
@@ -167,26 +172,29 @@ const getNextId = () => {
 const save = () => {
   const encoded = JSON.stringify(compress(data))
 
+  console.log('encoded length: ', encoded.length)
+
   router.push(`/${encoded}`)
 }
 
 const addPlayer = (player: Player) => {
   // No empty strings
-  if (player.n === '') return
+  if (player.name === '') return
 
   // No existing players
-  if (find(data.p, { n: player.n })) return
+  if (find(data.players, { n: player.name })) return
 
-  data.p = [...data.p, { ...player, i: getNextId() }]
+  data.players = [...data.players, { ...player, id: getNextId() }]
 
-  newPlayer.value = { i: -1, n: '', e: true, r: 1 }
+  newPlayer.value = { id: -1, name: '', yes: true, rank: 1 }
 }
 
 const removePlayer = (index: number) => {
-  data.p.splice(index, 1)
+  data.players.splice(index, 1)
+  data.init = null
 }
 
 const onShuffled = (teams: any) => {
-  data.i = teams
+  data.init = teams
 }
 </script>

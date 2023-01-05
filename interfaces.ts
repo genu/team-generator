@@ -1,11 +1,11 @@
 export interface Player {
-  i: number
-  n: string
-  r?: number
-  e?: boolean
+  id: number
+  name: string
+  rank?: number
+  yes?: boolean
 }
 
 export interface Config {
-  l?: string
-  t: number
+  leagueName?: string
+  teamCount: number
 }

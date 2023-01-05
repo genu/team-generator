@@ -27,7 +27,7 @@
         </div>
         <ul class="flex flex-col gap-1 mt-2 px-4 py-2">
           <li v-for="player in players" class="text-sm font-medium text-gray-900">
-            {{ player.n }}
+            {{ player.name }}
           </li>
         </ul>
       </div>
@@ -92,9 +92,7 @@ const process = ref<string[]>([])
 const encodeTeamAssignments = () => {
   const encodedTeams: any = {}
 
-  each(teams.value, (players, team) => {
-    encodedTeams[team] = map(players, 'i')
-  })
+  each(teams.value, (players, team) => (encodedTeams[team] = map(players, 'id')))
 
   return encodedTeams
 }
@@ -102,9 +100,11 @@ const encodeTeamAssignments = () => {
 const decodeTeamAssignments = (encodedTeams: any) => {
   const decodedTeams: any = {}
 
-  each(encodedTeams, (playerIds, team) => {
-    decodedTeams[team] = map(playerIds, (id) => find(props.players, { i: id }))
-  })
+  each(
+    encodedTeams,
+    (playerIds, team) =>
+      (decodedTeams[team] = map(playerIds, (id) => find(props.players, { id })))
+  )
 
   return decodedTeams
 }
@@ -115,7 +115,7 @@ if (props.previouslyGenerated) {
 }
 
 const shuffle = () => {
-  const groupedByRank = groupBy(props.players, 'r')
+  const groupedByRank = groupBy(props.players, 'rank')
   teamToChoose.value = random(0, props.teamCount - 1)
   teams.value = []
   process.value = []
@@ -135,8 +135,8 @@ const shuffle = () => {
 
       process.value = [
         ...process.value,
-        `Team ${teamToChoose.value + 1} chose ${randomPlayerFromRank.n} (rank: ${
-          randomPlayerFromRank.r
+        `Team ${teamToChoose.value + 1} chose ${randomPlayerFromRank.name} (rank: ${
+          randomPlayerFromRank.rank
         })`,
       ]
 
@@ -163,7 +163,5 @@ const shuffle = () => {
 }
 
 const numberOfGeneratedTeams = computed(() => keys(teams.value).length)
-const getTeamRank = (players: Player[]) => {
-  return sumBy(players, 'r')
-}
+const getTeamRank = (players: Player[]) => sumBy(players, 'rank')
 </script>
