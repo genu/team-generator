@@ -4,7 +4,7 @@
       class="z-40 h-20 bg-gray-800 py-10 px-5 flex items-center justify-between rounded-b-md"
     >
       <h2
-        class="text-xl md:text-2xl font-bold leading-7 text-white sm:truncate sm:text-3xl sm:tracking-tight"
+        class="text-xl md:text-2xl font-bold leading-7 text-white sm:truncate sm:text-3xl sm:tracking-tight capitalize"
       >
         {{ decodedData.config.league }}
       </h2>
@@ -35,43 +35,56 @@
     >
       <div class="flex flex-col md:w-2/4 gap-2">
         <div class="flex gap-2 font-bold">
-          <span class="w-16"></span>
-          <span class="w-28">Players</span>
-          <span>Rank (1-5)</span>
+          <span class="w-24">Yay or Nay</span>
+          <span class="w-24">Players</span>
+          <span>Rank (1-10)</span>
         </div>
         <div class="flex flex-col gap-2">
-          <div v-for="player in decodedData.players" class="flex gap-2">
-            <span class="w-16 flex justify-around items-center">
+          <div v-for="player in decodedData.players" class="flex items-center gap-2">
+            <span class="w-24 flex justify-around items-center">
               <InputSwitch v-model="player.enabled" />
             </span>
-            <InputText class="p-inputtext-sm w-28" type="text" v-model="player.name" />
-            <InputNumber
-              input-class="p-inputtext-sm w-20"
-              v-model="player.rank"
-              :step="1"
-              :min="1"
-              :max="5"
-            />
+            <span class="flex w-24">
+              <InputText
+                class="p-inputtext-sm w-full"
+                type="text"
+                v-model="player.name"
+              />
+            </span>
+            <span class="flex w-20">
+              <InputNumber
+                input-class="p-inputtext-sm w-full"
+                v-model="player.rank"
+                :step="1"
+                :min="1"
+                :max="10"
+              />
+            </span>
+            <span class="cursor-pointer flex">
+              <FaIcon
+                icon="times"
+                class="text-lg bg-red-500 rounded py-1 px-2 text-white hover:bg-red-600"
+              />
+            </span>
           </div>
-          <Divider class="text-sm" align="right">Add Player</Divider>
-          <div class="flex gap-2 items-center">
-            <span class="w-16"></span>
+          <div class="flex gap-2 items-center ml-28">
             <InputText
-              class="p-inputtext-sm w-28"
+              class="p-inputtext-sm w-28 ml-2"
               placeholder="Name"
               type="text"
               v-model="newPlayer.name"
-            />
-            <InputNumber
-              input-class="p-inputtext-sm w-20"
-              placeholder="Rank"
-              v-model="newPlayer.rank"
+              @keyup.enter="addPlayer(newPlayer)"
             />
             <Button
               label="Add"
-              class="p-button-link px-2"
+              class="p-button-link px-2 w-20"
               @click="addPlayer(newPlayer)"
             />
+          </div>
+          <div class="flex justify-end text-lg items-center">
+            Active Players:
+            <span class="font-semibold ml-1">{{ activePlayers.length }}</span>
+            <span class="text-sm">&nbsp; ({{ decodedData.players.length }} total)</span>
           </div>
         </div>
       </div>
@@ -79,12 +92,12 @@
       <div class="flex flex-col gap-2">
         <h2 class="text-lg font-bold">Options</h2>
         <div class="font-semibold flex flex-col gap-2">
-          <div class="flex items-center gap-2">
+          <div class="flex flex-col items-start gap-0">
             <span class="w-28 text-right">League Name:</span>
             <InputText class="p-inputtext-sm" v-model="decodedData.config.league" />
           </div>
-          <div class="flex items-center gap-2">
-            <span class="w-28 text-right"># of Teams:</span>
+          <div class="flex flex-col items-start gap-0">
+            <span class="w-28"># of teams:</span>
             <InputNumber
               input-class="p-inputtext-sm w-20"
               :step="1"
@@ -108,6 +121,8 @@
 </template>
 
 <script lang="ts">
+import { filter } from 'lodash-es'
+
 export interface Player {
   name: string
   rank?: number
@@ -153,7 +168,10 @@ const save = () => {
   router.push(`/${encoded}`)
 }
 
+const activePlayers = computed(() => filter(decodedData.players, { enabled: true }))
 const addPlayer = (player: Player) => {
+  if (player.name === '') return
+
   decodedData.players = [...decodedData.players, { enabled: true, ...player }]
   newPlayer.value = { name: '' }
 }

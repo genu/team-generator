@@ -12,9 +12,11 @@ specifiers:
   '@prisma/client': ^4.8.0
   '@tailwindcss/forms': ^0.5.3
   '@tailwindcss/typography': ^0.5.8
+  '@types/lodash-es': 4.17.6
   '@vueuse/components': ^9.9.0
   '@vueuse/core': ^9.9.0
   '@vueuse/nuxt': ^9.9.0
+  lodash-es: 4.17.21
   nuxt: 3.0.0
   primevue: ^3.21.0
 
@@ -27,6 +29,7 @@ dependencies:
   '@fortawesome/vue-fontawesome': 3.0.2_bd5ipvhrqmkjz6wvo6sgrei224
   '@prisma/client': 4.8.0
   '@vueuse/components': 9.10.0_vue@3.2.45
+  lodash-es: 4.17.21
   primevue: 3.21.0_5f3kdig7wnjzidee4jtphf73cq
 
 devDependencies:
@@ -34,6 +37,7 @@ devDependencies:
   '@nuxtjs/tailwindcss': 6.2.0_xnvm3nz4mmjaxdtzfd6rahyqou
   '@tailwindcss/forms': 0.5.3_tailwindcss@3.2.4
   '@tailwindcss/typography': 0.5.8_tailwindcss@3.2.4
+  '@types/lodash-es': 4.17.6
   '@vueuse/core': 9.10.0_vue@3.2.45
   '@vueuse/nuxt': 9.10.0_xsv3vwo4hvye53m3n4ybcmydue
   nuxt: 3.0.0_rollup@2.79.1
@@ -916,6 +920,16 @@ packages:
 
   /@types/json-schema/7.0.11:
     resolution: {integrity: sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ==}
+    dev: true
+
+  /@types/lodash-es/4.17.6:
+    resolution: {integrity: sha512-R+zTeVUKDdfoRxpAryaQNRKk3105Rrgx2CFRClIgRGaqDTdjsm8h6IYA8ir584W3ePzkZfst5xIgDwYrlh9HLg==}
+    dependencies:
+      '@types/lodash': 4.14.191
+    dev: true
+
+  /@types/lodash/4.14.191:
+    resolution: {integrity: sha512-BdZ5BCCvho3EIXw6wUCXHe7rS53AIDPLE+JzwgT+OsJk53oBfbSmZZ7CX4VaRoN78N+TJpFi9QPlfIVNmJYWxQ==}
     dev: true
 
   /@types/node/18.11.18:
@@ -3452,6 +3466,10 @@ packages:
     resolution: {integrity: sha512-mlERgSPrbxU3BP4qBqAvvwlgW4MTg78iwJdGGnv7kibKjWcJksrG3t6LB5lXI93wXRDvG4NpUgJFmTG4T6rdrg==}
     engines: {node: '>=14'}
     dev: true
+
+  /lodash-es/4.17.21:
+    resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
+    dev: false
 
   /lodash._reinterpolate/3.0.0:
     resolution: {integrity: sha512-xYHt68QRoYGjeeM/XOE1uJtvXQAgvszfBhjV4yvsQH0u2i9I6cI6c6/eG4Hh3UAOVn0y/xAXwmTzEay49Q//HA==}

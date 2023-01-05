@@ -1,12 +1,12 @@
 <template>
   <div class="flex flex-col">
-    <div>
+    <div class="flex justify-end">
       <button
         type="button"
-        class="ml-3 inline-flex items-center rounded-md border border-transparent bg-red-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-800"
+        class="ml-3 inline-flex items-center rounded-md border border-transparent bg-green-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-800"
         @click="generate"
       >
-        Generate
+        Shuffle Teams
       </button>
     </div>
     <h2>players</h2>
