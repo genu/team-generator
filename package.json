@@ -14,6 +14,7 @@
     "@tailwindcss/forms": "^0.5.3",
     "@tailwindcss/typography": "^0.5.8",
     "@types/lodash-es": "4.17.6",
+    "@types/msgpack-lite": "^0.1.8",
     "@vueuse/core": "^9.9.0",
     "@vueuse/nuxt": "^9.9.0",
     "nuxt": "3.0.0"
@@ -27,7 +28,10 @@
     "@fortawesome/vue-fontawesome": "3.0.2",
     "@prisma/client": "^4.8.0",
     "@vueuse/components": "^9.9.0",
+    "compress-json": "^2.1.2",
+    "jsonpack": "^1.1.5",
     "lodash-es": "4.17.21",
+    "msgpack-lite": "^0.1.26",
     "primevue": "^3.21.0",
     "sortablejs": "^1.15.0",
     "sortablejs-vue3": "^1.2.5"

@@ -27,12 +27,12 @@
         </div>
         <ul class="flex flex-col gap-1 mt-2 px-4 py-2">
           <li v-for="player in players" class="text-sm font-medium text-gray-900">
-            {{ player.name }}
+            {{ player.n }}
           </li>
         </ul>
       </div>
     </div>
-    <div class="flex justify-around" v-if="numberOfGeneratedTeams > 0">
+    <div class="flex justify-around" v-if="numberOfGeneratedTeams > 0 && !usingSeedData">
       <span
         class="flex items-center gap-5 border px-5 py-2 border-2 border-dashed border-gray-300 text-sm hover:bg-gray-50 cursor-pointer"
         @click="isShowingProcess = !isShowingProcess"
@@ -72,7 +72,7 @@
 </template>
 
 <script lang="ts" setup>
-import { groupBy, random, sumBy, keys } from 'lodash-es'
+import { groupBy, random, sumBy, keys, each, map, find } from 'lodash-es'
 import { Player } from '~/interfaces'
 
 interface Props {
@@ -86,18 +86,41 @@ const emit = defineEmits<{ (e: 'shuffled', teams: any): void }>()
 const teams = ref<any>({})
 const teamToChoose = ref<number>()
 const isShowingProcess = ref(false)
+const usingSeedData = ref(false)
 const process = ref<string[]>([])
 
+const encodeTeamAssignments = () => {
+  const encodedTeams: any = {}
+
+  each(teams.value, (players, team) => {
+    encodedTeams[team] = map(players, 'i')
+  })
+
+  return encodedTeams
+}
+
+const decodeTeamAssignments = (encodedTeams: any) => {
+  const decodedTeams: any = {}
+
+  each(encodedTeams, (playerIds, team) => {
+    decodedTeams[team] = map(playerIds, (id) => find(props.players, { i: id }))
+  })
+
+  return decodedTeams
+}
+
 if (props.previouslyGenerated) {
-  teams.value = props.previouslyGenerated
+  teams.value = decodeTeamAssignments(props.previouslyGenerated)
+  usingSeedData.value = true
 }
 
 const shuffle = () => {
-  const groupedByRank = groupBy(props.players, 'rank')
+  const groupedByRank = groupBy(props.players, 'r')
   teamToChoose.value = random(0, props.teamCount - 1)
   teams.value = []
   process.value = []
   let rank = 10
+  usingSeedData.value = false
 
   process.value = [...process.value, `Team ${teamToChoose.value + 1} is choosing first`]
 
@@ -112,8 +135,8 @@ const shuffle = () => {
 
       process.value = [
         ...process.value,
-        `Team ${teamToChoose.value + 1} chose ${randomPlayerFromRank.name} (rank: ${
-          randomPlayerFromRank.rank
+        `Team ${teamToChoose.value + 1} chose ${randomPlayerFromRank.n} (rank: ${
+          randomPlayerFromRank.r
         })`,
       ]
 
@@ -136,11 +159,11 @@ const shuffle = () => {
     rank--
   }
 
-  emit('shuffled', teams.value)
+  emit('shuffled', encodeTeamAssignments())
 }
 
 const numberOfGeneratedTeams = computed(() => keys(teams.value).length)
 const getTeamRank = (players: Player[]) => {
-  return sumBy(players, 'rank')
+  return sumBy(players, 'r')
 }
 </script>
