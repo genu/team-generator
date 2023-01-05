@@ -28,6 +28,8 @@
     "@prisma/client": "^4.8.0",
     "@vueuse/components": "^9.9.0",
     "lodash-es": "4.17.21",
-    "primevue": "^3.21.0"
+    "primevue": "^3.21.0",
+    "sortablejs": "^1.15.0",
+    "sortablejs-vue3": "^1.2.5"
   }
 }

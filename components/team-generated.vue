@@ -9,14 +9,25 @@
         Shuffle Teams
       </button>
     </div>
-    <h2>players</h2>
-    <pre>{{ players }}</pre>
-    <h2>number of teams: {{ teamCount }}</h2>
+    <Sortable :list="players" item-key="name">
+      <template #header>
+        <h1>Sortable</h1>
+      </template>
+      <template #item="{ element, index }">
+        <div class="draggable" :key="index">
+          {{ element.name }}
+        </div>
+      </template>
+      <template #footer>
+        <div class="draggable">A footer</div>
+      </template>
+    </Sortable>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { Player } from '~/pages/[...slug].vue'
+import { Player } from '~/interfaces'
+import { Sortable } from 'sortablejs-vue3'
 
 interface Props {
   players: Player[]

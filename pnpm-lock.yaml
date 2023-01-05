@@ -19,6 +19,8 @@ specifiers:
   lodash-es: 4.17.21
   nuxt: 3.0.0
   primevue: ^3.21.0
+  sortablejs: ^1.15.0
+  sortablejs-vue3: ^1.2.5
 
 dependencies:
   '@fortawesome/fontawesome-pro': 6.2.1
@@ -31,6 +33,8 @@ dependencies:
   '@vueuse/components': 9.10.0_vue@3.2.45
   lodash-es: 4.17.21
   primevue: 3.21.0_5f3kdig7wnjzidee4jtphf73cq
+  sortablejs: 1.15.0
+  sortablejs-vue3: 1.2.5_vyu2vwb5kgntc5eommqv3uyn34
 
 devDependencies:
   '@nuxtjs/google-fonts': 3.0.0-1_rollup@2.79.1
@@ -5082,6 +5086,20 @@ packages:
     resolution: {integrity: sha512-3dOsAHXXUkQTpOYcoAxLIorMTp4gIQr5IW3iVb7A7lFIp0VHhnynm9izx6TssdrIcVIESAlVjtnO2K8bg+Coew==}
     engines: {node: '>=12'}
     dev: true
+
+  /sortablejs-vue3/1.2.5_vyu2vwb5kgntc5eommqv3uyn34:
+    resolution: {integrity: sha512-aY0iDskvkRVCdKIElWjYTQOePfucQo8aiHkVEKdA7jGYw0TTRkU56ClG6lSCZi4OASVmbi+G+f5KH7ZQnI37FA==}
+    peerDependencies:
+      sortablejs: ^1.15.0
+      vue: ^3.2.25
+    dependencies:
+      sortablejs: 1.15.0
+      vue: 3.2.45
+    dev: false
+
+  /sortablejs/1.15.0:
+    resolution: {integrity: sha512-bv9qgVMjUMf89wAvM6AxVvS/4MX3sPeN0+agqShejLU5z5GX4C75ow1O2e5k4L6XItUyAK3gH6AxSbXrOM5e8w==}
+    dev: false
 
   /source-map-js/1.0.2:
     resolution: {integrity: sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==}
