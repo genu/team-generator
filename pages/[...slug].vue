@@ -1,21 +1,20 @@
 <template>
   <div class="flex flex-col">
     <div
-      class="z-10 bg-gray-800 py-10 px-5 md:flex md:items-center md:justify-between rounded-md"
+      class="z-40 h-20 bg-gray-800 py-10 px-5 flex items-center justify-between rounded-b-md"
     >
-      <div class="min-w-0 flex-1">
-        <h2
-          class="text-2xl font-bold leading-7 text-white sm:truncate sm:text-3xl sm:tracking-tight"
-        >
-          Back End Developer
-        </h2>
-      </div>
-      <div class="mt-4 flex md:mt-0 md:ml-4">
+      <h2
+        class="text-xl md:text-2xl font-bold leading-7 text-white sm:truncate sm:text-3xl sm:tracking-tight"
+      >
+        {{ decodedData.config.league }}
+      </h2>
+      <div class="flex md:mt-0 md:ml-4">
         <button
           type="button"
           class="inline-flex items-center rounded-md border border-transparent bg-gray-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-800"
+          @click="isEditing = !isEditing"
         >
-          Edit player list
+          {{ isEditing ? 'Hide' : 'Edit' }}
         </button>
 
         <button
@@ -28,16 +27,20 @@
       </div>
     </div>
     <div
-      class="flex gap-2 py-5 bg-gray-200 -mt-2 py-2 px-5 z-0 rounjded-b border border-gray-800 shadow-md"
+      class="absolute relative z-10 flex flex-col md:flex-row gap-2 py-5 bg-gray-200 py-2 -mt-2 px-5 rounded-b border border-gray-800 shadow-md transition transition-all"
+      :class="{
+        'translate-y-0': isEditing,
+        '-translate-y-full': !isEditing,
+      }"
     >
-      <div class="flex flex-col w-2/4 gap-2">
+      <div class="flex flex-col md:w-2/4 gap-2">
         <div class="flex gap-2 font-bold">
           <span class="w-16"></span>
           <span class="w-28">Players</span>
           <span>Rank (1-5)</span>
         </div>
         <div class="flex flex-col gap-2">
-          <div v-for="(player, index) in decodedData.players" class="flex gap-2">
+          <div v-for="player in decodedData.players" class="flex gap-2">
             <span class="w-16 flex justify-around items-center">
               <InputSwitch v-model="player.enabled" />
             </span>
@@ -93,22 +96,25 @@
         </div>
       </div>
     </div>
-    <div class="flex flex-col py-5 gap-2">
-      <input type="text" placeholder="League name" />
+    <div class="absolute flex flex-col py-5 gap-2 absolute mt-16 w-full left-0 top-0">
+      <div class="w-11/12 md:w-10/12 md:w-2/3 mx-auto max-w-4xl">
+        <TeamGenerated
+          :players="decodedData.players"
+          :team-count="decodedData.config.teams"
+        />
+      </div>
     </div>
   </div>
 </template>
 
-<script lang="ts" setup>
-import { decode } from 'punycode'
-
-interface Player {
+<script lang="ts">
+export interface Player {
   name: string
   rank?: number
   enabled?: boolean
 }
 
-interface Config {
+export interface Config {
   league?: string
   teams: number
 }
@@ -117,7 +123,11 @@ interface DecodedData {
   config: Config
   players: Player[]
 }
+</script>
+
+<script lang="ts" setup>
 const newPlayer = ref<Player>({ name: '', enabled: true })
+const isEditing = ref(false)
 
 let decodedData = reactive<DecodedData>({
   config: {
@@ -140,7 +150,6 @@ try {
 
 const save = () => {
   const encoded = btoa(JSON.stringify(decodedData))
-  console.log(decodedData)
   router.push(`/${encoded}`)
 }
 

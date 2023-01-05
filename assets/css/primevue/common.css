@@ -16,5 +16,5 @@
 }
 
 .p-inputtext.p-inputtext-sm {
-  @apply py-1 text-xl !important;
+  @apply py-1 text-xl px-1 !important;
 }
