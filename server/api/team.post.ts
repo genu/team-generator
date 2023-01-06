@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
   } else {
     return await client.league.create({
       data: {
-        data: body,
+        data: body.data,
         hash: nanoid(),
         createdAt: new Date(),
       },

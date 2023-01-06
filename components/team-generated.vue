@@ -1,24 +1,32 @@
 <template>
-  <div class="flex flex-col gap-2">
-    <div class="flex justify-end">
-      <button
-        type="button"
-        class="ml-3 inline-flex items-center rounded-md border border-transparent bg-green-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-800"
-        v-if="players.length > 0"
-        @click="shuffle"
-      >
+  <div class="flex flex-col gap-4 md:gap-2">
+    <div class="flex justify-between gap-2">
+      <span>
+        <UiButton variant="text" class="gap-1 px-2" @click="">
+          <FaIcon icon="share" />
+          Share
+        </UiButton>
+        <UiButton variant="text" class="gap-1 px-2">
+          <FaIcon icon="download" />
+          Download
+        </UiButton>
+      </span>
+
+      <UiButton variant="success" v-if="players.length > 0" @click="shuffle">
         Shuffle Teams
-      </button>
+      </UiButton>
     </div>
-    <div class="flex gap-5 m-5 flex-wrap">
+    <div class="flex gap-3 md:gap-5 md:m-5 flex-wrap">
       <div
         v-for="(players, key) in teams"
         class="border-b border-gray-200 bg-white divide-y divide-gray-200 w-44"
       >
         <div class="relative">
-          <h2 class="text-lg font-medium leading-6 text-gray-900 px-5 pt-5">
+          <h2
+            class="text-lg font-medium leading-6 text-gray-900 px-5 pt-5 flex items-center"
+          >
             Team {{ +key + 1 }}
-            <span class="text-xs">({{ players.length }} players)</span>
+            <span class="text-xs ml-1">({{ players.length }} players)</span>
           </h2>
           <span
             class="absolute top-0 left-0 text-sm bg-green-500 px-2 text-white text-xs"
@@ -27,7 +35,10 @@
           </span>
         </div>
         <ul class="flex flex-col gap-1 mt-2 px-4 py-2">
-          <li v-for="player in players" class="text-sm font-medium text-gray-900">
+          <li
+            v-for="player in players"
+            class="text-sm font-medium text-gray-900 capitalize"
+          >
             {{ player.name }}
           </li>
         </ul>
@@ -35,12 +46,14 @@
     </div>
     <div class="flex justify-around" v-if="numberOfGeneratedTeams > 0 && !usingSeedData">
       <span
-        class="flex items-center gap-5 border px-5 py-2 border-2 border-dashed border-gray-300 text-sm hover:bg-gray-50 cursor-pointer"
+        class="w-10/12 md:w-1/2 justify-around flex items-center gap-5 border px-5 py-2 border-2 border-dashed border-gray-300 text-sm hover:bg-gray-50 cursor-pointer"
         @click="isShowingProcess = !isShowingProcess"
       >
-        How were teams chosen?
-        <FaIcon icon="angle-down" v-if="!isShowingProcess" />
-        <FaIcon icon="angle-up" v-else />
+        <span>
+          How were teams chosen?
+          <FaIcon icon="angle-down" v-if="!isShowingProcess" />
+          <FaIcon icon="angle-up" v-else />
+        </span>
       </span>
     </div>
     <div
@@ -61,7 +74,7 @@
       </div>
       <div>
         <p
-          class="mt-2"
+          class="mt-2 capitalize"
           v-for="(instruction, index) in process"
           :class="{ 'font-bold': index === 0 }"
         >
@@ -74,6 +87,7 @@
 
 <script lang="ts" setup>
 import { groupBy, random, sumBy, keys } from 'lodash-es'
+import { useConfirm } from 'primevue/useconfirm'
 import { Player } from '~/interfaces'
 
 interface Props {
@@ -81,7 +95,19 @@ interface Props {
   teamCount: number
   previouslyGenerated?: any
 }
+const confirm = useConfirm()
 
+confirm.require({
+  message: 'Are you sure you want to proceed?',
+  header: 'Confirmation',
+  icon: 'pi pi-exclamation-triangle',
+  accept: () => {
+    //callback to execute when user confirms the action
+  },
+  reject: () => {
+    //callback to execute when user rejects the action
+  },
+})
 const props = defineProps<Props>()
 const emit = defineEmits<{ (e: 'shuffled', teams: any): void }>()
 const teams = ref<any>({})
@@ -89,6 +115,10 @@ const teamToChoose = ref<number>()
 const isShowingProcess = ref(false)
 const usingSeedData = ref(false)
 const process = ref<string[]>([])
+
+if (props.previouslyGenerated) {
+  teams.value = props.previouslyGenerated
+}
 
 const shuffle = () => {
   const groupedByRank = groupBy(props.players, 'rank')
@@ -111,7 +141,7 @@ const shuffle = () => {
 
       process.value = [
         ...process.value,
-        `Team ${teamToChoose.value + 1} chose ${randomPlayerFromRank.name} (rank: ${
+        `Team ${teamToChoose.value + 1} chose ${randomPlayerFromRank.name} (${
           randomPlayerFromRank.rank
         })`,
       ]

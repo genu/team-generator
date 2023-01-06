@@ -1,29 +1,18 @@
 <template>
   <div class="flex flex-col">
     <div
-      class="z-40 h-20 bg-gray-800 py-10 px-5 flex items-center justify-between rounded-b-md"
+      class="z-40 h-16 md:h-20 bg-gray-800 px-4 md:px-5 flex items-center justify-between rounded-none md:rounded-b-md"
     >
       <h2
-        class="text-xl md:text-2xl font-bold leading-7 text-white sm:truncate sm:text-3xl sm:tracking-tight capitalize"
+        class="text-base md:text-2xl font-bold leading-7 text-white sm:truncate sm:text-3xl sm:tracking-tight capitalize"
       >
         {{ data.config.leagueName }}
       </h2>
-      <div class="flex md:mt-0 md:ml-4">
-        <button
-          type="button"
-          class="inline-flex items-center rounded-md border border-transparent bg-gray-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-800"
-          @click="isEditing = !isEditing"
-        >
+      <div class="flex md:mt-0 md:ml-4 gap-4">
+        <UiButton variant="secondary" @click="isEditing = !isEditing">
           {{ isEditing ? 'Hide' : 'Edit' }}
-        </button>
-
-        <button
-          type="button"
-          class="ml-3 inline-flex items-center rounded-md border border-transparent bg-indigo-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-800"
-          @click="save"
-        >
-          Save
-        </button>
+        </UiButton>
+        <UiButton @click="save" :disabled="!unsavedChanges">Save</UiButton>
       </div>
     </div>
     <div
@@ -46,7 +35,7 @@
             </span>
             <span class="flex w-48">
               <InputText
-                class="p-inputtext-sm w-full"
+                class="p-inputtext-sm w-full capitalize"
                 type="text"
                 v-model="player.name"
               />
@@ -110,8 +99,8 @@
         </div>
       </div>
     </div>
-    <div class="absolute flex flex-col py-5 gap-2 absolute mt-16 w-full left-0 top-0">
-      <div class="w-11/12 md:w-10/12 md:w-2/3 mx-auto max-w-4xl">
+    <div class="absolute flex flex-col py-5 absolute mt-14 md:mt-16 w-full left-0 top-0">
+      <div class="w-full px-2 md:w-10/12 md:w-2/3 md:mx-auto md:max-w-4xl">
         <TeamGenerated
           :players="activePlayers"
           :team-count="data.config.teamCount"
@@ -125,14 +114,14 @@
 
 <script lang="ts" setup>
 import { filter, find, maxBy } from 'lodash-es'
-import { League } from '@prisma/client'
 
 import { Player, Data } from '~/interfaces'
 
 const newPlayer = ref<Player>({ id: -1, name: '', yes: true, rank: 1 })
 const isEditing = ref(false)
+const unsavedChanges = ref(false)
 
-const data = reactive<Data>({
+const data = ref<Data>({
   config: {
     teamCount: 2,
   },
@@ -145,32 +134,38 @@ const router = useRouter()
 
 const teamHash = route.params.slug[0]
 if (teamHash) {
-  const { data: league } = await useFetch<League>('/api/team', { query: { teamHash } })
+  try {
+    const { data: loadedData, error } = await useFetch('/api/team', {
+      query: { teamHash },
+    })
 
-  if (league.value?.data) {
-    const loadedData = league.value.data as unknown as Data
-
-    data.config = { ...loadedData.config }
-    if (loadedData.players) data.players = [...loadedData.players]
+    data.value = loadedData.value?.data as unknown as Data
+  } catch (err) {
+    console.log(err)
   }
 }
 
-const activePlayers = computed<Player[]>(() => filter(data.players, { yes: true }))
+const activePlayers = computed<Player[]>(() => filter(data.value.players, { yes: true }))
 
 const getNextId = () => {
-  const maxId = maxBy(data.players, 'id')
+  const maxId = maxBy(data.value.players, 'id')
 
   if (maxId) return maxId.id + 1
 
   return 1
 }
+
+watch(data.value, () => {
+  unsavedChanges.value = true
+})
 // Actions
 const save = async () => {
   const league = await $fetch('/api/team', {
     method: 'post',
-    body: { team: teamHash, data },
+    body: { team: teamHash, data: data.value },
   })
 
+  unsavedChanges.value = false
   router.push(`/${league?.hash}`)
 }
 
@@ -179,19 +174,19 @@ const addPlayer = (player: Player) => {
   if (player.name === '') return
 
   // No existing players
-  if (find(data.players, { n: player.name })) return
+  if (find(data.value.players, { n: player.name })) return
 
-  data.players = [...data.players, { ...player, id: getNextId() }]
+  data.value.players = [...data.value.players, { ...player, id: getNextId() }]
 
   newPlayer.value = { id: -1, name: '', yes: true, rank: 1 }
 }
 
 const removePlayer = (index: number) => {
-  data.players.splice(index, 1)
-  data.snapshot = null
+  data.value.players.splice(index, 1)
+  data.value.snapshot = null
 }
 
 const onShuffled = (teams: any) => {
-  data.snapshot = teams
+  data.value.snapshot = teams
 }
 </script>

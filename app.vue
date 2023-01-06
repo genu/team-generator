@@ -1,5 +1,6 @@
 <template>
   <NuxtLayout>
+    <ConfirmDialog></ConfirmDialog>
     <NuxtPage />
   </NuxtLayout>
 </template>
