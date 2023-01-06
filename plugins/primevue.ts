@@ -11,6 +11,7 @@ import InputSwitch from 'primevue/inputswitch'
 import Button from 'primevue/button'
 import ConfirmationService from 'primevue/confirmationservice'
 import ConfirmDialog from 'primevue/confirmdialog'
+import Dialog from 'primevue/dialog'
 
 export default defineNuxtPlugin((nuxt) => {
   nuxt.vueApp.use(PrimeVue)
@@ -28,4 +29,5 @@ export default defineNuxtPlugin((nuxt) => {
   nuxt.vueApp.component('InputSwitch', InputSwitch)
   nuxt.vueApp.component('Button', Button)
   nuxt.vueApp.component('ConfirmDialog', ConfirmDialog)
+  nuxt.vueApp.component('Dialog', Dialog)
 })

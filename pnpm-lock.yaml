@@ -4,6 +4,7 @@ specifiers:
   '@fortawesome/fontawesome-free': ^6.2.1
   '@fortawesome/fontawesome-svg-core': 6.2.1
   '@fortawesome/free-brands-svg-icons': 6.2.1
+  '@fortawesome/free-regular-svg-icons': ^6.2.1
   '@fortawesome/free-solid-svg-icons': ^6.2.1
   '@fortawesome/vue-fontawesome': 3.0.2
   '@nuxtjs/google-fonts': 3.0.0-1
@@ -16,6 +17,7 @@ specifiers:
   '@vueuse/components': ^9.9.0
   '@vueuse/core': ^9.9.0
   '@vueuse/nuxt': ^9.9.0
+  html2canvas: ^1.4.1
   lodash-es: 4.17.21
   nanoid: ^4.0.0
   nuxt: 3.0.0
@@ -28,10 +30,12 @@ dependencies:
   '@fortawesome/fontawesome-free': 6.2.1
   '@fortawesome/fontawesome-svg-core': 6.2.1
   '@fortawesome/free-brands-svg-icons': 6.2.1
+  '@fortawesome/free-regular-svg-icons': 6.2.1
   '@fortawesome/free-solid-svg-icons': 6.2.1
   '@fortawesome/vue-fontawesome': 3.0.2_bd5ipvhrqmkjz6wvo6sgrei224
   '@prisma/client': 4.8.0_prisma@4.8.1
   '@vueuse/components': 9.10.0_vue@3.2.45
+  html2canvas: 1.4.1
   lodash-es: 4.17.21
   nanoid: 4.0.0
   primevue: 3.21.0_5f3kdig7wnjzidee4jtphf73cq
@@ -404,6 +408,14 @@ packages:
 
   /@fortawesome/free-brands-svg-icons/6.2.1:
     resolution: {integrity: sha512-L8l4MfdHPmZlJ72PvzdfwOwbwcCAL0vx48tJRnI6u1PJXh+j2f3yDoKyQgO3qjEsgD5Fr2tQV/cPP8F/k6aUig==, tarball: '@fortawesome/free-brands-svg-icons/-/6.2.1/free-brands-svg-icons-6.2.1.tgz'}
+    engines: {node: '>=6'}
+    requiresBuild: true
+    dependencies:
+      '@fortawesome/fontawesome-common-types': 6.2.1
+    dev: false
+
+  /@fortawesome/free-regular-svg-icons/6.2.1:
+    resolution: {integrity: sha512-wiqcNDNom75x+pe88FclpKz7aOSqS2lOivZeicMV5KRwOAeypxEYWAK/0v+7r+LrEY30+qzh8r2XDaEHvoLsMA==}
     engines: {node: '>=6'}
     requiresBuild: true
     dependencies:
@@ -1532,6 +1544,11 @@ packages:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
     dev: true
 
+  /base64-arraybuffer/1.0.2:
+    resolution: {integrity: sha512-I3yl4r9QB5ZRY3XuJVEPfc2XhZO6YweFPI+UovAzn+8/hb3oJ6lnysaFcjVpkCPfVWFUDvoZ8kmVDP7WyRtYtQ==}
+    engines: {node: '>= 0.6.0'}
+    dev: false
+
   /base64-js/1.5.1:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
     dev: true
@@ -1965,6 +1982,12 @@ packages:
     dependencies:
       postcss: 8.4.20
     dev: true
+
+  /css-line-break/2.1.0:
+    resolution: {integrity: sha512-FHcKFCZcAha3LwfVBhCQbW2nCNbkZXn7KVUJcsT5/P8YmfsVja0FMPJr0B903j/E69HUphKiV9iQArX8SDYA4w==}
+    dependencies:
+      utrie: 1.0.2
+    dev: false
 
   /css-loader/5.2.7_webpack@5.75.0:
     resolution: {integrity: sha512-Q7mOvpBNBG7YrVGMxRxcBJZFL75o+cH2abNASdibkj/fffYD8qWbInZrD0S9ccI6vZclF3DsHE7njGlLtaHbhg==}
@@ -2989,6 +3012,14 @@ packages:
     resolution: {integrity: sha512-vy7ClnArOZwCnqZgvv+ddgHgJiAFXe3Ge9ML5/mBctVJoUoYPCdxVucOywjDARn6CVoh3dRSFdPHy2sX80L0Wg==}
     engines: {node: '>=8'}
     dev: true
+
+  /html2canvas/1.4.1:
+    resolution: {integrity: sha512-fPU6BHNpsyIhr8yyMpTLLxAbkaK8ArIBcmZIRiBLiDhjeqvXolaEmDGmELFuX9I4xDcaKKcJl+TKZLqruBbmWA==}
+    engines: {node: '>=8.0.0'}
+    dependencies:
+      css-line-break: 2.1.0
+      text-segmentation: 1.0.3
+    dev: false
 
   /http-assert/1.5.0:
     resolution: {integrity: sha512-uPpH7OKX4H25hBmU6G1jWNaqJGpTXxey+YOUizJUAgu0AjLUeC8D73hTrhvDS5D+GJN1DN1+hhc/eF/wpxtp0w==}
@@ -5399,6 +5430,12 @@ packages:
       source-map-support: 0.5.21
     dev: true
 
+  /text-segmentation/1.0.3:
+    resolution: {integrity: sha512-iOiPUo/BGnZ6+54OsWxZidGCsdU8YbE4PSpdPinp7DeMtUJNJBoJ/ouUSTJjHkh1KntHaltHl/gDs2FC4i5+Nw==}
+    dependencies:
+      utrie: 1.0.2
+    dev: false
+
   /through/2.3.8:
     resolution: {integrity: sha512-w89qg7PI8wAdvX60bMDP+bFoD5Dvhm9oLheFp5O4a2QF0cSBGsBX4qZmadPMvVqlLJBBci+WqGGOAPvcDeNSVg==}
     dev: true
@@ -5594,6 +5631,12 @@ packages:
   /util-deprecate/1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
     dev: true
+
+  /utrie/1.0.2:
+    resolution: {integrity: sha512-1MLa5ouZiOmQzUbjbu9VmjLzn1QLXBhwpUa7kdLUQK+KQ5KA9I1vk5U4YHe/X2Ch7PYnJfWuWT+VbuxbGwljhw==}
+    dependencies:
+      base64-arraybuffer: 1.0.2
+    dev: false
 
   /vary/1.1.2:
     resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}

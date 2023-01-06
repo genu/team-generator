@@ -1,14 +1,33 @@
 <template>
   <div class="flex flex-col gap-4 md:gap-2">
+    <Dialog
+      header="Share"
+      :draggable="false"
+      v-model:visible="isSharingDialog"
+      :breakpoints="{ '960px': '75vw', '640px': '90vw' }"
+      :style="{ width: '50vw' }"
+      modal
+    >
+      <div class="flex flex-col" ref="shareDialog">
+        <div class="flex items-center gap-2">
+          <input type="text" v-model="shareUrl" class="flex-1" />
+          <button class="flex items-center w-10" @click="copy()">
+            <FaIcon icon="fa-regular fa-clipboard" v-if="!copied" />
+            <span class="text-green-800" v-else>copied</span>
+          </button>
+        </div>
+        <div>
+          <a :href="previewImg" download="teams.png">
+            <img :src="`${previewImg}`" class="w-full mt-2" />
+          </a>
+        </div>
+      </div>
+    </Dialog>
     <div class="flex justify-between gap-2">
       <span>
-        <UiButton variant="text" class="gap-1 px-2" @click="">
+        <UiButton variant="text" class="gap-1 px-2" @click="showSharingWindow">
           <FaIcon icon="share" />
           Share
-        </UiButton>
-        <UiButton variant="text" class="gap-1 px-2">
-          <FaIcon icon="download" />
-          Download
         </UiButton>
       </span>
 
@@ -16,10 +35,13 @@
         Shuffle Teams
       </UiButton>
     </div>
-    <div class="flex gap-3 md:gap-5 md:m-5 flex-wrap">
+    <div
+      class="flex gap-3 md:gap-3 md:m-5 flex-wrap justify-left"
+      ref="snapshotContainer"
+    >
       <div
         v-for="(players, key) in teams"
-        class="border-b border-gray-200 bg-white divide-y divide-gray-200 w-44"
+        class="border-b border-gray-200 bg-white divide-y divide-gray-200 w-44 border-2 border-gray-400 rounded-md shadow"
       >
         <div class="relative">
           <h2
@@ -87,7 +109,9 @@
 
 <script lang="ts" setup>
 import { groupBy, random, sumBy, keys } from 'lodash-es'
-import { useConfirm } from 'primevue/useconfirm'
+import html2canvas from 'html2canvas'
+import { useClipboard, useBrowserLocation, promiseTimeout } from '@vueuse/core'
+
 import { Player } from '~/interfaces'
 
 interface Props {
@@ -95,27 +119,29 @@ interface Props {
   teamCount: number
   previouslyGenerated?: any
 }
-const confirm = useConfirm()
 
-confirm.require({
-  message: 'Are you sure you want to proceed?',
-  header: 'Confirmation',
-  icon: 'pi pi-exclamation-triangle',
-  accept: () => {
-    //callback to execute when user confirms the action
-  },
-  reject: () => {
-    //callback to execute when user rejects the action
-  },
-})
 const props = defineProps<Props>()
 const emit = defineEmits<{ (e: 'shuffled', teams: any): void }>()
+
+const location = useBrowserLocation()
+
+const shareDialog = ref()
+
+const shareUrl = ref(location.value.href)
 const teams = ref<any>({})
 const teamToChoose = ref<number>()
 const isShowingProcess = ref(false)
 const usingSeedData = ref(false)
 const process = ref<string[]>([])
+const isSharingDialog = ref(false)
+const snapshotViewer = ref()
+const snapshotContainer = ref()
+const creatingImage = ref(false)
 
+const previewWidth = ref(0)
+const previewImg = ref()
+
+const { copy, copied } = useClipboard({ source: shareUrl.value })
 if (props.previouslyGenerated) {
   teams.value = props.previouslyGenerated
 }
@@ -170,4 +196,28 @@ const shuffle = () => {
 
 const numberOfGeneratedTeams = computed(() => keys(teams.value).length)
 const getTeamRank = (players: Player[]) => sumBy(players, 'rank')
+
+const showSharingWindow = async () => {
+  isSharingDialog.value = true
+  creatingImage.value = true
+
+  await promiseTimeout(1000)
+  console.log(snapshotViewer.value)
+
+  previewWidth.value = shareDialog.value.clientWidth
+  const canvas = await html2canvas(snapshotContainer.value)
+  previewImg.value = canvas.toDataURL()
+
+  creatingImage.value = false
+
+  const viewer = document.querySelector('#snapshot-viewer')
+
+  viewer?.appendChild(canvas)
+}
 </script>
+
+<style>
+body > div:last-child > span + img {
+  display: inline !important;
+}
+</style>
