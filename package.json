@@ -2,7 +2,7 @@
   "name": "teams-generator",
   "private": true,
   "scripts": {
-    "build": "prisma generate && prism migrate deploy && nuxt build",
+    "build": "prisma generate && prisma migrate deploy && nuxt build",
     "dev": "nuxt dev",
     "start": "node .output/server/index.mjs",
     "generate": "nuxt generate",
