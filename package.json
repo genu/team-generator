@@ -2,11 +2,15 @@
   "name": "teams-generator",
   "private": true,
   "scripts": {
-    "build": "nuxt build",
+    "build": "prisma generate && prism migrate deploy && nuxt build",
     "dev": "nuxt dev",
     "start": "node .output/server/index.mjs",
     "generate": "nuxt generate",
-    "preview": "nuxt preview"
+    "preview": "nuxt preview",
+    "postinstall": "prisma generate"
+  },
+  "prisma": {
+    "schema": "server/prisma/schema.prisma"
   },
   "devDependencies": {
     "@nuxtjs/google-fonts": "3.0.0-1",
@@ -17,7 +21,8 @@
     "@types/msgpack-lite": "^0.1.8",
     "@vueuse/core": "^9.9.0",
     "@vueuse/nuxt": "^9.9.0",
-    "nuxt": "3.0.0"
+    "nuxt": "3.0.0",
+    "prisma": "^4.8.1"
   },
   "dependencies": {
     "@fortawesome/fontawesome-pro": "6.2.1",
@@ -32,6 +37,7 @@
     "jsonpack": "^1.1.5",
     "lodash-es": "4.17.21",
     "msgpack-lite": "^0.1.26",
+    "nanoid": "^4.0.0",
     "primevue": "^3.21.0",
     "sortablejs": "^1.15.0",
     "sortablejs-vue3": "^1.2.5"

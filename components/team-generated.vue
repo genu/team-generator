@@ -17,7 +17,8 @@
       >
         <div class="relative">
           <h2 class="text-lg font-medium leading-6 text-gray-900 px-5 pt-5">
-            Team {{ +key + 1 }} <span class="text-xs">({{ players.length }} players)</span>
+            Team {{ +key + 1 }}
+            <span class="text-xs">({{ players.length }} players)</span>
           </h2>
           <span
             class="absolute top-0 left-0 text-sm bg-green-500 px-2 text-white text-xs"
@@ -72,7 +73,7 @@
 </template>
 
 <script lang="ts" setup>
-import { groupBy, random, sumBy, keys, each, map, find } from 'lodash-es'
+import { groupBy, random, sumBy, keys } from 'lodash-es'
 import { Player } from '~/interfaces'
 
 interface Props {
@@ -88,31 +89,6 @@ const teamToChoose = ref<number>()
 const isShowingProcess = ref(false)
 const usingSeedData = ref(false)
 const process = ref<string[]>([])
-
-const encodeTeamAssignments = () => {
-  const encodedTeams: any = {}
-
-  each(teams.value, (players, team) => (encodedTeams[team] = map(players, 'id')))
-
-  return encodedTeams
-}
-
-const decodeTeamAssignments = (encodedTeams: any) => {
-  const decodedTeams: any = {}
-
-  each(
-    encodedTeams,
-    (playerIds, team) =>
-      (decodedTeams[team] = map(playerIds, (id) => find(props.players, { id })))
-  )
-
-  return decodedTeams
-}
-
-if (props.previouslyGenerated) {
-  teams.value = decodeTeamAssignments(props.previouslyGenerated)
-  usingSeedData.value = true
-}
 
 const shuffle = () => {
   const groupedByRank = groupBy(props.players, 'rank')
@@ -159,7 +135,7 @@ const shuffle = () => {
     rank--
   }
 
-  emit('shuffled', encodeTeamAssignments())
+  emit('shuffled', teams)
 }
 
 const numberOfGeneratedTeams = computed(() => keys(teams.value).length)

@@ -21,8 +21,10 @@ specifiers:
   jsonpack: ^1.1.5
   lodash-es: 4.17.21
   msgpack-lite: ^0.1.26
+  nanoid: ^4.0.0
   nuxt: 3.0.0
   primevue: ^3.21.0
+  prisma: ^4.8.1
   sortablejs: ^1.15.0
   sortablejs-vue3: ^1.2.5
 
@@ -33,12 +35,13 @@ dependencies:
   '@fortawesome/pro-regular-svg-icons': 6.2.1
   '@fortawesome/pro-solid-svg-icons': 6.2.1
   '@fortawesome/vue-fontawesome': 3.0.2_bd5ipvhrqmkjz6wvo6sgrei224
-  '@prisma/client': 4.8.0
+  '@prisma/client': 4.8.0_prisma@4.8.1
   '@vueuse/components': 9.10.0_vue@3.2.45
   compress-json: 2.1.2
   jsonpack: 1.1.5
   lodash-es: 4.17.21
   msgpack-lite: 0.1.26
+  nanoid: 4.0.0
   primevue: 3.21.0_5f3kdig7wnjzidee4jtphf73cq
   sortablejs: 1.15.0
   sortablejs-vue3: 1.2.5_vyu2vwb5kgntc5eommqv3uyn34
@@ -53,6 +56,7 @@ devDependencies:
   '@vueuse/core': 9.10.0_vue@3.2.45
   '@vueuse/nuxt': 9.10.0_xsv3vwo4hvye53m3n4ybcmydue
   nuxt: 3.0.0_rollup@2.79.1
+  prisma: 4.8.1
 
 packages:
 
@@ -739,7 +743,7 @@ packages:
       - webpack
     dev: true
 
-  /@prisma/client/4.8.0:
+  /@prisma/client/4.8.0_prisma@4.8.1:
     resolution: {integrity: sha512-Y1riB0p2W52kh3zgssP/YAhln3RjBFcJy3uwEiyjmU+TQYh6QTZDRFBo3JtBWuq2FyMOl1Rye8jxzUP+n0l5Cg==}
     engines: {node: '>=14.17'}
     requiresBuild: true
@@ -750,11 +754,16 @@ packages:
         optional: true
     dependencies:
       '@prisma/engines-version': 4.8.0-61.d6e67a83f971b175a593ccc12e15c4a757f93ffe
+      prisma: 4.8.1
     dev: false
 
   /@prisma/engines-version/4.8.0-61.d6e67a83f971b175a593ccc12e15c4a757f93ffe:
     resolution: {integrity: sha512-MHSOSexomRMom8QN4t7bu87wPPD+pa+hW9+71JnVcF3DqyyO/ycCLhRL1we3EojRpZxKvuyGho2REQsMCvxcJw==}
     dev: false
+
+  /@prisma/engines/4.8.1:
+    resolution: {integrity: sha512-93tctjNXcIS+i/e552IO6tqw17sX8liivv8WX9lDMCpEEe3ci+nT9F+1oHtAafqruXLepKF80i/D20Mm+ESlOw==}
+    requiresBuild: true
 
   /@rollup/plugin-alias/4.0.2_rollup@2.79.1:
     resolution: {integrity: sha512-1hv7dBOZZwo3SEupxn4UA2N0EDThqSSS+wI1St1TNTBtOZvUchyIClyHcnDcjjrReTPZ47Faedrhblv4n+T5UQ==}
@@ -3810,7 +3819,6 @@ packages:
     resolution: {integrity: sha512-IgBP8piMxe/gf73RTQx7hmnhwz0aaEXYakvqZyE302IXW3HyVNhdNGC+O2MwMAVhLEnvXlvKtGbtJf6wvHihCg==}
     engines: {node: ^14 || ^16 || >=18}
     hasBin: true
-    dev: true
 
   /negotiator/0.6.3:
     resolution: {integrity: sha512-+EUsqGPLsM+j/zdChZjsnX51g4XrHFOIXwfnCVPGlQk/k5giakcKsuxCObBRu6DSm9opw/O6slWbJdghQM4bBg==}
@@ -4781,6 +4789,14 @@ packages:
       primeicons: 6.0.1
       vue: 3.2.45
     dev: false
+
+  /prisma/4.8.1:
+    resolution: {integrity: sha512-ZMLnSjwulIeYfaU1O6/LF6PEJzxN5par5weykxMykS9Z6ara/j76JH3Yo2AH3bgJbPN4Z6NeCK9s5fDkzf33cg==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+    requiresBuild: true
+    dependencies:
+      '@prisma/engines': 4.8.1
 
   /process-nextick-args/2.0.1:
     resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}

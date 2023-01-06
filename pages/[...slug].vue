@@ -116,7 +116,7 @@
           :players="activePlayers"
           :team-count="data.config.teamCount"
           @shuffled="onShuffled"
-          :previously-generated="data.init"
+          :previously-generated="data.snapshot"
         />
       </div>
     </div>
@@ -125,38 +125,34 @@
 
 <script lang="ts" setup>
 import { filter, find, maxBy } from 'lodash-es'
-import { compress, decompress } from 'compress-json'
+import { League } from '@prisma/client'
 
-import { Config, Player } from '~/interfaces'
+import { Player, Data } from '~/interfaces'
 
 const newPlayer = ref<Player>({ id: -1, name: '', yes: true, rank: 1 })
 const isEditing = ref(false)
 
-const data = reactive<{ config: Config; players: Player[]; init: any }>({
+const data = reactive<Data>({
   config: {
     teamCount: 2,
   },
   players: [],
-  init: null,
+  snapshot: null,
 })
 
 const route = useRoute()
 const router = useRouter()
 
-try {
-  if (route.params.slug[0]) {
-    const jsonParsed = JSON.parse(route.params.slug[0])
-    const decodedData: { config: Config; players: Player[]; init: any } =
-      decompress(jsonParsed)
+const teamHash = route.params.slug[0]
+if (teamHash) {
+  const { data: league } = await useFetch<League>('/api/team', { query: { teamHash } })
 
-    if (decodedData) {
-      data.config = { ...decodedData.config }
-      data.players = [...decodedData.players]
-      data.init = { ...decodedData.init }
-    }
+  if (league.value?.data) {
+    const loadedData = league.value.data as unknown as Data
+
+    data.config = { ...loadedData.config }
+    if (loadedData.players) data.players = [...loadedData.players]
   }
-} catch (err) {
-  console.log(`Invalid buffer. Can't decode`)
 }
 
 const activePlayers = computed<Player[]>(() => filter(data.players, { yes: true }))
@@ -169,12 +165,13 @@ const getNextId = () => {
   return 1
 }
 // Actions
-const save = () => {
-  const encoded = JSON.stringify(compress(data))
+const save = async () => {
+  const league = await $fetch('/api/team', {
+    method: 'post',
+    body: { team: teamHash, data },
+  })
 
-  console.log('encoded length: ', encoded.length)
-
-  router.push(`/${encoded}`)
+  router.push(`/${league?.hash}`)
 }
 
 const addPlayer = (player: Player) => {
@@ -191,10 +188,10 @@ const addPlayer = (player: Player) => {
 
 const removePlayer = (index: number) => {
   data.players.splice(index, 1)
-  data.init = null
+  data.snapshot = null
 }
 
 const onShuffled = (teams: any) => {
-  data.init = teams
+  data.snapshot = teams
 }
 </script>
