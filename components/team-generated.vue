@@ -18,7 +18,7 @@
         </div>
         <div>
           <a :href="previewImg" download="teams.png">
-            <img :src="`${previewImg}`" class="w-full mt-2" />
+            <img v-if="previewImg" :src="previewImg" class="w-full mt-2" />
           </a>
         </div>
       </div>
@@ -134,7 +134,6 @@ const isShowingProcess = ref(false)
 const usingSeedData = ref(false)
 const process = ref<string[]>([])
 const isSharingDialog = ref(false)
-const snapshotViewer = ref()
 const snapshotContainer = ref()
 const creatingImage = ref(false)
 
@@ -202,7 +201,6 @@ const showSharingWindow = async () => {
   creatingImage.value = true
 
   await promiseTimeout(1000)
-  console.log(snapshotViewer.value)
 
   previewWidth.value = shareDialog.value.clientWidth
   const canvas = await html2canvas(snapshotContainer.value)
