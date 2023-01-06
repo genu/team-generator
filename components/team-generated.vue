@@ -18,7 +18,7 @@
         </div>
         <div>
           <a :href="previewImg" download="teams.png">
-            <img v-if="previewImg" :src="previewImg" class="w-full mt-2" />
+            <img v-if="previewImg" :src="previewImg" class="w-full mt-4" />
           </a>
         </div>
       </div>
