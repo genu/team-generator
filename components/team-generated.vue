@@ -85,8 +85,9 @@
           <li
             v-for="player in players"
             class="text-sm font-medium text-gray-900 capitalize"
+						:class="{'font-bold': player.gk}"
           >
-            {{ player.name }}
+            {{ player.name }} {{player.gk ? '(Goalkeeper)' : '' }}
           </li>
         </ul>
       </div>
