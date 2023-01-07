@@ -80,7 +80,7 @@
                 <div class="table-cell w-48 align-middle">
                   <InputText
                     class="p-inputtext-sm w-44"
-                    placeholder="Name"
+                    placeholder="Player Name"
                     type="text"
                     v-model="newPlayer.name"
                     @keyup.enter="addPlayer(newPlayer)"
@@ -90,6 +90,7 @@
                   <InputNumber
                     input-class="p-inputtext-sm w-16"
                     v-model="newPlayer.rank"
+                    placeholder="Rank"
                     :step="1"
                     :min="1"
                     :max="10"
@@ -163,6 +164,10 @@ import { filter, find, maxBy } from 'lodash-es'
 import { useScroll } from '@vueuse/core'
 
 import { Player, Data } from '~/interfaces'
+
+useHead({
+  title: 'Team Generator',
+})
 
 const newPlayer = ref<Player>({ id: -1, name: '', yes: true, rank: 1 })
 const isEditing = ref(false)

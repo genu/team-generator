@@ -133,7 +133,7 @@
 </template>
 
 <script lang="ts" setup>
-import { groupBy, random, sumBy, keys } from 'lodash-es'
+import { groupBy, random, sumBy, keys, pickBy, filter } from 'lodash-es'
 import html2canvas from 'html2canvas'
 import { useClipboard, useBrowserLocation, promiseTimeout } from '@vueuse/core'
 
@@ -171,7 +171,12 @@ if (props.previouslyGenerated) {
 }
 
 const shuffle = () => {
-  const groupedByRank = groupBy(props.players, 'rank')
+  const goalKeepers = filter(props.players, (player) => player.gk)
+  const groupedByRank = groupBy(
+    filter(props.players, (player) => !player.gk),
+    'rank'
+  )
+
   teamToChoose.value = random(0, props.teamCount - 1)
   teams.value = []
   process.value = []
@@ -179,6 +184,36 @@ const shuffle = () => {
   usingSeedData.value = false
 
   process.value = [...process.value, `Team ${teamToChoose.value + 1} is choosing first`]
+
+  // First pick goal keepers
+  while (goalKeepers.length > 0) {
+    const randomGoalkeeper = goalKeepers.splice(
+      random(0, goalKeepers.length - 1),
+      1
+    )[0] as Player
+
+    process.value = [
+      ...process.value,
+      `Team ${teamToChoose.value + 1} chose goal keeper ${randomGoalkeeper.name} (${
+        randomGoalkeeper.rank
+      })`,
+    ]
+
+    if (!teams.value[teamToChoose.value]) {
+      const team: any = {}
+      team[teamToChoose.value] = []
+
+      teams.value = { ...teams.value, ...team }
+    }
+
+    teams.value[teamToChoose.value] = [
+      ...teams.value[teamToChoose.value],
+      randomGoalkeeper,
+    ]
+
+    // Next team chooses
+    teamToChoose.value = (teamToChoose.value + 1) % props.teamCount
+  }
 
   while (rank > 0) {
     const playersAtRank = groupedByRank[rank]
