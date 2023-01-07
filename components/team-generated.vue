@@ -42,7 +42,7 @@
         <UiButton
           variant="text"
           class="gap-1 px-2 flex"
-          v-if="previewImg"
+          v-if="previouslyGenerated"
           @click="showSharingWindow"
         >
           <FaIcon icon="arrow-up-from-bracket" />
