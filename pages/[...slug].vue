@@ -1,7 +1,7 @@
 <template>
-  <div class="flex flex-col">
+  <div class="flex flex-col relative">
     <div
-      class="z-40 h-16 md:h-20 bg-gray-800 px-4 md:px-5 flex items-center justify-between rounded-none md:rounded-b-md"
+      class="sticky md:relative top-0 w-full z-40 h-16 md:h-20 bg-gray-800 px-4 md:px-5 flex items-center justify-between rounded-none md:rounded-b-md"
     >
       <h2
         class="text-base md:text-2xl font-bold leading-7 text-white sm:truncate sm:text-3xl sm:tracking-tight capitalize"
@@ -100,7 +100,7 @@
       </div>
     </div>
     <div class="absolute flex flex-col py-5 absolute mt-14 md:mt-16 w-full left-0 top-0">
-      <div class="w-full px-2 md:w-10/12 md:w-2/3 md:mx-auto md:max-w-4xl">
+      <div class="w-full px-2">
         <TeamGenerated
           :players="activePlayers"
           :team-count="data.config.teamCount"
@@ -114,6 +114,7 @@
 
 <script lang="ts" setup>
 import { filter, find, maxBy } from 'lodash-es'
+import { useScroll } from '@vueuse/core'
 
 import { Player, Data } from '~/interfaces'
 
@@ -131,6 +132,7 @@ const data = ref<Data>({
 
 const route = useRoute()
 const router = useRouter()
+const { y: scrollY } = useScroll(process.client ? window : null)
 
 const teamHash = route.params.slug[0]
 if (teamHash) {
@@ -158,6 +160,7 @@ const getNextId = () => {
 watch(data.value, () => {
   unsavedChanges.value = true
 })
+
 // Actions
 const save = async () => {
   const league = await $fetch('/api/team', {
@@ -166,6 +169,10 @@ const save = async () => {
   })
 
   unsavedChanges.value = false
+  isEditing.value = false
+
+  scrollY.value = 0
+
   router.push(`/${league?.hash}`)
 }
 

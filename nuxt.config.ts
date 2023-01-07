@@ -8,6 +8,7 @@ export default defineNuxtConfig({
     '@fortawesome/fontawesome-svg-core/styles.css',
     'primevue/resources/themes/lara-light-blue/theme.css',
     'primevue/resources/primevue.min.css',
+    'primeicons/primeicons.css',
   ],
   build: {
     transpile: [

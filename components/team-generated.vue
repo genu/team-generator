@@ -1,39 +1,43 @@
 <template>
   <div class="flex flex-col gap-4 md:gap-2">
     <Dialog
-      header="Share"
+      header="Share Lineups"
       :draggable="false"
       v-model:visible="isSharingDialog"
       :breakpoints="{ '960px': '75vw', '640px': '90vw' }"
       :style="{ width: '50vw' }"
+      @after-hide="previewImg = null"
       modal
     >
       <div class="flex flex-col" ref="shareDialog">
         <div class="flex items-center gap-2">
-          <input type="text" v-model="shareUrl" class="flex-1" />
-          <button class="flex items-center w-10" @click="copy()">
-            <FaIcon icon="fa-regular fa-clipboard" v-if="!copied" />
-            <span class="text-green-800" v-else>copied</span>
+          <div class="flex flex-col flex-1">
+            <label class="font-semibold text-lg">Edit link</label>
+            <input type="text" v-model="shareUrl" class="flex-1" />
+          </div>
+          <button class="flex items-center w-20 mt-6" @click="copy()">
+            <span v-if="!copied">Copy</span>
+            <span class="text-green-800" v-else>Copied</span>
           </button>
         </div>
-        <div>
-          <a :href="previewImg" download="teams.png">
-            <img v-if="previewImg" :src="previewImg" class="w-full mt-4" />
+        <div class="flex justify-around">
+          <FaIcon icon="fa-arrows-spin" class="text-4xl mt-5" spin v-if="!previewImg" />
+
+          <a :href="previewImg" download="teams.png" v-else>
+            <img :src="previewImg" class="w-full mt-4" />
           </a>
         </div>
       </div>
     </Dialog>
-    <div class="flex justify-between gap-2">
+    <div class="flex justify-end gap-2" v-if="players.length > 0">
       <span>
-        <UiButton variant="text" class="gap-1 px-2" @click="showSharingWindow">
-          <FaIcon icon="share" />
-          Share
+        <UiButton variant="text" class="gap-1 px-2 flex" @click="showSharingWindow">
+          <FaIcon icon="arrow-up-from-bracket" />
+          <span class="text-base">Share</span>
         </UiButton>
       </span>
 
-      <UiButton variant="success" v-if="players.length > 0" @click="shuffle">
-        Shuffle Teams
-      </UiButton>
+      <UiButton variant="success" @click="shuffle">Shuffle Teams</UiButton>
     </div>
     <div
       class="flex gap-3 md:gap-3 md:m-5 flex-wrap justify-left"
@@ -41,13 +45,13 @@
     >
       <div
         v-for="(players, key) in teams"
-        class="border-b border-gray-200 bg-white divide-y divide-gray-200 w-44 border-2 border-gray-400 rounded-md shadow"
+        class="border-b border-gray-200 bg-white divide-y divide-gray-200 w-40 md:w-52 border-2 border-gray-400 rounded-md shadow"
       >
         <div class="relative">
           <h2
-            class="text-lg font-medium leading-6 text-gray-900 px-5 pt-5 flex items-center"
+            class="text-lg font-medium leading-6 text-gray-900 px-5 pt-5 flex md:items-center flex-col md:flex-row"
           >
-            Team {{ +key + 1 }}
+            <span>Team {{ +key + 1 }}</span>
             <span class="text-xs ml-1">({{ players.length }} players)</span>
           </h2>
           <span
@@ -211,6 +215,7 @@ const showSharingWindow = async () => {
   const viewer = document.querySelector('#snapshot-viewer')
 
   viewer?.appendChild(canvas)
+  console.log('done')
 }
 </script>
 
