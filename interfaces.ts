@@ -3,6 +3,7 @@ export interface Player {
   name: string
   rank?: number
   yes?: boolean
+  gk?: boolean
 }
 
 export interface Config {

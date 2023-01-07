@@ -28,17 +28,38 @@
           </a>
         </div>
       </div>
+      <template #footer>
+        <Button
+          label="Close"
+          @click="isSharingDialog = false"
+          class="p-button-text p-0"
+        />
+      </template>
     </Dialog>
+
     <div class="flex justify-end gap-2" v-if="players.length > 0">
       <span>
-        <UiButton variant="text" class="gap-1 px-2 flex" @click="showSharingWindow">
+        <UiButton
+          variant="text"
+          class="gap-1 px-2 flex"
+          v-if="previewImg"
+          @click="showSharingWindow"
+        >
           <FaIcon icon="arrow-up-from-bracket" />
           <span class="text-base">Share</span>
         </UiButton>
       </span>
-
       <UiButton variant="success" @click="shuffle">Shuffle Teams</UiButton>
     </div>
+    <button
+      type="button"
+      class="relative block w-11/12 md:w-1/2 mx-auto my-5 rounded-lg border-2 border-dashed border-gray-300 p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+      v-if="!previouslyGenerated && players.length > 0"
+      @click="shuffle"
+    >
+      <FaIcon icon="person-chalkboard" class="text-6xl text-gray-400" />
+      <span class="mt-4 block text-sm font-medium text-gray-900">Generate teams</span>
+    </button>
     <div
       class="flex gap-3 md:gap-3 md:m-5 flex-wrap justify-left"
       ref="snapshotContainer"

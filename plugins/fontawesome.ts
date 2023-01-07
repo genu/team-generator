@@ -8,6 +8,8 @@ import {
   faDownload,
   faArrowsSpin,
   faArrowUpFromBracket,
+  faUsersViewfinder,
+  faPersonChalkboard,
 } from '@fortawesome/free-solid-svg-icons'
 
 import { faClipboard } from '@fortawesome/free-regular-svg-icons'
@@ -23,7 +25,9 @@ library.add(
   faDownload,
   faClipboard,
   faArrowsSpin,
-  faArrowUpFromBracket
+  faArrowUpFromBracket,
+  faUsersViewfinder,
+  faPersonChalkboard
 )
 
 export default defineNuxtPlugin((nuxt) => {

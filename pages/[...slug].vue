@@ -16,61 +16,96 @@
       </div>
     </div>
     <div
-      class="absolute relative z-10 flex flex-col md:flex-row gap-2 py-5 bg-gray-200 py-2 -mt-2 px-5 rounded-b border border-gray-800 shadow-md transition transition-all"
+      class="absolute relative z-10 flex flex-col md:flex-row gap-2 py-5 bg-gray-200 py-2 -mt-2 px-2 rounded-b border border-gray-800 shadow-md transition transition-all"
       :class="{
         'translate-y-0': isEditing,
         '-translate-y-full': !isEditing,
       }"
     >
       <div class="flex flex-col md:w-2/4 gap-2">
-        <div class="flex gap-2 font-bold">
-          <span class="w-24">Yay or Nay</span>
-          <span class="w-48">Players</span>
-          <span class="w-28">Rank (1-10)</span>
+        <div class="table table-fixed border-spacing-0 w-full text-base font-bold">
+          <div class="table-header-group">
+            <div class="table-row">
+              <div class="table-cell w-20">Active?</div>
+              <div class="table-cell w-28">Player</div>
+              <div class="table-cell w-28">Rank (1-10)</div>
+              <div class="table-cell">GK</div>
+              <div class="table-cell"></div>
+            </div>
+          </div>
+          <div class="table-row-group" v-for="(player, index) in data.players">
+            <div
+              class="table-row"
+              :class="[index % 2 == 0 ? 'bg-gray-100' : 'bg-gray-200']"
+            >
+              <div class="table-cell align-middle py-2">
+                <InputSwitch v-model="player.yes" />
+              </div>
+              <div class="table-cell align-middle">
+                <InputText
+                  class="capitalize p-inputtext-sm w-24"
+                  type="text"
+                  v-model="player.name"
+                />
+              </div>
+              <div class="table-cell align-middle">
+                <InputNumber
+                  input-class="p-inputtext-sm flex w-16"
+                  v-model="player.rank"
+                  :step="1"
+                  :min="1"
+                  :max="10"
+                />
+              </div>
+              <div class="table-cell align-middle">
+                <Checkbox v-model="player.gk" :binary="true" />
+              </div>
+              <div class="table-cell align-middle text-center">
+                <span class="" @click="removePlayer(index)">
+                  <FaIcon
+                    icon="times"
+                    class="text-lg bg-red-500 rounded py-1 px-2 text-white hover:bg-red-600"
+                  />
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
+
         <div class="flex flex-col gap-2">
-          <div v-for="(player, index) in data.players" class="flex items-center gap-2">
-            <span class="w-24 flex justify-around items-center">
-              <InputSwitch v-model="player.yes" />
-            </span>
-            <span class="flex w-48">
-              <InputText
-                class="p-inputtext-sm w-full capitalize"
-                type="text"
-                v-model="player.name"
-              />
-            </span>
-            <span class="flex w-20">
-              <InputNumber
-                input-class="p-inputtext-sm w-full"
-                v-model="player.rank"
-                :step="1"
-                :min="1"
-                :max="10"
-              />
-            </span>
-            <span class="cursor-pointer flex" @click="removePlayer(index)">
-              <FaIcon
-                icon="times"
-                class="text-lg bg-red-500 rounded py-1 px-2 text-white hover:bg-red-600"
-              />
-            </span>
+          <Divider />
+          <div class="table table-fixed border-spacing-0">
+            <div class="table-row-group">
+              <div class="table-row">
+                <div class="table-cell w-48 align-middle">
+                  <InputText
+                    class="p-inputtext-sm w-44"
+                    placeholder="Name"
+                    type="text"
+                    v-model="newPlayer.name"
+                    @keyup.enter="addPlayer(newPlayer)"
+                  />
+                </div>
+                <div class="table-cell align-middle w-20">
+                  <InputNumber
+                    input-class="p-inputtext-sm w-16"
+                    v-model="newPlayer.rank"
+                    :step="1"
+                    :min="1"
+                    :max="10"
+                  />
+                </div>
+                <div class="table-cell align-middle">
+                  <Button
+                    label="Add"
+                    class="p-button-link px-2 w-20"
+                    @click="addPlayer(newPlayer)"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
           <Divider />
-          <div class="flex gap-2 items-center ml-2">
-            <InputText
-              class="p-inputtext-sm ml-24 w-48"
-              placeholder="Name"
-              type="text"
-              v-model="newPlayer.name"
-              @keyup.enter="addPlayer(newPlayer)"
-            />
-            <Button
-              label="Add"
-              class="p-button-link px-2 w-20"
-              @click="addPlayer(newPlayer)"
-            />
-          </div>
           <div class="flex justify-end text-lg items-center">
             Active Players:
             <span class="font-semibold ml-1">{{ activePlayers.length }}</span>
@@ -101,6 +136,17 @@
     </div>
     <div class="absolute flex flex-col py-5 absolute mt-14 md:mt-16 w-full left-0 top-0">
       <div class="w-full px-2">
+        <button
+          type="button"
+          class="relative block md:w-1/2 mx-auto my-5 rounded-lg border-2 border-dashed border-gray-300 p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          v-if="data.players.length < 1"
+          @click="isEditing = !isEditing"
+        >
+          <FaIcon icon="users-viewfinder" class="text-6xl text-gray-400" />
+          <span class="mt-4 block text-sm font-medium text-gray-900">
+            Add some players to the league
+          </span>
+        </button>
         <TeamGenerated
           :players="activePlayers"
           :team-count="data.config.teamCount"
