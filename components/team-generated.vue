@@ -87,7 +87,7 @@
             class="text-sm font-medium text-gray-900 capitalize"
 						:class="{'font-bold': player.gk}"
           >
-            {{ player.name }} {{player.gk ? '(Goalkeeper)' : '' }}
+            {{ player.name }} {{player.gk ? '(GK)' : '' }}
           </li>
         </ul>
       </div>
