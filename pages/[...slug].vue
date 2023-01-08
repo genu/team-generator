@@ -25,7 +25,7 @@
         '-translate-y-full': !isEditing,
       }"
     >
-      <div class="flex flex-col md:w-2/4 gap-2">
+      <div class="flex flex-col lg:w-2/4 gap-2">
         <div class="table table-fixed border-spacing-0 px-2">
           <div class="table-row-group">
             <div class="table-row">
@@ -113,8 +113,8 @@
           </div>
         </div>
       </div>
-      <Divider layout="vertical" class="hidden md:block" />
-      <Divider class="md:hidden" />
+      <Divider layout="vertical" class="hidden lg:block" />
+      <Divider class="lg:hidden" />
       <div class="flex flex-col gap-2 p-2">
         <h2 class="text-lg font-bold">Options</h2>
         <div class="font-semibold flex flex-col gap-2">
@@ -135,11 +135,11 @@
         </div>
       </div>
     </div>
-    <div class="absolute flex flex-col py-5 absolute mt-14 md:mt-16 w-full left-0 top-0">
+    <div class="absolute flex flex-col py-5 absolute mt-14 lg:mt-16 w-full left-0 top-0">
       <div class="w-full px-2">
         <button
           type="button"
-          class="relative block md:w-1/2 mx-auto my-5 rounded-lg border-2 border-dashed border-gray-300 p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          class="relative block lg:w-1/2 mx-auto my-5 rounded-lg border-2 border-dashed border-gray-300 p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           v-if="data.players.length < 1"
           @click="isEditing = !isEditing"
         >
