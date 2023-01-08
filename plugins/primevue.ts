@@ -13,6 +13,8 @@ import ConfirmationService from 'primevue/confirmationservice'
 import ConfirmDialog from 'primevue/confirmdialog'
 import Dialog from 'primevue/dialog'
 import Checkbox from 'primevue/checkbox'
+import Accordion from 'primevue/accordion'
+import AccordionTab from 'primevue/accordiontab'
 
 export default defineNuxtPlugin((nuxt) => {
   nuxt.vueApp.use(PrimeVue)
@@ -32,4 +34,6 @@ export default defineNuxtPlugin((nuxt) => {
   nuxt.vueApp.component('ConfirmDialog', ConfirmDialog)
   nuxt.vueApp.component('Dialog', Dialog)
   nuxt.vueApp.component('Checkbox', Checkbox)
+  nuxt.vueApp.component('Accordion', Accordion)
+  nuxt.vueApp.component('AccordionTab', AccordionTab)
 })
