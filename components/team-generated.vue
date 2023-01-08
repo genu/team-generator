@@ -59,7 +59,7 @@
       <span class="mt-4 block text-sm font-medium text-gray-900">Generate teams</span>
     </button>
     <div
-      class="flex gap-3 md:gap-3 md:m-5 flex-wrap justify-left p-4"
+      class="flex gap-3 md:gap-3 flex-wrap justify-left p-4"
       ref="snapshotContainer"
     >
       <div
