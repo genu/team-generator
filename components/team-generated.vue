@@ -20,13 +20,11 @@
             <span class="text-green-800" v-else>Copied</span>
           </button>
         </div>
-        <div class="flex justify-around">
-          <FaIcon icon="fa-arrows-spin" class="text-4xl mt-5" spin v-if="!previewImg" />
-
-          <a :href="previewImg" download="teams.png" v-else>
-            <img :src="previewImg" class="w-full mt-4" />
-          </a>
-        </div>
+        <span class="flex flex-col gap-1 items-center" v-if="!previewImg">
+          <FaIcon icon="fa-arrows-spin" class="text-4xl mt-5" spin />
+          <span class="text-sm font-bold">Generating Image</span>
+        </span>
+        <img :src="previewImg" class="w-full mt-4" v-else />
       </div>
       <template #footer>
         <Button
@@ -61,7 +59,7 @@
       <span class="mt-4 block text-sm font-medium text-gray-900">Generate teams</span>
     </button>
     <div
-      class="flex gap-3 md:gap-3 md:m-5 flex-wrap justify-left"
+      class="flex gap-3 md:gap-3 md:m-5 flex-wrap justify-left p-4"
       ref="snapshotContainer"
     >
       <div
@@ -85,9 +83,9 @@
           <li
             v-for="player in players"
             class="text-sm font-medium text-gray-900 capitalize"
-						:class="{'font-bold': player.gk}"
+            :class="{ 'font-bold': player.gk }"
           >
-            {{ player.name }} {{player.gk ? '(GK)' : '' }}
+            {{ player.name }} {{ player.gk ? '(GK)' : '' }}
           </li>
         </ul>
       </div>
