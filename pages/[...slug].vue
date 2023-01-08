@@ -36,7 +36,7 @@
               <div class="table-cell"></div>
             </div>
           </div>
-          <div class="table-row-group" v-for="(player, index) in data.players">
+          <div class="table-row-group" v-for="(player, index) in sortedPlayers">
             <div
               class="table-row"
               :class="[index % 2 == 0 ? 'bg-gray-100' : 'bg-gray-200']"
@@ -166,11 +166,10 @@
 </template>
 
 <script lang="ts" setup>
-import { filter, find, maxBy } from 'lodash-es'
+import { filter, find, maxBy, orderBy } from 'lodash-es'
 import { useScroll } from '@vueuse/core'
 
 import { Player, Data, Snapshot } from '~/interfaces'
-import { faIcons } from '@fortawesome/free-solid-svg-icons'
 
 useHead({
   title: 'Team Generator',
@@ -197,18 +196,23 @@ const router = useRouter()
 const { y: scrollY } = useScroll(process.client ? window : null)
 
 const teamHash = route.params.slug[0]
+
 if (teamHash) {
   try {
     const { data: loadedData } = await useFetch('/api/team', {
       query: { teamHash },
     })
 
-    data.value = loadedData.value?.data as unknown as Data
+    if (loadedData.value !== null) {
+      data.value = loadedData.value?.data as unknown as Data
+    }
   } catch (err) {
     console.log(err)
   }
 }
 
+const sortedPlayers = ref<Player[]>(orderBy(data.value.players, ['yes', 'rank'], ['desc', 'desc']))
+console.log(sortedPlayers.value)
 const activePlayers = computed<Player[]>(() => filter(data.value.players, { yes: true }))
 
 const getNextId = () => {
