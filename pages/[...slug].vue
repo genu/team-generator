@@ -26,12 +26,42 @@
       }"
     >
       <div class="flex flex-col md:w-2/4 gap-2">
-        <DataTable
-          :value="sortedPlayers"
-          sort-field="yes"
-          :sort-order="-1"
-          responsiveLayout="scroll"
-        >
+        <div class="table table-fixed border-spacing-0 px-2">
+          <div class="table-row-group">
+            <div class="table-row">
+              <div class="table-cell w-48 align-middle py-2">
+                <InputText
+                  class="p-inputtext-sm w-44"
+                  placeholder="Player Name"
+                  type="text"
+                  v-model="newPlayer.name"
+                  @keyup.enter="addPlayer(newPlayer)"
+                />
+              </div>
+              <div class="table-cell align-middle w-20">
+                <InputNumber
+                  input-class="p-inputtext-sm w-16"
+                  v-model="newPlayer.rank"
+                  placeholder="Rank"
+                  :step="1"
+                  :min="1"
+                  :max="10"
+                />
+              </div>
+              <div class="table-cell align-middle">
+                <UiButton
+                  class="w-20 px-2 rounded justify-around"
+                  size="sm"
+                  @click="addPlayer(newPlayer)"
+                >
+                  Add
+                </UiButton>
+              </div>
+            </div>
+          </div>
+        </div>
+        <Divider />
+        <DataTable :value="data.players" responsiveLayout="scroll">
           <Column field="yes" header="Active?" body-class="text-center">
             <template #body="{ data: player }: { data: Player }">
               <InputSwitch v-model="player.yes" />
@@ -73,41 +103,6 @@
             </template>
           </Column>
         </DataTable>
-        <Divider />
-        <div class="table table-fixed border-spacing-0 px-2">
-          <div class="table-row-group">
-            <div class="table-row">
-              <div class="table-cell w-48 align-middle py-2">
-                <InputText
-                  class="p-inputtext-sm w-44"
-                  placeholder="Player Name"
-                  type="text"
-                  v-model="newPlayer.name"
-                  @keyup.enter="addPlayer(newPlayer)"
-                />
-              </div>
-              <div class="table-cell align-middle w-20">
-                <InputNumber
-                  input-class="p-inputtext-sm w-16"
-                  v-model="newPlayer.rank"
-                  placeholder="Rank"
-                  :step="1"
-                  :min="1"
-                  :max="10"
-                />
-              </div>
-              <div class="table-cell align-middle">
-                <UiButton
-                  class="w-20 px-2 rounded justify-around"
-                  size="sm"
-                  @click="addPlayer(newPlayer)"
-                >
-                  Add
-                </UiButton>
-              </div>
-            </div>
-          </div>
-        </div>
 
         <div class="flex flex-col gap-2">
           <Divider />
@@ -232,6 +227,13 @@ const toggleEdit = () => {
   scrollY.value = 0
 }
 
+const sortPlayers = () => {
+  const sorted = ref<Player[]>(
+    orderBy(data.value.players, ['yes', 'rank'], ['desc', 'desc'])
+  )
+
+  sortedPlayers.value = sorted
+}
 // Actions
 const save = async () => {
   isSaving.value = true
