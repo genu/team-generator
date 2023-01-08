@@ -99,7 +99,7 @@
               </div>
               <div class="table-cell align-middle">
                 <UiButton
-                  class="w-20 px-2 rounded text-center"
+                  class="w-20 px-2 rounded justify-around"
                   size="sm"
                   @click="addPlayer(newPlayer)"
                 >
