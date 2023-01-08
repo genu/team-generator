@@ -19,61 +19,60 @@
       </div>
     </div>
     <div
-      class="absolute relative z-10 flex flex-col-reverse md:flex-row gap-2 py-5 bg-gray-200 py-2 -mt-2 px-2 rounded-b border border-gray-800 shadow-md transition transition-all"
+      class="absolute relative gap-2 z-10 flex flex-col-reverse md:flex-row pt-4 bg-gray-200 -mt-2 rounded-b border border-gray-800 shadow-md transition transition-all"
       :class="{
         'translate-y-0': isEditing,
         '-translate-y-full': !isEditing,
       }"
     >
       <div class="flex flex-col md:w-2/4 gap-2">
-        <div class="table table-fixed border-spacing-0 w-full text-base font-bold">
-          <div class="table-header-group">
-            <div class="table-row">
-              <div class="table-cell w-20">Active?</div>
-              <div class="table-cell w-28">Player</div>
-              <div class="table-cell w-28">Rank (1-10)</div>
-              <div class="table-cell">GK</div>
-              <div class="table-cell"></div>
-            </div>
-          </div>
-          <div class="table-row-group" v-for="(player, index) in sortedPlayers">
-            <div
-              class="table-row"
-              :class="[index % 2 == 0 ? 'bg-gray-100' : 'bg-gray-200']"
-            >
-              <div class="table-cell align-middle py-2">
-                <InputSwitch v-model="player.yes" />
-              </div>
-              <div class="table-cell align-middle">
-                <InputText
-                  class="capitalize p-inputtext-sm w-24"
-                  type="text"
-                  v-model="player.name"
+        <DataTable
+          :value="sortedPlayers"
+          sort-field="yes"
+          :sort-order="-1"
+          responsiveLayout="scroll"
+        >
+          <Column field="yes" header="Active?" body-class="text-center">
+            <template #body="{ data: player }: { data: Player }">
+              <InputSwitch v-model="player.yes" />
+            </template>
+          </Column>
+          <Column field="name" header="Player">
+            <template #body="{ data: player }: { data: Player }">
+              <InputText
+                class="capitalize p-inputtext-sm w-24"
+                type="text"
+                v-model="player.name"
+              />
+            </template>
+          </Column>
+          <Column field="rank" header="Rank (1-10)">
+            <template #body="{ data: player }: { data: Player }">
+              <InputNumber
+                input-class="p-inputtext-sm flex w-16"
+                v-model="player.rank"
+                :step="1"
+                :min="1"
+                :max="10"
+              />
+            </template>
+          </Column>
+          <Column field="gk" header="Gk">
+            <template #body="{ data: player }: { data: Player }">
+              <Checkbox v-model="player.gk" :binary="true" />
+            </template>
+          </Column>
+          <Column header="">
+            <template #body="{ index }">
+              <span class="" @click="removePlayer(index)">
+                <FaIcon
+                  icon="times"
+                  class="text-lg bg-red-500 rounded py-1 px-2 text-white hover:bg-red-600"
                 />
-              </div>
-              <div class="table-cell align-middle">
-                <InputNumber
-                  input-class="p-inputtext-sm flex w-16"
-                  v-model="player.rank"
-                  :step="1"
-                  :min="1"
-                  :max="10"
-                />
-              </div>
-              <div class="table-cell align-middle">
-                <Checkbox v-model="player.gk" :binary="true" />
-              </div>
-              <div class="table-cell align-middle text-center">
-                <span class="" @click="removePlayer(index)">
-                  <FaIcon
-                    icon="times"
-                    class="text-lg bg-red-500 rounded py-1 px-2 text-white hover:bg-red-600"
-                  />
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
+              </span>
+            </template>
+          </Column>
+        </DataTable>
         <Divider />
         <div class="table table-fixed border-spacing-0">
           <div class="table-row-group">
@@ -119,9 +118,9 @@
           </div>
         </div>
       </div>
-      <Divider layout="vertical" />
+      <Divider layout="vertical" class="hidden md:block" />
       <Divider class="md:hidden" />
-      <div class="flex flex-col gap-2">
+      <div class="flex flex-col gap-2 p-2">
         <h2 class="text-lg font-bold">Options</h2>
         <div class="font-semibold flex flex-col gap-2">
           <div class="flex items-center gap-2">
@@ -211,8 +210,9 @@ if (teamHash) {
   }
 }
 
-const sortedPlayers = ref<Player[]>(orderBy(data.value.players, ['yes', 'rank'], ['desc', 'desc']))
-console.log(sortedPlayers.value)
+const sortedPlayers = ref<Player[]>(
+  orderBy(data.value.players, ['yes', 'rank'], ['desc', 'desc'])
+)
 const activePlayers = computed<Player[]>(() => filter(data.value.players, { yes: true }))
 
 const getNextId = () => {

@@ -1,0 +1,9 @@
+.p-datatable {
+  .p-datatable-thead > tr > th {
+    @apply px-2 py-1 !important;
+  }
+
+  .p-datatable-tbody > tr > td {
+    @apply p-2 !important;
+  }
+}
