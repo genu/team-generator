@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col relative">
     <div
-      class="sticky top-0 w-full z-40 h-16 md:h-20 bg-gray-800 px-4 md:px-5 flex items-center justify-between rounded-none md:rounded-b-md"
+      class="sticky top-0 w-full z-40 h-16 lg:h-20 bg-gray-800 px-4 md:px-5 flex items-center justify-between rounded-none md:rounded-b-md"
     >
       <h2
         class="text-base md:text-2xl font-bold leading-7 text-white sm:truncate sm:text-3xl sm:tracking-tight capitalize"
@@ -19,7 +19,7 @@
       </div>
     </div>
     <div
-      class="absolute relative gap-2 z-10 flex flex-col-reverse lg:flex-row pt-4 bg-gray-200 -mt-2 rounded-b border border-gray-800 shadow-md transition transition-all"
+      class="absolute relative z-10 flex flex-col-reverse lg:flex-row pt-4 bg-gray-200 -mt-2 rounded-b border border-gray-800 shadow-md transition transition-all"
       :class="{
         'translate-y-0': isEditing,
         '-translate-y-full': !isEditing,
@@ -49,11 +49,7 @@
                 />
               </div>
               <div class="table-cell align-middle">
-                <UiButton
-                  class="w-20 px-2 rounded justify-around"
-                  size="sm"
-                  @click="addPlayer(newPlayer)"
-                >
+                <UiButton class="w-20 px-2 rounded justify-around" size="sm" @click="addPlayer(newPlayer)">
                   Add
                 </UiButton>
               </div>
@@ -69,22 +65,12 @@
           </Column>
           <Column field="name" header="Player">
             <template #body="{ data: player }: { data: Player }">
-              <InputText
-                class="capitalize p-inputtext-sm w-24"
-                type="text"
-                v-model="player.name"
-              />
+              <InputText class="capitalize p-inputtext-sm w-24" type="text" v-model="player.name" />
             </template>
           </Column>
           <Column field="rank" header="Rank (1-10)">
             <template #body="{ data: player }: { data: Player }">
-              <InputNumber
-                input-class="p-inputtext-sm flex w-16"
-                v-model="player.rank"
-                :step="1"
-                :min="1"
-                :max="10"
-              />
+              <InputNumber input-class="p-inputtext-sm flex w-16" v-model="player.rank" :step="1" :min="1" :max="10" />
             </template>
           </Column>
           <Column field="gk" header="Gk">
@@ -95,10 +81,7 @@
           <Column header="">
             <template #body="{ index }">
               <span class="" @click="removePlayer(index)">
-                <FaIcon
-                  icon="times"
-                  class="text-lg bg-red-500 rounded py-1 px-2 text-white hover:bg-red-600"
-                />
+                <FaIcon icon="times" class="text-lg bg-red-500 rounded py-1 px-2 text-white hover:bg-red-600" />
               </span>
             </template>
           </Column>
@@ -132,6 +115,25 @@
               v-model="data.config.teamCount"
             />
           </div>
+          <div class="flex items-center gap-2">
+            <span class="w-28 text-right text-gray-700">Rules:</span>
+          </div>
+          <div class="flex flex-col ml-28 gap-1">
+            <div class="flex gap-2 items-center">
+              <Checkbox input-id="goaliesFirst" v-model="data.config.rules.goaliesFirst" :binary="true" />
+              <label for="goaliesFirst" class="font-normal text-sm cursor-pointer">Choose goalies first</label>
+            </div>
+            <div class="flex gap-2 items-center hidden">
+              <Checkbox
+                input-id="noBestGolieAndPlayer"
+                v-model="data.config.rules.noBestGolieAndPlayer"
+                :binary="true"
+              />
+              <label for="noBestGolieAndPlayer" class="font-normal text-sm cursor-pointer">
+                Best goalie cannot be on same team with best player
+              </label>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -144,15 +146,14 @@
           @click="isEditing = !isEditing"
         >
           <FaIcon icon="users-viewfinder" class="text-6xl text-gray-400" />
-          <span class="mt-4 block text-sm font-medium text-gray-900">
-            Add some players to the league
-          </span>
+          <span class="mt-4 block text-sm font-medium text-gray-900">Add some players to the league</span>
         </button>
         <TeamGenerated
           :players="activePlayers"
           :team-count="data.config.teamCount"
           @shuffled="onShuffled"
           :snapshot="data.snapshot"
+          :rules="data.config.rules"
         />
       </div>
     </div>
@@ -177,6 +178,10 @@ const isSaving = ref(false)
 const data = ref<Data>({
   config: {
     teamCount: 2,
+    rules: {
+      goaliesFirst: false,
+      noBestGolieAndPlayer: false,
+    },
   },
   players: [],
   snapshot: {
@@ -198,16 +203,22 @@ if (teamHash) {
     })
 
     if (loadedData.value !== null) {
-      data.value = loadedData.value?.data as unknown as Data
+      const savedData = loadedData.value.data as unknown as Data
+
+      data.value.config.leagueName = savedData.config.leagueName
+      data.value.config.teamCount = savedData.config.teamCount
+      data.value.config.rules.goaliesFirst = savedData.config.rules?.goaliesFirst || false
+      data.value.config.rules.noBestGolieAndPlayer = savedData.config.rules?.noBestGolieAndPlayer || false
+
+      data.value.players = [...savedData.players]
+      data.value.snapshot = savedData.snapshot
     }
   } catch (err) {
     console.log(err)
   }
 }
 
-const sortedPlayers = ref<Player[]>(
-  orderBy(data.value.players, ['yes', 'rank'], ['desc', 'desc'])
-)
+const sortedPlayers = ref<Player[]>(orderBy(data.value.players, ['yes', 'rank'], ['desc', 'desc']))
 const activePlayers = computed<Player[]>(() => filter(data.value.players, { yes: true }))
 
 const getNextId = () => {
@@ -228,11 +239,9 @@ const toggleEdit = () => {
 }
 
 const sortPlayers = () => {
-  const sorted = ref<Player[]>(
-    orderBy(data.value.players, ['yes', 'rank'], ['desc', 'desc'])
-  )
+  const sorted = ref<Player[]>(orderBy(data.value.players, ['yes', 'rank'], ['desc', 'desc']))
 
-  sortedPlayers.value = sorted
+  // sortedPlayers.value = sorted
 }
 // Actions
 const save = async () => {
@@ -259,6 +268,7 @@ const addPlayer = (player: Player) => {
   // No existing players
   if (find(data.value.players, { n: player.name })) return
 
+  player.name = player.name.trim()
   data.value.players = [...data.value.players, { ...player, id: getNextId() }]
 
   newPlayer.value = { id: -1, name: '', yes: true, rank: 1 }
