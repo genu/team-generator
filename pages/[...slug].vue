@@ -74,7 +74,7 @@
           </Column>
         </DataTable>
         <Divider />
-        <div class="table table-fixed border-spacing-0">
+        <div class="table table-fixed border-spacing-0 px-2">
           <div class="table-row-group">
             <div class="table-row">
               <div class="table-cell w-48 align-middle py-2">
