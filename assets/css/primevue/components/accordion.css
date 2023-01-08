@@ -1,5 +1,0 @@
-.p-accordion {
-  .p-accordion-content {
-    @apply px-2 flex flex-col !important;
-  }
-}
