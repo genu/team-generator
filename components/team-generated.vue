@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-4 md:gap-2">
+  <div class="flex flex-col gap-4 lg:gap-2">
     <Dialog
       header="Share Lineups"
       :draggable="false"
