@@ -12,7 +12,10 @@
         <UiButton variant="secondary" @click="toggleEdit">
           {{ isEditing ? 'Hide' : 'Edit' }}
         </UiButton>
-        <UiButton @click="save" :disabled="!unsavedChanges">Save</UiButton>
+        <UiButton @click="save" :disabled="!unsavedChanges || isSaving">
+          <FaIcon icon="spinner" v-if="isSaving" spin />
+          <span v-else>Save</span>
+        </UiButton>
       </div>
     </div>
     <div
@@ -155,7 +158,7 @@
           :players="activePlayers"
           :team-count="data.config.teamCount"
           @shuffled="onShuffled"
-          :previously-generated="data.snapshot"
+          :snapshot="data.snapshot"
         />
       </div>
     </div>
@@ -166,7 +169,8 @@
 import { filter, find, maxBy } from 'lodash-es'
 import { useScroll } from '@vueuse/core'
 
-import { Player, Data } from '~/interfaces'
+import { Player, Data, Snapshot } from '~/interfaces'
+import { faIcons } from '@fortawesome/free-solid-svg-icons'
 
 useHead({
   title: 'Team Generator',
@@ -175,13 +179,17 @@ useHead({
 const newPlayer = ref<Player>({ id: -1, name: '', yes: true, rank: 1 })
 const isEditing = ref(false)
 const unsavedChanges = ref(false)
+const isSaving = ref(false)
 
 const data = ref<Data>({
   config: {
     teamCount: 2,
   },
   players: [],
-  snapshot: null,
+  snapshot: {
+    teams: null,
+    methodology: [],
+  },
 })
 
 const route = useRoute()
@@ -191,7 +199,7 @@ const { y: scrollY } = useScroll(process.client ? window : null)
 const teamHash = route.params.slug[0]
 if (teamHash) {
   try {
-    const { data: loadedData, error } = await useFetch('/api/team', {
+    const { data: loadedData } = await useFetch('/api/team', {
       query: { teamHash },
     })
 
@@ -222,6 +230,8 @@ const toggleEdit = () => {
 
 // Actions
 const save = async () => {
+  isSaving.value = true
+
   const league = await $fetch('/api/team', {
     method: 'post',
     body: { team: teamHash, data: data.value },
@@ -229,6 +239,7 @@ const save = async () => {
 
   unsavedChanges.value = false
   isEditing.value = false
+  isSaving.value = false
 
   scrollY.value = 0
 
@@ -249,10 +260,10 @@ const addPlayer = (player: Player) => {
 
 const removePlayer = (index: number) => {
   data.value.players.splice(index, 1)
-  data.value.snapshot = null
+  data.value.snapshot = {}
 }
 
-const onShuffled = (teams: any) => {
-  data.value.snapshot = teams
+const onShuffled = (snapshot: Snapshot) => {
+  data.value.snapshot = snapshot
 }
 </script>

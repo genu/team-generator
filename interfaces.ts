@@ -14,11 +14,16 @@ export interface Config {
 export interface Data {
   config: Config
   players: Player[]
-  snapshot: any
+  snapshot: Snapshot
 }
 
 export interface League {
   createdAt: Date
   hash: string
   data: any
+}
+
+export interface Snapshot {
+  teams?: any
+  methodology?: string[]
 }

@@ -40,7 +40,7 @@
         <UiButton
           variant="text"
           class="gap-1 px-2 flex"
-          v-if="previouslyGenerated"
+          v-if="snapshot"
           @click="showSharingWindow"
         >
           <FaIcon icon="arrow-up-from-bracket" />
@@ -52,7 +52,7 @@
     <button
       type="button"
       class="relative block w-11/12 md:w-1/2 mx-auto my-5 rounded-lg border-2 border-dashed border-gray-300 p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-      v-if="!previouslyGenerated && players.length > 0"
+      v-if="!snapshot && players.length > 0"
       @click="shuffle"
     >
       <FaIcon icon="person-chalkboard" class="text-6xl text-gray-400" />
@@ -121,7 +121,7 @@
       <div>
         <p
           class="mt-2 capitalize"
-          v-for="(instruction, index) in process"
+          v-for="(instruction, index) in methodology"
           :class="{ 'font-bold': index === 0 }"
         >
           {{ instruction }}
@@ -132,20 +132,20 @@
 </template>
 
 <script lang="ts" setup>
-import { groupBy, random, sumBy, keys, pickBy, filter } from 'lodash-es'
+import { groupBy, random, sumBy, keys, filter } from 'lodash-es'
 import html2canvas from 'html2canvas'
 import { useClipboard, useBrowserLocation, promiseTimeout } from '@vueuse/core'
 
-import { Player } from '~/interfaces'
+import { Player, Snapshot } from '~/interfaces'
 
 interface Props {
   players: Player[]
   teamCount: number
-  previouslyGenerated?: any
+  snapshot?: Snapshot
 }
 
 const props = defineProps<Props>()
-const emit = defineEmits<{ (e: 'shuffled', teams: any): void }>()
+const emit = defineEmits<{ (e: 'shuffled', snapshot: Snapshot): void }>()
 
 const location = useBrowserLocation()
 
@@ -156,7 +156,7 @@ const teams = ref<any>({})
 const teamToChoose = ref<number>()
 const isShowingProcess = ref(false)
 const usingSeedData = ref(false)
-const process = ref<string[]>([])
+const methodology = ref<string[]>([])
 const isSharingDialog = ref(false)
 const snapshotContainer = ref()
 const creatingImage = ref(false)
@@ -165,8 +165,9 @@ const previewWidth = ref(0)
 const previewImg = ref()
 
 const { copy, copied } = useClipboard({ source: shareUrl.value })
-if (props.previouslyGenerated) {
-  teams.value = props.previouslyGenerated
+if (props.snapshot) {
+  teams.value = props.snapshot.teams
+  methodology.value = props.snapshot.methodology as string[]
 }
 
 const shuffle = () => {
@@ -178,11 +179,14 @@ const shuffle = () => {
 
   teamToChoose.value = random(0, props.teamCount - 1)
   teams.value = []
-  process.value = []
+  methodology.value = []
   let rank = 10
   usingSeedData.value = false
 
-  process.value = [...process.value, `Team ${teamToChoose.value + 1} is choosing first`]
+  methodology.value = [
+    ...methodology.value,
+    `Team ${teamToChoose.value + 1} is choosing first`,
+  ]
 
   // First pick goal keepers
   while (goalKeepers.length > 0) {
@@ -191,8 +195,8 @@ const shuffle = () => {
       1
     )[0] as Player
 
-    process.value = [
-      ...process.value,
+    methodology.value = [
+      ...methodology.value,
       `Team ${teamToChoose.value + 1} chose goal keeper ${randomGoalkeeper.name} (${
         randomGoalkeeper.rank
       })`,
@@ -223,8 +227,8 @@ const shuffle = () => {
         1
       )[0]
 
-      process.value = [
-        ...process.value,
+      methodology.value = [
+        ...methodology.value,
         `Team ${teamToChoose.value + 1} chose ${randomPlayerFromRank.name} (${
           randomPlayerFromRank.rank
         })`,
@@ -249,7 +253,7 @@ const shuffle = () => {
     rank--
   }
 
-  emit('shuffled', teams)
+  emit('shuffled', { teams, methodology: methodology.value })
 }
 
 const numberOfGeneratedTeams = computed(() => keys(teams.value).length)
@@ -270,7 +274,6 @@ const showSharingWindow = async () => {
   const viewer = document.querySelector('#snapshot-viewer')
 
   viewer?.appendChild(canvas)
-  console.log('done')
 }
 </script>
 
