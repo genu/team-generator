@@ -19,7 +19,7 @@
       </div>
     </div>
     <div
-      class="absolute relative gap-2 z-10 flex flex-col-reverse md:flex-row pt-4 bg-gray-200 -mt-2 rounded-b border border-gray-800 shadow-md transition transition-all"
+      class="absolute relative gap-2 z-10 flex flex-col-reverse sm:flex-row pt-4 bg-gray-200 -mt-2 rounded-b border border-gray-800 shadow-md transition transition-all"
       :class="{
         'translate-y-0': isEditing,
         '-translate-y-full': !isEditing,
