@@ -52,7 +52,7 @@
     <div class="flex gap-3 md:gap-3 flex-wrap justify-left p-4" ref="snapshotContainer">
       <div
         v-for="(players, key) in teams"
-        class="border-b border-gray-200 bg-white divide-y divide-gray-200 w-40 md:w-52 border-2 border-gray-400 rounded-md shadow"
+        class="border-b border-gray-200 bg-white divide-y divide-gray-200 w-36 md:w-52 border-2 border-gray-400 rounded-md shadow"
       >
         <div class="relative">
           <h2 class="text-lg font-medium leading-6 text-gray-900 px-5 pt-5 flex md:items-center flex-col md:flex-row">
@@ -80,7 +80,7 @@
             >
               <div class="flex items-center gap-2 select-none">
                 <FaIcon icon="ellipsis-vertical" />
-                <span v-if="player.name.toLowerCase() === 'michael'" class="text-sm">
+                <span v-if="player.name.toLowerCase() === 'michael'" class="text-xs">
                   Average {{ player.name }} {{ player.gk ? '(GK)' : '' }}
                 </span>
                 <span v-else>{{ player.name }} {{ player.gk ? '(GK)' : '' }}</span>
