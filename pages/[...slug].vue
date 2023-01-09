@@ -68,8 +68,8 @@
               <FaIcon
                 v-if="rosterFilters['global'].value"
                 icon="fa-circle-xmark"
-                @click="rosterFilters['global'].value = null"
-                class="absolute right-2 text-gray-400"
+                @click="rosterFilters['global'].value = ''"
+                class="absolute right-2 text-gray-400 cursor-pointer"
               />
             </span>
           </template>
@@ -86,7 +86,12 @@
           </Column>
           <Column field="name" header="Player">
             <template #body="{ data: player }: { data: Player }">
-              <InputText class="capitalize p-inputtext-sm w-24" type="text" v-model="player.name" />
+              <InputText
+                :disabled="rosterFilters['global'].value !== ''"
+                class="capitalize p-inputtext-sm w-24"
+                type="text"
+                v-model="player.name"
+              />
             </template>
           </Column>
           <Column field="rank" header="Rank (1-10)">
@@ -195,7 +200,7 @@ const unsavedChanges = ref(false)
 const isSaving = ref(false)
 const leagueMenu = ref<any>(null)
 const rosterFilters = ref({
-  global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  global: { value: '', matchMode: FilterMatchMode.CONTAINS },
 })
 
 const data = ref<Data>({
