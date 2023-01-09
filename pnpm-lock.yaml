@@ -20,6 +20,7 @@ specifiers:
   '@vueuse/nuxt': ^9.9.0
   html2canvas: ^1.4.1
   lodash-es: 4.17.21
+  logrocket: ^3.0.1
   nanoid: ^4.0.0
   nuxt: 3.0.0
   primeicons: ^6.0.1
@@ -39,6 +40,7 @@ dependencies:
   '@vueuse/components': 9.10.0_vue@3.2.45
   html2canvas: 1.4.1
   lodash-es: 4.17.21
+  logrocket: 3.0.1
   nanoid: 4.0.0
   primeicons: 6.0.1
   primevue: 3.21.0_5f3kdig7wnjzidee4jtphf73cq
@@ -3605,6 +3607,10 @@ packages:
       chalk: 5.2.0
       is-unicode-supported: 1.3.0
     dev: true
+
+  /logrocket/3.0.1:
+    resolution: {integrity: sha512-jOWG+jEzobKVxGytzZ+4KGm2kiMQMRTHab2uDWQyVZcHfEF38BlCH1yjQVY4LCmuQUwZitP9biMzJZnyUQ0dtQ==}
+    dev: false
 
   /lru-cache/5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}

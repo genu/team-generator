@@ -4,6 +4,11 @@ export default defineNuxtConfig({
     shim: false,
   },
   modules: ['@nuxtjs/tailwindcss', '@nuxtjs/google-fonts', '@vueuse/nuxt'],
+  runtimeConfig: {
+    public: {
+      logrocketAppId: '',
+    },
+  },
   css: [
     '@fortawesome/fontawesome-svg-core/styles.css',
     'primevue/resources/themes/lara-light-blue/theme.css',
