@@ -1,12 +1,16 @@
 <template>
   <div class="flex flex-col relative">
     <div
-      class="sticky top-0 w-full z-40 h-16 lg:h-20 bg-gray-800 px-4 md:px-5 flex items-center justify-between rounded-none md:rounded-b-md"
+      class="sticky top-0 w-full z-40 h-16 lg:h-20 bg-gray-800 px-2 md:px-5 flex items-center justify-between rounded-none md:rounded-b-md"
     >
       <h2
-        class="text-base md:text-2xl font-bold leading-7 text-white sm:truncate sm:text-3xl sm:tracking-tight capitalize"
+        class="relative items-center flex gap-2 text-base md:text-2xl font-bold leading-7 text-white sm:truncate sm:text-3xl sm:tracking-tight capitalize"
+        @click="toggleLeagueMenu"
+        :class="{ invisible: !data.config.leagueName }"
       >
         {{ data.config.leagueName }}
+        <FaIcon icon="angle-down" />
+        <Menu ref="leagueMenu" :model="items" popup />
       </h2>
       <div class="flex md:mt-0 md:ml-4 gap-4">
         <UiButton variant="secondary" @click="toggleEdit">
@@ -163,6 +167,7 @@
 <script lang="ts" setup>
 import { filter, find, maxBy, orderBy } from 'lodash-es'
 import { useScroll } from '@vueuse/core'
+import { MenuItem } from 'primevue/menuitem'
 
 import { Player, Data, Snapshot } from '~/interfaces'
 
@@ -174,6 +179,7 @@ const newPlayer = ref<Player>({ id: -1, name: '', yes: true, rank: 1 })
 const isEditing = ref(false)
 const unsavedChanges = ref(false)
 const isSaving = ref(false)
+const leagueMenu = ref<any>(null)
 
 const data = ref<Data>({
   config: {
@@ -193,7 +199,15 @@ const data = ref<Data>({
 const route = useRoute()
 const router = useRouter()
 const { y: scrollY } = useScroll(process.client ? window : null)
-
+const items: MenuItem[] = [
+  {
+    label: 'New League',
+    icon: 'pi pi-plus',
+    command() {
+      router.push('/')
+    },
+  },
+]
 const teamHash = route.params.slug[0]
 
 if (teamHash) {
@@ -281,5 +295,9 @@ const removePlayer = (index: number) => {
 
 const onShuffled = (snapshot: Snapshot) => {
   data.value.snapshot = snapshot
+}
+
+const toggleLeagueMenu = () => {
+  leagueMenu.value.toggle(event)
 }
 </script>

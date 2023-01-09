@@ -15,6 +15,7 @@ import Dialog from 'primevue/dialog'
 import Checkbox from 'primevue/checkbox'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
+import Menu from 'primevue/menu'
 
 export default defineNuxtPlugin((nuxt) => {
   nuxt.vueApp.use(PrimeVue)
@@ -36,4 +37,5 @@ export default defineNuxtPlugin((nuxt) => {
   nuxt.vueApp.component('Checkbox', Checkbox)
   nuxt.vueApp.component('DataTable', DataTable)
   nuxt.vueApp.component('Column', Column)
+  nuxt.vueApp.component('Menu', Menu)
 })
