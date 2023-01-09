@@ -4,7 +4,7 @@
       class="sticky top-0 w-full z-40 h-16 lg:h-20 bg-gray-800 px-2 md:px-5 flex items-center justify-between rounded-none md:rounded-b-md"
     >
       <h2
-        class="relative items-center flex gap-2 text-base md:text-2xl font-bold leading-7 text-white sm:truncate sm:text-3xl sm:tracking-tight capitalize"
+        class="relative items-center flex gap-2 text-base md:text-2xl font-bold leading-7 text-white sm:truncate sm:text-3xl sm:tracking-tight capitalize cursor-pointer"
         @click="toggleLeagueMenu"
         :class="{ invisible: !data.config.leagueName }"
       >
@@ -29,39 +29,19 @@
         '-translate-y-full': !isEditing,
       }"
     >
-      <div class="flex flex-col lg:w-2/4 gap-2">
-        <div class="table table-fixed border-spacing-0 px-2">
-          <div class="table-row-group">
-            <div class="table-row">
-              <div class="table-cell w-48 align-middle py-2">
-                <InputText
-                  class="p-inputtext-sm w-44"
-                  placeholder="Player Name"
-                  type="text"
-                  v-model="newPlayer.name"
-                  @keyup.enter="addPlayer(newPlayer)"
-                />
-              </div>
-              <div class="table-cell align-middle w-20">
-                <InputNumber
-                  input-class="p-inputtext-sm w-16"
-                  v-model="newPlayer.rank"
-                  placeholder="Rank"
-                  :step="1"
-                  :min="1"
-                  :max="10"
-                />
-              </div>
-              <div class="table-cell align-middle">
-                <UiButton class="w-20 px-2 rounded justify-around" size="sm" @click="addPlayer(newPlayer)">
-                  Add
-                </UiButton>
-              </div>
-            </div>
-          </div>
+      <div class="relative flex flex-col lg:w-2/4 gap-2">
+        <div class="flex gap-2 items-center absolute sticky top-16 lg:top-20 z-50 bg-gray-200 py-2 px-2">
+          <InputText
+            class="p-inputtext-sm w-full"
+            placeholder="Player Name"
+            type="text"
+            v-model="newPlayer.name"
+            @keyup.enter="addPlayer(newPlayer)"
+          />
+          <UiButton class="w-48 px-2 rounded justify-around" size="sm" @click="addPlayer(newPlayer)">Add</UiButton>
         </div>
         <Divider />
-        <DataTable :value="data.players" responsiveLayout="scroll">
+        <DataTable :value="data.players" responsiveLayout="scroll" v-if="data.players.length > 0">
           <Column field="yes" header="Active?" body-class="text-center">
             <template #body="{ data: player }: { data: Player }">
               <InputSwitch v-model="player.yes" />
@@ -91,7 +71,7 @@
           </Column>
         </DataTable>
 
-        <div class="flex flex-col gap-2">
+        <div class="flex flex-col gap-2" v-if="data.players.length > 0">
           <Divider />
           <div class="flex justify-end text-lg items-center">
             Active Players:
