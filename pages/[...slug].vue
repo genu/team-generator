@@ -23,6 +23,15 @@
       </div>
     </div>
     <div
+      class="absolute h-screen w-screen z-10 transition transition-all lg:w-full"
+      :class="{
+        'bg-black/30 backdrop-blur-sm': isEditing,
+        'bg-black/0': !isEditing,
+      }"
+    >
+      asdf
+    </div>
+    <div
       class="absolute relative z-10 flex flex-col-reverse lg:flex-row pt-4 bg-gray-200 -mt-2 rounded-b border border-gray-800 shadow-md transition transition-all"
       :class="{
         'translate-y-0': isEditing,
@@ -50,11 +59,17 @@
         >
           <template #header>
             <span class="p-input-icon-left flex items-center justify-start w-full">
-              <i class="pi pi-search" />
+              <FaIcon icon="magnifying-glass" class="absolute ml-2 text-gray-500" />
               <InputText
                 v-model="rosterFilters['global'].value"
-                class="text-base py-1 w-full pl-8"
+                class="text-base py-1 w-full pl-8 pr-8"
                 placeholder="Filter"
+              />
+              <FaIcon
+                v-if="rosterFilters['global'].value"
+                icon="fa-circle-xmark"
+                @click="rosterFilters['global'].value = null"
+                class="absolute right-2 text-gray-400"
               />
             </span>
           </template>

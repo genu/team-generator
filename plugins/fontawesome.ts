@@ -12,6 +12,8 @@ import {
   faPersonChalkboard,
   faSpinner,
   faEllipsisV,
+  faMagnifyingGlass,
+  faCircleXmark,
 } from '@fortawesome/free-solid-svg-icons'
 
 import { faClipboard } from '@fortawesome/free-regular-svg-icons'
@@ -31,7 +33,9 @@ library.add(
   faUsersViewfinder,
   faPersonChalkboard,
   faSpinner,
-  faEllipsisV
+  faEllipsisV,
+  faMagnifyingGlass,
+  faCircleXmark
 )
 
 export default defineNuxtPlugin((nuxt) => {
