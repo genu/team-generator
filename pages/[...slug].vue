@@ -151,10 +151,6 @@ import { MenuItem } from 'primevue/menuitem'
 
 import { Player, Data, Snapshot } from '~/interfaces'
 
-useHead({
-  title: 'Team Generator',
-})
-
 const newPlayer = ref<Player>({ id: -1, name: '', yes: true, rank: 1 })
 const isEditing = ref(false)
 const unsavedChanges = ref(false)
@@ -188,6 +184,13 @@ const items: MenuItem[] = [
     },
   },
 ]
+
+useHead({
+  title: () => {
+    return data.value.config?.leagueName || 'Team Generator'
+  },
+})
+
 const teamHash = route.params.slug[0]
 
 if (teamHash) {
