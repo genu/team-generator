@@ -38,7 +38,6 @@
     "nanoid": "^4.0.0",
     "primeicons": "^6.0.1",
     "primevue": "^3.21.0",
-    "sortablejs": "^1.15.0",
-    "sortablejs-vue3": "^1.2.5"
+    "vue-dndrop": "^1.2.13"
   }
 }

@@ -63,11 +63,26 @@
             Rank {{ getTeamRank(players) }}
           </span>
         </div>
-        <ul class="flex flex-col gap-1 mt-2 px-4 py-2">
-          <li v-for="player in players" class="text-sm text-gray-900 capitalize" :class="{ 'font-bold': player.gk }">
-            {{ player.name }} {{ player.gk ? '(GK)' : '' }}
-          </li>
-        </ul>
+        <Container
+          class="flex flex-col gap-2 mt-2 px-2 py-2"
+          group-name="team"
+          @drop="onDrop(key, $event)"
+          :getChildPayload="(index:number) => teams[key][index]"
+          tag="ul"
+        >
+          <Draggable
+            class="text-base text-gray-600 capitalize bg-gray-100 py-1 px-2 rounded-md cursor-pointer"
+            :class="{ 'font-bold': player.gk }"
+            v-for="player in players"
+            :key="player.id"
+            tag="li"
+          >
+            <div class="flex items-center gap-2">
+              <FaIcon icon="ellipsis-vertical" />
+              <span>{{ player.name }} {{ player.gk ? '(GK)' : '' }}</span>
+            </div>
+          </Draggable>
+        </Container>
       </div>
     </div>
     <div class="flex justify-around" v-if="numberOfGeneratedTeams > 0 && !usingSeedData">
@@ -102,9 +117,10 @@
 </template>
 
 <script lang="ts" setup>
-import { groupBy, random, sumBy, keys, filter, map, orderBy } from 'lodash-es'
+import { groupBy, random, sumBy, keys, filter, map, orderBy, result } from 'lodash-es'
 import html2canvas from 'html2canvas'
 import { useClipboard, useBrowserLocation, promiseTimeout } from '@vueuse/core'
+import { Container, Draggable } from 'vue-dndrop'
 
 import { Player, Rules, Snapshot } from '~/interfaces'
 
@@ -164,7 +180,7 @@ const shuffle = () => {
       ['desc']
     )
 
-    writeMethod(`Choosing Goalkeepers first (${map(goalKeepers, 'name').join(',')})`)
+    writeMethod(`Choosing Goalkeepers first (${map(goalKeepers, 'name').join(', ')})`)
 
     while (goalKeepers.length > 0) {
       const randomGoalkeeper = goalKeepers.splice(0, 1)[0] as Player
@@ -238,6 +254,24 @@ const showSharingWindow = async () => {
   const viewer = document.querySelector('#snapshot-viewer')
 
   viewer?.appendChild(canvas)
+}
+
+const onDrop = (teamIndex: number, dropResult: any) => {
+  const { removedIndex, addedIndex, payload, element } = dropResult
+  if (removedIndex === null && addedIndex === null) return
+
+  const updatedTeam = teams.value[teamIndex]
+  let itemToAdd = payload
+
+  if (removedIndex !== null) {
+    itemToAdd = teams.value[teamIndex].splice(removedIndex, 1)[0]
+  }
+
+  if (addedIndex !== null) {
+    updatedTeam.splice(addedIndex, 0, itemToAdd)
+  }
+
+  teams.value[teamIndex] = updatedTeam
 }
 </script>
 

@@ -24,8 +24,7 @@ specifiers:
   primeicons: ^6.0.1
   primevue: ^3.21.0
   prisma: ^4.8.1
-  sortablejs: ^1.15.0
-  sortablejs-vue3: ^1.2.5
+  vue-dndrop: ^1.2.13
 
 dependencies:
   '@fortawesome/fontawesome-free': 6.2.1
@@ -41,8 +40,7 @@ dependencies:
   nanoid: 4.0.0
   primeicons: 6.0.1
   primevue: 3.21.0_5f3kdig7wnjzidee4jtphf73cq
-  sortablejs: 1.15.0
-  sortablejs-vue3: 1.2.5_vyu2vwb5kgntc5eommqv3uyn34
+  vue-dndrop: 1.2.13
 
 devDependencies:
   '@nuxtjs/google-fonts': 3.0.0-1_rollup@2.79.1
@@ -927,13 +925,13 @@ packages:
     resolution: {integrity: sha512-9K4zoImiZc3HlIp6AVUDE4CWYx22a+lhSZMYNpbjW04+YF0KWj4pJXnEMjdnFTiQibFFmElcsasJXDbdI/EPhA==}
     dependencies:
       '@types/eslint': 8.4.10
-      '@types/estree': 0.0.51
+      '@types/estree': 1.0.0
     dev: true
 
   /@types/eslint/8.4.10:
     resolution: {integrity: sha512-Sl/HOqN8NKPmhWo2VBEPm0nvHnu2LL3v9vKo8MEq0EtbJ4eVzGPl41VNPvn5E1i5poMk4/XD8UriLHpJvEP/Nw==}
     dependencies:
-      '@types/estree': 0.0.51
+      '@types/estree': 1.0.0
       '@types/json-schema': 7.0.11
     dev: true
 
@@ -5143,20 +5141,6 @@ packages:
     engines: {node: '>=12'}
     dev: true
 
-  /sortablejs-vue3/1.2.5_vyu2vwb5kgntc5eommqv3uyn34:
-    resolution: {integrity: sha512-aY0iDskvkRVCdKIElWjYTQOePfucQo8aiHkVEKdA7jGYw0TTRkU56ClG6lSCZi4OASVmbi+G+f5KH7ZQnI37FA==}
-    peerDependencies:
-      sortablejs: ^1.15.0
-      vue: ^3.2.25
-    dependencies:
-      sortablejs: 1.15.0
-      vue: 3.2.45
-    dev: false
-
-  /sortablejs/1.15.0:
-    resolution: {integrity: sha512-bv9qgVMjUMf89wAvM6AxVvS/4MX3sPeN0+agqShejLU5z5GX4C75ow1O2e5k4L6XItUyAK3gH6AxSbXrOM5e8w==}
-    dev: false
-
   /source-map-js/1.0.2:
     resolution: {integrity: sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==}
     engines: {node: '>=0.10.0'}
@@ -5817,6 +5801,10 @@ packages:
   /vue-devtools-stub/0.1.0:
     resolution: {integrity: sha512-RutnB7X8c5hjq39NceArgXg28WZtZpGc3+J16ljMiYnFhKvd8hITxSWQSQ5bvldxMDU6gG5mkxl1MTQLXckVSQ==}
     dev: true
+
+  /vue-dndrop/1.2.13:
+    resolution: {integrity: sha512-EIuBxnF9AudT+eVAULHrr5PEZ459sORmmRyPf2nxWKh16oLFETDhnURn3m1c635Rews1TnJ+RLIAmaTsS4z8fg==}
+    dev: false
 
   /vue-router/4.1.6_vue@3.2.45:
     resolution: {integrity: sha512-DYWYwsG6xNPmLq/FmZn8Ip+qrhFEzA14EI12MsMgVxvHFDYvlr4NXpVF5hrRH1wVcDP8fGi5F4rxuJSl8/r+EQ==}
