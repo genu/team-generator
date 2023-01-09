@@ -24,7 +24,7 @@
           <FaIcon icon="fa-arrows-spin" class="text-4xl mt-5" spin />
           <span class="text-sm font-bold">Generating Image</span>
         </span>
-        <img :src="previewImg" class="w-full mt-4" v-else />
+        <img :src="previewImg" class="mt-4 object-contain h-96" v-else />
       </div>
       <template #footer>
         <Button label="Close" @click="isSharingDialog = false" class="p-button-text p-0" />
