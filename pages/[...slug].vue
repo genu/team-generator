@@ -41,7 +41,24 @@
           <UiButton class="w-48 px-2 rounded justify-around" size="sm" @click="addPlayer(newPlayer)">Add</UiButton>
         </div>
         <Divider />
-        <DataTable :value="data.players" responsiveLayout="scroll" v-if="data.players.length > 0">
+        <DataTable
+          :value="data.players"
+          responsiveLayout="scroll"
+          v-if="data.players.length > 0"
+          v-model:filters="rosterFilters"
+          :global-filter-fields="['name']"
+        >
+          <template #header>
+            <span class="p-input-icon-left flex items-center justify-start w-full">
+              <i class="pi pi-search" />
+              <InputText
+                v-model="rosterFilters['global'].value"
+                class="text-base py-1 w-full pl-8"
+                placeholder="Filter"
+              />
+            </span>
+          </template>
+          <template #empty>No players found.</template>
           <Column field="yes" header="Active?" body-class="text-center">
             <template #body="{ data: player }: { data: Player }">
               <InputSwitch v-model="player.yes" />
@@ -148,6 +165,7 @@
 import { filter, find, maxBy, orderBy } from 'lodash-es'
 import { useScroll } from '@vueuse/core'
 import { MenuItem } from 'primevue/menuitem'
+import { FilterMatchMode } from 'primevue/api'
 
 import { Player, Data, Snapshot } from '~/interfaces'
 
@@ -156,6 +174,9 @@ const isEditing = ref(false)
 const unsavedChanges = ref(false)
 const isSaving = ref(false)
 const leagueMenu = ref<any>(null)
+const rosterFilters = ref({
+  global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+})
 
 const data = ref<Data>({
   config: {
@@ -215,7 +236,6 @@ if (teamHash) {
   }
 }
 
-const sortedPlayers = ref<Player[]>(orderBy(data.value.players, ['yes', 'rank'], ['desc', 'desc']))
 const activePlayers = computed<Player[]>(() => filter(data.value.players, { yes: true }))
 
 const getNextId = () => {
@@ -235,11 +255,6 @@ const toggleEdit = () => {
   scrollY.value = 0
 }
 
-const sortPlayers = () => {
-  const sorted = ref<Player[]>(orderBy(data.value.players, ['yes', 'rank'], ['desc', 'desc']))
-
-  // sortedPlayers.value = sorted
-}
 // Actions
 const save = async () => {
   isSaving.value = true
