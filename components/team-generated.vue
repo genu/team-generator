@@ -63,26 +63,28 @@
             Rank {{ getTeamRank(players) }}
           </span>
         </div>
-        <Container
-          class="flex flex-col gap-2 mt-2 px-2 py-2"
-          group-name="team"
-          @drop="onDrop(key, $event)"
-          :getChildPayload="(index:number) => teams[key][index]"
+        <Sortable
+          :list="players"
+          item-key="id"
           tag="ul"
+          :options="teamListOptions"
+          class="flex flex-col gap-2 mt-2 px-2 py-2"
+          @add="addPlayerToNewTeam"
+          :data-team-id="key"
         >
-          <Draggable
-            class="text-base text-gray-600 capitalize bg-gray-100 py-1 px-2 rounded-md cursor-pointer"
-            :class="{ 'font-bold': player.gk }"
-            v-for="player in players"
-            :key="player.id"
-            tag="li"
-          >
-            <div class="flex items-center gap-2">
-              <FaIcon icon="ellipsis-vertical" />
-              <span>{{ player.name }} {{ player.gk ? '(GK)' : '' }}</span>
-            </div>
-          </Draggable>
-        </Container>
+          <template #item="{ element: player, index }: { element: Player, index: number }">
+            <li
+              :data-id="index"
+              class="text-base text-gray-600 capitalize bg-gray-100 py-1 px-2 rounded-md cursor-pointer"
+              :class="{ 'font-bold': player.gk }"
+            >
+              <div class="flex items-center gap-2 select-none">
+                <FaIcon icon="ellipsis-vertical" />
+                <span>{{ player.name }} {{ player.gk ? '(GK)' : '' }}</span>
+              </div>
+            </li>
+          </template>
+        </Sortable>
       </div>
     </div>
     <div class="flex justify-around" v-if="numberOfGeneratedTeams > 0 && !usingSeedData">
@@ -117,10 +119,11 @@
 </template>
 
 <script lang="ts" setup>
-import { groupBy, random, sumBy, keys, filter, map, orderBy, result } from 'lodash-es'
+import { groupBy, random, sumBy, keys, filter, map, orderBy } from 'lodash-es'
 import html2canvas from 'html2canvas'
 import { useClipboard, useBrowserLocation, promiseTimeout } from '@vueuse/core'
-import { Container, Draggable } from 'vue-dndrop'
+import { Sortable } from 'sortablejs-vue3'
+import { Options, SortableEvent } from 'sortablejs'
 
 import { Player, Rules, Snapshot } from '~/interfaces'
 
@@ -151,6 +154,17 @@ const creatingImage = ref(false)
 
 const previewWidth = ref(0)
 const previewImg = ref()
+
+const teamListOptions: Options = {
+  group: {
+    name: 'team',
+  },
+  ghostClass: 'bg-green-200',
+  setData(dataTransfer, dragEl) {
+    dataTransfer.setData('poop', 'face')
+  },
+  sort: false,
+}
 
 const { copy, copied } = useClipboard({ source: shareUrl.value })
 
@@ -256,22 +270,17 @@ const showSharingWindow = async () => {
   viewer?.appendChild(canvas)
 }
 
-const onDrop = (teamIndex: number, dropResult: any) => {
-  const { removedIndex, addedIndex, payload, element } = dropResult
-  if (removedIndex === null && addedIndex === null) return
+const addPlayerToNewTeam = (event: SortableEvent) => {
+  const fromTeam: number = parseInt(event.from.dataset['teamId'] as string)
+  const toTeam: number = parseInt(event.to.dataset['teamId'] as string)
 
-  const updatedTeam = teams.value[teamIndex]
-  let itemToAdd = payload
+  const player = teams.value[fromTeam][event.oldIndex as number]
 
-  if (removedIndex !== null) {
-    itemToAdd = teams.value[teamIndex].splice(removedIndex, 1)[0]
-  }
+  // Remove player from old team
+  teams.value[fromTeam].splice(event.oldIndex, 1)
+  teams.value[toTeam].splice(event.newIndex, 0, player)
 
-  if (addedIndex !== null) {
-    updatedTeam.splice(addedIndex, 0, itemToAdd)
-  }
-
-  teams.value[teamIndex] = updatedTeam
+  event.item.remove()
 }
 </script>
 

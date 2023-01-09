@@ -19,6 +19,7 @@
     "@tailwindcss/typography": "^0.5.8",
     "@types/lodash-es": "4.17.6",
     "@types/msgpack-lite": "^0.1.8",
+    "@types/sortablejs": "^1.15.0",
     "@vueuse/core": "^9.9.0",
     "@vueuse/nuxt": "^9.9.0",
     "nuxt": "3.0.0",
@@ -38,6 +39,7 @@
     "nanoid": "^4.0.0",
     "primeicons": "^6.0.1",
     "primevue": "^3.21.0",
-    "vue-dndrop": "^1.2.13"
+    "sortablejs": "^1.15.0",
+    "sortablejs-vue3": "^1.2.5"
   }
 }
