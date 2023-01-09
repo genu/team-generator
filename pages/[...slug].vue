@@ -149,14 +149,28 @@
               <Checkbox input-id="goaliesFirst" v-model="data.config.rules.goaliesFirst" :binary="true" />
               <label for="goaliesFirst" class="font-normal text-sm cursor-pointer">Choose goalies first</label>
             </div>
-            <div class="flex gap-2 items-center hidden">
+            <div class="flex gap-2 items-center">
               <Checkbox
                 input-id="noBestGolieAndPlayer"
+                disabled
                 v-model="data.config.rules.noBestGolieAndPlayer"
                 :binary="true"
               />
               <label for="noBestGolieAndPlayer" class="font-normal text-sm cursor-pointer">
                 Best goalie cannot be on same team with best player
+                <small class="bg-gray-400 px-1 py-0.5 text-white rounded font-bold">soon</small>
+              </label>
+            </div>
+            <div class="flex gap-2 items-center">
+              <Checkbox
+                input-id="noBestGolieAndPlayer"
+                disabled
+                v-model="data.config.rules.noBestGolieAndPlayer"
+                :binary="true"
+              />
+              <label for="noBestGolieAndPlayer" class="font-normal text-sm cursor-pointer">
+                Keep goalies
+                <small class="bg-gray-400 px-1 py-0.5 text-white rounded font-bold">soon</small>
               </label>
             </div>
           </div>
