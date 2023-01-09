@@ -263,7 +263,7 @@ const addPlayer = (player: Player) => {
   if (find(data.value.players, { n: player.name })) return
 
   player.name = player.name.trim()
-  data.value.players = [...data.value.players, { ...player, id: getNextId() }]
+  data.value.players = [{ ...player, id: getNextId() }, ...data.value.players]
 
   newPlayer.value = { id: -1, name: '', yes: true, rank: 1 }
 }
