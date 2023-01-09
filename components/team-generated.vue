@@ -274,12 +274,14 @@ const addPlayerToNewTeam = (event: SortableEvent) => {
   const fromTeam: number = parseInt(event.from.dataset['teamId'] as string)
   const toTeam: number = parseInt(event.to.dataset['teamId'] as string)
 
-  const player = teams.value[fromTeam][event.oldIndex as number]
+  const player: Player = teams.value[fromTeam][event.oldIndex as number]
 
   // Remove player from old team
   teams.value[fromTeam].splice(event.oldIndex, 1)
   teams.value[toTeam].splice(event.newIndex, 0, player)
 
+  writeMethod(`Manually moved ${player.name} to Team ${toTeam + 1}`)
+  emit('shuffled', { teams, methodology: methodology.value })
   event.item.remove()
 }
 </script>
