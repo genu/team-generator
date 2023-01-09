@@ -12,10 +12,10 @@
       <div class="flex flex-col" ref="shareDialog">
         <div class="flex items-center gap-2">
           <div class="flex flex-col flex-1">
-            <label class="font-semibold text-lg">Edit link</label>
+            <label class="font-semibold text-lg">Edit link:</label>
             <input type="text" v-model="shareUrl" class="flex-1" />
           </div>
-          <button class="flex items-center w-20 mt-6" @click="copy()">
+          <button class="mt-6 text-right w-14" @click="copy()">
             <span v-if="!copied">Copy</span>
             <span class="text-green-800" v-else>Copied</span>
           </button>
