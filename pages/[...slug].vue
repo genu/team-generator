@@ -58,7 +58,12 @@
               />
             </span>
           </template>
-          <template #empty>No players found.</template>
+          <template #empty>
+            <div class="text-center text-sm">
+              No players found
+              <span class="italic font-semibold">"{{ rosterFilters['global'].value }}"</span>
+            </div>
+          </template>
           <Column field="yes" header="Active?" body-class="text-center">
             <template #body="{ data: player }: { data: Player }">
               <InputSwitch v-model="player.yes" />
