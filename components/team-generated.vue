@@ -64,11 +64,7 @@
           </span>
         </div>
         <ul class="flex flex-col gap-1 mt-2 px-4 py-2">
-          <li
-            v-for="player in players"
-            class="text-sm font-medium text-gray-900 capitalize"
-            :class="{ 'font-bold': player.gk }"
-          >
+          <li v-for="player in players" class="text-sm text-gray-900 capitalize" :class="{ 'font-bold': player.gk }">
             {{ player.name }} {{ player.gk ? '(GK)' : '' }}
           </li>
         </ul>
@@ -149,10 +145,7 @@ if (props.snapshot) {
 }
 
 const shuffle = () => {
-  const groupedByRank = groupBy(
-    filter(props.players, (player) => props.rules?.goaliesFirst ?? player.name : !player.gk),
-    'rank'
-  )
+  const groupedByRank = groupBy(props.players, 'rank')
 
   teamToChoose.value = random(0, props.teamCount - 1)
   teams.value = []
@@ -200,6 +193,11 @@ const shuffle = () => {
 
     while (playersAtRank && playersAtRank.length > 0) {
       const randomPlayerFromRank = playersAtRank.splice(random(0, playersAtRank.length - 1), 1)[0]
+
+      // Goalies were already chosen, this team can choose again.
+      if (props.rules?.goaliesFirst && randomPlayerFromRank.gk) {
+        continue
+      }
 
       writeMethod(`Team ${teamToChoose.value + 1} chose ${randomPlayerFromRank.name} (${randomPlayerFromRank.rank})`)
 
