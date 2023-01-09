@@ -23,7 +23,7 @@
       </div>
     </div>
     <div
-      class="absolute h-screen w-screen z-10 transition transition-all lg:w-full"
+      class="absolute h-screen w-screen z-10 transition transition-all lg:w-full pointer-events-none"
       :class="{
         'bg-black/30 backdrop-blur-sm': isEditing,
         'bg-black/0': !isEditing,
