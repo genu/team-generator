@@ -7,6 +7,10 @@
     }
   }
   .p-dialog-content {
-    @apply overflow-hidden !important;
+    @apply overflow-hidden px-3 py-2 !important;
+  }
+
+  .p-dialog-footer {
+    @apply px-2 py-2 border border-t border-solid border-gray-300 !important;
   }
 }

@@ -10,7 +10,7 @@
       modal
     >
       <div class="flex flex-col" ref="shareDialog">
-        <div class="flex items-center gap-2">
+        <div class="flex items-center md:gap-2">
           <div class="flex flex-col flex-1">
             <label class="font-semibold text-lg">Edit link:</label>
             <input type="text" v-model="shareUrl" class="flex-1" />
