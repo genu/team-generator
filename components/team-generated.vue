@@ -150,7 +150,7 @@ if (props.snapshot) {
 
 const shuffle = () => {
   const groupedByRank = groupBy(
-    filter(props.players, (player) => !player.gk),
+    filter(props.players, (player) => props.rules?.goaliesFirst ?? player.name : !player.gk),
     'rank'
   )
 
