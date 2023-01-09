@@ -49,10 +49,10 @@
       <FaIcon icon="person-chalkboard" class="text-6xl text-gray-400" />
       <span class="mt-4 block text-sm font-medium text-gray-900">Generate teams</span>
     </button>
-    <div class="flex gap-3 md:gap-3 flex-wrap justify-left p-4" ref="snapshotContainer">
+    <div class="gap-3 md:gap-3 grid grid-cols-2 lg:grid-cols-3 p-4" ref="snapshotContainer">
       <div
         v-for="(players, key) in teams"
-        class="border-b border-gray-200 bg-white divide-y divide-gray-200 w-36 md:w-52 border-2 border-gray-400 rounded-md shadow"
+        class="border-b border-gray-200 bg-white divide-y divide-gray-200 border-2 border-gray-400 rounded-md shadow"
       >
         <div class="relative">
           <h2 class="text-lg font-medium leading-6 text-gray-900 px-5 pt-5 flex md:items-center flex-col md:flex-row">
