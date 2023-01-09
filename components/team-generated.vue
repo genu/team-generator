@@ -80,7 +80,10 @@
             >
               <div class="flex items-center gap-2 select-none">
                 <FaIcon icon="ellipsis-vertical" />
-                <span>{{ player.name }} {{ player.gk ? '(GK)' : '' }}</span>
+                <span v-if="player.name.toLowerCase() === 'michael'" class="text-sm">
+                  Average {{ player.name }} {{ player.gk ? '(GK)' : '' }}
+                </span>
+                <span v-else>{{ player.name }} {{ player.gk ? '(GK)' : '' }}</span>
               </div>
             </li>
           </template>
