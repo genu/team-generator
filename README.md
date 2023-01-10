@@ -1,20 +1,24 @@
-# Nuxt 3 Minimal Starter
+# Team Generator
+Generate teams randomly based on rank. This is useful if you want to create linueups of balanced teams. See it in action [here](https://team-generator-production.up.railway.app)
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+![CleanShot 2023-01-10 at 09 46 22](https://user-images.githubusercontent.com/928780/211582978-803c3a4a-3ce9-4187-97e5-83897c8283cd.gif)
 
-## Setup
 
 Make sure to install the dependencies:
 
 ```bash
-# yarn
-yarn install
+pnpm install
+```
 
-# npm
-npm install
+## Setup
+Postgress is used for data storage, so have a postgtres instance running
 
-# pnpm
-pnpm install --shamefully-hoist
+1. Rename `.env.example` to `.env`
+2. Update `.env` with  a `DATABASE_URL` to your postgres instance.
+3. Create a database and schema with:
+
+```bash
+npx prisma migrate dev
 ```
 
 ## Development Server
@@ -22,22 +26,5 @@ pnpm install --shamefully-hoist
 Start the development server on http://localhost:3000
 
 ```bash
-npm run dev
+pnpm dev
 ```
-
-## Production
-
-Build the application for production:
-
-```bash
-npm run build
-```
-
-Locally preview production build:
-
-```bash
-npm run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
- 
