@@ -4,13 +4,17 @@
       class="sticky top-0 w-full z-40 h-16 lg:h-20 bg-gray-800 px-2 md:px-5 flex items-center justify-between rounded-none md:rounded-b-md"
     >
       <h2
-        class="relative items-center flex gap-2 text-base md:text-2xl font-bold leading-7 text-white sm:truncate sm:text-3xl sm:tracking-tight capitalize cursor-pointer"
+        class="relative text-base md:text-2xl font-bold leading-7 text-white sm:truncate sm:text-3xl sm:tracking-tight capitalize cursor-pointer"
         @click="toggleLeagueMenu"
-        :class="{ invisible: !data.config.leagueName }"
       >
-        {{ data.config.leagueName }}
-        <FaIcon icon="angle-down" />
-        <Menu ref="leagueMenu" :model="items" popup />
+        <span v-if="!data.config.leagueName">
+          <span>Team Generator</span>
+        </span>
+        <div class="flex items-center gap-2" v-else>
+          <span>{{ data.config.leagueName }}</span>
+          <FaIcon icon="angle-down" />
+          <Menu ref="leagueMenu" :model="items" popup />
+        </div>
       </h2>
       <div class="flex md:mt-0 md:ml-4 gap-4">
         <UiButton variant="secondary" @click="toggleEdit">
@@ -28,9 +32,7 @@
         'bg-black/30 backdrop-blur-sm': isEditing,
         'bg-black/0': !isEditing,
       }"
-    >
-      asdf
-    </div>
+    ></div>
     <div
       class="absolute relative z-10 flex flex-col-reverse lg:flex-row pt-4 bg-gray-200 -mt-2 rounded-b border border-gray-800 shadow-md transition transition-all"
       :class="{
