@@ -33,7 +33,7 @@
 
     <div class="flex justify-end gap-2" v-if="players.length > 0">
       <span>
-        <UiButton variant="text" class="gap-1 px-2 flex" v-if="snapshot" @click="showSharingWindow">
+        <UiButton variant="text" class="gap-1 px-2 flex" v-if="teams" @click="showSharingWindow">
           <FaIcon icon="arrow-up-from-bracket" />
           <span class="text-base">Share</span>
         </UiButton>
