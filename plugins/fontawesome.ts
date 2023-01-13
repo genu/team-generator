@@ -14,6 +14,7 @@ import {
   faEllipsisV,
   faMagnifyingGlass,
   faCircleXmark,
+  faArrowUpLong,
 } from '@fortawesome/free-solid-svg-icons'
 
 import { faClipboard } from '@fortawesome/free-regular-svg-icons'
@@ -35,7 +36,8 @@ library.add(
   faSpinner,
   faEllipsisV,
   faMagnifyingGlass,
-  faCircleXmark
+  faCircleXmark,
+  faArrowUpLong
 )
 
 export default defineNuxtPlugin((nuxt) => {

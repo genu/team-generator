@@ -40,6 +40,12 @@
       </span>
       <UiButton variant="success" @click="shuffle">Shuffle Teams</UiButton>
     </div>
+    <div class="flex justify-end">
+      <div class="flex flex-col mt-2" v-if="players.length > 0 && !teams">
+        <FaIcon icon="arrow-up-long" class="text-4xl text-gray-400" bounce style="--fa-bounce-jump-scale-y: 1" />
+        <span class="block text-sm font-medium text-gray-900">Click to shuffle</span>
+      </div>
+    </div>
     <button
       type="button"
       class="relative block w-11/12 md:w-1/2 mx-auto my-5 rounded-lg border-2 border-dashed border-gray-300 p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
