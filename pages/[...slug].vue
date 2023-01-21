@@ -81,12 +81,20 @@
               <span class="italic font-semibold">"{{ rosterFilters['global'].value }}"</span>
             </div>
           </template>
-          <Column field="yes" header="Active?" body-class="text-center">
+          <Column field="yes" body-class="text-center" class="h-12">
+            <template #header>
+              <div class="flex flex-col">
+                <span>Active?</span>
+                <span class="text-xs text-blue-700 hover:text-blue-900 cursor-pointer" @click="resetActiveState">
+                  Reset
+                </span>
+              </div>
+            </template>
             <template #body="{ data: player }: { data: Player }">
               <InputSwitch v-model="player.yes" />
             </template>
           </Column>
-          <Column field="name" header="Player">
+          <Column field="name" header="Player" class="h-12">
             <template #body="{ data: player }: { data: Player }">
               <InputText
                 :disabled="rosterFilters['global'].value !== ''"
@@ -96,12 +104,12 @@
               />
             </template>
           </Column>
-          <Column field="rank" header="Rank (1-10)">
+          <Column field="rank" header="Rank (1-10)" class="h-12">
             <template #body="{ data: player }: { data: Player }">
               <InputNumber input-class="p-inputtext-sm flex w-16" v-model="player.rank" :step="1" :min="1" :max="10" />
             </template>
           </Column>
-          <Column field="gk" header="Gk">
+          <Column field="gk" header="Gk" class="h-12">
             <template #body="{ data: player }: { data: Player }">
               <Checkbox v-model="player.gk" :binary="true" />
             </template>
@@ -338,5 +346,11 @@ const onShuffled = (snapshot: Snapshot) => {
 
 const toggleLeagueMenu = () => {
   leagueMenu.value.toggle(event)
+}
+
+const resetActiveState = () => {
+  data.value.players.forEach((player) => {
+    player.yes = false
+  })
 }
 </script>
