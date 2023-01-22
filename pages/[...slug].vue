@@ -183,6 +183,25 @@
                 <small class="bg-gray-400 px-1 py-0.5 text-white rounded font-bold">soon</small>
               </label>
             </div>
+            <div class="flex gap-2 items-start hidden">
+              <Checkbox input-id="stefanMode" v-model="data.config.rules.stefanMode" :binary="true" />
+              <label for="stefanMode" class="font-normal text-sm cursor-pointe flex flex-col">
+                Stefan mode
+                <small>Stefan's team has all of the best players</small>
+              </label>
+            </div>
+            <div class="flex gap-2 items-start hidden">
+              <Checkbox input-id="beniMode" v-model="data.config.rules.beniMode" :binary="true" />
+              <label for="stefanMode" class="font-normal text-sm cursor-pointe flex flex-col">
+                Beni Mode
+
+                <small>
+                  Every player on the same team as
+                  <bold>Beni</bold>
+                  drops in rank by 1 point
+                </small>
+              </label>
+            </div>
           </div>
         </div>
       </div>
