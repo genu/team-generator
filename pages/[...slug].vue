@@ -197,7 +197,7 @@
 
                 <small>
                   Every player on the same team as
-                  <bold>Beni</bold>
+                  <strong>Beni</strong>
                   drops in rank by 1 point
                 </small>
               </label>
