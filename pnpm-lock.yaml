@@ -6,7 +6,7 @@ specifiers:
   '@fortawesome/free-brands-svg-icons': 6.2.1
   '@fortawesome/free-regular-svg-icons': ^6.2.1
   '@fortawesome/free-solid-svg-icons': ^6.2.1
-  '@fortawesome/vue-fontawesome': 3.0.2
+  '@fortawesome/vue-fontawesome': 3.0.3
   '@nuxtjs/google-fonts': 3.0.0-1
   '@nuxtjs/tailwindcss': ^6.2.0
   '@prisma/client': ^4.9.0
@@ -35,7 +35,7 @@ dependencies:
   '@fortawesome/free-brands-svg-icons': 6.2.1
   '@fortawesome/free-regular-svg-icons': 6.2.1
   '@fortawesome/free-solid-svg-icons': 6.2.1
-  '@fortawesome/vue-fontawesome': 3.0.2_bd5ipvhrqmkjz6wvo6sgrei224
+  '@fortawesome/vue-fontawesome': 3.0.3_bd5ipvhrqmkjz6wvo6sgrei224
   '@prisma/client': 4.9.0_prisma@4.9.0
   '@vueuse/components': 9.11.1_vue@3.2.45
   html2canvas: 1.4.1
@@ -444,8 +444,8 @@ packages:
       '@fortawesome/fontawesome-common-types': 6.2.1
     dev: false
 
-  /@fortawesome/vue-fontawesome/3.0.2_bd5ipvhrqmkjz6wvo6sgrei224:
-    resolution: {integrity: sha512-xHVtVY8ASUeEvgcA/7vULUesENhD+pi/EirRHdMBqooHlXBqK+yrV6d8tUye1m5UKQKVgYAHMhUBfOnoiwvc8Q==}
+  /@fortawesome/vue-fontawesome/3.0.3_bd5ipvhrqmkjz6wvo6sgrei224:
+    resolution: {integrity: sha512-KCPHi9QemVXGMrfuwf3nNnNo129resAIQWut9QTAMXmXqL2ErABC6ohd2yY5Ipq0CLWNbKHk8TMdTXL/Zf3ZhA==}
     peerDependencies:
       '@fortawesome/fontawesome-svg-core': ~1 || ~6
       vue: '>= 3.0.0 < 4'
@@ -932,13 +932,13 @@ packages:
     resolution: {integrity: sha512-9K4zoImiZc3HlIp6AVUDE4CWYx22a+lhSZMYNpbjW04+YF0KWj4pJXnEMjdnFTiQibFFmElcsasJXDbdI/EPhA==}
     dependencies:
       '@types/eslint': 8.4.10
-      '@types/estree': 0.0.51
+      '@types/estree': 1.0.0
     dev: true
 
   /@types/eslint/8.4.10:
     resolution: {integrity: sha512-Sl/HOqN8NKPmhWo2VBEPm0nvHnu2LL3v9vKo8MEq0EtbJ4eVzGPl41VNPvn5E1i5poMk4/XD8UriLHpJvEP/Nw==}
     dependencies:
-      '@types/estree': 0.0.51
+      '@types/estree': 1.0.0
       '@types/json-schema': 7.0.11
     dev: true
 
