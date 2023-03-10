@@ -7,7 +7,7 @@ specifiers:
   '@fortawesome/free-regular-svg-icons': ^6.2.1
   '@fortawesome/free-solid-svg-icons': ^6.2.1
   '@fortawesome/vue-fontawesome': 3.0.3
-  '@nuxtjs/google-fonts': 3.0.0-1
+  '@nuxtjs/google-fonts': 3.0.0
   '@nuxtjs/tailwindcss': ^6.2.0
   '@prisma/client': ^4.9.0
   '@tailwindcss/forms': ^0.5.3
@@ -48,7 +48,7 @@ dependencies:
   sortablejs-vue3: 1.2.8_sgryjax6mhuvmammrozhnrruu4
 
 devDependencies:
-  '@nuxtjs/google-fonts': 3.0.0-1
+  '@nuxtjs/google-fonts': 3.0.0
   '@nuxtjs/tailwindcss': 6.4.1_webpack@5.75.0
   '@tailwindcss/forms': 0.5.3_tailwindcss@3.2.7
   '@tailwindcss/typography': 0.5.9_tailwindcss@3.2.7
@@ -1507,12 +1507,12 @@ packages:
       - vue-tsc
     dev: true
 
-  /@nuxtjs/google-fonts/3.0.0-1:
-    resolution: {integrity: sha512-eSFvAAMU1e2lxHn6Os41vVz8ngyPURAiYjpVMpmIv5ZqvQ3kn+YfPAglXQ0PfOVKunbLdj1prcnv+Pk5jG0Sbg==}
+  /@nuxtjs/google-fonts/3.0.0:
+    resolution: {integrity: sha512-knP2CJFkMHGQ9pepVNwquXvqiIHDma/6yZNXiYk7WWatRbbQUPf2423vXiBYu267Mff2KMuDLoAJ1Dsv2ymhdQ==}
     dependencies:
       '@nuxt/kit': 3.2.3
       google-fonts-helper: 3.2.4
-      pathe: 0.3.9
+      pathe: 1.1.0
     transitivePeerDependencies:
       - rollup
       - supports-color
@@ -1769,13 +1769,13 @@ packages:
     resolution: {integrity: sha512-9K4zoImiZc3HlIp6AVUDE4CWYx22a+lhSZMYNpbjW04+YF0KWj4pJXnEMjdnFTiQibFFmElcsasJXDbdI/EPhA==}
     dependencies:
       '@types/eslint': 8.21.1
-      '@types/estree': 0.0.51
+      '@types/estree': 1.0.0
     dev: true
 
   /@types/eslint/8.21.1:
     resolution: {integrity: sha512-rc9K8ZpVjNcLs8Fp0dkozd5Pt2Apk1glO4Vgz8ix1u6yFByxfqo5Yavpy65o+93TAe24jr7v+eSBtFLvOQtCRQ==}
     dependencies:
-      '@types/estree': 0.0.51
+      '@types/estree': 1.0.0
       '@types/json-schema': 7.0.11
     dev: true
 
@@ -5019,10 +5019,6 @@ packages:
   /path-type/4.0.0:
     resolution: {integrity: sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==}
     engines: {node: '>=8'}
-    dev: true
-
-  /pathe/0.3.9:
-    resolution: {integrity: sha512-6Y6s0vT112P3jD8dGfuS6r+lpa0qqNrLyHPOwvXMnyNTQaYiwgau2DP3aNDsR13xqtGj7rrPo+jFUATpU6/s+g==}
     dev: true
 
   /pathe/1.1.0:
