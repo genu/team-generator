@@ -12,7 +12,7 @@ specifiers:
   '@prisma/client': ^4.9.0
   '@tailwindcss/forms': ^0.5.3
   '@tailwindcss/typography': ^0.5.8
-  '@types/lodash-es': 4.17.6
+  '@types/lodash-es': 4.17.7
   '@types/msgpack-lite': ^0.1.8
   '@types/sortablejs': ^1.15.0
   '@vueuse/components': ^9.11.1
@@ -52,7 +52,7 @@ devDependencies:
   '@nuxtjs/tailwindcss': 6.4.1_webpack@5.76.1
   '@tailwindcss/forms': 0.5.3_tailwindcss@3.2.7
   '@tailwindcss/typography': 0.5.9_tailwindcss@3.2.7
-  '@types/lodash-es': 4.17.6
+  '@types/lodash-es': 4.17.7
   '@types/msgpack-lite': 0.1.8
   '@types/sortablejs': 1.15.0
   '@vueuse/core': 9.13.0_vue@3.2.47
@@ -1769,13 +1769,13 @@ packages:
     resolution: {integrity: sha512-9K4zoImiZc3HlIp6AVUDE4CWYx22a+lhSZMYNpbjW04+YF0KWj4pJXnEMjdnFTiQibFFmElcsasJXDbdI/EPhA==}
     dependencies:
       '@types/eslint': 8.21.1
-      '@types/estree': 0.0.51
+      '@types/estree': 1.0.0
     dev: true
 
   /@types/eslint/8.21.1:
     resolution: {integrity: sha512-rc9K8ZpVjNcLs8Fp0dkozd5Pt2Apk1glO4Vgz8ix1u6yFByxfqo5Yavpy65o+93TAe24jr7v+eSBtFLvOQtCRQ==}
     dependencies:
-      '@types/estree': 0.0.51
+      '@types/estree': 1.0.0
       '@types/json-schema': 7.0.11
     dev: true
 
@@ -1791,8 +1791,8 @@ packages:
     resolution: {integrity: sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ==}
     dev: true
 
-  /@types/lodash-es/4.17.6:
-    resolution: {integrity: sha512-R+zTeVUKDdfoRxpAryaQNRKk3105Rrgx2CFRClIgRGaqDTdjsm8h6IYA8ir584W3ePzkZfst5xIgDwYrlh9HLg==}
+  /@types/lodash-es/4.17.7:
+    resolution: {integrity: sha512-z0ptr6UI10VlU6l5MYhGwS4mC8DZyYer2mCoyysZtSF7p26zOX8UpbrV0YpNYLGS8K4PUFIyEr62IMFFjveSiQ==}
     dependencies:
       '@types/lodash': 4.14.191
     dev: true
