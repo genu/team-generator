@@ -1,5 +1,8 @@
 lockfileVersion: '6.0'
 
+overrides:
+  consola: 3.0.1
+
 dependencies:
   '@fortawesome/fontawesome-free':
     specifier: ^6.4.0
@@ -798,7 +801,7 @@ packages:
     dependencies:
       '@nuxt/schema': 3.3.3
       c12: 1.2.0
-      consola: 2.15.3
+      consola: 3.0.1
       defu: 6.1.2
       globby: 13.1.3
       hash-sum: 2.0.0
@@ -2181,10 +2184,6 @@ packages:
 
   /concat-map@0.0.1:
     resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
-    dev: true
-
-  /consola@2.15.3:
-    resolution: {integrity: sha512-9vAdYbHj6x2fLKC4+oPH0kFzY/orMZyG2Aj+kNylHxKGJ/Ed4dpNyAQYwJOdqO4zdM7XpVHmyejQDcQHrnuXbw==}
     dev: true
 
   /consola@3.0.1:
