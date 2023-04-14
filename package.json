@@ -20,7 +20,7 @@
     "@types/lodash-es": "4.17.7",
     "@types/msgpack-lite": "^0.1.8",
     "@types/sortablejs": "^1.15.0",
-    "@vueuse/core": "^9.11.1",
+    "@vueuse/core": "^10.0.0",
     "@vueuse/nuxt": "^9.11.1",
     "nuxt": "3.4.1",
     "prisma": "^4.9.0"
