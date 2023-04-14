@@ -1,12 +1,15 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  typescript: {
-    shim: false,
-  },
+  extends: ['nuxt-umami'],
   modules: ['@nuxtjs/tailwindcss', '@nuxtjs/google-fonts', '@vueuse/nuxt'],
   runtimeConfig: {
     public: {
       logrocketAppId: '',
+    },
+  },
+  appConfig: {
+    umami: {
+      ignoreLocalhost: true,
     },
   },
   css: [

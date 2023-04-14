@@ -23,11 +23,11 @@ dependencies:
     specifier: 3.0.3
     version: 3.0.3(@fortawesome/fontawesome-svg-core@6.4.0)(vue@3.2.47)
   '@prisma/client':
-    specifier: ^4.9.0
-    version: 4.9.0(prisma@4.9.0)
+    specifier: ^4.12.0
+    version: 4.12.0(prisma@4.12.0)
   '@vueuse/components':
-    specifier: ^9.11.1
-    version: 9.11.1(vue@3.2.47)
+    specifier: 10.0.0
+    version: 10.0.0(vue@3.2.47)
   html2canvas:
     specifier: ^1.4.1
     version: 1.4.1
@@ -40,6 +40,9 @@ dependencies:
   nanoid:
     specifier: ^4.0.2
     version: 4.0.2
+  nuxt-umami:
+    specifier: ^2.1.5
+    version: 2.1.5
   primeicons:
     specifier: ^6.0.1
     version: 6.0.1
@@ -76,17 +79,17 @@ devDependencies:
     specifier: ^1.15.1
     version: 1.15.1
   '@vueuse/core':
-    specifier: ^9.11.1
-    version: 9.11.1(vue@3.2.47)
+    specifier: ^10.0.1
+    version: 10.0.1(vue@3.2.47)
   '@vueuse/nuxt':
-    specifier: ^9.11.1
-    version: 9.11.1(nuxt@3.4.1)(vue@3.2.47)
+    specifier: ^10.0.1
+    version: 10.0.1(nuxt@3.4.1)(vue@3.2.47)
   nuxt:
     specifier: 3.4.1
     version: 3.4.1(@types/node@18.15.11)
   prisma:
-    specifier: ^4.9.0
-    version: 4.9.0
+    specifier: ^4.12.0
+    version: 4.12.0
 
 packages:
 
@@ -1043,8 +1046,8 @@ packages:
       - webpack
     dev: true
 
-  /@prisma/client@4.9.0(prisma@4.9.0):
-    resolution: {integrity: sha512-bz6QARw54sWcbyR1lLnF2QHvRW5R/Jxnbbmwh3u+969vUKXtBkXgSgjDA85nji31ZBlf7+FrHDy5x+5ydGyQDg==}
+  /@prisma/client@4.12.0(prisma@4.12.0):
+    resolution: {integrity: sha512-j9/ighfWwux97J2dS15nqhl60tYoH8V0IuSsgZDb6bCFcQD3fXbXmxjYC8GHhIgOk3lB7Pq+8CwElz2MiDpsSg==}
     engines: {node: '>=14.17'}
     requiresBuild: true
     peerDependencies:
@@ -1053,16 +1056,16 @@ packages:
       prisma:
         optional: true
     dependencies:
-      '@prisma/engines-version': 4.9.0-42.ceb5c99003b99c9ee2c1d2e618e359c14aef2ea5
-      prisma: 4.9.0
+      '@prisma/engines-version': 4.12.0-67.659ef412370fa3b41cd7bf6e94587c1dfb7f67e7
+      prisma: 4.12.0
     dev: false
 
-  /@prisma/engines-version@4.9.0-42.ceb5c99003b99c9ee2c1d2e618e359c14aef2ea5:
-    resolution: {integrity: sha512-M16aibbxi/FhW7z1sJCX8u+0DriyQYY5AyeTH7plQm9MLnURoiyn3CZBqAyIoQ+Z1pS77usCIibYJWSgleBMBA==}
+  /@prisma/engines-version@4.12.0-67.659ef412370fa3b41cd7bf6e94587c1dfb7f67e7:
+    resolution: {integrity: sha512-JIHNj5jlXb9mcaJwakM0vpgRYJIAurxTUqM0iX0tfEQA5XLZ9ONkIckkhuAKdAzocZ+80GYg7QSsfpjg7OxbOA==}
     dev: false
 
-  /@prisma/engines@4.9.0:
-    resolution: {integrity: sha512-t1pt0Gsp+HcgPJrHFc+d/ZSAaKKWar2G/iakrE07yeKPNavDP3iVKPpfXP22OTCHZUWf7OelwKJxQgKAm5hkgw==}
+  /@prisma/engines@4.12.0:
+    resolution: {integrity: sha512-0alKtnxhNB5hYU+ymESBlGI4b9XrGGSdv7Ud+8TE/fBNOEhIud0XQsAR+TrvUZgS4na5czubiMsODw0TUrgkIA==}
     requiresBuild: true
 
   /@rollup/plugin-alias@5.0.0(rollup@3.20.2):
@@ -1474,42 +1477,60 @@ packages:
   /@vue/shared@3.2.47:
     resolution: {integrity: sha512-BHGyyGN3Q97EZx0taMQ+OLNuZcW3d37ZEVmEAyeoA9ERdGvm9Irc/0Fua8SNyOtV1w6BS4q25wbMzJujO9HIfQ==}
 
-  /@vueuse/components@9.11.1(vue@3.2.47):
-    resolution: {integrity: sha512-2LZjX3CRXaEe18GPXaS2cjuCnMwsV6tYKRzZZgSWs4VgE3MQmY/Q9uXplpYiSj0okNd6KQ5E+0oZm8LZd183KA==}
+  /@vueuse/components@10.0.0(vue@3.2.47):
+    resolution: {integrity: sha512-aBQlKtdvIvVR38pWzU8jwrrSMRiEYaaPIKvTnlw/DRR6RlMlUOiYwjjRCQKTSlmAnPIH28SWdmsyAL4Z9dSMPg==}
     dependencies:
-      '@vueuse/core': 9.11.1(vue@3.2.47)
-      '@vueuse/shared': 9.11.1(vue@3.2.47)
-      vue-demi: 0.13.11(vue@3.2.47)
+      '@vueuse/core': 10.0.0(vue@3.2.47)
+      '@vueuse/shared': 10.0.0(vue@3.2.47)
+      vue-demi: 0.14.0(vue@3.2.47)
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
     dev: false
 
-  /@vueuse/core@9.11.1(vue@3.2.47):
-    resolution: {integrity: sha512-E/cizD1w9ILkq4axYjZrXLkKaBfzloaby2n3NMjUfd6yI/jkfTVgc6iwy/Cw2e++Ld4LphGbO+3MhzizvwUslQ==}
+  /@vueuse/core@10.0.0(vue@3.2.47):
+    resolution: {integrity: sha512-Q/p2xaGVFVrJ0E4ID1SM35WIa0Eo4AeKPSLKuLpYG09zgUWuwEaY4lBoNzLzkdLjzq5goIJ3DfYFI0wt8W4MkA==}
     dependencies:
       '@types/web-bluetooth': 0.0.16
-      '@vueuse/metadata': 9.11.1
-      '@vueuse/shared': 9.11.1(vue@3.2.47)
-      vue-demi: 0.13.11(vue@3.2.47)
+      '@vueuse/metadata': 10.0.0
+      '@vueuse/shared': 10.0.0(vue@3.2.47)
+      vue-demi: 0.14.0(vue@3.2.47)
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
+    dev: false
 
-  /@vueuse/metadata@9.11.1:
-    resolution: {integrity: sha512-ABjkrG+VXggNhjfGyw5e/sekxTZfXTwjrYXkkWQmQ7Biyv+Gq9UD6IDNfeGvQZEINI0Qzw6nfuO2UFCd3hlrxQ==}
+  /@vueuse/core@10.0.1(vue@3.2.47):
+    resolution: {integrity: sha512-gce8of1QnO8zNisBCtfd8GxSuiEXmueaQ3GiYsUD0m5uqy3IOCtrqTVtvQrNsT/tdZNjvYyHxr90bdg8N96h1w==}
+    dependencies:
+      '@types/web-bluetooth': 0.0.16
+      '@vueuse/metadata': 10.0.1
+      '@vueuse/shared': 10.0.1(vue@3.2.47)
+      vue-demi: 0.14.0(vue@3.2.47)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - vue
+    dev: true
 
-  /@vueuse/nuxt@9.11.1(nuxt@3.4.1)(vue@3.2.47):
-    resolution: {integrity: sha512-hiiRzLgsH5nTAb2TChyFc6nykIyTB3MnCEhILg44Ug9ILC3vG/qnHnv3zRtIu4bXNOhDQN5shfnchgGPJFf8PA==}
+  /@vueuse/metadata@10.0.0:
+    resolution: {integrity: sha512-7Rh6tcs6aYLRLSdDHF+74wWP0Y1zLwpNJszKAIqlNBrmqdbkz8yh6NtjCYvXrrW6g+FU3ZWvR7F5ASNls+bHmw==}
+    dev: false
+
+  /@vueuse/metadata@10.0.1:
+    resolution: {integrity: sha512-XBK6Y1BlxidT6TowHgkzYq3nUxJqZNQCeZCvJn+0PXlUhoumaU+RPB95aEpkZ21O7quELf3lcMzOqVe5XJzoGA==}
+    dev: true
+
+  /@vueuse/nuxt@10.0.1(nuxt@3.4.1)(vue@3.2.47):
+    resolution: {integrity: sha512-wfoATeq9IgMgdmjYEt8Qc/5KchXpZFHSiIsTzD/3bb5OzP8eILBKodi4Yla+l5p3Kk9nDjpFNZZplpLB0zLxlQ==}
     peerDependencies:
       nuxt: ^3.0.0
     dependencies:
-      '@nuxt/kit': 3.3.3
-      '@vueuse/core': 9.11.1(vue@3.2.47)
-      '@vueuse/metadata': 9.11.1
+      '@nuxt/kit': 3.4.1
+      '@vueuse/core': 10.0.1(vue@3.2.47)
+      '@vueuse/metadata': 10.0.1
       local-pkg: 0.4.3
       nuxt: 3.4.1(@types/node@18.15.11)
-      vue-demi: 0.13.11(vue@3.2.47)
+      vue-demi: 0.14.0(vue@3.2.47)
     transitivePeerDependencies:
       - '@vue/composition-api'
       - rollup
@@ -1517,13 +1538,23 @@ packages:
       - vue
     dev: true
 
-  /@vueuse/shared@9.11.1(vue@3.2.47):
-    resolution: {integrity: sha512-UTZYGAjT96hWn4buf4wstZbeheBVNcKPQuej6qpoSkjF1atdaeCD6kqm9uGL2waHfisSgH9mq0qCRiBOk5C/2w==}
+  /@vueuse/shared@10.0.0(vue@3.2.47):
+    resolution: {integrity: sha512-Zh3LgJqvUBWVY3SiMvXanTcfAneGbt63QPczBRDNgQ6jd/ehodO9a1lCFzaA6SWJJoI+ugVTjHFYJdoR656DVQ==}
     dependencies:
-      vue-demi: 0.13.11(vue@3.2.47)
+      vue-demi: 0.14.0(vue@3.2.47)
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
+    dev: false
+
+  /@vueuse/shared@10.0.1(vue@3.2.47):
+    resolution: {integrity: sha512-kc4otFtiS6HI5/VsrSbpjmvEm/jLXsRtzaSvYsaVjYNrm2IhGTQ5wW7i7gkBm1K8fobTEW9KEsWK5yC14MyvNg==}
+    dependencies:
+      vue-demi: 0.14.0(vue@3.2.47)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - vue
+    dev: true
 
   /@webassemblyjs/ast@1.11.1:
     resolution: {integrity: sha512-ukBh14qFLjxTQNTXocdyksN5QdM28S1CxHt2rdskFyL+xFV7VremuBLVbmCePj+URalXBENx/9Lm7lnhihtCSw==}
@@ -4147,6 +4178,10 @@ packages:
       fsevents: 2.3.2
     dev: true
 
+  /nuxt-umami@2.1.5:
+    resolution: {integrity: sha512-JEn9IhST7y+guNte4R7eDmnzERFz1niHPss6+L3bszRiddVfH38BmwhAogUik0rQt2fyp4VaJmuNMUmeXQWtyg==}
+    dev: false
+
   /nuxt@3.4.1(@types/node@18.15.11):
     resolution: {integrity: sha512-wKT5iZebO1D7QtAN1fDNNsjaTFbAC5pO4kWzw2qX2OOg2SWP/k42sCfxbcz/JkLL4FJVwpya+9OD9/2MwEdt1g==}
     engines: {node: ^14.18.0 || ^16.10.0 || ^17.0.0 || ^18.0.0 || ^19.0.0}
@@ -4949,13 +4984,13 @@ packages:
       vue: 3.2.47
     dev: false
 
-  /prisma@4.9.0:
-    resolution: {integrity: sha512-bS96oZ5oDFXYgoF2l7PJ3Mp1wWWfLOo8B/jAfbA2Pn0Wm5Z/owBHzaMQKS3i1CzVBDWWPVnOohmbJmjvkcHS5w==}
+  /prisma@4.12.0:
+    resolution: {integrity: sha512-xqVper4mbwl32BWzLpdznHAYvYDWQQWK2tBfXjdUD397XaveRyAP7SkBZ6kFlIg8kKayF4hvuaVtYwXd9BodAg==}
     engines: {node: '>=14.17'}
     hasBin: true
     requiresBuild: true
     dependencies:
-      '@prisma/engines': 4.9.0
+      '@prisma/engines': 4.12.0
 
   /process-nextick-args@2.0.1:
     resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}
@@ -6036,8 +6071,8 @@ packages:
       ufo: 1.1.1
     dev: true
 
-  /vue-demi@0.13.11(vue@3.2.47):
-    resolution: {integrity: sha512-IR8HoEEGM65YY3ZJYAjMlKygDQn25D5ajNFNoKh9RSDMQtlzCxtfQjdQgv9jjK+m3377SsJXY8ysq8kLCZL25A==}
+  /vue-demi@0.14.0(vue@3.2.47):
+    resolution: {integrity: sha512-gt58r2ogsNQeVoQ3EhoUAvUsH9xviydl0dWJj7dabBC/2L4uBId7ujtCwDRD0JhkGsV1i0CtfLAeyYKBht9oWg==}
     engines: {node: '>=12'}
     hasBin: true
     requiresBuild: true
