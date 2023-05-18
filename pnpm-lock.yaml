@@ -58,8 +58,8 @@ dependencies:
 
 devDependencies:
   '@nuxtjs/google-fonts':
-    specifier: 3.0.0
-    version: 3.0.0
+    specifier: 3.0.1
+    version: 3.0.1
   '@nuxtjs/tailwindcss':
     specifier: ^6.6.6
     version: 6.6.6(webpack@5.82.1)
@@ -1001,10 +1001,10 @@ packages:
       - vue-tsc
     dev: true
 
-  /@nuxtjs/google-fonts@3.0.0:
-    resolution: {integrity: sha512-knP2CJFkMHGQ9pepVNwquXvqiIHDma/6yZNXiYk7WWatRbbQUPf2423vXiBYu267Mff2KMuDLoAJ1Dsv2ymhdQ==}
+  /@nuxtjs/google-fonts@3.0.1:
+    resolution: {integrity: sha512-9W5jZhpJ4UTmiPebljdoxs+ju89rOBVD5gb0sPRe73BVXCUUv46lV2Q0ynPZPsnono5WlTB6nyZbOCECa7IWDQ==}
     dependencies:
-      '@nuxt/kit': 3.4.3
+      '@nuxt/kit': 3.5.0
       google-fonts-helper: 3.3.0
       pathe: 1.1.0
     transitivePeerDependencies:
