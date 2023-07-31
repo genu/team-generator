@@ -39,8 +39,8 @@ dependencies:
     specifier: 4.17.21
     version: 4.17.21
   logrocket:
-    specifier: ^3.0.1
-    version: 3.0.1
+    specifier: ^4.0.0
+    version: 4.0.0
   nanoid:
     specifier: ^4.0.2
     version: 4.0.2
@@ -3859,8 +3859,8 @@ packages:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
     dev: true
 
-  /logrocket@3.0.1:
-    resolution: {integrity: sha512-jOWG+jEzobKVxGytzZ+4KGm2kiMQMRTHab2uDWQyVZcHfEF38BlCH1yjQVY4LCmuQUwZitP9biMzJZnyUQ0dtQ==}
+  /logrocket@4.0.0:
+    resolution: {integrity: sha512-GZmn6zZPV+YpuLHsnASYmM5tqCmbDnq0Xdh+jPtP2YGScXvUfiapILV0QuclMA5HEf+ZntcwhYFg0iiwxyTz5A==}
     dev: false
 
   /lru-cache@10.0.0:
