@@ -41,7 +41,7 @@
     "@vueuse/components": "10.4.1",
     "html2canvas": "^1.4.1",
     "lodash-es": "4.17.21",
-    "logrocket": "^3.0.1",
+    "logrocket": "^6.0.0",
     "nanoid": "^4.0.2",
     "nuxt-umami": "^2.1.5",
     "primeicons": "^6.0.1",
