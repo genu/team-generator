@@ -1,5 +1,3 @@
-import { usePrisma } from '@/server/utils'
-
 export default defineEventHandler(async (event) => {
   const client = usePrisma()
   const query = getQuery(event)

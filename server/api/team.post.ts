@@ -1,4 +1,4 @@
-import { usePrisma } from '@/server/utils'
+
 import { nanoid } from 'nanoid'
 
 export default defineEventHandler(async (event) => {
