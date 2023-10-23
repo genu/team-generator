@@ -19,16 +19,17 @@
   },
   "devDependencies": {
     "@nuxtjs/google-fonts": "3.0.2",
-    "@nuxtjs/tailwindcss": "^6.6.6",
-    "@tailwindcss/forms": "^0.5.3",
-    "@tailwindcss/typography": "^0.5.9",
+    "@nuxtjs/tailwindcss": "^6.8.0",
+    "@tailwindcss/forms": "^0.5.6",
+    "@tailwindcss/typography": "^0.5.10",
     "@types/lodash-es": "4.17.10",
     "@types/msgpack-lite": "^0.1.8",
     "@types/sortablejs": "^1.15.1",
-    "@vueuse/core": "^10.0.1",
-    "@vueuse/nuxt": "^10.0.1",
+    "@vueuse/core": "^10.5.0",
+    "@vueuse/nuxt": "^10.5.0",
     "nuxt": "3.4.1",
     "nuxt-icon": "^0.5.0",
+    "nuxt-primevue": "^0.0.3",
     "prisma": "^4.12.0"
   },
   "dependencies": {
@@ -39,8 +40,7 @@
     "logrocket": "^3.0.1",
     "nanoid": "^4.0.2",
     "nuxt-umami": "^2.1.5",
-    "primeicons": "^6.0.1",
-    "primevue": "^3.26.1",
+    "primevue": "^3.37.0",
     "sortablejs": "^1.15.0",
     "sortablejs-vue3": "^1.2.9"
   }

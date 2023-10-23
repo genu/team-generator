@@ -17,13 +17,13 @@
         </div>
       </h2>
       <div class="flex md:mt-0 md:ml-4 gap-4">
-        <UiButton variant="secondary" @click="toggleEdit">
+        <Button variant="secondary" @click="toggleEdit">
           {{ isEditing ? 'Hide' : 'Edit' }}
-        </UiButton>
-        <UiButton @click="save" :disabled="!unsavedChanges || isSaving">
+        </Button>
+        <Button @click="save" :disabled="!unsavedChanges || isSaving">
           <Icon name="fa6-solid:spinner" v-if="isSaving" spin />
           <span v-else>Save</span>
-        </UiButton>
+        </Button>
       </div>
     </div>
     <div
@@ -49,9 +49,11 @@
             v-model="newPlayer.name"
             @keyup.enter="addPlayer(newPlayer)"
           />
-          <UiButton class="justify-around w-48 px-2 rounded" size="sm" @click="addPlayer(newPlayer)">Add</UiButton>
+          <Button class="justify-around w-48 px-2 rounded" size="sm" @click="addPlayer(newPlayer)">Add</Button>
         </div>
         <Divider />
+        asdf switch:
+        <InputSwitch />
         <DataTable
           :value="data.players"
           responsiveLayout="scroll"
@@ -251,6 +253,7 @@ const rosterFilters = ref({
 const data = ref<Data>({
   config: {
     teamCount: 2,
+    // @ts-ignore
     rules: {
       goaliesFirst: false,
       noBestGolieAndPlayer: false,

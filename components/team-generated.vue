@@ -33,16 +33,21 @@
 
     <div class="flex justify-end gap-2" v-if="players.length > 0">
       <span>
-        <UiButton variant="text" class="flex px-2 gap-1" v-if="teams" @click="showSharingWindow">
+        <Button variant="text" class="flex px-2 gap-1" v-if="teams" @click="showSharingWindow">
           <Icon name="fa6-solid:share-from-square" />
           <span class="text-base">Share</span>
-        </UiButton>
+        </Button>
       </span>
-      <UiButton variant="success" @click="shuffle">Shuffle Teams</UiButton>
+      <Button variant="success" @click="shuffle">Shuffle Teams</Button>
     </div>
     <div class="flex justify-end">
       <div class="flex flex-col mt-2" v-if="players.length > 0 && !teams">
-        <Icon name="fa6-solid:arrow-up-long" class="text-4xl text-gray-400" bounce style="--fa-bounce-jump-scale-y: 1" />
+        <Icon
+          name="fa6-solid:arrow-up-long"
+          class="text-4xl text-gray-400"
+          bounce
+          style="--fa-bounce-jump-scale-y: 1"
+        />
         <span class="block text-sm font-medium text-gray-900">Click to shuffle</span>
       </div>
     </div>
@@ -129,6 +134,8 @@
 
 <script lang="ts" setup>
 import { groupBy, random, sumBy, keys, filter, map, orderBy } from 'lodash-es'
+import Dialog from 'primevue/dialog'
+import Button from 'primevue/button'
 import html2canvas from 'html2canvas'
 import { useClipboard, useBrowserLocation, promiseTimeout } from '@vueuse/core'
 import { Sortable } from 'sortablejs-vue3'

@@ -1,6 +1,19 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@import './primevue/index.css';
-@import './typography.css';
+@layer base {
+  html {
+    @apply font-sans h-full bg-gray-100;
+  }
+  h2 {
+    @apply text-2xl font-bold;
+  }
+  body {
+    @apply h-full;
+  }
+
+  #__nuxt {
+    @apply min-h-full;
+  }
+}
