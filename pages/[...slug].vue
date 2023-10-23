@@ -17,7 +17,7 @@
         </div>
       </h2>
       <div class="flex md:mt-0 md:ml-4 gap-4">
-        <Button variant="secondary" @click="toggleEdit">
+        <Button severity="secondary" @click="toggleEdit">
           {{ isEditing ? 'Hide' : 'Edit' }}
         </Button>
         <Button @click="save" :disabled="!unsavedChanges || isSaving">
@@ -52,8 +52,6 @@
           <Button class="justify-around w-48 px-2 rounded" size="sm" @click="addPlayer(newPlayer)">Add</Button>
         </div>
         <Divider />
-        asdf switch:
-        <InputSwitch />
         <DataTable
           :value="data.players"
           responsiveLayout="scroll"

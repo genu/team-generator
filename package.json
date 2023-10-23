@@ -20,14 +20,12 @@
   "devDependencies": {
     "@nuxtjs/google-fonts": "3.0.2",
     "@nuxtjs/tailwindcss": "^6.8.0",
-    "@tailwindcss/forms": "^0.5.6",
-    "@tailwindcss/typography": "^0.5.10",
     "@types/lodash-es": "4.17.10",
     "@types/msgpack-lite": "^0.1.8",
     "@types/sortablejs": "^1.15.1",
     "@vueuse/core": "^10.5.0",
     "@vueuse/nuxt": "^10.5.0",
-    "nuxt": "3.4.1",
+    "nuxt": "3.8.0",
     "nuxt-icon": "^0.5.0",
     "nuxt-primevue": "^0.0.3",
     "prisma": "^4.12.0"

@@ -1,8 +1,6 @@
 import { Config } from 'tailwindcss'
 import defaultColors from 'tailwindcss/colors'
 import defaultTheme from 'tailwindcss/defaultTheme'
-import TypographyPlugin from '@tailwindcss/typography'
-import FormsPlugin from '@tailwindcss/forms'
 
 const config: Config = {
   important: true,
@@ -18,7 +16,7 @@ const config: Config = {
       },
     },
   },
-  plugins: [TypographyPlugin, FormsPlugin],
+  plugins: [],
 }
 
 export default config

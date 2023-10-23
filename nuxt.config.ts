@@ -12,7 +12,7 @@ export default defineNuxtConfig({
       ignoreLocalhost: true,
     },
   },
-
+  css: ['primevue/resources/themes/lara-light-indigo/theme.css'],
   app: {
     head: {
       htmlAttrs: { class: 'bg-gray-100' },
@@ -32,7 +32,7 @@ export default defineNuxtConfig({
     configPath: '~/config/tailwind.config.ts',
   },
   primevue: {
-    usePrimeVue: false,
+    usePrimeVue: true,
     directives: {
       include: ['Tooltip'],
     },
