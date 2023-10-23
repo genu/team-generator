@@ -1,17 +1,17 @@
 <template>
-  <div class="bg-gray-100 flex flex-col justify-between h-screen">
-    <div class="z-20 w-full md:w-2/3 mx-auto max-w-4xl">
+  <div class="flex flex-col justify-between h-screen bg-gray-100">
+    <div class="z-20 w-full max-w-4xl mx-auto md:w-2/3">
       <slot />
     </div>
-    <div class="border text-center text-sm py-2">
+    <div class="py-2 text-sm text-center border">
       Project by
-      <a href="https://twitter.com/eugenistoc" class="text-blue-600 font-medium hover:underline" target="_blank">
+      <a href="https://twitter.com/eugenistoc" class="font-medium text-blue-600 hover:underline" target="_blank">
         Eugen Istoc
       </a>
       |
       <a
         href="https://github.com/genu/team-generator"
-        class="text-blue-600 font-medium hover:underline"
+        class="font-medium text-blue-600 hover:underline"
         target="_blank"
       >
         Source Code

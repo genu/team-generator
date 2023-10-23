@@ -1,6 +1,6 @@
 <template>
   <button
-    class="inline-flex items-center border border-transparent font-medium text-white shadow-sm"
+    class="inline-flex items-center font-medium text-white border border-transparent shadow-sm"
     :class="classes"
     @click="emit('click')"
   >

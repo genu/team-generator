@@ -1,10 +1,10 @@
 <template>
-  <div class="flex flex-col relative">
+  <div class="relative flex flex-col">
     <div
-      class="sticky top-0 w-full z-40 h-16 lg:h-20 bg-gray-800 px-2 md:px-5 flex items-center justify-between rounded-none md:rounded-b-md"
+      class="sticky top-0 z-40 flex items-center justify-between w-full h-16 px-2 bg-gray-800 rounded-none lg:h-20 md:px-5 md:rounded-b-md"
     >
       <h2
-        class="relative text-base md:text-2xl font-bold leading-7 text-white sm:truncate sm:text-3xl sm:tracking-tight capitalize cursor-pointer"
+        class="relative text-base font-bold text-white capitalize cursor-pointer md:text-2xl leading-7 sm:truncate sm:text-3xl sm:tracking-tight"
         @click="toggleLeagueMenu"
       >
         <span v-if="!data.config.leagueName">
@@ -12,7 +12,7 @@
         </span>
         <div class="flex items-center gap-2" v-else>
           <span>{{ data.config.leagueName }}</span>
-          <FaIcon icon="angle-down" />
+          <Icon name="fa6-solid:angle-down" />
           <Menu ref="leagueMenu" :model="items" popup />
         </div>
       </h2>
@@ -21,35 +21,35 @@
           {{ isEditing ? 'Hide' : 'Edit' }}
         </UiButton>
         <UiButton @click="save" :disabled="!unsavedChanges || isSaving">
-          <FaIcon icon="spinner" v-if="isSaving" spin />
+          <Icon name="fa6-solid:spinner" v-if="isSaving" spin />
           <span v-else>Save</span>
         </UiButton>
       </div>
     </div>
     <div
-      class="absolute h-screen w-full z-10 transition transition-all lg:w-full pointer-events-none"
+      class="absolute z-10 w-full h-screen pointer-events-none transition-all lg:w-full"
       :class="{
         'bg-black/30 backdrop-blur-sm': isEditing,
         'bg-black/0': !isEditing,
       }"
     ></div>
     <div
-      class="absolute relative z-10 flex flex-col-reverse lg:flex-row pt-4 bg-gray-200 -mt-2 rounded-b border border-gray-800 shadow-md transition transition-all"
+      class="absolute relative z-10 flex flex-col-reverse pt-4 -mt-2 bg-gray-200 border border-gray-800 rounded-b shadow-md lg:flex-row transition transition-all"
       :class="{
         'translate-y-0': isEditing,
         '-translate-y-full': !isEditing,
       }"
     >
       <div class="relative flex flex-col lg:w-2/4 gap-2">
-        <div class="flex gap-2 items-center absolute sticky top-16 lg:top-20 z-50 bg-gray-200 py-2 px-2">
+        <div class="absolute sticky z-50 flex items-center px-2 py-2 bg-gray-200 gap-2 top-16 lg:top-20">
           <InputText
-            class="p-inputtext-sm w-full"
+            class="w-full p-inputtext-sm"
             placeholder="Player Name"
             type="text"
             v-model="newPlayer.name"
             @keyup.enter="addPlayer(newPlayer)"
           />
-          <UiButton class="w-48 px-2 rounded justify-around" size="sm" @click="addPlayer(newPlayer)">Add</UiButton>
+          <UiButton class="justify-around w-48 px-2 rounded" size="sm" @click="addPlayer(newPlayer)">Add</UiButton>
         </div>
         <Divider />
         <DataTable
@@ -60,23 +60,25 @@
           :global-filter-fields="['name']"
         >
           <template #header>
-            <span class="p-input-icon-left flex items-center justify-start w-full">
-              <FaIcon icon="magnifying-glass" class="absolute ml-2 text-gray-500" />
+            <span class="flex items-center justify-start w-full p-input-icon-left">
+              <Icon name="fa6-solid:magnifying-glass" class="absolute ml-2 text-gray-500" />
               <InputText
                 v-model="rosterFilters['global'].value"
-                class="text-base py-1 w-full pl-8 pr-8"
+                class="w-full py-1 pl-8 pr-8 text-base"
                 placeholder="Filter"
               />
-              <FaIcon
+              <Icon
+                name
+                fa6-solid:
                 v-if="rosterFilters['global'].value"
                 icon="fa-circle-xmark"
                 @click="rosterFilters['global'].value = ''"
-                class="absolute right-2 text-gray-400 cursor-pointer"
+                class="absolute text-gray-400 cursor-pointer right-2"
               />
             </span>
           </template>
           <template #empty>
-            <div class="text-center text-sm">
+            <div class="text-sm text-center">
               No players found
               <span class="italic font-semibold">"{{ rosterFilters['global'].value }}"</span>
             </div>
@@ -85,7 +87,7 @@
             <template #header>
               <div class="flex flex-col">
                 <span>Active?</span>
-                <span class="text-xs text-blue-700 hover:text-blue-900 cursor-pointer" @click="resetActiveState">
+                <span class="text-xs text-blue-700 cursor-pointer hover:text-blue-900" @click="resetActiveState">
                   Reset
                 </span>
               </div>
@@ -98,7 +100,7 @@
             <template #body="{ data: player }: { data: Player }">
               <InputText
                 :disabled="rosterFilters['global'].value !== ''"
-                class="capitalize p-inputtext-sm w-24"
+                class="w-24 capitalize p-inputtext-sm"
                 type="text"
                 v-model="player.name"
               />
@@ -106,7 +108,7 @@
           </Column>
           <Column field="rank" header="Rank (1-10)" class="h-12">
             <template #body="{ data: player }: { data: Player }">
-              <InputNumber input-class="p-inputtext-sm flex w-16" v-model="player.rank" :step="1" :min="1" :max="10" />
+              <InputNumber input-class="flex w-16 p-inputtext-sm" v-model="player.rank" :step="1" :min="1" :max="10" />
             </template>
           </Column>
           <Column field="gk" header="Gk" class="h-12">
@@ -117,7 +119,7 @@
           <Column header="">
             <template #body="{ index }">
               <span class="" @click="removePlayer(index)">
-                <FaIcon icon="times" class="text-lg bg-red-500 rounded py-1 px-2 text-white hover:bg-red-600" />
+                <Icon name="fa6-solid:times" class="px-2 py-1 text-lg text-white bg-red-500 rounded hover:bg-red-600" />
               </span>
             </template>
           </Column>
@@ -125,26 +127,26 @@
 
         <div class="flex flex-col gap-2" v-if="data.players.length > 0">
           <Divider />
-          <div class="flex justify-end text-lg items-center">
+          <div class="flex items-center justify-end text-lg">
             Active Players:
-            <span class="font-semibold ml-1">{{ activePlayers.length }}</span>
+            <span class="ml-1 font-semibold">{{ activePlayers.length }}</span>
             <span class="text-sm">&nbsp; ({{ data.players.length }} total)</span>
           </div>
         </div>
       </div>
       <Divider layout="vertical" class="hidden lg:block" />
       <Divider class="lg:hidden" />
-      <div class="flex flex-col gap-2 p-2">
+      <div class="flex flex-col p-2 gap-2">
         <h2 class="text-lg font-bold">Options</h2>
-        <div class="font-semibold flex flex-col gap-2">
+        <div class="flex flex-col font-semibold gap-2">
           <div class="flex items-center gap-2">
-            <span class="w-28 text-right text-gray-700">League Name:</span>
+            <span class="text-right text-gray-700 w-28">League Name:</span>
             <InputText class="p-inputtext-sm" v-model="data.config.leagueName" />
           </div>
           <div class="flex items-center gap-2">
-            <span class="w-28 text-right text-gray-700"># of teams:</span>
+            <span class="text-right text-gray-700 w-28"># of teams:</span>
             <InputNumber
-              input-class="p-inputtext-sm w-20"
+              input-class="w-20 p-inputtext-sm"
               :step="1"
               :min="2"
               :max="100"
@@ -152,47 +154,47 @@
             />
           </div>
           <div class="flex items-center gap-2">
-            <span class="w-28 text-right text-gray-700">Rules:</span>
+            <span class="text-right text-gray-700 w-28">Rules:</span>
           </div>
           <div class="flex flex-col ml-28 gap-1">
-            <div class="flex gap-2 items-center">
+            <div class="flex items-center gap-2">
               <Checkbox input-id="goaliesFirst" v-model="data.config.rules.goaliesFirst" :binary="true" />
-              <label for="goaliesFirst" class="font-normal text-sm cursor-pointer">Choose goalies first</label>
+              <label for="goaliesFirst" class="text-sm font-normal cursor-pointer">Choose goalies first</label>
             </div>
-            <div class="flex gap-2 items-center">
+            <div class="flex items-center gap-2">
               <Checkbox
                 input-id="noBestGolieAndPlayer"
                 disabled
                 v-model="data.config.rules.noBestGolieAndPlayer"
                 :binary="true"
               />
-              <label for="noBestGolieAndPlayer" class="font-normal text-sm cursor-pointer">
+              <label for="noBestGolieAndPlayer" class="text-sm font-normal cursor-pointer">
                 Best goalie cannot be on same team with best player
                 <small class="bg-gray-400 px-1 py-0.5 text-white rounded font-bold">soon</small>
               </label>
             </div>
-            <div class="flex gap-2 items-center">
+            <div class="flex items-center gap-2">
               <Checkbox
                 input-id="noBestGolieAndPlayer"
                 disabled
                 v-model="data.config.rules.noBestGolieAndPlayer"
                 :binary="true"
               />
-              <label for="noBestGolieAndPlayer" class="font-normal text-sm cursor-pointer">
+              <label for="noBestGolieAndPlayer" class="text-sm font-normal cursor-pointer">
                 Keep goalies
                 <small class="bg-gray-400 px-1 py-0.5 text-white rounded font-bold">soon</small>
               </label>
             </div>
-            <div class="flex gap-2 items-start hidden">
+            <div class="flex items-start hidden gap-2">
               <Checkbox input-id="stefanMode" v-model="data.config.rules.stefanMode" :binary="true" />
-              <label for="stefanMode" class="font-normal text-sm cursor-pointe flex flex-col">
+              <label for="stefanMode" class="flex flex-col text-sm font-normal cursor-pointe">
                 Stefan mode
                 <small>Stefan's team has all of the best players</small>
               </label>
             </div>
-            <div class="flex gap-2 items-start hidden">
+            <div class="flex items-start hidden gap-2">
               <Checkbox input-id="beniMode" v-model="data.config.rules.beniMode" :binary="true" />
-              <label for="stefanMode" class="font-normal text-sm cursor-pointe flex flex-col">
+              <label for="stefanMode" class="flex flex-col text-sm font-normal cursor-pointe">
                 Beni Mode
 
                 <small>
@@ -206,16 +208,16 @@
         </div>
       </div>
     </div>
-    <div class="absolute flex flex-col py-5 absolute mt-14 lg:mt-16 w-full left-0 top-0">
+    <div class="absolute absolute top-0 left-0 flex flex-col w-full py-5 mt-14 lg:mt-16">
       <div class="w-full px-2">
         <button
           type="button"
-          class="relative block lg:w-1/2 mx-auto my-5 rounded-lg border-2 border-dashed border-gray-300 p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          class="relative block p-12 mx-auto my-5 text-center border-2 border-gray-300 border-dashed rounded-lg lg:w-1/2 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           v-if="data.players.length < 1"
           @click="isEditing = !isEditing"
         >
-          <FaIcon icon="users-viewfinder" class="text-6xl text-gray-400" />
-          <span class="mt-4 block text-sm font-medium text-gray-900">Add some players to the league</span>
+          <Icon name="fa6-solid:users-viewfinder" class="text-6xl text-gray-400" />
+          <span class="block mt-4 text-sm font-medium text-gray-900">Add some players to the league</span>
         </button>
         <TeamGenerated
           :players="activePlayers"

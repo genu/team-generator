@@ -12,7 +12,7 @@
       <div class="flex flex-col" ref="shareDialog">
         <div class="flex items-center md:gap-2">
           <div class="flex flex-col flex-1">
-            <label class="font-semibold text-lg">Edit link:</label>
+            <label class="text-lg font-semibold">Edit link:</label>
             <input type="text" v-model="shareUrl" class="flex-1" />
           </div>
           <button class="mt-6 text-right w-14" @click="copy()">
@@ -20,21 +20,21 @@
             <span class="text-green-800" v-else>Copied</span>
           </button>
         </div>
-        <span class="flex flex-col gap-1 items-center" v-if="!previewImg">
-          <FaIcon icon="fa-arrows-spin" class="text-4xl mt-5" spin />
+        <span class="flex flex-col items-center gap-1" v-if="!previewImg">
+          <Icon name="fa6-solid:arrows-spin" class="mt-5 text-4xl" spin />
           <span class="text-sm font-bold">Generating Image</span>
         </span>
-        <img :src="previewImg" class="mt-4 object-contain h-96" v-else />
+        <img :src="previewImg" class="object-contain mt-4 h-96" v-else />
       </div>
       <template #footer>
-        <Button label="Close" @click="isSharingDialog = false" class="p-button-text p-0" />
+        <Button label="Close" @click="isSharingDialog = false" class="p-0 p-button-text" />
       </template>
     </Dialog>
 
     <div class="flex justify-end gap-2" v-if="players.length > 0">
       <span>
-        <UiButton variant="text" class="gap-1 px-2 flex" v-if="teams" @click="showSharingWindow">
-          <FaIcon icon="arrow-up-from-bracket" />
+        <UiButton variant="text" class="flex px-2 gap-1" v-if="teams" @click="showSharingWindow">
+          <Icon name="fa6-solid:share-from-square" />
           <span class="text-base">Share</span>
         </UiButton>
       </span>
@@ -42,30 +42,30 @@
     </div>
     <div class="flex justify-end">
       <div class="flex flex-col mt-2" v-if="players.length > 0 && !teams">
-        <FaIcon icon="arrow-up-long" class="text-4xl text-gray-400" bounce style="--fa-bounce-jump-scale-y: 1" />
+        <Icon name="fa6-solid:arrow-up-long" class="text-4xl text-gray-400" bounce style="--fa-bounce-jump-scale-y: 1" />
         <span class="block text-sm font-medium text-gray-900">Click to shuffle</span>
       </div>
     </div>
     <button
       type="button"
-      class="relative block w-11/12 md:w-1/2 mx-auto my-5 rounded-lg border-2 border-dashed border-gray-300 p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+      class="relative block w-11/12 p-12 mx-auto my-5 text-center border-2 border-gray-300 border-dashed rounded-lg md:w-1/2 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
       v-if="!snapshot && players.length > 0"
       @click="shuffle"
     >
-      <FaIcon icon="person-chalkboard" class="text-6xl text-gray-400" />
-      <span class="mt-4 block text-sm font-medium text-gray-900">Generate teams</span>
+      <Icon name="fa6-solid:person-chalkboard" class="text-6xl text-gray-400" />
+      <span class="block mt-4 text-sm font-medium text-gray-900">Generate teams</span>
     </button>
-    <div class="gap-3 md:gap-3 grid grid-cols-2 lg:grid-cols-3 p-4 items-start" ref="snapshotContainer">
+    <div class="items-start p-4 gap-3 md:gap-3 grid grid-cols-2 lg:grid-cols-3" ref="snapshotContainer">
       <div
         v-for="(players, key) in teams"
-        class="border-b border-gray-200 bg-white divide-y divide-gray-200 border-2 border-gray-400 rounded-md shadow"
+        class="bg-white border-2 border-b border-gray-200 border-gray-400 shadow divide-y divide-gray-200 rounded-md"
       >
         <div class="relative">
-          <h2 class="text-lg font-medium leading-6 text-gray-900 px-5 pt-5 flex md:items-center flex-col md:flex-row">
+          <h2 class="flex flex-col px-5 pt-5 text-lg font-medium text-gray-900 leading-6 md:items-center md:flex-row">
             <span>Team {{ +key + 1 }}</span>
-            <span class="text-xs ml-1">({{ players.length }} players)</span>
+            <span class="ml-1 text-xs">({{ players.length }} players)</span>
           </h2>
-          <span class="absolute top-0 left-0 text-sm bg-green-500 px-2 text-white text-xs">
+          <span class="absolute top-0 left-0 px-2 text-xs text-sm text-white bg-green-500">
             Rank {{ getTeamRank(players) }}
           </span>
         </div>
@@ -74,18 +74,18 @@
           item-key="id"
           tag="ul"
           :options="teamListOptions"
-          class="flex flex-col gap-2 mt-2 px-2 py-2"
+          class="flex flex-col px-2 py-2 mt-2 gap-2"
           @add="addPlayerToNewTeam"
           :data-team-id="key"
         >
           <template #item="{ element: player, index }: { element: Player, index: number }">
             <li
               :data-id="index"
-              class="text-base text-gray-600 capitalize bg-gray-100 py-1 px-2 rounded-md cursor-pointer"
+              class="px-2 py-1 text-base text-gray-600 capitalize bg-gray-100 cursor-pointer rounded-md"
               :class="{ 'font-bold': player.gk }"
             >
-              <div class="flex items-center gap-2 select-none">
-                <FaIcon icon="ellipsis-vertical" />
+              <div class="flex items-center select-none gap-2">
+                <Icon name="fa6-solid:ellipsis-vertical" />
                 <span v-if="player.name.toLowerCase() === 'michael'" class="text-xs">
                   Average {{ player.name }} {{ player.gk ? '(GK)' : '' }}
                 </span>
@@ -98,20 +98,20 @@
     </div>
     <div class="flex justify-around" v-if="numberOfGeneratedTeams > 0 && !usingSeedData">
       <span
-        class="w-10/12 md:w-1/2 justify-around flex items-center gap-5 border px-5 py-2 border-2 border-dashed border-gray-300 text-sm hover:bg-gray-50 cursor-pointer"
+        class="flex items-center justify-around w-10/12 px-5 py-2 text-sm border border-2 border-gray-300 border-dashed cursor-pointer md:w-1/2 gap-5 hover:bg-gray-50"
         @click="isShowingProcess = !isShowingProcess"
       >
         <span>
           How were teams chosen?
-          <FaIcon icon="angle-down" v-if="!isShowingProcess" />
-          <FaIcon icon="angle-up" v-else />
+          <Icon name="fa6-solid:angle-down" v-if="!isShowingProcess" />
+          <Icon name="fa6-solid:angle-up" v-else />
         </span>
       </span>
     </div>
-    <div class="flex flex-col bg-white p-5 italic text-sm divide-y divide-gray-400" v-if="isShowingProcess">
+    <div class="flex flex-col p-5 text-sm italic bg-white divide-y divide-gray-400" v-if="isShowingProcess">
       <div class="not-italic">
         <h2 class="py-0 my-0">Strategy</h2>
-        <ul class="pb-2 list-disc mx-5">
+        <ul class="pb-2 mx-5 list-disc">
           <li>Players are grouped by ranks</li>
           <li>A random team is selected to choose first</li>
           <li>Each team chooses a random player from the highest ranked group</li>

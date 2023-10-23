@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   extends: ['nuxt-umami'],
-  modules: ['@nuxtjs/tailwindcss', '@nuxtjs/google-fonts', '@vueuse/nuxt'],
+  modules: ['@nuxtjs/tailwindcss', '@nuxtjs/google-fonts', '@vueuse/nuxt', 'nuxt-icon'],
   runtimeConfig: {
     public: {
       logrocketAppId: '',
@@ -12,20 +12,8 @@ export default defineNuxtConfig({
       ignoreLocalhost: true,
     },
   },
-  css: [
-    '@fortawesome/fontawesome-svg-core/styles.css',
-    'primevue/resources/themes/lara-light-blue/theme.css',
-    'primevue/resources/primevue.min.css',
-    'primeicons/primeicons.css',
-  ],
   build: {
-    transpile: [
-      'primevue',
-      '@fortawesome/fontawesome-svg-core',
-      '@fortawesome/vue-fontawesome',
-      '@fortawesome/pro-regular-svg-icons',
-      '@fortawesome/pro-solid-svg-icons',
-    ],
+    transpile: ['primevue'],
   },
   app: {
     head: {
