@@ -153,7 +153,7 @@ import type { Player, Rules, Snapshot } from '~/interfaces'
 
 interface Props {
   players: Player[]
-  teamCount: number | string
+  teamCount: number
   snapshot?: Snapshot
   rules?: Rules
 }
@@ -194,6 +194,7 @@ const { copy, copied } = useClipboard({ source: shareUrl.value })
 
 if (props.snapshot) {
   teams.value = props.snapshot.teams
+  teamToChoose.value = props.snapshot.teamToChoose
 
   initializeMethod(props.snapshot.methodology as string[])
 }
@@ -213,7 +214,7 @@ const shuffle = () => {
   // First pick goal keepers
   if (props.rules?.goaliesFirst) {
     const goalKeepers = orderBy(
-      filter(props.players, (player) => player.gk),
+      filter(props.players, (player) => player.gk!),
       ['rank'],
       ['desc']
     )
@@ -271,7 +272,7 @@ const shuffle = () => {
     rank--
   }
 
-  emit('shuffled', { teams, methodology: methodology.value })
+  emit('shuffled', { teams, methodology: methodology.value, teamToChoose: teamToChoose.value })
 }
 
 const numberOfGeneratedTeams = computed(() => keys(teams.value).length)

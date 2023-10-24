@@ -33,5 +33,6 @@ export interface League {
 
 export interface Snapshot {
   teams?: any
+  teamToChoose?: number
   methodology?: string[]
 }

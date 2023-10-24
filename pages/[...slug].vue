@@ -360,10 +360,6 @@ const onShuffled = (snapshot: Snapshot) => {
   data.value.snapshot = snapshot
 }
 
-const toggleLeagueMenu = () => {
-  leagueMenu.value.toggle(event)
-}
-
 const resetActiveState = () => {
   data.value.players.forEach((player) => {
     player.yes = false
