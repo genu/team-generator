@@ -49,11 +49,11 @@
       <UButton @click="shuffle">Shuffle Teams</UButton>
     </div>
     <div class="flex justify-end">
-      <div class="flex flex-col mt-2" v-if="players.length > 0 && !teams">
+      <div class="flex flex-col mt-2 items-center mr-3" v-if="players.length > 0 && !teams">
         <Icon
-          name="fa6-solid:arrow-up-long"
-          class="text-4xl text-gray-400"
-          bounce
+          name="heroicons:arrow-long-up-20-solid"
+          size="3rem"
+          class="text-gray-400 animate-bounce"
           style="--fa-bounce-jump-scale-y: 1"
         />
         <span class="block text-sm font-medium text-gray-900">Click to shuffle</span>
@@ -81,6 +81,11 @@
           <span class="absolute top-0 left-0 px-2 text-xs text-sm text-white bg-green-500">
             Rank {{ getTeamRank(players) }}
           </span>
+          <Icon
+            name="heroicons:star-20-solid"
+            class="absolute top-0 right-0 text-amber-600 text-lg"
+            v-if="teamToChoose == key"
+          />
         </div>
         <Sortable
           :list="players"
@@ -94,15 +99,12 @@
           <template #item="{ element: player, index }: { element: Player, index: number }">
             <li
               :data-id="index"
-              class="px-2 py-1 text-base text-gray-600 capitalize bg-gray-100 cursor-pointer rounded-md"
+              class="px-2 py-1 text-sm text-gray-600 capitalize bg-gray-100 cursor-pointer rounded-md"
               :class="{ 'font-bold': player.gk }"
             >
               <div class="flex items-center select-none gap-2">
-                <Icon name="fa6-solid:ellipsis-vertical" />
-                <span v-if="player.name.toLowerCase() === 'michael'" class="text-xs">
-                  Average {{ player.name }} {{ player.gk ? '(GK)' : '' }}
-                </span>
-                <span v-else>{{ player.name }} {{ player.gk ? '(GK)' : '' }}</span>
+                <Icon name="heroicons:ellipsis-vertical-20-solid" size="1.3rem" />
+                <span>{{ player.name }} {{ player.gk ? '(GK)' : '' }}</span>
               </div>
             </li>
           </template>
@@ -116,8 +118,8 @@
       >
         <span>
           How were teams chosen?
-          <Icon name="fa6-solid:angle-down" v-if="!isShowingProcess" />
-          <Icon name="fa6-solid:angle-up" v-else />
+          <Icon name="i-heroicons-chevron-down-20-solid" size="1.3rem" v-if="!isShowingProcess" />
+          <Icon name="i-heroicons-chevron-up-20-solid" size="1.3rem" v-else />
         </span>
       </span>
     </div>
