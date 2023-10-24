@@ -49,7 +49,7 @@
             v-model="newPlayer.name"
             @keyup.enter="addPlayer(newPlayer)"
           />
-          <Button class="justify-around w-48 px-2 rounded" size="sm" @click="addPlayer(newPlayer)">Add</Button>
+          <Button class="justify-around w-48 px-2 rounded" size="small" @click="addPlayer(newPlayer)">Add</Button>
         </div>
         <Divider />
         <DataTable
@@ -68,10 +68,8 @@
                 placeholder="Filter"
               />
               <Icon
-                name
-                fa6-solid:
+                name="fa6-solid:xmark"
                 v-if="rosterFilters['global'].value"
-                icon="fa-circle-xmark"
                 @click="rosterFilters['global'].value = ''"
                 class="absolute text-gray-400 cursor-pointer right-2"
               />
@@ -232,12 +230,12 @@
 </template>
 
 <script lang="ts" setup>
-import { filter, find, maxBy, orderBy } from 'lodash-es'
+import { filter, find, maxBy } from 'lodash-es'
 import { useScroll } from '@vueuse/core'
-import { MenuItem } from 'primevue/menuitem'
+import type { MenuItem } from 'primevue/menuitem'
 import { FilterMatchMode } from 'primevue/api'
 
-import { Player, Data, Snapshot } from '~/interfaces'
+import type { Player, Data, Snapshot } from '~/interfaces'
 
 const newPlayer = ref<Player>({ id: -1, name: '', yes: true, rank: 1 })
 const isEditing = ref(false)
@@ -251,7 +249,6 @@ const rosterFilters = ref({
 const data = ref<Data>({
   config: {
     teamCount: 2,
-    // @ts-ignore
     rules: {
       goaliesFirst: false,
       noBestGolieAndPlayer: false,

@@ -139,9 +139,9 @@ import Button from 'primevue/button'
 import html2canvas from 'html2canvas'
 import { useClipboard, useBrowserLocation, promiseTimeout } from '@vueuse/core'
 import { Sortable } from 'sortablejs-vue3'
-import { Options, SortableEvent } from 'sortablejs'
+import type { Options, SortableEvent } from 'sortablejs'
 
-import { Player, Rules, Snapshot } from '~/interfaces'
+import type { Player, Rules, Snapshot } from '~/interfaces'
 
 interface Props {
   players: Player[]

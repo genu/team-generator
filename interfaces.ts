@@ -9,8 +9,8 @@ export interface Player {
 export interface Rules {
   goaliesFirst: boolean
   noBestGolieAndPlayer: boolean
-  stefanMode: boolean
-  beniMode: boolean
+  stefanMode?: boolean
+  beniMode?: boolean
 }
 
 export interface Config {
