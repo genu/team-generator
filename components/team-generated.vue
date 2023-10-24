@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-4 lg:gap-2">
+  <div class="flex flex-col gap-2 lg:gap-2">
     <UModal
       ref="shareDialog"
       header="Share Lineups"
@@ -68,7 +68,7 @@
       <Icon name="fa6-solid:person-chalkboard" class="text-6xl text-gray-400" />
       <span class="block mt-4 text-sm font-medium text-gray-900">Generate teams</span>
     </button>
-    <div class="items-start gap-3 md:gap-3 grid grid-cols-2 lg:grid-cols-3" ref="snapshotContainer">
+    <div class="items-start gap-3 md:gap-3 grid grid-cols-2 lg:grid-cols-3 mb-2" ref="snapshotContainer">
       <div
         v-for="(players, key) in teams"
         class="bg-white border-2 border-b border-gray-200 border-gray-400 shadow divide-y divide-gray-200 rounded-md"
