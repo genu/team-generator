@@ -1,44 +1,52 @@
 <template>
   <div class="flex flex-col gap-4 lg:gap-2">
-    <Dialog
+    <UModal
+      ref="shareDialog"
       header="Share Lineups"
-      :draggable="false"
-      v-model:visible="isSharingDialog"
-      :breakpoints="{ '960px': '75vw', '640px': '90vw' }"
-      :style="{ width: '50vw' }"
+      :ui="{
+        width: 'sm:max-w-4xl',
+      }"
+      v-model="isSharingDialog"
       @after-hide="previewImg = null"
-      modal
     >
-      <div class="flex flex-col" ref="shareDialog">
-        <div class="flex items-center md:gap-2">
-          <div class="flex flex-col flex-1">
-            <label class="text-lg font-semibold">Edit link:</label>
-            <input type="text" v-model="shareUrl" class="flex-1" />
+      <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
+        <template #header>
+          <div class="flex items-center justify-between">
+            <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">Share Teams</h3>
           </div>
-          <button class="mt-6 text-right w-14" @click="copy()">
-            <span v-if="!copied">Copy</span>
-            <span class="text-green-800" v-else>Copied</span>
-          </button>
+        </template>
+        <div class="flex flex-col">
+          <div class="flex items-center md:gap-2">
+            <div class="flex flex-col flex-1">
+              <label class="text-base font-semibold">Edit link</label>
+              <UInput v-model="shareUrl" disabled />
+            </div>
+            <UButton :label="copied ? 'Copied' : 'Copy'" class="mt-6" @click="copy()" variant="ghost" color="indigo" />
+          </div>
+          <span class="flex flex-col items-center gap-1" v-if="!previewImg">
+            <UIcon name="i-heroicons-arrow-path-20-solid" class="text-4xl mt-5 animate-spin" />
+            <span class="text-sm font-bold">Generating Image</span>
+          </span>
+          <img :src="previewImg" class="object-contain mt-4 h-96" v-else />
         </div>
-        <span class="flex flex-col items-center gap-1" v-if="!previewImg">
-          <Icon name="fa6-solid:arrows-spin" class="mt-5 text-4xl" spin />
-          <span class="text-sm font-bold">Generating Image</span>
-        </span>
-        <img :src="previewImg" class="object-contain mt-4 h-96" v-else />
-      </div>
-      <template #footer>
-        <Button label="Close" @click="isSharingDialog = false" class="p-0 p-button-text" />
-      </template>
-    </Dialog>
+        <template #footer>
+          <div class="flex justify-end">
+            <UButton @click="isSharingDialog = false" label="Close" variant="ghost" />
+          </div>
+        </template>
+      </UCard>
+    </UModal>
 
-    <div class="flex justify-end gap-2" v-if="players.length > 0">
-      <span>
-        <Button variant="text" class="flex px-2 gap-1" v-if="teams" @click="showSharingWindow">
-          <Icon name="fa6-solid:share-from-square" />
-          <span class="text-base">Share</span>
-        </Button>
-      </span>
-      <Button variant="success" @click="shuffle">Shuffle Teams</Button>
+    <div class="flex justify-end gap-4" v-if="players.length > 0">
+      <UButton
+        v-if="teams"
+        color="gray"
+        icon="i-heroicons-share-20-solid"
+        label="Share"
+        variant="ghost"
+        @click="showSharingWindow"
+      />
+      <UButton @click="shuffle">Shuffle Teams</UButton>
     </div>
     <div class="flex justify-end">
       <div class="flex flex-col mt-2" v-if="players.length > 0 && !teams">
@@ -134,8 +142,6 @@
 
 <script lang="ts" setup>
 import { groupBy, random, sumBy, keys, filter, map, orderBy } from 'lodash-es'
-import Dialog from 'primevue/dialog'
-import Button from 'primevue/button'
 import html2canvas from 'html2canvas'
 import { useClipboard, useBrowserLocation, promiseTimeout } from '@vueuse/core'
 import { Sortable } from 'sortablejs-vue3'
@@ -145,7 +151,7 @@ import type { Player, Rules, Snapshot } from '~/interfaces'
 
 interface Props {
   players: Player[]
-  teamCount: number
+  teamCount: number | string
   snapshot?: Snapshot
   rules?: Rules
 }

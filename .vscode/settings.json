@@ -3,9 +3,30 @@
     "**/.nuxt": true,
     "**/.output": true,
     "**/node_modules": true,
-    "**/dist":true
+    "**/dist": true
+  },
+  "editor.quickSuggestions": {
+    "strings": true
   },
   "files.associations": {
+    "*.css": "tailwindcss",
     "*.{env*}": "env"
-  }
+  },
+  "tailwindCSS.experimental.configFile": "tailwind.config.ts",
+  "tailwindCSS.experimental.classRegex": [
+    [
+      "ui:\\s*{([^)]*)\\s*}",
+      "[\"'`]([^\"'`]*).*?[\"'`]"
+    ],
+    [
+      "/\\*ui\\*/\\s*{([^;]*)}",
+      ":\\s*[\"'`]([^\"'`]*).*?[\"'`]"
+    ]
+  ],
+  "tailwindCSS.classAttributes": [
+    "class",
+    "className",
+    "ngClass",
+    "ui"
+  ]
 }

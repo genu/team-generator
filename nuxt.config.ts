@@ -1,5 +1,5 @@
 export default defineNuxtConfig({
-  modules: ['@nuxtjs/tailwindcss', '@nuxtjs/google-fonts', '@vueuse/nuxt', 'nuxt-icon', 'nuxt-primevue'],
+  modules: ['@nuxtjs/google-fonts', '@vueuse/nuxt', 'nuxt-icon', '@nuxt/ui'],
   runtimeConfig: {
     public: {
       logrocketAppId: '',
@@ -10,7 +10,6 @@ export default defineNuxtConfig({
       ignoreLocalhost: true,
     },
   },
-  css: ['primevue/resources/themes/lara-light-indigo/theme.css'],
   app: {
     head: {
       htmlAttrs: { class: 'bg-gray-100' },
@@ -29,24 +28,7 @@ export default defineNuxtConfig({
   tailwindcss: {
     configPath: '~/config/tailwind.config.ts',
   },
-  primevue: {
-    usePrimeVue: true,
-    directives: {
-      include: ['Tooltip'],
-    },
-    components: {
-      include: [
-        'Checkbox',
-        'Divider',
-        'InputText',
-        'DataTable',
-        'Column',
-        'Menu',
-        'InputSwitch',
-        'Button',
-        'InputNumber',
-        'ConfirmDialog',
-      ],
-    },
+  ui: {
+    global: true,
   },
 })

@@ -4,16 +4,19 @@
 
 @layer base {
   html {
-    @apply font-sans h-full bg-gray-100;
-  }
-  h2 {
-    @apply text-2xl font-bold;
+    /* @apply h-full bg-gray-100 text-sm font-sans; */
   }
   body {
-    @apply h-full;
+    /* @apply text-base font-normal leading-relaxed m-0 font-sans antialiased; */
+  }
+  h2 {
+    /* @apply text-2xl font-bold; */
+  }
+  body {
+    /* @apply h-full; */
   }
 
   #__nuxt {
-    @apply min-h-full;
+    /* @apply min-h-full; */
   }
 }

@@ -14,7 +14,6 @@
   },
   "devDependencies": {
     "@nuxtjs/google-fonts": "3.0.2",
-    "@nuxtjs/tailwindcss": "^6.8.0",
     "@types/lodash-es": "4.17.10",
     "@types/msgpack-lite": "^0.1.10",
     "@types/sortablejs": "^1.15.4",
@@ -22,16 +21,15 @@
     "@vueuse/nuxt": "^10.5.0",
     "nuxt": "3.8.0",
     "nuxt-icon": "^0.5.0",
-    "nuxt-primevue": "^0.0.3",
-    "prisma": "^5.4.2"
+    "prisma": "^5.5.0"
   },
   "dependencies": {
-    "@prisma/client": "^5.4.2",
+    "@nuxt/ui": "npm:@nuxt/ui-edge@latest",
+    "@prisma/client": "^5.5.0",
     "@vueuse/components": "10.5.0",
     "html2canvas": "^1.4.1",
     "lodash-es": "4.17.21",
     "nanoid": "^5.0.2",
-    "primevue": "^3.37.0",
     "sortablejs": "^1.15.0",
     "sortablejs-vue3": "^1.2.9"
   }

@@ -1,16 +1,11 @@
-import { Config } from 'tailwindcss'
+import type { Config } from 'tailwindcss'
 import defaultColors from 'tailwindcss/colors'
 import defaultTheme from 'tailwindcss/defaultTheme'
 
-const config: Config = {
-  important: true,
+export default <Partial<Config>>{
   content: [],
   theme: {
     extend: {
-      colors: {
-        primary: defaultColors.blue['600'],
-        secondary: defaultColors.blue['100'],
-      },
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
       },
@@ -18,5 +13,3 @@ const config: Config = {
   },
   plugins: [],
 }
-
-export default config
