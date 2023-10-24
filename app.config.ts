@@ -32,5 +32,10 @@ export default defineAppConfig({
         active: 'translate-x-5 rtl:-translate-x-5',
       },
     },
+    notification: {
+      progress: {
+        base: 'hidden',
+      },
+    },
   },
 })

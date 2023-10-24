@@ -320,10 +320,16 @@ const rulesAccordian = [
     slot: 'rules',
   },
 ]
+const toast = useToast()
+
 // Actions
 const save = async () => {
   isSaving.value = true
 
+  toast.add({
+    icon: 'i-heroicons-check-20-solid',
+    title: 'Saved',
+  })
   const league = await $fetch('/api/team', {
     method: 'post',
     body: { team: teamHash, data: data.value },
