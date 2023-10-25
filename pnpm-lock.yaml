@@ -53,8 +53,8 @@ devDependencies:
     specifier: 3.8.0
     version: 3.8.0(vite@4.5.0)
   nuxt-icon:
-    specifier: ^0.5.0
-    version: 0.5.0(vue@3.3.6)
+    specifier: ^0.6.0
+    version: 0.6.0(vue@3.3.6)
   prisma:
     specifier: ^5.5.0
     version: 5.5.0
@@ -5252,8 +5252,8 @@ packages:
       fsevents: 2.3.3
     dev: true
 
-  /nuxt-icon@0.5.0(vue@3.3.6):
-    resolution: {integrity: sha512-ND4yh8kW4VyIbORP3cWjgVrOAvy6QSDFDTJltakdqmxVfVysNIs/bx2NzlkHeR1EOS8E/jVcemfTPmRsJ7WUVw==}
+  /nuxt-icon@0.6.0(vue@3.3.6):
+    resolution: {integrity: sha512-yFhdd1inv8z4soCF8HZphVMn0wJJN+5m+ZHs1QQblrdxXJDV7UuZeTjN6Fy8VDHfWbZJm6coXSQrK483kU+ipA==}
     dependencies:
       '@iconify/vue': 4.1.1(vue@3.3.6)
       '@nuxt/kit': 3.8.0
