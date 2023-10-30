@@ -10,7 +10,7 @@
           <span>Team Generator</span>
         </span>
 
-        <UDropdown ref="leagueMenu" :items="items" v-else>
+        <UDropdown :items="items" v-else>
           <UButton
             :label="data.config.leagueName"
             variant="ghost"
@@ -18,10 +18,6 @@
             trailing-icon="i-heroicons-chevron-down-20-solid"
           />
         </UDropdown>
-        <!-- <div class="flex items-center gap-2" v-else>
-          <span>{{ data.config.leagueName }}</span>
-          <Icon name="fa6-solid:angle-down" />
-        </div> -->
       </h2>
       <div class="flex md:mt-0 md:ml-4 gap-4">
         <UButton color="gray" @click="toggleEdit">{{ isEditing ? 'Hide' : 'Edit' }}</UButton>
@@ -177,7 +173,7 @@
           v-if="data.players.length < 1"
           @click="isEditing = !isEditing"
         >
-          <Icon name="fa6-solid:users-viewfinder" class="text-6xl text-gray-400" />
+          <UIcon name="i-fa6-solid-users-viewfinder" class="text-6xl text-gray-400" />
           <span class="block mt-4 text-sm font-medium text-gray-900">Add some players to the league</span>
         </button>
         <TeamGenerated
@@ -203,10 +199,6 @@ const newPlayer = ref<Player>({ id: -1, name: '', yes: true, rank: 1 })
 const isEditing = ref(false)
 const unsavedChanges = ref(false)
 const isSaving = ref(false)
-const leagueMenu = ref<any>(null)
-const rosterFilters = ref({
-  global: { value: '', matchMode: '' },
-})
 
 const data = ref<Data>({
   config: {

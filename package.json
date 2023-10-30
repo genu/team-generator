@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "build": "prisma generate && prisma migrate deploy && nuxt build",
-    "dev": "nuxt dev",
+    "dev": "prisma migrate dev && nuxt dev",
     "start": "node .output/server/index.mjs",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
@@ -20,17 +20,17 @@
     "@vueuse/core": "^10.5.0",
     "@vueuse/nuxt": "^10.5.0",
     "nuxt": "3.8.0",
-    "nuxt-icon": "^0.5.0",
-    "prisma": "^5.5.0"
+    "prisma": "^5.5.2"
   },
   "dependencies": {
+    "@iconify/json": "^2.2.134",
     "@nuxt/ui": "npm:@nuxt/ui-edge@latest",
-    "@prisma/client": "^5.5.0",
+    "@prisma/client": "^5.5.2",
     "@vueuse/components": "10.5.0",
     "html2canvas": "^1.4.1",
     "lodash-es": "4.17.21",
     "nanoid": "^5.0.2",
     "sortablejs": "^1.15.0",
-    "sortablejs-vue3": "^1.2.9"
+    "sortablejs-vue3": "^1.2.10"
   }
 }

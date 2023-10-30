@@ -1,5 +1,5 @@
 export default defineNuxtConfig({
-  modules: ['@nuxtjs/google-fonts', '@vueuse/nuxt', 'nuxt-icon', '@nuxt/ui'],
+  modules: ['@nuxtjs/google-fonts', '@vueuse/nuxt', '@nuxt/ui'],
   runtimeConfig: {
     public: {
       logrocketAppId: '',
@@ -30,5 +30,6 @@ export default defineNuxtConfig({
   },
   ui: {
     global: true,
+    icons: 'all',
   },
 })

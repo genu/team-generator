@@ -50,10 +50,9 @@
     </div>
     <div class="flex justify-end">
       <div class="flex flex-col mt-2 items-center mr-3" v-if="players.length > 0 && !teams">
-        <Icon
-          name="heroicons:arrow-long-up-20-solid"
-          size="3rem"
-          class="text-gray-400 animate-bounce"
+        <UIcon
+          name="i-heroicons-arrow-long-up-20-solid"
+          class="text-4xl text-gray-400 animate-bounce"
           style="--fa-bounce-jump-scale-y: 1"
         />
         <span class="block text-sm font-medium text-gray-900">Click to shuffle</span>
@@ -65,7 +64,7 @@
       v-if="!snapshot && players.length > 0"
       @click="shuffle"
     >
-      <Icon name="fa6-solid:person-chalkboard" class="text-6xl text-gray-400" />
+      <UIcon name="i-fa6-solid-person-chalkboard" class="text-6xl text-gray-400" />
       <span class="block mt-4 text-sm font-medium text-gray-900">Generate teams</span>
     </button>
     <div class="items-start gap-3 md:gap-3 grid grid-cols-2 lg:grid-cols-3 mb-2" ref="snapshotContainer">
@@ -81,9 +80,9 @@
           <span class="absolute top-0 left-0 px-2 text-xs text-sm text-white bg-green-500">
             Rank {{ getTeamRank(players) }}
           </span>
-          <Icon
-            name="heroicons:star-20-solid"
-            class="absolute top-0 right-0 text-amber-600 text-lg"
+          <UIcon
+            name="i-heroicons-star-20-solid"
+            class="absolute top-0 right-0 text-amber-600 text-lg m-1"
             v-if="teamToChoose == key"
           />
         </div>
@@ -103,7 +102,7 @@
               :class="{ 'font-bold': player.gk }"
             >
               <div class="flex items-center select-none gap-2">
-                <Icon name="heroicons:ellipsis-vertical-20-solid" size="1.3rem" />
+                <UIcon name="heroicons-ellipsis-vertical-20-solid" class="text-2xl" />
                 <span>{{ player.name }} {{ player.gk ? '(GK)' : '' }}</span>
               </div>
             </li>
@@ -116,10 +115,10 @@
         class="flex items-center justify-around w-10/12 px-5 py-2 text-sm border border-2 border-gray-300 border-dashed cursor-pointer md:w-1/2 gap-5 hover:bg-gray-50"
         @click="isShowingProcess = !isShowingProcess"
       >
-        <span>
+        <span class="flex items-center">
           How were teams chosen?
-          <Icon name="i-heroicons-chevron-down-20-solid" size="1.3rem" v-if="!isShowingProcess" />
-          <Icon name="i-heroicons-chevron-up-20-solid" size="1.3rem" v-else />
+          <UIcon name="i-heroicons-chevron-down-20-solid" size="1.3rem" v-if="!isShowingProcess" class="text-xl" />
+          <UIcon name="i-heroicons-chevron-up-20-solid" size="1.3rem" v-else class="text-xl" />
         </span>
       </span>
     </div>
