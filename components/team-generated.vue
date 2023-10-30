@@ -102,7 +102,7 @@
               :class="{ 'font-bold': player.gk }"
             >
               <div class="flex items-center select-none gap-2">
-                <UIcon name="heroicons-ellipsis-vertical-20-solid" class="text-2xl" />
+                <UIcon name="i-heroicons-ellipsis-vertical-20-solid" class="text-xl" />
                 <span>{{ player.name }} {{ player.gk ? '(GK)' : '' }}</span>
               </div>
             </li>
