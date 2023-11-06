@@ -1,5 +1,5 @@
 export default defineNuxtConfig({
-  modules: ['@nuxtjs/google-fonts', '@vueuse/nuxt', '@nuxt/ui'],
+  modules: ['@nuxtjs/google-fonts', '@vueuse/nuxt', '@nuxt/ui', '@floatie/widget-nuxt'],
   runtimeConfig: {
     public: {
       logrocketAppId: '',
@@ -29,5 +29,8 @@ export default defineNuxtConfig({
   },
   colorMode: {
     preference: 'light',
+  },
+  floatie: {
+    clientKey: process.env.NUXT_PUBLIC_FLOATIE_CLIENT_KEY,
   },
 })
