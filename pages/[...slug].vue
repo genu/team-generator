@@ -37,7 +37,7 @@
       }"
     ></div>
     <div
-      class="relative z-10 flex flex-col-reverse pt-4 -mt-2 bg-slate-100 border border-gray-700 rounded-b shadow-md lg:flex-row transition-all gap-2"
+      class="relative z-10 flex flex-col-reverse pt-4 -mt-2 border border-gray-700 rounded-b shadow-md bg-slate-100 lg:flex-row transition-all gap-2"
       :class="{
         'translate-y-0': isEditing,
         '-translate-y-full': !isEditing,
@@ -52,7 +52,7 @@
             class="w-full"
             @keyup.enter="addPlayer(newPlayer)"
           />
-          <UButton color="indigo" label="Add" @click="addPlayer(newPlayer)" class="w-32 justify-around" />
+          <UButton color="indigo" label="Add" @click="addPlayer(newPlayer)" class="justify-around w-32" />
         </div>
 
         <div v-if="data.players.length > 0">
@@ -116,20 +116,20 @@
         </div>
       </div>
       <UDivider orientation="vertical" class="w-5" />
-      <div class="flex flex-col p-2 gap-2 flex-1">
+      <div class="flex flex-col flex-1 p-2 gap-2">
         <h2 class="font-bold">Options</h2>
         <div class="flex flex-col font-semibold gap-2">
           <div class="flex items-center gap-2">
-            <span class="text-right text-gray-700 w-28 text-sm">League Name:</span>
+            <span class="text-sm text-right text-gray-700 w-28">League Name:</span>
             <UInput v-model="data.config.leagueName" />
           </div>
           <div class="flex items-center gap-2">
-            <span class="text-right text-gray-700 w-28 text-sm"># of teams:</span>
+            <span class="text-sm text-right text-gray-700 w-28"># of teams:</span>
             <UInput type="number" v-model="data.config.teamCount" class="w-20" />
           </div>
           <UAccordion :items="rulesAccordian" color="indigo" variant="soft">
             <template #rules>
-              <div class="flex flex-col gap-3 px-2">
+              <div class="flex flex-col px-2 gap-3">
                 <UCheckbox v-model="data.config.rules.goaliesFirst" label="Choose goalies first" />
                 <UCheckbox
                   disabled

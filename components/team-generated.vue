@@ -12,7 +12,7 @@
       <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
         <template #header>
           <div class="flex items-center justify-between">
-            <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">Share Teams</h3>
+            <h3 class="text-base font-semibold text-gray-900 leading-6 dark:text-white">Share Teams</h3>
           </div>
         </template>
         <div class="flex flex-col">
@@ -24,7 +24,7 @@
             <UButton :label="copied ? 'Copied' : 'Copy'" class="mt-6" @click="copy()" variant="ghost" color="indigo" />
           </div>
           <span class="flex flex-col items-center gap-1" v-if="!previewImg">
-            <UIcon name="i-heroicons-arrow-path-20-solid" class="text-4xl mt-5 animate-spin" />
+            <UIcon name="i-heroicons-arrow-path-20-solid" class="mt-5 text-4xl animate-spin" />
             <span class="text-sm font-bold">Generating Image</span>
           </span>
           <img :src="previewImg" class="object-contain mt-4 h-96" v-else />
@@ -49,7 +49,7 @@
       <UButton @click="shuffle">Shuffle Teams</UButton>
     </div>
     <div class="flex justify-end">
-      <div class="flex flex-col mt-2 items-center mr-3" v-if="players.length > 0 && !teams">
+      <div class="flex flex-col items-center mt-2 mr-3" v-if="players.length > 0 && !teams">
         <UIcon
           name="i-heroicons-arrow-long-up-20-solid"
           class="text-4xl text-gray-400 animate-bounce"
@@ -67,7 +67,7 @@
       <UIcon name="i-fa6-solid-person-chalkboard" class="text-6xl text-gray-400" />
       <span class="block mt-4 text-sm font-medium text-gray-900">Generate teams</span>
     </button>
-    <div class="items-start gap-3 md:gap-3 grid grid-cols-2 lg:grid-cols-3 mb-2" ref="snapshotContainer">
+    <div class="items-start mb-2 gap-3 md:gap-3 grid grid-cols-2 lg:grid-cols-3" ref="snapshotContainer">
       <div
         v-for="(players, key) in teams"
         class="bg-white border-2 border-b border-gray-200 border-gray-400 shadow divide-y divide-gray-200 rounded-md"
@@ -82,7 +82,7 @@
           </span>
           <UIcon
             name="i-heroicons-star-20-solid"
-            class="absolute top-0 right-0 text-amber-600 text-lg m-1"
+            class="absolute top-0 right-0 m-1 text-lg text-amber-600"
             v-if="teamToChoose == key"
           />
         </div>
@@ -110,19 +110,17 @@
         </Sortable>
       </div>
     </div>
-    <div class="flex justify-around" v-if="numberOfGeneratedTeams > 0 && !usingSeedData">
-      <span
-        class="flex items-center justify-around w-10/12 px-5 py-2 text-sm border border-2 border-gray-300 border-dashed cursor-pointer md:w-1/2 gap-5 hover:bg-gray-50"
+    <div class="flex justify-around py-2" v-if="numberOfGeneratedTeams > 0 && !usingSeedData">
+      <UButton
+        variant="outline"
         @click="isShowingProcess = !isShowingProcess"
+        :icon="!isShowingProcess ? 'i-heroicons-chevron-down-20-solid' : 'i-heroicons-chevron-up-20-solid'"
+        trailing
       >
-        <span class="flex items-center">
-          How were teams chosen?
-          <UIcon name="i-heroicons-chevron-down-20-solid" size="1.3rem" v-if="!isShowingProcess" class="text-xl" />
-          <UIcon name="i-heroicons-chevron-up-20-solid" size="1.3rem" v-else class="text-xl" />
-        </span>
-      </span>
+        How were teams chosen?
+      </UButton>
     </div>
-    <div class="flex flex-col p-5 text-sm italic bg-white divide-y divide-gray-400" v-if="isShowingProcess">
+    <UCard v-if="isShowingProcess" class="text-sm">
       <div class="not-italic">
         <h2 class="py-0 my-0">Strategy</h2>
         <ul class="pb-2 mx-5 list-disc">
@@ -137,12 +135,12 @@
           {{ instruction }}
         </p>
       </div>
-    </div>
+    </UCard>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { groupBy, random, sumBy, keys, filter, map, orderBy, update } from 'lodash-es'
+import { groupBy, random, sumBy, keys, filter, map, orderBy } from 'lodash-es'
 import html2canvas from 'html2canvas'
 import { useClipboard, useBrowserLocation, promiseTimeout } from '@vueuse/core'
 import { Sortable } from 'sortablejs-vue3'

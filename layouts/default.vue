@@ -1,21 +1,20 @@
 <template>
-  <div class="flex flex-col justify-between h-screen bg-gray-100">
+  <div class="flex flex-col justify-between h-screen">
     <div class="z-20 w-full max-w-4xl mx-auto md:w-2/3">
       <slot />
     </div>
-    <div class="py-2 text-sm text-center border">
-      Project by
-      <a href="https://twitter.com/eugenistoc" class="font-medium text-blue-600 hover:underline" target="_blank">
-        Eugen Istoc
-      </a>
-      |
-      <a
-        href="https://github.com/genu/team-generator"
-        class="font-medium text-blue-600 hover:underline"
-        target="_blank"
-      >
-        Source Code
-      </a>
+    <div class="flex flex-col items-center justify-around">
+      <UDivider />
+      <div class="text-sm">
+        Project by
+        <NuxtLink to="https://twitter.com/eugenistoc" target="_blank">
+          <UButton color="primary" variant="link">Eugen Istoc</UButton>
+        </NuxtLink>
+        |
+        <NuxtLink to="https://github.com/genu/team-generator" target="_blank">
+          <UButton color="primary" variant="link">Source Code</UButton>
+        </NuxtLink>
+      </div>
     </div>
   </div>
 </template>

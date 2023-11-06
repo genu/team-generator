@@ -10,11 +10,6 @@ export default defineNuxtConfig({
       ignoreLocalhost: true,
     },
   },
-  app: {
-    head: {
-      htmlAttrs: { class: 'bg-gray-100' },
-    },
-  },
   /**
    * Module configurations
    **/
@@ -31,5 +26,8 @@ export default defineNuxtConfig({
   ui: {
     global: true,
     icons: 'all',
+  },
+  colorMode: {
+    preference: 'light',
   },
 })
