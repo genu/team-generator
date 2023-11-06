@@ -142,7 +142,7 @@
 </template>
 
 <script lang="ts" setup>
-import { groupBy, random, sumBy, keys, filter, map, orderBy } from 'lodash-es'
+import { groupBy, random, sumBy, keys, filter, map, orderBy, update } from 'lodash-es'
 import html2canvas from 'html2canvas'
 import { useClipboard, useBrowserLocation, promiseTimeout } from '@vueuse/core'
 import { Sortable } from 'sortablejs-vue3'
@@ -275,7 +275,11 @@ const shuffle = () => {
 }
 
 const numberOfGeneratedTeams = computed(() => keys(teams.value).length)
-const getTeamRank = (players: Player[]) => sumBy(players, 'rank')
+const getTeamRank = (players: Player[]) => {
+  const rankAsNumber = map(players, (player) => ({ ...player, rank: Number(player.rank) }))
+
+  return sumBy(rankAsNumber, 'rank')
+}
 
 const showSharingWindow = async () => {
   isSharingDialog.value = true
