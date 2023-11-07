@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "@nuxtjs/google-fonts": "3.0.2",
-    "@types/lodash-es": "4.17.10",
+    "@types/lodash-es": "4.17.11",
     "@types/msgpack-lite": "^0.1.10",
     "@types/sortablejs": "^1.15.4",
     "@vueuse/core": "^10.5.0",
