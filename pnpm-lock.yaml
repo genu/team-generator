@@ -8,9 +8,9 @@ dependencies:
   '@floatie/widget-nuxt':
     specifier: ^2.1.1
     version: 2.1.1(typescript@5.2.2)
-  '@iconify/json':
-    specifier: ^2.2.139
-    version: 2.2.139
+  '@iconify-json/ph':
+    specifier: ^1.1.6
+    version: 1.1.6
   '@nuxt/ui':
     specifier: npm:@nuxt/ui-edge@latest
     version: /@nuxt/ui-edge@2.10.0-28321529.c601fc6(nuxt@3.8.1)(sortablejs@1.15.0)(ts-node@10.9.1)(vite@4.5.0)(vue@3.3.8)(webpack@5.89.0)
@@ -913,17 +913,16 @@ packages:
       '@iconify/types': 2.0.0
     dev: false
 
-  /@iconify/collections@1.0.352:
-    resolution: {integrity: sha512-jFIyhRq3P/ymUnfq9CoYDfd6H3nmh5a/qlj/KZqN4ipuYYTIIoP7XkW9TMydOB4g7YqblnGzxXUjKZiJO06jLw==}
+  /@iconify-json/ph@1.1.6:
+    resolution: {integrity: sha512-dexzEndlXQX/sbQhnEpA94Pby6JCGV2tZToSGcPPQpbilDGyk5VMd0ymusYoocRAn6+qLpGRvMoz5XFKGqP+VA==}
     dependencies:
       '@iconify/types': 2.0.0
     dev: false
 
-  /@iconify/json@2.2.139:
-    resolution: {integrity: sha512-RQrUtjDN7qzGP+75I4lqH4XO2/PjOA7g9yQEoVB/DQf3S1ND7qLxlgbMa5vZV7oFMydl0ifmeIzBtgKL78B11Q==}
+  /@iconify/collections@1.0.352:
+    resolution: {integrity: sha512-jFIyhRq3P/ymUnfq9CoYDfd6H3nmh5a/qlj/KZqN4ipuYYTIIoP7XkW9TMydOB4g7YqblnGzxXUjKZiJO06jLw==}
     dependencies:
       '@iconify/types': 2.0.0
-      pathe: 1.1.1
     dev: false
 
   /@iconify/types@2.0.0:

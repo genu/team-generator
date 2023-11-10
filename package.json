@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "@floatie/widget-nuxt": "^2.1.1",
-    "@iconify/json": "^2.2.139",
+    "@iconify-json/ph": "^1.1.6",
     "@nuxt/ui": "npm:@nuxt/ui-edge@latest",
     "@prisma/client": "^5.5.2",
     "@tanstack/vue-query": "^5.8.1",

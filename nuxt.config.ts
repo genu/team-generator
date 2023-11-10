@@ -28,7 +28,7 @@ export default defineNuxtConfig({
   },
   ui: {
     global: true,
-    icons: 'all',
+    icons: ['ph'],
   },
   colorMode: {
     preference: 'light',

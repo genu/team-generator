@@ -25,6 +25,7 @@ model League {
   configuration Json?
   account       Account?   @relation(fields: [accountId], references: [id])
   snapshots     Snapshot[]
+  players       Player[]
   accountId     Int?
   createdAt     DateTime   @default(now())
   updatedAt     DateTime?
@@ -32,12 +33,12 @@ model League {
 
 model Player {
   id        Int       @id @default(autoincrement())
-  hash      String    @unique
   name      String
   rank      Int
   isActive  Boolean   @default(false)
   isGoalie  Boolean   @default(false)
-  teamId    Int
+  league    League    @relation(fields: [leagueId], references: [id])
+  leagueId  Int
   createdAt DateTime  @default(now())
   updatedAt DateTime?
 }

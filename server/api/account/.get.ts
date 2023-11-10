@@ -5,12 +5,8 @@ export default defineEventHandler(async (event) => {
     select: {
       leagues: {
         select: {
-          snapshots: {
-            select: {
-              createdAt: true,
-              updatedAt: true,
-            },
-          },
+          id: true,
+          name: true,
         },
       },
     },
@@ -18,8 +14,6 @@ export default defineEventHandler(async (event) => {
       hash: hash as string,
     },
   })
-
-  if (!account) return createError({ statusCode: 404, message: 'Cant migrate league to new schema' })
 
   return account
 })

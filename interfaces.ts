@@ -36,3 +36,8 @@ export interface Snapshot {
   teamToChoose?: number
   methodology?: string[]
 }
+
+export interface LeagueConfiguration {
+  rules: Rules
+  teamCount: number
+}
