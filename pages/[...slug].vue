@@ -37,7 +37,7 @@
       }"
     ></div>
     <div
-      class="relative z-10 flex flex-col-reverse pt-4 -mt-2 border border-gray-700 rounded-b shadow-md bg-slate-100 lg:flex-row transition-all gap-2"
+      class="relative z-10 flex flex-col-reverse pt-4 -mt-2 border border-gray-700 rounded-b shadow-md bg-slate-100 dark:bg-slate-900 lg:flex-row transition-all gap-2"
       :class="{
         'translate-y-0': isEditing,
         '-translate-y-full': !isEditing,
@@ -45,7 +45,7 @@
     >
       <div class="relative flex flex-col lg:w-2/4 gap-2">
         <UDivider label="Squad" />
-        <div class="sticky z-50 flex items-center px-2 py-2 bg-gray-200 gap-2 top-16 lg:top-20">
+        <div class="sticky z-50 flex items-center px-2 py-2 bg-gray-200 dark:bg-gray-800 gap-2 top-16 lg:top-20">
           <UInput
             v-model="newPlayer.name"
             placeholder="Player Name"

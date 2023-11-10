@@ -10,10 +10,45 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Account {
+  id      Int      @id @default(autoincrement())
+  hash    String   @unique @default(uuid())
+  leagues League[]
+}
+
 model League {
+  id            Int       @id @default(autoincrement())
+  hash          String    @unique
+  name          String?
+  numberOfTeams Int       @default(2)
+  data          Json
+  configuration Json?
+  account       Account?  @relation(fields: [accountId], references: [id])
+  teams         Team[]
+  accountId     Int?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime?
+}
+
+model Team {
   id        Int       @id @default(autoincrement())
-  hash      String    @unique
+  name      String
+  league    League    @relation(fields: [leagueId], references: [id])
+  players   Player[]
+  leagueId  Int
   createdAt DateTime  @default(now())
   updatedAt DateTime?
-  data      Json
+}
+
+model Player {
+  id        Int       @id @default(autoincrement())
+  hash      String    @unique
+  name      String
+  rank      Int
+  isActive  Boolean   @default(false)
+  isGoalie  Boolean   @default(false)
+  team      Team      @relation(fields: [teamId], references: [id])
+  teamId    Int
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?
 }
