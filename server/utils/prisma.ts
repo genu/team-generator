@@ -2,4 +2,4 @@ import { PrismaClient } from '@prisma/client'
 
 const client = new PrismaClient()
 
-export const usePrisma = () => client
+export const $prisma = client
