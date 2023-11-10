@@ -10,6 +10,9 @@ export default defineNuxtConfig({
       ignoreLocalhost: true,
     },
   },
+  imports: {
+    dirs: ['./composables/queries'],
+  },
   /**
    * Module configurations
    **/

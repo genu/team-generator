@@ -1,29 +1,25 @@
 export default defineEventHandler(async (event) => {
-  const { teamHash } = getQuery(event)
+  const { hash } = getQuery(event)
 
-  /**
-   *
-   * Determine if we need to migrate this to new schema
-   */
   const account = await $prisma.account.findFirst({
+    select: {
+      leagues: {
+        select: {
+          snapshots: {
+            select: {
+              createdAt: true,
+              updatedAt: true,
+            },
+          },
+        },
+      },
+    },
     where: {
-      hash: teamHash as string,
+      hash: hash as string,
     },
   })
 
-  if (!account) {
-    // Check for a league with this hash (old schema)
-    const league = await $prisma.league.findFirst({
-      where: {
-        hash: teamHash as string,
-      },
-    })
+  if (!account) return createError({ statusCode: 404, message: 'Cant migrate league to new schema' })
 
-    if (league) {
-      throw new Error('League  found with' + teamHash)
-    }
-  }
-  //   return await $prisma.league.findUnique({
-  //     where: { hash: query.teamHash as string },
-  //   })
+  return account
 })

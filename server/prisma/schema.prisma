@@ -17,27 +17,17 @@ model Account {
 }
 
 model League {
-  id            Int       @id @default(autoincrement())
-  hash          String    @unique
+  id            Int        @id @default(autoincrement())
+  hash          String?
   name          String?
-  numberOfTeams Int       @default(2)
+  numberOfTeams Int        @default(2)
   data          Json
   configuration Json?
-  account       Account?  @relation(fields: [accountId], references: [id])
-  teams         Team[]
+  account       Account?   @relation(fields: [accountId], references: [id])
+  snapshots     Snapshot[]
   accountId     Int?
-  createdAt     DateTime  @default(now())
+  createdAt     DateTime   @default(now())
   updatedAt     DateTime?
-}
-
-model Team {
-  id        Int       @id @default(autoincrement())
-  name      String
-  league    League    @relation(fields: [leagueId], references: [id])
-  players   Player[]
-  leagueId  Int
-  createdAt DateTime  @default(now())
-  updatedAt DateTime?
 }
 
 model Player {
@@ -47,8 +37,16 @@ model Player {
   rank      Int
   isActive  Boolean   @default(false)
   isGoalie  Boolean   @default(false)
-  team      Team      @relation(fields: [teamId], references: [id])
   teamId    Int
   createdAt DateTime  @default(now())
   updatedAt DateTime?
+}
+
+model Snapshot {
+  id        Int       @id @default(autoincrement())
+  league    League    @relation(fields: [leagueId], references: [id])
+  data      Json
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?
+  leagueId  Int
 }

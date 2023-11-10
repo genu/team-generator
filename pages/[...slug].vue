@@ -253,25 +253,17 @@ useHead({
   },
 })
 
-const teamHash = route.params.slug[0]
+const account = useAccount()
 
-if (teamHash) {
+const hash = route.params.slug[0]
+const { data: accountData } = account.get(hash)
+console.log(accountData)
+
+if (hash) {
   try {
-    const { data: loadedData } = await useFetch('/api/team', {
-      query: { teamHash },
+    const { data: loadedData } = await useFetch('/api/account', {
+      query: { hash },
     })
-
-    if (loadedData.value !== null) {
-      const savedData = loadedData.value.data as unknown as Data
-
-      data.value.config.leagueName = savedData.config.leagueName
-      data.value.config.teamCount = savedData.config.teamCount
-      data.value.config.rules.goaliesFirst = savedData.config.rules?.goaliesFirst || false
-      data.value.config.rules.noBestGolieAndPlayer = savedData.config.rules?.noBestGolieAndPlayer || false
-
-      data.value.players = [...savedData.players]
-      data.value.snapshot = savedData.snapshot
-    }
   } catch (err) {
     console.log(err)
   }
@@ -324,7 +316,7 @@ const save = async () => {
   })
   const league = await $fetch('/api/team', {
     method: 'post',
-    body: { team: teamHash, data: data.value },
+    body: { team: hash, data: data.value },
   })
 
   unsavedChanges.value = false

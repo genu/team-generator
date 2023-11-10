@@ -1,11 +1,13 @@
 {
   "name": "teams-generator",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "prisma generate && prisma migrate deploy && nuxt build",
     "dev": "prisma migrate dev && nuxt dev",
     "start": "node .output/server/index.mjs",
     "generate": "nuxt generate",
+    "db-migrate": "ts-node-esm ./db-migrate.ts",
     "preview": "nuxt preview",
     "postinstall": "prisma generate"
   },
@@ -27,11 +29,14 @@
     "@iconify/json": "^2.2.139",
     "@nuxt/ui": "npm:@nuxt/ui-edge@latest",
     "@prisma/client": "^5.5.2",
+    "@tanstack/vue-query": "^5.8.1",
     "@vueuse/components": "10.6.0",
     "html2canvas": "^1.4.1",
     "lodash-es": "4.17.21",
     "nanoid": "^5.0.3",
     "sortablejs": "^1.15.0",
-    "sortablejs-vue3": "^1.2.10"
+    "sortablejs-vue3": "^1.2.10",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
   }
 }
