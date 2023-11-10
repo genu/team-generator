@@ -15,16 +15,16 @@
   "devDependencies": {
     "@nuxtjs/google-fonts": "3.0.2",
     "@types/lodash-es": "4.17.11",
-    "@types/msgpack-lite": "^0.1.10",
-    "@types/sortablejs": "^1.15.4",
-    "@vueuse/core": "^10.5.0",
-    "@vueuse/nuxt": "^10.5.0",
+    "@types/msgpack-lite": "^0.1.11",
+    "@types/sortablejs": "^1.15.5",
+    "@vueuse/core": "^10.6.0",
+    "@vueuse/nuxt": "^10.6.0",
     "nuxt": "3.8.1",
     "prisma": "^5.5.2"
   },
   "dependencies": {
     "@floatie/widget-nuxt": "^2.1.1",
-    "@iconify/json": "^2.2.138",
+    "@iconify/json": "^2.2.139",
     "@nuxt/ui": "npm:@nuxt/ui-edge@latest",
     "@prisma/client": "^5.5.2",
     "@vueuse/components": "10.6.0",
