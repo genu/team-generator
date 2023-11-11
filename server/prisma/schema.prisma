@@ -37,7 +37,7 @@ model Player {
   rank      Int
   isActive  Boolean   @default(false)
   isGoalie  Boolean   @default(false)
-  league    League    @relation(fields: [leagueId], references: [id])
+  league    League    @relation(fields: [leagueId], references: [id], onDelete: Cascade)
   leagueId  Int
   createdAt DateTime  @default(now())
   updatedAt DateTime?

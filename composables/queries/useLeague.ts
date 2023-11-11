@@ -34,6 +34,22 @@ export const useLeague = () => {
     })
   }
 
+  const duplicate = () => {
+    return useMutation({
+      mutationFn: async (leagueId: number) => {
+        const res = await $fetch('/api/account/league/duplicate', {
+          method: 'POST',
+          body: { id: leagueId },
+        })
+
+        return res
+      },
+      onSuccess: ({ account }) => {
+        queryClient.invalidateQueries({ queryKey: ['account', account?.hash] })
+      },
+    })
+  }
+
   const del = () => {
     return useMutation({
       mutationFn: async (leagueId: number) => {
@@ -51,5 +67,5 @@ export const useLeague = () => {
     })
   }
 
-  return { get, create, del }
+  return { get, create, del, duplicate }
 }

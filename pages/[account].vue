@@ -24,6 +24,7 @@ const { data: account, isLoading, suspense: suspenseAccount } = accountQuery.get
 const { data: leagueData, isLoading: isLoadingLeague, suspense: suspenseLeague } = leagueQuery.get(parseInt(leagueId))
 const { mutateAsync: createLeagueAsync } = leagueQuery.create()
 const { mutateAsync: deleteLeagueAsync } = leagueQuery.del()
+const { mutateAsync: duplicateLeagueAsync } = leagueQuery.duplicate()
 
 const league = ref()
 
@@ -47,8 +48,15 @@ const leagueActions: DropdownItem[] = [
   {
     label: 'Duplicate League',
     icon: 'i-ph-copy',
-    click: () => {
-      console.log('duplicate a league')
+    click: async () => {
+      const { id } = await duplicateLeagueAsync(selectedLeague.value?.id!)
+
+      toast.add({
+        icon: 'i-heroicons-check-20-solid',
+        title: `${selectedLeague.value?.name} Duplicated`,
+      })
+
+      router.push({ query: { league: id } })
     },
   },
   {
