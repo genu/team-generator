@@ -44,8 +44,9 @@ export const useLeague = () => {
 
         return res
       },
-      onSuccess: ({ account }) => {
+      onSuccess: ({ account, id }) => {
         queryClient.invalidateQueries({ queryKey: ['account', account?.hash] })
+        queryClient.removeQueries({ queryKey: ['league', id] })
       },
     })
   }

@@ -119,20 +119,20 @@ const createLeague = async (league: Partial<League>) => {
 }
 
 const deleteLeague = async (league: Partial<League>) => {
-  const deletedLeague = await deleteLeagueAsync(league.id!)
-
-  router.replace(`/${account.value?.hash}`)
+  const { account, name } = await deleteLeagueAsync(league.id!)
 
   toast.add({
     icon: 'i-heroicons-check-20-solid',
-    title: `${deleteLeague.name} deleted`,
+    title: `${name} deleted`,
   })
+
+  router.replace(`/${account?.hash}`)
 }
 </script>
 
 <template>
   <div>
-    <UiConfirmation v-model="showConfirmDeleteLeague" title="Delete League?" @on-confirm="deleteLeague(selectedLeague)">
+    <UiConfirmation v-model="showConfirmDeleteLeague" title="Delete League" @on-confirm="deleteLeague(selectedLeague!)">
       <template #content>
         Are you sure you want to remove
         <span class="font-semibold">"{{ selectedLeague?.name }}"</span>
