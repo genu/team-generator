@@ -23,6 +23,8 @@ const { league: leagueId } = route.query as AccountQuery
 const { data: account, isLoading, suspense: suspenseAccount } = accountQuery.get(accountHash)
 const { data: leagueData, isLoading: isLoadingLeague, suspense: suspenseLeague } = leagueQuery.get(parseInt(leagueId))
 const { mutateAsync: createLeagueAsync } = leagueQuery.create()
+const { mutateAsync: deleteLeagueAsync } = leagueQuery.del()
+
 const league = ref()
 
 syncRef(leagueData, league, { direction: 'ltr' })
@@ -115,14 +117,26 @@ const createLeague = async (league: Partial<League>) => {
   isAddingNewLeague.value = false
   isAddNewLeagueStatus.value = DataStatus.SUCCESS
 }
+
+const deleteLeague = async (league: Partial<League>) => {
+  const deletedLeague = await deleteLeagueAsync(league.id!)
+
+  router.replace(`/${account.value?.hash}`)
+
+  toast.add({
+    icon: 'i-heroicons-check-20-solid',
+    title: `${deleteLeague.name} deleted`,
+  })
+}
 </script>
 
 <template>
   <div>
-    <UiConfirmation v-model="showConfirmDeleteLeague" title="Delete League?">
+    <UiConfirmation v-model="showConfirmDeleteLeague" title="Delete League?" @on-confirm="deleteLeague(selectedLeague)">
       <template #content>
-        Are you sure you want to remove lague:
-        <span class="italic bold">{{ selectedLeague?.name }}</span>
+        Are you sure you want to remove
+        <span class="font-semibold">"{{ selectedLeague?.name }}"</span>
+        league?
       </template>
     </UiConfirmation>
     <UModal v-model="isAddingNewLeague" :ui="{ container: 'items-start' }" prevent-close>

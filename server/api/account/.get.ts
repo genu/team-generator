@@ -4,6 +4,7 @@ export default defineEventHandler(async (event) => {
   return await $prisma.account.findFirst({
     select: {
       id: true,
+      hash: true,
       leagues: {
         select: {
           id: true,
