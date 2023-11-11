@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { RouteParams, LocationQuery } from '#vue-router'
 import type { DropdownItem } from '@nuxt/ui/dist/runtime/types'
+import type { League } from '@prisma/client'
 
 interface AccountRouteParams extends RouteParams {
   account: string
@@ -12,6 +13,7 @@ interface AccountQuery extends LocationQuery {
 const accountQuery = useAccount()
 const leagueQuery = useLeague()
 const route = useRoute()
+const router = useRouter()
 const { y: scrollY } = useScroll(process.client ? window : null)
 const toast = useToast()
 
@@ -20,7 +22,7 @@ const { league: leagueId } = route.query as AccountQuery
 
 const { data: account, isLoading, suspense: suspenseAccount } = accountQuery.get(accountHash)
 const { data: leagueData, isLoading: isLoadingLeague, suspense: suspenseLeague } = leagueQuery.get(parseInt(leagueId))
-
+const { mutateAsync: createLeagueAsync } = leagueQuery.create()
 const league = ref()
 
 syncRef(leagueData, league, { direction: 'ltr' })
@@ -51,6 +53,9 @@ const leagueActions: DropdownItem[] = [
     label: 'Delete this league',
     iconClass: 'text-red-500',
     icon: 'i-ph-trash',
+    click: () => {
+      showConfirmDeleteLeague.value = true
+    },
   },
 ]
 
@@ -73,7 +78,8 @@ const selectedLeague = computed(() => {
 })
 
 const saveStatus = ref(DataStatus.DEFAULT)
-
+const isAddNewLeagueStatus = ref(DataStatus.DEFAULT)
+const showConfirmDeleteLeague = ref(false)
 const isEditing = ref(false)
 
 const toggleEdit = () => {
@@ -99,35 +105,55 @@ const save = async () => {
 
   scrollY.value = 0
 }
+
+const createLeague = async (league: Partial<League>) => {
+  isAddNewLeagueStatus.value = DataStatus.PENDING
+
+  const { id } = await createLeagueAsync({ ...league, accountId: account.value?.id })
+  router.push({ query: { league: id } })
+
+  isAddingNewLeague.value = false
+  isAddNewLeagueStatus.value = DataStatus.SUCCESS
+}
 </script>
 
 <template>
   <div>
+    <UiConfirmation v-model="showConfirmDeleteLeague" title="Delete League?">
+      <template #content>
+        Are you sure you want to remove lague:
+        <span class="italic bold">{{ selectedLeague?.name }}</span>
+      </template>
+    </UiConfirmation>
     <UModal v-model="isAddingNewLeague" :ui="{ container: 'items-start' }" prevent-close>
-      <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
-        <template #header>
-          <div class="flex items-center justify-between">
-            <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">Add a new league</h3>
-            <UButton
-              color="gray"
-              variant="ghost"
-              icon="i-heroicons-x-mark-20-solid"
-              class="-my-1"
-              @click="isAddingNewLeague = false"
-            />
-          </div>
-        </template>
-        <FormKit type="form" :actions="false">
-          <FormKit type="text" placeholder="League name" />
-        </FormKit>
+      <FormKit type="form" :actions="false" #default="{ node }" @submit="createLeague">
+        <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
+          <template #header>
+            <div class="flex items-center justify-between">
+              <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">Add a new league</h3>
+              <UButton
+                color="gray"
+                variant="ghost"
+                icon="i-heroicons-x-mark-20-solid"
+                class="-my-1"
+                @click="isAddingNewLeague = false"
+              />
+            </div>
+          </template>
+          <FormKit type="text" name="name" placeholder="League name" />
 
-        <template #footer>
-          <div class="flex justify-end gap-4">
-            <UButton color="indigo" variant="ghost" label="Cancel" @click="isAddingNewLeague = false" />
-            <UButton label="Add" />
-          </div>
-        </template>
-      </UCard>
+          <template #footer>
+            <div class="flex justify-end gap-4">
+              <UButton color="indigo" variant="ghost" label="Cancel" @click="isAddingNewLeague = false" />
+              <UButton
+                :label="isAddNewLeagueStatus === DataStatus.PENDING ? '' : 'Add League'"
+                @click="node.submit()"
+                :loading="isAddNewLeagueStatus === DataStatus.PENDING"
+              />
+            </div>
+          </template>
+        </UCard>
+      </FormKit>
     </UModal>
     <div v-if="!account || isLoading" class="flex flex-col gap-4 my-5">
       <USkeleton class="h-20" />

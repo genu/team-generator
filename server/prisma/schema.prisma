@@ -21,7 +21,7 @@ model League {
   hash          String?
   name          String?
   numberOfTeams Int        @default(2)
-  data          Json
+  data          Json?
   configuration Json?
   account       Account?   @relation(fields: [accountId], references: [id])
   snapshots     Snapshot[]
