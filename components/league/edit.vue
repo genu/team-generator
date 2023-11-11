@@ -1,24 +1,42 @@
 <script lang="ts" setup>
 import type { League, Player } from '@prisma/client'
-import {} from '@tanstack/vue-query'
+import { find } from 'lodash-es'
 
-defineProps<{ players: Player[] }>()
+interface LeagueWithPlayers extends League {
+  players: Partial<Player>[]
+}
+const props = defineProps<{ modelValue: LeagueWithPlayers }>()
+
+const emits = defineEmits<{ 'update:modelValue': [LeagueWithPlayers] }>()
+
+const newPlayer = ref<Partial<Player>>({ name: '', isActive: true, rank: 1 })
+const addPlayer = (player: Partial<Player>) => {
+  // No empty strings
+  if (player.name === '') return
+
+  // No existing players
+  if (find(props.modelValue.players, { name: player.name })) return
+
+  player.name = player.name!.trim()
+  debugger
+  const updatedLeague: LeagueWithPlayers = {
+    ...props.modelValue,
+    players: [...props.modelValue.players, unref(player)],
+  }
+
+  emits('update:modelValue', updatedLeague)
+}
 </script>
 
 <template>
   <div class="flex w-full">
     <div class="relative flex flex-col lg:w-2/4 gap-2">
       <UDivider label="Squad" />
-      edit league: {{ $props.players }}
-      <!--   <div class="sticky z-50 flex items-center px-2 py-2 bg-gray-200 dark:bg-gray-800 gap-2 top-16 lg:top-20">
-              <UInput
-                v-model="newPlayer.name"
-                placeholder="Player Name"
-                class="w-full"
-                @keyup.enter="addPlayer(newPlayer)"
-              />
-              <UButton color="indigo" label="Add" @click="addPlayer(newPlayer)" class="justify-around w-32" />
-            </div> -->
+
+      <div class="sticky z-50 flex items-center px-2 py-2 bg-gray-200 dark:bg-gray-800 gap-2 top-16 lg:top-20">
+        <UInput v-model="newPlayer.name" placeholder="Player Name" class="w-full" @keyup.enter="addPlayer(newPlayer)" />
+        <UButton color="indigo" label="Add" @click="addPlayer(newPlayer)" class="justify-around w-32" />
+      </div>
 
       <!-- <div v-if="data.players.length > 0">
               <UInput

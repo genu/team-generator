@@ -3,7 +3,7 @@ import defaultColors from 'tailwindcss/colors'
 import defaultTheme from 'tailwindcss/defaultTheme'
 
 export default <Partial<Config>>{
-  content: [],
+  content: ['./config/formkit.config.ts'],
   theme: {
     extend: {
       fontFamily: {

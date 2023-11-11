@@ -1,4 +1,4 @@
-import { useQueryClient, useQuery } from '@tanstack/vue-query'
+import {useQuery } from '@tanstack/vue-query'
 
 export const useAccount = () => {
   const get = (hash: string) => {

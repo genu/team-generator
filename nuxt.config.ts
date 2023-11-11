@@ -1,5 +1,5 @@
 export default defineNuxtConfig({
-  modules: ['@nuxtjs/google-fonts', '@vueuse/nuxt', '@nuxt/ui', '@floatie/widget-nuxt'],
+  modules: ['@nuxtjs/google-fonts', '@vueuse/nuxt', '@nuxt/ui', '@floatie/widget-nuxt', '@formkit/nuxt'],
   runtimeConfig: {
     public: {
       logrocketAppId: '',
@@ -35,5 +35,9 @@ export default defineNuxtConfig({
   },
   floatie: {
     clientKey: process.env.NUXT_PUBLIC_FLOATIE_CLIENT_KEY,
+  },
+  formkit: {
+    autoImport: true,
+    configFile: './config/formkit.config.ts',
   },
 })

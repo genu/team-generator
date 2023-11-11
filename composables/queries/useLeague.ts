@@ -6,10 +6,9 @@ export const useLeague = () => {
       queryKey: ['league', league],
       enabled: !!league,
       queryFn: async () => {
+        console.log('fetching league', league)
         const data = await $fetch('/api/account/league', {
           query: { league },
-          
-          
         })
 
         return data

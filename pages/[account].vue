@@ -19,11 +19,17 @@ const { account: accountHash } = route.params as AccountRouteParams
 const { league: leagueId } = route.query as AccountQuery
 
 const { data: account, isLoading, suspense: suspenseAccount } = accountQuery.get(accountHash)
-const { data: league, isLoading: isLoadingLeague, suspense: suspenseLeague } = leagueQuery.get(parseInt(leagueId))
+const { data: leagueData, isLoading: isLoadingLeague, suspense: suspenseLeague } = leagueQuery.get(parseInt(leagueId))
+
+const league = ref()
+
+syncRef(leagueData, league, { direction: 'ltr' })
+
+const isAddingNewLeague = ref(false)
 
 onServerPrefetch(async () => {
   await suspenseAccount()
-  await suspenseLeague()
+  if (leagueId) await suspenseLeague()
 })
 
 const leagueActions: DropdownItem[] = [
@@ -31,7 +37,7 @@ const leagueActions: DropdownItem[] = [
     label: 'Create new League',
     icon: 'i-ph-plus-square',
     click: () => {
-      console.log('create a league')
+      isAddingNewLeague.value = true
     },
   },
   {
@@ -97,6 +103,32 @@ const save = async () => {
 
 <template>
   <div>
+    <UModal v-model="isAddingNewLeague" :ui="{ container: 'items-start' }" prevent-close>
+      <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
+        <template #header>
+          <div class="flex items-center justify-between">
+            <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">Add a new league</h3>
+            <UButton
+              color="gray"
+              variant="ghost"
+              icon="i-heroicons-x-mark-20-solid"
+              class="-my-1"
+              @click="isAddingNewLeague = false"
+            />
+          </div>
+        </template>
+        <FormKit type="form" :actions="false">
+          <FormKit type="text" placeholder="League name" />
+        </FormKit>
+
+        <template #footer>
+          <div class="flex justify-end gap-4">
+            <UButton color="indigo" variant="ghost" label="Cancel" @click="isAddingNewLeague = false" />
+            <UButton label="Add" />
+          </div>
+        </template>
+      </UCard>
+    </UModal>
     <div v-if="!account || isLoading" class="flex flex-col gap-4 my-5">
       <USkeleton class="h-20" />
       <div class="flex gap-3">
@@ -143,7 +175,7 @@ const save = async () => {
           '-translate-y-full': !isEditing,
         }"
       >
-        <LeagueEdit :players="league.players" v-if="league" />
+        <LeagueEdit v-model="league" v-if="league" />
       </div>
       <div class="absolute absolute top-0 left-0 flex flex-col w-full py-5 mt-14 lg:mt-20">
         <div class="w-full px-2">

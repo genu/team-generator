@@ -273,14 +273,6 @@ if (hash) {
 
 // const activePlayers = computed<Player[]>(() => filter(data.value.players, { yes: true }))
 
-// const getNextId = () => {
-//   const maxId = maxBy(data.value.players, 'id')
-
-//   if (maxId) return maxId.id + 1
-
-//   return 1
-// }
-
 // watch(data.value, () => {
 //   unsavedChanges.value = true
 // })

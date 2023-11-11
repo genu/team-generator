@@ -1,7 +1,9 @@
+import type { League, Player } from '@prisma/client'
+
 export default defineEventHandler(async (event) => {
   const { league: leagueId } = getQuery(event)
 
-  return await $prisma.league.findFirst({
+  const league = await $prisma.league.findFirst({
     select: {
       name: true,
       players: true,
@@ -10,4 +12,8 @@ export default defineEventHandler(async (event) => {
       id: parseInt(leagueId as string),
     },
   })
+
+  return {
+    toJSON: () => league as League & { players: Player[] },
+  }
 })
