@@ -6,7 +6,7 @@ export default defineFormKitConfig({
   config: {
     classes: generateClasses({
       text: {
-        wrapper: 'max-w-full',
+        wrapper: '!max-w-full',
       },
     }),
   },
