@@ -1,7 +1,7 @@
 export default defineEventHandler(async (event) => {
   const { hash } = getQuery(event)
 
-  const account = await $prisma.account.findFirst({
+  return await $prisma.account.findFirst({
     select: {
       leagues: {
         select: {
@@ -14,6 +14,4 @@ export default defineEventHandler(async (event) => {
       hash: hash as string,
     },
   })
-
-  return account
 })

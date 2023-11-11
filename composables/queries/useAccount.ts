@@ -1,8 +1,6 @@
 import { useQueryClient, useQuery } from '@tanstack/vue-query'
 
 export const useAccount = () => {
-  const queryClient = useQueryClient()
-
   const get = (hash: string) => {
     return useQuery({
       queryKey: ['account', hash],

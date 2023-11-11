@@ -11,7 +11,7 @@ export default defineNuxtConfig({
     },
   },
   imports: {
-    dirs: ['./composables/queries'],
+    dirs: ['./composables/queries', './enum'],
   },
   /**
    * Module configurations
