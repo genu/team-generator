@@ -10,16 +10,16 @@ const props = defineProps<{ modelValue: LeagueWithPlayers }>()
 
 const emit = defineEmits<{ 'update:modelValue': [LeagueWithPlayers] }>()
 
-const league = useCloned(props.modelValue).cloned
-const configuration = computed(() => league.value.configuration as unknown as Config)
+// const league = useCloned(props.modelValue).cloned
+const configuration = computed(() => props.modelValue.configuration as unknown as Config)
 
-watchDeep(league, () => {
-  emit('update:modelValue', league.value)
-})
+// watchDeep(league, () => {
+//   emit('update:modelValue', league.value)
+// })
 
 const newPlayer = ref<Partial<Player>>({ name: '', isActive: true, rank: 1 })
 
-const activePlayers = computed(() => filter(league.value.players, { isActive: true }))
+const activePlayers = computed(() => filter(props.modelValue.players, { isActive: true }))
 
 const columns = [
   {
@@ -48,6 +48,10 @@ const rulesAccordian = [
     slot: 'rules',
   },
 ]
+const updatePlayer = (player: Partial<Player>, index: number) => {
+  // league.value.players[index] = player
+  console.log('update player')
+}
 const addPlayer = (player: Partial<Player>) => {
   // No empty strings
   if (player.name === '') return

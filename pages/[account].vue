@@ -21,13 +21,21 @@ const { account: accountHash } = route.params as AccountRouteParams
 const { league: leagueId } = route.query as AccountQuery
 
 const { data: account, isLoading, suspense: suspenseAccount } = accountQuery.get(accountHash)
-const { data: league, isLoading: isLoadingLeague, suspense: suspenseLeague } = leagueQuery.get(parseInt(leagueId))
+const { data: leagueData, isLoading: isLoadingLeague, suspense: suspenseLeague } = leagueQuery.get(parseInt(leagueId))
 const { mutateAsync: createLeagueAsync } = leagueQuery.create()
 const { mutateAsync: deleteLeagueAsync } = leagueQuery.del()
 const { mutateAsync: duplicateLeagueAsync } = leagueQuery.duplicate()
 
+const league = ref<typeof leagueData>()
+
+watch(
+  leagueData,
+  (leagueData) => {
+    if (leagueData) league.value = useCloned(leagueData).cloned
+  },
+  { immediate: true }
+)
 const isAddingNewLeague = ref(false)
-// const league = useCloned(leagueData)
 
 onServerPrefetch(async () => {
   await suspenseAccount()
