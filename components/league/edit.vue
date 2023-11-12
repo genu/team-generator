@@ -71,12 +71,12 @@ const resetActiveState = () => {
   // set all players to inactive
   const updatedPlayers = props.modelValue.players.map((player) => ({ ...player, isActive: false }))
 
-  league.value.players = updatedPlayers
+  emit('update:modelValue', { ...props.modelValue, players: updatedPlayers })
 }
 </script>
 
 <template>
-  <div class="flex w-full">
+  <div class="flex w-full" v-if="false">
     <div class="relative flex flex-col lg:w-2/4 gap-2">
       <UDivider label="Squad" />
 
@@ -85,9 +85,9 @@ const resetActiveState = () => {
         <UButton color="indigo" label="Add" @click="addPlayer(newPlayer)" class="justify-around w-32" />
       </div>
 
-      <div v-if="league.players.length > 0">
+      <div v-if="modelValue.players?.length > 0">
         <UDivider />
-        <UTable :rows="league.players" :columns="columns">
+        <UTable :rows="modelValue.players" :columns="columns">
           <template #yes-header>
             <div class="flex flex-col">
               <span class="ml-1">Active?</span>
@@ -124,12 +124,12 @@ const resetActiveState = () => {
         </UTable>
       </div>
 
-      <div class="flex flex-col gap-2" v-if="league.players.length > 0">
+      <div class="flex flex-col gap-2" v-if="modelValue.players?.length > 0">
         <UDivider />
         <div class="flex items-center justify-end text-lg">
           Active Players:
           <span class="ml-1 font-semibold">{{ activePlayers.length }}</span>
-          <span class="text-sm">&nbsp; ({{ league.players.length }} total)</span>
+          <span class="text-sm">&nbsp; ({{ modelValue.players.length }} total)</span>
         </div>
       </div>
     </div>
@@ -139,7 +139,7 @@ const resetActiveState = () => {
       <div class="flex flex-col font-semibold gap-2">
         <div class="flex items-center gap-2">
           <span class="text-sm text-right text-gray-700 w-28">League Name:</span>
-          <UInput v-model="league.name" />
+          <UInput v-model="modelValue.name" />
         </div>
         <div class="flex items-center gap-2">
           <span class="text-sm text-right text-gray-700 w-28"># of teams:</span>

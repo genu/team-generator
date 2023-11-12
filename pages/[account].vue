@@ -26,12 +26,12 @@ const { mutateAsync: createLeagueAsync } = leagueQuery.create()
 const { mutateAsync: deleteLeagueAsync } = leagueQuery.del()
 const { mutateAsync: duplicateLeagueAsync } = leagueQuery.duplicate()
 
-const league = ref<typeof leagueData>()
+let league: typeof leagueData
 
 watch(
   leagueData,
   (leagueData) => {
-    if (leagueData) league.value = useCloned(leagueData).cloned
+    if (leagueData) league = useCloned(leagueData).cloned
   },
   { immediate: true }
 )
