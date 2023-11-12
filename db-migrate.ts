@@ -1,5 +1,5 @@
-import { PrismaClient, Prisma, type Player } from '@prisma/client'
-import type { Data, Config, LeagueConfiguration, Player as LegacyPlayer } from './interfaces'
+import { PrismaClient, Prisma } from '@prisma/client'
+import type { Data, LegacyPlayer } from './interfaces'
 import { map } from 'lodash-es'
 
 const $prisma = new PrismaClient()

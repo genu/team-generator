@@ -21,16 +21,13 @@ const { account: accountHash } = route.params as AccountRouteParams
 const { league: leagueId } = route.query as AccountQuery
 
 const { data: account, isLoading, suspense: suspenseAccount } = accountQuery.get(accountHash)
-const { data: leagueData, isLoading: isLoadingLeague, suspense: suspenseLeague } = leagueQuery.get(parseInt(leagueId))
+const { data: league, isLoading: isLoadingLeague, suspense: suspenseLeague } = leagueQuery.get(parseInt(leagueId))
 const { mutateAsync: createLeagueAsync } = leagueQuery.create()
 const { mutateAsync: deleteLeagueAsync } = leagueQuery.del()
 const { mutateAsync: duplicateLeagueAsync } = leagueQuery.duplicate()
 
-const league = ref()
-
-syncRef(leagueData, league, { direction: 'ltr' })
-
 const isAddingNewLeague = ref(false)
+// const league = useCloned(leagueData)
 
 onServerPrefetch(async () => {
   await suspenseAccount()
@@ -53,7 +50,7 @@ const leagueActions: DropdownItem[] = [
 
       toast.add({
         icon: 'i-heroicons-check-20-solid',
-        title: `${selectedLeague.value?.name} Duplicated`,
+        title: `"${selectedLeague.value?.name}" league duplicated`,
       })
 
       router.push({ query: { league: id } })
@@ -63,9 +60,7 @@ const leagueActions: DropdownItem[] = [
     label: 'Delete this league',
     iconClass: 'text-red-500',
     icon: 'i-ph-trash',
-    click: () => {
-      showConfirmDeleteLeague.value = true
-    },
+    click: () => (showConfirmDeleteLeague.value = true),
   },
 ]
 
@@ -105,10 +100,6 @@ const save = async () => {
     icon: 'i-heroicons-check-20-solid',
     title: 'Saved',
   })
-  // const league = await $fetch('/api/team', {
-  //   method: 'post',
-  //   body: { team: hash, data: data.value },
-  // })
 
   isEditing.value = false
   // saveStatus.value = DataStatus.SUCCESS

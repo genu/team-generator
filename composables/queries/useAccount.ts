@@ -1,11 +1,11 @@
-import {useQuery } from '@tanstack/vue-query'
+import { useQuery } from '@tanstack/vue-query'
 
 export const useAccount = () => {
   const get = (hash: string) => {
     return useQuery({
       queryKey: ['account', hash],
       queryFn: async () => {
-        const { data } = await useFetch('/api/account/', {
+        const { data } = await useFetch('/api/account', {
           query: { hash },
         })
 

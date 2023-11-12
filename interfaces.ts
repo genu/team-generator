@@ -1,4 +1,4 @@
-export interface Player {
+export interface LegacyPlayer {
   id: number
   name: string
   rank?: number
@@ -9,35 +9,25 @@ export interface Player {
 export interface Rules {
   goaliesFirst: boolean
   noBestGolieAndPlayer: boolean
+  keepGoalies: boolean
   stefanMode?: boolean
   beniMode?: boolean
 }
 
 export interface Config {
-  leagueName?: string
+  leagueName: string
   teamCount: number
   rules: Rules
 }
 
 export interface Data {
   config: Config
-  players: Player[]
+  players: LegacyPlayer[]
   snapshot: Snapshot
-}
-
-export interface League {
-  createdAt: Date
-  hash: string
-  data: any
 }
 
 export interface Snapshot {
   teams?: any
   teamToChoose?: number
   methodology?: string[]
-}
-
-export interface LeagueConfiguration {
-  rules: Rules
-  teamCount: number
 }

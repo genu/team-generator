@@ -220,26 +220,6 @@ const isSaving = ref(false)
 //   },
 // })
 
-const columns = [
-  {
-    key: 'yes',
-  },
-  {
-    key: 'name',
-    label: 'Player',
-  },
-  {
-    key: 'rank',
-  },
-  {
-    key: 'gk',
-    label: 'Gk',
-  },
-  {
-    key: 'actions',
-  },
-]
-
 const { y: scrollY } = useScroll(process.client ? window : null)
 const items: DropdownItem[][] = [
   [
@@ -271,8 +251,6 @@ if (hash) {
   }
 }
 
-// const activePlayers = computed<Player[]>(() => filter(data.value.players, { yes: true }))
-
 // watch(data.value, () => {
 //   unsavedChanges.value = true
 // })
@@ -291,13 +269,6 @@ if (hash) {
 //   })
 // })
 
-// const rulesAccordian = [
-//   {
-//     label: 'Rules',
-//     icon: 'i-heroicons-cog-6-tooth',
-//     slot: 'rules',
-//   },
-// ]
 // const toast = useToast()
 
 // // Actions
@@ -342,11 +313,5 @@ if (hash) {
 
 // const onShuffled = (snapshot: Snapshot) => {
 //   data.value.snapshot = snapshot
-// }
-
-// const resetActiveState = () => {
-//   data.value.players.forEach((player) => {
-//     player.yes = false
-//   })
 // }
 </script>

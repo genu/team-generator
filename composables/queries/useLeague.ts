@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/vue-query'
-import type { League } from '@prisma/client'
+import type { League, Player } from '@prisma/client'
 
 export const useLeague = () => {
   const queryClient = useQueryClient()
@@ -9,7 +9,7 @@ export const useLeague = () => {
       queryKey: ['league', league],
       enabled: !!league,
       queryFn: async () => {
-        const data = await $fetch('/api/account/league', {
+        const data = await $fetch<League & { players: Player[] }>('/api/account/league', {
           query: { league },
         })
 
@@ -29,6 +29,24 @@ export const useLeague = () => {
         return res
       },
       onSuccess: ({ account }) => {
+        queryClient.invalidateQueries({ queryKey: ['account', account?.hash] })
+      },
+    })
+  }
+
+  const update = () => {
+    return useMutation({
+      mutationFn: async ({ id, updatedLeague }: { id: number; updatedLeague: Partial<League> }) => {
+        const res = await $fetch('/api/account/league/:id', {
+          method: 'PUT',
+          body: updatedLeague,
+          params: { id },
+        })
+
+        return res
+      },
+      onSuccess: ({ id, account }) => {
+        queryClient.invalidateQueries({ queryKey: ['league', id] })
         queryClient.invalidateQueries({ queryKey: ['account', account?.hash] })
       },
     })
@@ -67,5 +85,5 @@ export const useLeague = () => {
     })
   }
 
-  return { get, create, del, duplicate }
+  return { get, create, del, duplicate, update }
 }
