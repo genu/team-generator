@@ -146,10 +146,11 @@ import { useClipboard, useBrowserLocation, promiseTimeout } from '@vueuse/core'
 import { Sortable } from 'sortablejs-vue3'
 import type { Options, SortableEvent } from 'sortablejs'
 
-import type { Player, Rules, Snapshot } from '~/interfaces'
+import type { Rules, Snapshot } from '~/interfaces'
+import type { Player } from '@prisma/client'
 
 interface Props {
-  players: Player[]
+  players: any[]
   teamCount: number
   snapshot?: Snapshot
   rules?: Rules

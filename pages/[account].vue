@@ -244,8 +244,11 @@ const deleteLeague = async (league: Partial<League>) => {
       </div>
       <div class="absolute absolute top-0 left-0 flex flex-col w-full py-5 mt-14 lg:mt-20">
         <div class="w-full px-2">
-          <div v-if="!selectedLeague"></div>
-          <League :name="selectedLeague.name!" v-else />
+          <div v-if="isLoadingLeague" class="flex gap-4">
+            <USkeleton class="h-40 flex-1" v-for="n in 3" />
+          </div>
+          <div v-else-if="!league">create a league</div>
+          <TeamGenerated v-else :players="league?.players" @shuffled="onShuffled" />
           <!-- <button
               type="button"
               class="relative block p-12 mx-auto my-5 text-center border-2 border-gray-300 border-dashed rounded-lg lg:w-1/2 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
