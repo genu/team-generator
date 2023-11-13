@@ -1,16 +1,12 @@
 <script lang="ts" setup>
 import { useRouteQuery } from '@vueuse/router'
-import type { RouteParams, LocationQuery } from '#vue-router'
+import type { RouteParams } from '#vue-router'
 import type { DropdownItem } from '@nuxt/ui/dist/runtime/types'
 import type { League, Player, Prisma } from '@prisma/client'
 import type { Config } from '../interfaces'
 
 interface AccountRouteParams extends RouteParams {
   account: string
-}
-interface AccountQuery extends LocationQuery {
-  league: string
-  isAddingNewLeague: string
 }
 
 const accountQuery = useAccount()
@@ -31,7 +27,7 @@ const isAddingNewLeague = useRouteQuery('isAddingNewLeague', undefined, {
 
 const { data: account, isLoading, suspense: suspenseAccount } = accountQuery.get(accountHash)
 
-const { data: leagueData, isLoading: isLoadingLeague, suspense: suspenseLeague } = leagueQuery.get(leagueId.value)
+const { data: leagueData, isLoading: isLoadingLeague, suspense: suspenseLeague } = leagueQuery.get(leagueId)
 const { mutateAsync: createLeagueAsync } = leagueQuery.create()
 const { mutateAsync: deleteLeagueAsync } = leagueQuery.del()
 const { mutateAsync: updateLeagueAsync } = leagueQuery.update()
@@ -250,8 +246,13 @@ const deleteLeague = async (league: Partial<League>) => {
       </div>
       <div class="absolute absolute top-0 left-0 flex flex-col w-full py-5 mt-14 lg:mt-20">
         <div class="w-full px-2">
-          <div v-if="isLoadingLeague" class="flex gap-4">
-            <USkeleton class="h-40 flex-1" v-for="n in 3" />
+          <div v-if="isLoadingLeague" class="flex gap-6 flex-col">
+            <div class="flex justify-end">
+              <USkeleton class="h-12 w-40" />
+            </div>
+            <div class="flex gap-4">
+              <USkeleton class="h-40 flex-1" v-for="n in 3" />
+            </div>
           </div>
           <EmptyStateButton
             v-else-if="!league"
@@ -273,14 +274,6 @@ const deleteLeague = async (league: Partial<League>) => {
 
             <TeamGenerated v-else :players="league.players" @shuffled="onShuffled" />
           </div>
-
-          <!-- <TeamGenerated
-              :players="activePlayers"
-              :team-count="data.config.teamCount"
-              @shuffled="onShuffled"
-              :snapshot="data.snapshot"
-              :rules="data.config.rules"
-            /> -->
         </div>
       </div>
     </div>

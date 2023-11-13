@@ -4,13 +4,17 @@ import type { League, Player } from '@prisma/client'
 export const useLeague = () => {
   const queryClient = useQueryClient()
 
-  const get = (league?: number) => {
+  queryClient.getQueryData
+
+  const get = (id: Ref<number | undefined>) => {
     return useQuery({
-      queryKey: ['league', league],
-      enabled: !!league,
-      queryFn: async () => {
+      queryKey: ['league', id] as const,
+      enabled: () => !!id.value,
+      queryFn: async ({ queryKey }) => {
+        const [_key, id] = queryKey
+
         const data = await $fetch<League & { players: Player[] }>('/api/account/league', {
-          query: { league },
+          query: { leagueId: id },
         })
 
         return data

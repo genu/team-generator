@@ -1,5 +1,5 @@
 export default defineEventHandler(async (event) => {
-  const { league: leagueId } = getQuery(event)
+  const { leagueId } = getQuery(event)
 
   return await $prisma.league.findFirst({
     select: {

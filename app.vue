@@ -1,7 +1,7 @@
 <template>
   <NuxtLayout>
     <UNotifications />
-    <NuxtPage :key="$route.fullPath" />
+    <NuxtPage />
   </NuxtLayout>
 </template>
 
