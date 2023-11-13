@@ -1,9 +1,10 @@
 import type { League, Player } from '@prisma/client'
+import { map } from 'lodash-es'
 
 export default defineEventHandler(async (event) => {
   const { id, updatedLeague } = await readBody<{ id: number; updatedLeague: League & { players: Player[] } }>(event)
 
-  const existingPlayerIds = updatedLeague.players.map((p) => p.id)
+  const existingPlayerIds = map(updatedLeague.players, 'id').filter((id) => id !== undefined)
 
   await $prisma.player.deleteMany({
     where: {
@@ -12,18 +13,6 @@ export default defineEventHandler(async (event) => {
         id: {
           in: existingPlayerIds,
         },
-      },
-    },
-  })
-
-  // Determine if we need to delete any players
-  await $prisma.player.deleteMany({
-    where: {
-      id: {
-        in: updatedLeague.players.map((p) => p.id),
-      },
-      league: {
-        id: id,
       },
     },
   })

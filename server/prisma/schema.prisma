@@ -23,7 +23,7 @@ model League {
   numberOfTeams Int        @default(2)
   data          Json?
   configuration Json?
-  account       Account?   @relation(fields: [accountId], references: [id])
+  account       Account?   @relation(fields: [accountId], references: [id], onDelete: Cascade)
   snapshots     Snapshot[]
   players       Player[]
   accountId     Int?
