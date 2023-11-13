@@ -1,144 +1,3 @@
-<template>
-  <div class="flex flex-col gap-2 lg:gap-2">
-    <UModal
-      ref="shareDialog"
-      header="Share Lineups"
-      :ui="{
-        width: 'sm:max-w-4xl',
-      }"
-      v-model="isSharingDialog"
-      @after-hide="previewImg = null"
-    >
-      <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
-        <template #header>
-          <div class="flex items-center justify-between">
-            <h3 class="text-base font-semibold text-gray-900 leading-6 dark:text-white">Share Teams</h3>
-          </div>
-        </template>
-        <div class="flex flex-col">
-          <div class="flex items-center md:gap-2">
-            <div class="flex flex-col flex-1">
-              <label class="text-base font-semibold">Edit link</label>
-              <UInput v-model="shareUrl" disabled />
-            </div>
-            <UButton :label="copied ? 'Copied' : 'Copy'" class="mt-6" @click="copy()" variant="ghost" color="indigo" />
-          </div>
-          <span class="flex flex-col items-center gap-1" v-if="!previewImg">
-            <UIcon name="i-heroicons-arrow-path-20-solid" class="mt-5 text-4xl animate-spin" />
-            <span class="text-sm font-bold">Generating Image</span>
-          </span>
-          <img :src="previewImg" class="object-contain mt-4 h-96" v-else />
-        </div>
-        <template #footer>
-          <div class="flex justify-end">
-            <UButton @click="isSharingDialog = false" label="Close" variant="ghost" />
-          </div>
-        </template>
-      </UCard>
-    </UModal>
-
-    <div class="flex justify-end gap-4" v-if="players.length > 0">
-      <UButton
-        v-if="teams"
-        color="gray"
-        icon="i-heroicons-share-20-solid"
-        label="Share"
-        variant="ghost"
-        @click="showSharingWindow"
-      />
-      <UButton @click="shuffle">Shuffle Teams</UButton>
-    </div>
-    <div class="flex justify-end">
-      <div class="flex flex-col items-center mt-2 mr-3" v-if="players.length > 0 && !teams">
-        <UIcon
-          name="i-heroicons-arrow-long-up-20-solid"
-          class="text-4xl text-gray-400 animate-bounce"
-          style="--fa-bounce-jump-scale-y: 1"
-        />
-        <span class="block text-sm font-medium text-gray-900">Click to shuffle</span>
-      </div>
-    </div>
-    <button
-      type="button"
-      class="relative block w-11/12 p-12 mx-auto my-5 text-center border-2 border-gray-300 border-dashed rounded-lg md:w-1/2 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-      v-if="!snapshot && players.length > 0"
-      @click="shuffle"
-    >
-      <UIcon name="i-fa6-solid-person-chalkboard" class="text-6xl text-gray-400" />
-      <span class="block mt-4 text-sm font-medium text-gray-900">Generate teams</span>
-    </button>
-    <div class="items-start mb-2 gap-3 md:gap-3 grid grid-cols-2 lg:grid-cols-3" ref="snapshotContainer">
-      <div
-        v-for="(players, key) in teams"
-        class="bg-white border-2 border-b border-gray-200 border-gray-400 shadow divide-y divide-gray-200 rounded-md"
-      >
-        <div class="relative">
-          <h2 class="flex flex-col px-5 pt-5 text-lg font-medium text-gray-900 leading-6 md:items-center md:flex-row">
-            <span>Team {{ +key + 1 }}</span>
-            <span class="ml-1 text-xs">({{ players.length }} players)</span>
-          </h2>
-          <span class="absolute top-0 left-0 px-2 text-xs text-sm text-white bg-green-500">
-            Rank {{ getTeamRank(players) }}
-          </span>
-          <UIcon
-            name="i-heroicons-star-20-solid"
-            class="absolute top-0 right-0 m-1 text-lg text-amber-600"
-            v-if="teamToChoose == key"
-          />
-        </div>
-        <Sortable
-          :list="players"
-          item-key="id"
-          tag="ul"
-          :options="teamListOptions"
-          class="flex flex-col px-2 py-2 mt-2 gap-2"
-          @add="addPlayerToNewTeam"
-          :data-team-id="key"
-        >
-          <template #item="{ element: player, index }: { element: Player, index: number }">
-            <li
-              :data-id="index"
-              class="px-2 py-1 text-sm text-gray-600 capitalize bg-gray-100 cursor-pointer rounded-md"
-              :class="{ 'font-bold': player.gk }"
-            >
-              <div class="flex items-center select-none gap-2">
-                <UIcon name="i-heroicons-ellipsis-vertical-20-solid" class="text-xl" />
-                <span>{{ player.name }} {{ player.gk ? '(GK)' : '' }}</span>
-              </div>
-            </li>
-          </template>
-        </Sortable>
-      </div>
-    </div>
-    <div class="flex justify-around py-2" v-if="numberOfGeneratedTeams > 0 && !usingSeedData">
-      <UButton
-        variant="outline"
-        @click="isShowingProcess = !isShowingProcess"
-        :icon="!isShowingProcess ? 'i-heroicons-chevron-down-20-solid' : 'i-heroicons-chevron-up-20-solid'"
-        trailing
-      >
-        How were teams chosen?
-      </UButton>
-    </div>
-    <UCard v-if="isShowingProcess" class="text-sm">
-      <div class="not-italic">
-        <h2 class="py-0 my-0">Strategy</h2>
-        <ul class="pb-2 mx-5 list-disc">
-          <li>Players are grouped by ranks</li>
-          <li>A random team is selected to choose first</li>
-          <li>Each team chooses a random player from the highest ranked group</li>
-          <li>Process continues from highest ranked players to lowest ranked players until all players are selected</li>
-        </ul>
-      </div>
-      <div>
-        <p class="mt-2 capitalize" v-for="(instruction, index) in methodology" :class="{ 'font-bold': index === 0 }">
-          {{ instruction }}
-        </p>
-      </div>
-    </UCard>
-  </div>
-</template>
-
 <script lang="ts" setup>
 import { groupBy, random, sumBy, keys, filter, map, orderBy } from 'lodash-es'
 import html2canvas from 'html2canvas'
@@ -149,14 +8,13 @@ import type { Options, SortableEvent } from 'sortablejs'
 import type { Rules, Snapshot } from '~/interfaces'
 import type { Player } from '@prisma/client'
 
-interface Props {
-  players: any[]
+const props = defineProps<{
+  players: Player[]
   teamCount: number
   snapshot?: Snapshot
   rules?: Rules
-}
+}>()
 
-const props = defineProps<Props>()
 const emit = defineEmits<{ (e: 'shuffled', snapshot: Snapshot): void }>()
 
 const location = useBrowserLocation()
@@ -312,6 +170,138 @@ const addPlayerToNewTeam = (event: SortableEvent) => {
   event.item.remove()
 }
 </script>
+
+<template>
+  <div class="flex flex-col gap-2 lg:gap-2">
+    <UModal
+      ref="shareDialog"
+      header="Share Lineups"
+      :ui="{
+        width: 'sm:max-w-4xl',
+      }"
+      v-model="isSharingDialog"
+      @after-hide="previewImg = null"
+    >
+      <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
+        <template #header>
+          <div class="flex items-center justify-between">
+            <h3 class="text-base font-semibold text-gray-900 leading-6 dark:text-white">Share Teams</h3>
+          </div>
+        </template>
+        <div class="flex flex-col">
+          <div class="flex items-center md:gap-2">
+            <div class="flex flex-col flex-1">
+              <label class="text-base font-semibold">Edit link</label>
+              <UInput v-model="shareUrl" disabled />
+            </div>
+            <UButton :label="copied ? 'Copied' : 'Copy'" class="mt-6" @click="copy()" variant="ghost" color="indigo" />
+          </div>
+          <span class="flex flex-col items-center gap-1" v-if="!previewImg">
+            <UIcon name="i-heroicons-arrow-path-20-solid" class="mt-5 text-4xl animate-spin" />
+            <span class="text-sm font-bold">Generating Image</span>
+          </span>
+          <img :src="previewImg" class="object-contain mt-4 h-96" v-else />
+        </div>
+        <template #footer>
+          <div class="flex justify-end">
+            <UButton @click="isSharingDialog = false" label="Close" variant="ghost" />
+          </div>
+        </template>
+      </UCard>
+    </UModal>
+
+    <div class="flex justify-end gap-4" v-if="players.length > 0">
+      <UButton
+        v-if="teams"
+        color="gray"
+        icon="i-heroicons-share-20-solid"
+        label="Share"
+        variant="ghost"
+        @click="showSharingWindow"
+      />
+      <UButton @click="shuffle">Shuffle Teams</UButton>
+    </div>
+    <div class="flex justify-end">
+      <div class="flex flex-col items-center mt-2 mr-3" v-if="players.length > 0">
+        <UIcon
+          name="i-heroicons-arrow-long-up-20-solid"
+          class="text-4xl text-gray-400 animate-bounce"
+          style="--fa-bounce-jump-scale-y: 1"
+        />
+        <span class="block text-sm font-medium text-gray-900">Click to shuffle</span>
+      </div>
+    </div>
+    <div class="items-start mb-2 gap-3 md:gap-3 grid grid-cols-2 lg:grid-cols-3" ref="snapshotContainer">
+      <div
+        v-for="(players, key) in teams"
+        class="bg-white border-2 border-b border-gray-200 border-gray-400 shadow divide-y divide-gray-200 rounded-md"
+      >
+        <div class="relative">
+          <h2 class="flex flex-col px-5 pt-5 text-lg font-medium text-gray-900 leading-6 md:items-center md:flex-row">
+            <span>Team {{ +key + 1 }}</span>
+            <span class="ml-1 text-xs">({{ players.length }} players)</span>
+          </h2>
+          <span class="absolute top-0 left-0 px-2 text-xs text-sm text-white bg-green-500">
+            Rank {{ getTeamRank(players) }}
+          </span>
+          <UIcon
+            name="i-heroicons-star-20-solid"
+            class="absolute top-0 right-0 m-1 text-lg text-amber-600"
+            v-if="teamToChoose == key"
+          />
+        </div>
+        <Sortable
+          :list="players"
+          item-key="id"
+          tag="ul"
+          :options="teamListOptions"
+          class="flex flex-col px-2 py-2 mt-2 gap-2"
+          @add="addPlayerToNewTeam"
+          :data-team-id="key"
+        >
+          <template #item="{ element: player, index }: { element: Player, index: number }">
+            <li
+              :data-id="index"
+              class="px-2 py-1 text-sm text-gray-600 capitalize bg-gray-100 cursor-pointer rounded-md"
+              :class="{ 'font-bold': player.gk }"
+            >
+              <div class="flex items-center select-none gap-2">
+                <UIcon name="i-heroicons-ellipsis-vertical-20-solid" class="text-xl" />
+                <span>{{ player.name }} {{ player.gk ? '(GK)' : '' }}</span>
+              </div>
+            </li>
+          </template>
+        </Sortable>
+      </div>
+    </div>
+    <div class="flex justify-around py-2" v-if="numberOfGeneratedTeams > 0 && !usingSeedData">
+      <UButton
+        variant="outline"
+        @click="isShowingProcess = !isShowingProcess"
+        :icon="!isShowingProcess ? 'i-heroicons-chevron-down-20-solid' : 'i-heroicons-chevron-up-20-solid'"
+        trailing
+      >
+        How were teams chosen?
+      </UButton>
+    </div>
+    <UCard v-if="isShowingProcess" class="text-sm">
+      <div class="not-italic">
+        <h2 class="py-0 my-0">Strategy</h2>
+        <ul class="pb-2 mx-5 list-disc">
+          <li>Players are grouped by ranks</li>
+          <li>A random team is selected to choose first</li>
+          <li>Each team chooses a random player from the highest ranked group</li>
+          <li>Process continues from highest ranked players to lowest ranked players until all players are selected</li>
+        </ul>
+      </div>
+      <div>
+        <p class="mt-2 capitalize" v-for="(instruction, index) in methodology" :class="{ 'font-bold': index === 0 }">
+          {{ instruction }}
+        </p>
+      </div>
+    </UCard>
+  </div>
+</template>
 
 <style>
 body > div:last-child > span + img {

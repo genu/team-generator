@@ -34,6 +34,7 @@ const { mutateAsync: updateLeagueAsync } = leagueQuery.update()
 const { mutateAsync: duplicateLeagueAsync } = leagueQuery.duplicate()
 
 const league = ref<typeof leagueData.value>()
+const leagueConfiguration = computed(() => league.value?.configuration as unknown as Config)
 
 watch(
   leagueData,
@@ -247,17 +248,27 @@ const deleteLeague = async (league: Partial<League>) => {
           <div v-if="isLoadingLeague" class="flex gap-4">
             <USkeleton class="h-40 flex-1" v-for="n in 3" />
           </div>
-          <div v-else-if="!league">create a league</div>
-          <TeamGenerated v-else :players="league?.players" @shuffled="onShuffled" />
-          <!-- <button
-              type="button"
-              class="relative block p-12 mx-auto my-5 text-center border-2 border-gray-300 border-dashed rounded-lg lg:w-1/2 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-              v-if="data.players.length < 1"
+          <EmptyStateButton
+            v-else-if="!league"
+            icon="i-ph-users-three-light"
+            label="Create a league"
+            @click="isAddingNewLeague = true"
+            :disabled="isAddNewLeagueStatus === DataStatus.SUCCESS || isAddNewLeagueStatus === DataStatus.PENDING"
+            :loading="isAddNewLeagueStatus === DataStatus.PENDING"
+          />
+
+          <div v-else>
+            <EmptyStateButton
+              v-if="league.players.length === 0"
+              icon="i-ph-users-three-light"
+              :label="`Add some players to the ${league.name}`"
               @click="isEditing = !isEditing"
-            >
-              <UIcon name="i-fa6-solid-users-viewfinder" class="text-6xl text-gray-400" />
-              <span class="block mt-4 text-sm font-medium text-gray-900">Add some players to the league</span>
-            </button> -->
+              :disabled="isEditing"
+            />
+
+            <TeamGenerated v-else :players="league.players" @shuffled="onShuffled" />
+          </div>
+
           <!-- <TeamGenerated
               :players="activePlayers"
               :team-count="data.config.teamCount"
