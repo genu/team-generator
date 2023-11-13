@@ -10,12 +10,7 @@ const props = defineProps<{ modelValue: LeagueWithPlayers }>()
 
 const emit = defineEmits<{ 'update:modelValue': [LeagueWithPlayers] }>()
 
-// const league = useCloned(props.modelValue).cloned
 const configuration = computed(() => props.modelValue.configuration as unknown as Config)
-
-// watchDeep(league, () => {
-//   emit('update:modelValue', league.value)
-// })
 
 const newPlayer = ref<Partial<Player>>({ name: '', isActive: true, rank: 1 })
 
@@ -48,10 +43,36 @@ const rulesAccordian = [
     slot: 'rules',
   },
 ]
-const updatePlayer = (player: Partial<Player>, index: number) => {
-  // league.value.players[index] = player
-  console.log('update player')
+const updatePlayer = (field: keyof Player, value: any, index: number) => {
+  const updatedPlayer = { ...props.modelValue.players[index], [field]: value }
+
+  emit('update:modelValue', {
+    ...props.modelValue,
+    players: props.modelValue.players.map((player, i) => (i === index ? updatedPlayer : toRaw(player))),
+  })
 }
+
+const updateLeague = (field: keyof League, value: string) => {
+  emit('update:modelValue', { ...props.modelValue, [field]: value })
+}
+
+const updateConfiguration = (field: keyof Config, value: any) => {
+  emit('update:modelValue', {
+    ...props.modelValue,
+    configuration: { ...(props.modelValue.configuration as object), [field]: value },
+  })
+}
+
+const updateRules = (field: keyof Config['rules'], value: any) => {
+  emit('update:modelValue', {
+    ...props.modelValue,
+    configuration: {
+      ...(props.modelValue.configuration as object),
+      rules: { ...(props.modelValue.configuration as unknown as Config).rules, [field]: value },
+    },
+  })
+}
+
 const addPlayer = (player: Partial<Player>) => {
   // No empty strings
   if (player.name === '') return
@@ -76,7 +97,7 @@ const resetActiveState = () => {
 </script>
 
 <template>
-  <div class="flex w-full" v-if="false">
+  <div class="flex w-full">
     <div class="relative flex flex-col lg:w-2/4 gap-2">
       <UDivider label="Squad" />
 
@@ -100,23 +121,40 @@ const resetActiveState = () => {
               />
             </div>
           </template>
-          <template #rank-header="p">
+          <template #rank-header>
             <div class="flex flex-col">
               <span class="text-center">Rank</span>
               <span class="text-center">(1-10)</span>
             </div>
           </template>
-          <template #yes-data="{ row }">
-            <UToggle v-model="row.isActive" color="indigo" />
+          <template #yes-data="{ row, index }">
+            <UToggle
+              v-model="row.isActive"
+              @update:model-value="(value:boolean) => updatePlayer('isActive', value, index)"
+              color="indigo"
+            />
           </template>
-          <template #name-data="{ row }">
-            <UInput v-model="row.name" size="sm" />
+          <template #name-data="{ row, index }">
+            <UInput
+              v-model="row.name"
+              @update:model-value="(value:any)=> updatePlayer('name',value, index)"
+              size="sm"
+            />
           </template>
-          <template #rank-data="{ row }">
-            <UInput v-model="row.rank" class="w-16" type="number" size="sm" />
+          <template #rank-data="{ row, index }">
+            <UInput
+              v-model="row.rank"
+              @update:model-value="(value:number)=>updatePlayer('rank',value, index)"
+              class="w-16"
+              type="number"
+              size="sm"
+            />
           </template>
-          <template #gk-data="{ row }">
-            <UCheckbox v-model="row.isGoalie" name="notifications" />
+          <template #gk-data="{ row, index }">
+            <UCheckbox
+              v-model="row.isGoalie"
+              @update:model-value="(value:boolean) => updatePlayer('isGoalie', value, index)"
+            />
           </template>
           <template #actions-data="{ index }">
             <UButton icon="i-heroicons-trash" color="red" variant="outline" @click="removePlayer(index)" size="sm" />
@@ -139,19 +177,29 @@ const resetActiveState = () => {
       <div class="flex flex-col font-semibold gap-2">
         <div class="flex items-center gap-2">
           <span class="text-sm text-right text-gray-700 w-28">League Name:</span>
-          <UInput v-model="modelValue.name" />
+          <UInput :model-value="modelValue.name" @update:model-value="(value:string) => updateLeague('name', value)" />
         </div>
         <div class="flex items-center gap-2">
           <span class="text-sm text-right text-gray-700 w-28"># of teams:</span>
-          <UInput type="number" v-model="configuration.teamCount" class="w-20" />
+          <UInput
+            type="number"
+            :model-value="configuration.teamCount"
+            @update:model-value="(value:number) => updateConfiguration('teamCount', value)"
+            class="w-20"
+          />
         </div>
         <UAccordion :items="rulesAccordian" color="indigo" variant="soft">
           <template #rules>
             <div class="flex flex-col px-2 gap-3">
-              <UCheckbox v-model="configuration.rules.goaliesFirst" label="Choose goalies first" />
+              <UCheckbox
+                @update:model-value="(value:boolean)=>updateRules('goaliesFirst',value)"
+                :model-value="configuration.rules.goaliesFirst"
+                label="Choose goalies first"
+              />
               <UCheckbox
                 disabled
-                v-model="configuration.rules.noBestGolieAndPlayer"
+                :model-value="configuration.rules.noBestGolieAndPlayer"
+                @update:model-value="(value:boolean)=>updateRules('noBestGolieAndPlayer',value)"
                 label="Best goalie cannot be on same team with best player"
               >
                 <template #label>
@@ -159,7 +207,11 @@ const resetActiveState = () => {
                   <small class="bg-gray-400 px-1 py-0.5 text-white rounded font-bold">soon</small>
                 </template>
               </UCheckbox>
-              <UCheckbox disabled v-model="configuration.rules.keepGoalies">
+              <UCheckbox
+                disabled
+                :model-value="configuration.rules.keepGoalies"
+                @update:model-value="(value:boolean)=>updateRules('keepGoalies',value)"
+              >
                 <template #label>
                   Keep goalies
                   <small class="bg-gray-400 px-1 py-0.5 text-white rounded font-bold">soon</small>
@@ -168,13 +220,15 @@ const resetActiveState = () => {
               <UCheckbox
                 class="hidden"
                 label="Stefan mode"
-                v-model="configuration.rules.stefanMode"
+                :model-value="configuration.rules.stefanMode"
+                @update:model-value="(value:boolean)=>updateRules('stefanMode',value)"
                 help="Stefan's team has all of the best players"
               />
               <UCheckbox
                 class="hidden"
                 label="Beni mode"
-                v-model="configuration.rules.beniMode"
+                :model-value="configuration.rules.beniMode"
+                @update:model-value="(value:boolean)=>updateRules('beniMode',value)"
                 help="Every player on the same team as Beni drops in rank by 1 point"
               />
             </div>
