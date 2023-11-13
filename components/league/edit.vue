@@ -82,10 +82,10 @@ const addPlayer = (player: Partial<Player>) => {
 
   player.name = player.name!.trim()
 
-  // const updatedLeague: LeagueWithPlayers = {
-  //   ...props.modelValue,
-  //   players: [...props.modelValue.players, unref(player)],
-  // }
+  emit('update:modelValue', {
+    ...props.modelValue,
+    players: [...props.modelValue.players, player],
+  })
 }
 
 const resetActiveState = () => {
