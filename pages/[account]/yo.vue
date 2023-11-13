@@ -255,7 +255,6 @@ if (hash) {
 //   unsavedChanges.value = true
 // })
 
-// const playerFilter = ref('')
 // const toggleEdit = () => {
 //   isEditing.value = !isEditing.value
 //   scrollY.value = 0
@@ -272,39 +271,6 @@ if (hash) {
 // const toast = useToast()
 
 // // Actions
-// const save = async () => {
-//   isSaving.value = true
-
-//   toast.add({
-//     icon: 'i-heroicons-check-20-solid',
-//     title: 'Saved',
-//   })
-//   const league = await $fetch('/api/team', {
-//     method: 'post',
-//     body: { team: hash, data: data.value },
-//   })
-
-//   unsavedChanges.value = false
-//   isEditing.value = false
-//   isSaving.value = false
-
-//   scrollY.value = 0
-
-//   router.push(`/${league?.hash}`)
-// }
-
-// const addPlayer = (player: Player) => {
-//   // No empty strings
-//   if (player.name === '') return
-
-//   // No existing players
-//   if (find(data.value.players, { n: player.name })) return
-
-//   player.name = player.name.trim()
-//   data.value.players = [{ ...player, id: getNextId() }, ...data.value.players]
-
-//   newPlayer.value = { id: -1, name: '', yes: true, rank: 1 }
-// }
 
 // const removePlayer = (index: number) => {
 //   data.value.players.splice(index, 1)

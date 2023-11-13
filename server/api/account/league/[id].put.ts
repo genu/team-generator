@@ -1,8 +1,32 @@
-import type { League, Player, Prisma } from '@prisma/client'
-import { nanoid } from 'nanoid'
+import type { League, Player } from '@prisma/client'
 
 export default defineEventHandler(async (event) => {
   const { id, updatedLeague } = await readBody<{ id: number; updatedLeague: League & { players: Player[] } }>(event)
+
+  const existingPlayerIds = updatedLeague.players.map((p) => p.id)
+
+  await $prisma.player.deleteMany({
+    where: {
+      league: { id },
+      NOT: {
+        id: {
+          in: existingPlayerIds,
+        },
+      },
+    },
+  })
+
+  // Determine if we need to delete any players
+  await $prisma.player.deleteMany({
+    where: {
+      id: {
+        in: updatedLeague.players.map((p) => p.id),
+      },
+      league: {
+        id: id,
+      },
+    },
+  })
 
   return await $prisma.league.update({
     where: { id },

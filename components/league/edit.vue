@@ -90,6 +90,12 @@ const addPlayer = () => {
   newPlayer.value = { name: '', isActive: true, rank: 1 }
 }
 
+const removePlayer = (index: number) => {
+  const updatedPlayers = props.modelValue.players.filter((_player, i) => i !== index)
+
+  emit('update:modelValue', { ...props.modelValue, players: updatedPlayers })
+}
+
 const resetActiveState = () => {
   // set all players to inactive
   const updatedPlayers = props.modelValue.players.map((player) => ({ ...player, isActive: false }))
