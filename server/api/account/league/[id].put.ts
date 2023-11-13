@@ -6,8 +6,13 @@ export default defineEventHandler(async (event) => {
 
   return await $prisma.league.update({
     where: { id },
-    include: {
-      players: true,
+    select: {
+      id: true,
+      account: {
+        select: {
+          hash: true,
+        },
+      },
     },
     data: {
       name: updatedLeague.name,
@@ -15,8 +20,8 @@ export default defineEventHandler(async (event) => {
       players: {
         upsert: updatedLeague.players.map((player) => ({
           where: { id: player.id ?? -1 },
-          update: { ...player },
-          create: { ...player },
+          update: { ...player, rank: typeof player.rank === 'string' ? parseInt(player.rank) : player.rank },
+          create: { ...player, rank: typeof player.rank === 'string' ? parseInt(player.rank) : player.rank },
         })),
       },
     },

@@ -73,19 +73,21 @@ const updateRules = (field: keyof Config['rules'], value: any) => {
   })
 }
 
-const addPlayer = (player: Partial<Player>) => {
+const addPlayer = () => {
   // No empty strings
-  if (player.name === '') return
+  if (newPlayer.value.name === '') return
 
   // No existing players
-  if (find(props.modelValue.players, { name: player.name })) return
+  if (find(props.modelValue.players, { name: newPlayer.value.name })) return
 
-  player.name = player.name!.trim()
+  newPlayer.value.name = newPlayer.value.name!.trim()
 
   emit('update:modelValue', {
     ...props.modelValue,
-    players: [...props.modelValue.players, player],
+    players: [...props.modelValue.players, { ...newPlayer.value }],
   })
+
+  newPlayer.value = { name: '', isActive: true, rank: 1 }
 }
 
 const resetActiveState = () => {
@@ -102,8 +104,8 @@ const resetActiveState = () => {
       <UDivider label="Squad" />
 
       <div class="sticky z-50 flex items-center px-2 py-2 bg-gray-200 dark:bg-gray-800 gap-2 top-16 lg:top-20">
-        <UInput v-model="newPlayer.name" placeholder="Player Name" class="w-full" @keyup.enter="addPlayer(newPlayer)" />
-        <UButton color="indigo" label="Add" @click="addPlayer(newPlayer)" class="justify-around w-32" />
+        <UInput v-model="newPlayer.name" placeholder="Player Name" class="w-full" @keyup.enter="addPlayer" />
+        <UButton color="indigo" label="Add" @click="addPlayer" class="justify-around w-32" />
       </div>
 
       <div v-if="modelValue.players?.length > 0">
