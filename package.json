@@ -33,6 +33,7 @@
     "@prisma/client": "^5.5.2",
     "@tanstack/vue-query": "^5.8.1",
     "@vueuse/components": "10.6.0",
+    "@vueuse/router": "^10.6.1",
     "html2canvas": "^1.4.1",
     "lodash-es": "4.17.21",
     "nanoid": "^5.0.3",
