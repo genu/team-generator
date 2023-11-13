@@ -3,6 +3,7 @@ export default defineEventHandler(async (event) => {
 
   return await $prisma.league.findFirst({
     select: {
+      id: true,
       name: true,
       configuration: true,
       players: {

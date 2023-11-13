@@ -1,13 +1,15 @@
 <script lang="ts" setup>
 import type { RouteParams, LocationQuery } from '#vue-router'
 import type { DropdownItem } from '@nuxt/ui/dist/runtime/types'
-import type { League } from '@prisma/client'
+import type { League, Player, Prisma } from '@prisma/client'
+import type { Config } from '../interfaces'
 
 interface AccountRouteParams extends RouteParams {
   account: string
 }
 interface AccountQuery extends LocationQuery {
   league: string
+  isAddingNewLeague: string
 }
 
 const accountQuery = useAccount()
@@ -18,12 +20,17 @@ const { y: scrollY } = useScroll(process.client ? window : null)
 const toast = useToast()
 
 const { account: accountHash } = route.params as AccountRouteParams
-const { league: leagueId } = route.query as AccountQuery
+const query = route.query as AccountQuery
 
 const { data: account, isLoading, suspense: suspenseAccount } = accountQuery.get(accountHash)
-const { data: leagueData, isLoading: isLoadingLeague, suspense: suspenseLeague } = leagueQuery.get(parseInt(leagueId))
+const {
+  data: leagueData,
+  isLoading: isLoadingLeague,
+  suspense: suspenseLeague,
+} = leagueQuery.get(parseInt(query.league))
 const { mutateAsync: createLeagueAsync } = leagueQuery.create()
 const { mutateAsync: deleteLeagueAsync } = leagueQuery.del()
+const { mutateAsync: updateLeagueAsync } = leagueQuery.update()
 const { mutateAsync: duplicateLeagueAsync } = leagueQuery.duplicate()
 
 const league = ref<typeof leagueData.value>()
@@ -35,11 +42,11 @@ watch(
   },
   { immediate: true }
 )
-const isAddingNewLeague = ref(false)
+const isAddingNewLeague = ref(query.isAddingNewLeague === 'true')
 
 onServerPrefetch(async () => {
   await suspenseAccount()
-  if (leagueId) await suspenseLeague()
+  if (query.league) await suspenseLeague()
 })
 
 const leagueActions: DropdownItem[] = [
@@ -83,7 +90,7 @@ const leaguesDropdown = computed<DropdownItem[][]>(() => {
 })
 
 const selectedLeague = computed(() => {
-  const selectedLeague = account.value?.leagues.find((league) => league.id === parseInt(leagueId))
+  const selectedLeague = account.value?.leagues.find((league) => league.id === parseInt(query.league))
 
   if (!selectedLeague) return account.value?.leagues[0]
 
@@ -101,8 +108,11 @@ const toggleEdit = () => {
 }
 
 const isSaving = computed(() => saveStatus.value === DataStatus.PENDING)
-const save = async () => {
+
+const save = async (league: League & { players: Player[] }) => {
   saveStatus.value = DataStatus.PENDING
+
+  const { id } = await updateLeagueAsync({ id: league.id, updatedLeague: league })
 
   toast.add({
     icon: 'i-heroicons-check-20-solid',
@@ -110,7 +120,7 @@ const save = async () => {
   })
 
   isEditing.value = false
-  // saveStatus.value = DataStatus.SUCCESS
+  saveStatus.value = DataStatus.SUCCESS
 
   scrollY.value = 0
 }
@@ -118,7 +128,15 @@ const save = async () => {
 const createLeague = async (league: Partial<League>) => {
   isAddNewLeagueStatus.value = DataStatus.PENDING
 
-  const { id } = await createLeagueAsync({ ...league, accountId: account.value?.id })
+  const defaultConfig: Partial<Config> = {
+    teamCount: 2,
+    rules: {},
+  }
+  const { id } = await createLeagueAsync({
+    ...league,
+    accountId: account.value?.id,
+    configuration: defaultConfig as Prisma.JsonValue,
+  })
   router.push({ query: { league: id } })
 
   isAddingNewLeague.value = false
@@ -205,7 +223,7 @@ const deleteLeague = async (league: Partial<League>) => {
         </h2>
         <div class="flex md:mt-0 md:ml-4 gap-4">
           <UButton color="gray" @click="toggleEdit">{{ isEditing ? 'Hide' : 'Edit' }}</UButton>
-          <UButton @click="save" :disabled="isSaving" :loading="isSaving" :label="isSaving ? '' : 'Save'" />
+          <UButton @click="save(league!)" :disabled="isSaving" :loading="isSaving" :label="isSaving ? '' : 'Save'" />
         </div>
       </div>
       <div

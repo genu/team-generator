@@ -36,19 +36,18 @@ export const useLeague = () => {
 
   const update = () => {
     return useMutation({
-      mutationFn: async ({ id, updatedLeague }: { id: number; updatedLeague: Partial<League> }) => {
+      mutationFn: async ({ id, updatedLeague }: { id: number; updatedLeague: any }) => {
         const res = await $fetch('/api/account/league/:id', {
           method: 'PUT',
-          body: updatedLeague,
-          params: { id },
+          body: { id, updatedLeague },
         })
 
         return res
       },
-      onSuccess: ({ id, account }) => {
-        queryClient.invalidateQueries({ queryKey: ['league', id] })
-        queryClient.invalidateQueries({ queryKey: ['account', account?.hash] })
-      },
+      // onSuccess: ({ id, account }) => {
+      //   queryClient.invalidateQueries({ queryKey: ['league', id] })
+      //   queryClient.invalidateQueries({ queryKey: ['account', account?.hash] })
+      // },
     })
   }
 

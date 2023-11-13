@@ -8,7 +8,7 @@ const createAccountStatus = ref(DataStatus.DEFAULT)
 const createAccount = async () => {
   const { hash } = await createAccountAsync()
 
-  router.push(`/${hash}`)
+  router.push(`/${hash}?isAddingNewLeague=true`)
 }
 </script>
 

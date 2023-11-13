@@ -7,9 +7,9 @@ export interface LegacyPlayer {
 }
 
 export interface Rules {
-  goaliesFirst: boolean
-  noBestGolieAndPlayer: boolean
-  keepGoalies: boolean
+  goaliesFirst?: boolean
+  noBestGolieAndPlayer?: boolean
+  keepGoalies?: boolean
   stefanMode?: boolean
   beniMode?: boolean
 }
