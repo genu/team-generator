@@ -7,6 +7,7 @@ import html2canvas from 'html2canvas'
 import { useClipboard, useBrowserLocation, promiseTimeout } from '@vueuse/core'
 
 const props = defineProps<{
+  leagueId: number
   players: Player[]
   teamCount: number
   snapshot?: Snapshot
@@ -16,9 +17,12 @@ const props = defineProps<{
 const emit = defineEmits<{ (e: 'shuffled', snapshot: Snapshot): void }>()
 
 const location = useBrowserLocation()
+const snapshotQuery = useSnapshot()
 
 const { shuffle, methodology: shuffleMethodology, teams } = useTeamShuffle()
 const { initialize: initializeMethod, write: writeMethod, methodology } = shuffleMethodology
+
+const { data: snapshots } = snapshotQuery.list(props.leagueId)
 
 const shareDialog = ref()
 
@@ -118,7 +122,10 @@ const addPlayerToNewTeam = (event: SortableEvent) => {
       </UCard>
     </UModal>
 
-    <div class="flex justify-end gap-4" v-if="players.length > 0">
+    <div class="flex justify-between gap-4" v-if="players.length > 0">
+      <div>
+        <UButton color="indigo" variant="ghost" icon="i-ph-star-bold" />
+      </div>
       <UButton
         v-if="teams"
         color="gray"
@@ -127,7 +134,7 @@ const addPlayerToNewTeam = (event: SortableEvent) => {
         variant="ghost"
         @click="showSharingWindow"
       />
-      <UButton @click="shuffle(props.players, { teamCount: props.teamCount })">Shuffle Teamss</UButton>
+      <UButton @click="shuffle(props.players, { teamCount: props.teamCount })">Shuffle Teams</UButton>
     </div>
     <div class="flex justify-end">
       <div class="flex flex-col items-center mt-2 mr-3" v-if="players.length > 0">

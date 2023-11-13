@@ -279,6 +279,7 @@ const onShuffled = () => {
             <TeamGenerated
               v-else
               :players="league.players"
+              :league-id="league.id"
               @shuffled="onShuffled"
               :team-count="leagueConfiguration.teamCount"
             />
