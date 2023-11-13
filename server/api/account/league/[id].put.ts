@@ -33,7 +33,11 @@ export default defineEventHandler(async (event) => {
       players: {
         upsert: updatedLeague.players.map((player) => ({
           where: { id: player.id ?? -1 },
-          update: { ...player, rank: typeof player.rank === 'string' ? parseInt(player.rank) : player.rank },
+          update: {
+            ...player,
+            rank: typeof player.rank === 'string' ? parseInt(player.rank) : player.rank,
+            updatedAt: new Date(),
+          },
           create: { ...player, rank: typeof player.rank === 'string' ? parseInt(player.rank) : player.rank },
         })),
       },
