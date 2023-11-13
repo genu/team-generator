@@ -1,12 +1,10 @@
 <script lang="ts" setup>
-import { groupBy, random, sumBy, keys, filter, map, orderBy } from 'lodash-es'
-import html2canvas from 'html2canvas'
-import { useClipboard, useBrowserLocation, promiseTimeout } from '@vueuse/core'
-import { Sortable } from 'sortablejs-vue3'
-import type { Options, SortableEvent } from 'sortablejs'
-
+import type { SortableEvent } from 'sortablejs'
 import type { Rules, Snapshot } from '~/interfaces'
 import type { Player } from '@prisma/client'
+import { keys } from 'lodash-es'
+import html2canvas from 'html2canvas'
+import { useClipboard, useBrowserLocation, promiseTimeout } from '@vueuse/core'
 
 const props = defineProps<{
   players: Player[]
@@ -18,12 +16,14 @@ const props = defineProps<{
 const emit = defineEmits<{ (e: 'shuffled', snapshot: Snapshot): void }>()
 
 const location = useBrowserLocation()
-const { write: writeMethod, methodology, initialize: initializeMethod, reset: resetMethodology } = useMethodology()
+
+const { shuffle, methodology: shuffleMethodology, teams } = useTeamShuffle()
+const { initialize: initializeMethod, write: writeMethod, methodology } = shuffleMethodology
 
 const shareDialog = ref()
 
 const shareUrl = ref(location.value.href)
-const teams = ref<any>({})
+
 const teamToChoose = ref<number>()
 const isShowingProcess = ref(false)
 const usingSeedData = ref(false)
@@ -35,17 +35,6 @@ const creatingImage = ref(false)
 const previewWidth = ref(0)
 const previewImg = ref()
 
-const teamListOptions: Options = {
-  group: {
-    name: 'team',
-  },
-  ghostClass: 'bg-green-200',
-  setData(dataTransfer, dragEl) {
-    dataTransfer.setData('poop', 'face')
-  },
-  sort: false,
-}
-
 const { copy, copied } = useClipboard({ source: shareUrl.value })
 
 if (props.snapshot) {
@@ -55,88 +44,7 @@ if (props.snapshot) {
   initializeMethod(props.snapshot.methodology as string[])
 }
 
-const shuffle = () => {
-  const groupedByRank = groupBy(props.players, 'rank')
-
-  teamToChoose.value = random(0, props.teamCount - 1)
-  teams.value = []
-  resetMethodology()
-
-  let rank = 10
-  usingSeedData.value = false
-
-  writeMethod(`Team ${teamToChoose.value + 1} is choosing first`)
-
-  // First pick goal keepers
-  if (props.rules?.goaliesFirst) {
-    const goalKeepers = orderBy(
-      filter(props.players, (player) => player.gk!),
-      ['rank'],
-      ['desc']
-    )
-
-    writeMethod(`Choosing Goalkeepers first (${map(goalKeepers, 'name').join(', ')})`)
-
-    while (goalKeepers.length > 0) {
-      const randomGoalkeeper = goalKeepers.splice(0, 1)[0] as Player
-
-      writeMethod(
-        `Team ${teamToChoose.value + 1} chose goal keeper ${randomGoalkeeper.name} (${randomGoalkeeper.rank})`
-      )
-
-      if (!teams.value[teamToChoose.value]) {
-        const team: any = {}
-        team[teamToChoose.value] = []
-
-        teams.value = { ...teams.value, ...team }
-      }
-
-      teams.value[teamToChoose.value] = [...teams.value[teamToChoose.value], randomGoalkeeper]
-
-      // Next team chooses
-      teamToChoose.value = (teamToChoose.value + 1) % props.teamCount
-    }
-    writeMethod('Finished selecting goalkeepers')
-  }
-
-  while (rank > 0) {
-    const playersAtRank = groupedByRank[rank]
-
-    while (playersAtRank && playersAtRank.length > 0) {
-      const randomPlayerFromRank = playersAtRank.splice(random(0, playersAtRank.length - 1), 1)[0]
-
-      // Goalies were already chosen, this team can choose again.
-      if (props.rules?.goaliesFirst && randomPlayerFromRank.gk) {
-        continue
-      }
-
-      writeMethod(`Team ${teamToChoose.value + 1} chose ${randomPlayerFromRank.name} (${randomPlayerFromRank.rank})`)
-
-      if (!teams.value[teamToChoose.value]) {
-        const team: any = {}
-        team[teamToChoose.value] = []
-
-        teams.value = { ...teams.value, ...team }
-      }
-
-      teams.value[teamToChoose.value] = [...teams.value[teamToChoose.value], randomPlayerFromRank]
-
-      // Next team chooses
-      teamToChoose.value = (teamToChoose.value + 1) % props.teamCount
-    }
-
-    rank--
-  }
-
-  emit('shuffled', { teams, methodology: methodology.value, teamToChoose: teamToChoose.value })
-}
-
 const numberOfGeneratedTeams = computed(() => keys(teams.value).length)
-const getTeamRank = (players: Player[]) => {
-  const rankAsNumber = map(players, (player) => ({ ...player, rank: Number(player.rank) }))
-
-  return sumBy(rankAsNumber, 'rank')
-}
 
 const showSharingWindow = async () => {
   isSharingDialog.value = true
@@ -219,7 +127,7 @@ const addPlayerToNewTeam = (event: SortableEvent) => {
         variant="ghost"
         @click="showSharingWindow"
       />
-      <UButton @click="shuffle">Shuffle Teams</UButton>
+      <UButton @click="shuffle(props.players, { teamCount: props.teamCount })">Shuffle Teamss</UButton>
     </div>
     <div class="flex justify-end">
       <div class="flex flex-col items-center mt-2 mr-3" v-if="players.length > 0">
@@ -232,47 +140,7 @@ const addPlayerToNewTeam = (event: SortableEvent) => {
       </div>
     </div>
     <div class="items-start mb-2 gap-3 md:gap-3 grid grid-cols-2 lg:grid-cols-3" ref="snapshotContainer">
-      <div
-        v-for="(players, key) in teams"
-        class="bg-white border-2 border-b border-gray-200 border-gray-400 shadow divide-y divide-gray-200 rounded-md"
-      >
-        <div class="relative">
-          <h2 class="flex flex-col px-5 pt-5 text-lg font-medium text-gray-900 leading-6 md:items-center md:flex-row">
-            <span>Team {{ +key + 1 }}</span>
-            <span class="ml-1 text-xs">({{ players.length }} players)</span>
-          </h2>
-          <span class="absolute top-0 left-0 px-2 text-xs text-sm text-white bg-green-500">
-            Rank {{ getTeamRank(players) }}
-          </span>
-          <UIcon
-            name="i-heroicons-star-20-solid"
-            class="absolute top-0 right-0 m-1 text-lg text-amber-600"
-            v-if="teamToChoose == key"
-          />
-        </div>
-        <Sortable
-          :list="players"
-          item-key="id"
-          tag="ul"
-          :options="teamListOptions"
-          class="flex flex-col px-2 py-2 mt-2 gap-2"
-          @add="addPlayerToNewTeam"
-          :data-team-id="key"
-        >
-          <template #item="{ element: player, index }: { element: Player, index: number }">
-            <li
-              :data-id="index"
-              class="px-2 py-1 text-sm text-gray-600 capitalize bg-gray-100 cursor-pointer rounded-md"
-              :class="{ 'font-bold': player.gk }"
-            >
-              <div class="flex items-center select-none gap-2">
-                <UIcon name="i-heroicons-ellipsis-vertical-20-solid" class="text-xl" />
-                <span>{{ player.name }} {{ player.gk ? '(GK)' : '' }}</span>
-              </div>
-            </li>
-          </template>
-        </Sortable>
-      </div>
+      <Team v-for="(players, key) in teams" :number="+key + 1" :players="players" />
     </div>
     <div class="flex justify-around py-2" v-if="numberOfGeneratedTeams > 0 && !usingSeedData">
       <UButton

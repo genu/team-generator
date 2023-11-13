@@ -155,6 +155,10 @@ const deleteLeague = async (league: Partial<League>) => {
 
   router.replace(`/${account?.hash}`)
 }
+
+const onShuffled = () => {
+  console.log('shuffled')
+}
 </script>
 
 <template>
@@ -272,7 +276,12 @@ const deleteLeague = async (league: Partial<League>) => {
               :disabled="isEditing"
             />
 
-            <TeamGenerated v-else :players="league.players" @shuffled="onShuffled" />
+            <TeamGenerated
+              v-else
+              :players="league.players"
+              @shuffled="onShuffled"
+              :team-count="leagueConfiguration.teamCount"
+            />
           </div>
         </div>
       </div>
