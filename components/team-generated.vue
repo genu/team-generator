@@ -81,6 +81,8 @@ const addPlayerToNewTeam = (event: SortableEvent) => {
   emit('shuffled', { teams, methodology: methodology.value })
   event.item.remove()
 }
+
+const toggleFavoriteSnapshot = async () => {}
 </script>
 
 <template>
@@ -124,7 +126,13 @@ const addPlayerToNewTeam = (event: SortableEvent) => {
 
     <div class="flex justify-between gap-4" v-if="players.length > 0">
       <div>
-        <UButton color="indigo" variant="ghost" icon="i-ph-star-bold" />
+        <UButton
+          color="indigo"
+          variant="ghost"
+          icon="i-ph-star-bold"
+          label="Favorite"
+          @click="toggleFavoriteSnapshot"
+        />
       </div>
       <div class="flex items-center gap-2">
         <UButton
@@ -148,7 +156,7 @@ const addPlayerToNewTeam = (event: SortableEvent) => {
         <span class="block text-sm font-medium text-gray-900">Click to shuffle</span>
       </div>
     </div>
-    <div class="items-start mb-2 gap-3 md:gap-3 grid grid-cols-2 lg:grid-cols-3" ref="snapshotContainer">
+    <div class="items-start mt-2 gap-3 md:gap-3 grid grid-cols-2 lg:grid-cols-3" ref="snapshotContainer">
       <Team v-for="(players, key) in teams" :team-number="+key + 1" :players="players" />
     </div>
     <div class="flex justify-around py-2" v-if="numberOfGeneratedTeams > 0 && !usingSeedData">
