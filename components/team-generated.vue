@@ -165,7 +165,6 @@ const toggleFavoriteSnapshot = async () => {}
         @move-player="movePlayer"
       />
     </div>
-    <pre>{{ teams }}</pre>
     <div class="flex justify-around py-2" v-if="numberOfGeneratedTeams > 0 && !usingSeedData">
       <UButton
         variant="outline"
