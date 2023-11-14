@@ -5,10 +5,16 @@ import { Sortable } from 'sortablejs-vue3'
 
 import type { Options, SortableEvent } from 'sortablejs'
 
-const props = defineProps<{
-  number: number
-  players: Player[]
-}>()
+const props = withDefaults(
+  defineProps<{
+    teamNumber: number
+    players: Player[]
+    choseFirst?: boolean
+  }>(),
+  {
+    choseFirst: false,
+  }
+)
 
 const teamListOptions: Options = {
   group: {
@@ -48,14 +54,14 @@ const addPlayerToNewTeam = (event: SortableEvent) => {
   <div class="bg-white border-2 border-b border-gray-200 border-gray-400 shadow divide-y divide-gray-200 rounded-md">
     <div class="relative">
       <h2 class="flex flex-col px-5 pt-5 text-lg font-medium text-gray-900 leading-6 md:items-center md:flex-row">
-        <span>Team {{ $props.number }}</span>
+        <span>Team {{ $props.teamNumber }}</span>
         <span class="ml-1 text-xs">({{ players.length }} players)</span>
       </h2>
       <span class="absolute top-0 left-0 px-2 text-xs text-sm text-white bg-green-500">Rank {{ rank }}</span>
       <UIcon
         name="i-heroicons-star-20-solid"
         class="absolute top-0 right-0 m-1 text-lg text-amber-600"
-        v-if="teamToChoose == key"
+        v-if="$props.choseFirst"
       />
     </div>
     <Sortable
@@ -65,7 +71,7 @@ const addPlayerToNewTeam = (event: SortableEvent) => {
       :options="teamListOptions"
       class="flex flex-col px-2 py-2 mt-2 gap-2"
       @add="addPlayerToNewTeam"
-      :data-team-id="key"
+      :data-team-id="$props.teamNumber"
     >
       <template #item="{ element: player, index }: { element: Player, index: number }">
         <li

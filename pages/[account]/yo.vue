@@ -31,48 +31,7 @@
 </template>
 
 <script lang="ts" setup>
-import { filter, find, maxBy } from 'lodash-es'
-import { useScroll } from '@vueuse/core'
-
-import type { Data, Snapshot } from '~/interfaces'
-import type { DropdownItem } from '@nuxt/ui/dist/runtime/types'
-import type { Player } from '@prisma/client'
-
-const route = useRoute()
-const router = useRouter()
-
-const newPlayer = ref<Partial<Player>>({ name: '', isActive: true, rank: 1 })
 const isEditing = ref(false)
-const unsavedChanges = ref(false)
-const isSaving = ref(false)
-
-// const data = ref<Data>({
-//   config: {
-//     teamCount: 2,
-//     rules: {
-//       goaliesFirst: false,
-//       noBestGolieAndPlayer: false,
-//     },
-//   },
-//   players: [],
-//   snapshot: {
-//     teams: null,
-//     methodology: [],
-//   },
-// })
-
-const { y: scrollY } = useScroll(process.client ? window : null)
-const items: DropdownItem[][] = [
-  [
-    {
-      label: 'New League',
-      to: '/',
-      replace: true,
-    },
-  ],
-]
-const hash = route.params.slug[0]
-const account = useAccount()
 
 // useHead({
 //   title: () => {
@@ -80,38 +39,9 @@ const account = useAccount()
 //   },
 // })
 
-const { data: accountData } = account.get(hash)
-
-if (hash) {
-  try {
-    const { data: loadedData } = await useFetch('/api/account', {
-      query: { hash },
-    })
-  } catch (err) {
-    console.log(err)
-  }
-}
-
 // watch(data.value, () => {
 //   unsavedChanges.value = true
 // })
-
-// const toggleEdit = () => {
-//   isEditing.value = !isEditing.value
-//   scrollY.value = 0
-// }
-
-// const filteredPlayers = computed(() => {
-//   if (!playerFilter.value) return data.value.players
-
-//   return filter(data.value.players, (player) => {
-//     return player.name.toLowerCase().includes(playerFilter.value.toLowerCase())
-//   })
-// })
-
-// const toast = useToast()
-
-// // Actions
 
 // const removePlayer = (index: number) => {
 //   data.value.players.splice(index, 1)

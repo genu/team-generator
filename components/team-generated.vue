@@ -149,7 +149,7 @@ const addPlayerToNewTeam = (event: SortableEvent) => {
       </div>
     </div>
     <div class="items-start mb-2 gap-3 md:gap-3 grid grid-cols-2 lg:grid-cols-3" ref="snapshotContainer">
-      <Team v-for="(players, key) in teams" :number="+key + 1" :players="players" />
+      <Team v-for="(players, key) in teams" :team-number="+key + 1" :players="players" />
     </div>
     <div class="flex justify-around py-2" v-if="numberOfGeneratedTeams > 0 && !usingSeedData">
       <UButton

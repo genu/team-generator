@@ -33,8 +33,8 @@ const { mutateAsync: deleteLeagueAsync } = leagueQuery.del()
 const { mutateAsync: updateLeagueAsync } = leagueQuery.update()
 const { mutateAsync: duplicateLeagueAsync } = leagueQuery.duplicate()
 
-const league = ref<typeof leagueData.value>()
 const leagueConfiguration = computed(() => league.value?.configuration as unknown as Config)
+const league = ref<typeof leagueData.value>()
 
 watch(
   leagueData,
@@ -46,7 +46,8 @@ watch(
 
 onServerPrefetch(async () => {
   await suspenseAccount()
-  if (leagueId.value) await suspenseLeague()
+  const { data } = await suspenseLeague()
+  league.value = data
 })
 
 const leagueActions: DropdownItem[] = [
