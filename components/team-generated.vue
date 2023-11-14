@@ -19,7 +19,7 @@ const emit = defineEmits<{ (e: 'shuffled', snapshot: Snapshot): void }>()
 const location = useBrowserLocation()
 const snapshotQuery = useSnapshot()
 
-const { shuffle, methodology: shuffleMethodology, teams, shuffled } = useTeamShuffle()
+const { shuffle, methodology: shuffleMethodology, teams, isShuffled, movePlayer } = useTeamShuffle()
 const { initialize: initializeMethod, write: writeMethod, methodology } = shuffleMethodology
 
 const { data: snapshots } = snapshotQuery.list(props.leagueId)
@@ -147,7 +147,7 @@ const toggleFavoriteSnapshot = async () => {}
       </div>
     </div>
     <div class="flex justify-end">
-      <div class="flex flex-col items-center mt-2 mr-3" v-if="players.length > 0 && !shuffled">
+      <div class="flex flex-col items-center mt-2 mr-3" v-if="players.length > 0 && !isShuffled">
         <UIcon
           name="i-heroicons-arrow-long-up-20-solid"
           class="text-4xl text-gray-400 animate-bounce"
@@ -157,8 +157,15 @@ const toggleFavoriteSnapshot = async () => {}
       </div>
     </div>
     <div class="items-start mt-2 gap-3 md:gap-3 grid grid-cols-2 lg:grid-cols-3" ref="snapshotContainer">
-      <Team v-for="(players, key) in teams" :team-number="+key + 1" :players="players" />
+      <Team
+        v-for="(players, teamNumber) in teams"
+        :key="teamNumber"
+        :team-number="teamNumber"
+        :players="players"
+        @move-player="movePlayer"
+      />
     </div>
+    <pre>{{ teams }}</pre>
     <div class="flex justify-around py-2" v-if="numberOfGeneratedTeams > 0 && !usingSeedData">
       <UButton
         variant="outline"

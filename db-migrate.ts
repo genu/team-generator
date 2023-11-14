@@ -47,11 +47,6 @@ await $prisma.$transaction(async (prisma) => {
                 ],
               },
             },
-            snapshots: {
-              create: {
-                data: data.snapshot as any,
-              },
-            },
           },
         },
       },

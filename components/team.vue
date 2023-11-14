@@ -7,7 +7,7 @@ import type { Options, SortableEvent } from 'sortablejs'
 
 const props = withDefaults(
   defineProps<{
-    teamNumber: number
+    teamNumber: string
     players: Player[]
     choseFirst?: boolean
   }>(),
@@ -16,14 +16,15 @@ const props = withDefaults(
   }
 )
 
+const emit = defineEmits<{
+  (e: 'movePlayer', fromTeam: number, toTeam: number, oldPlayerIndex: number, newPlayerIndex: number): void
+}>()
+
 const teamListOptions: Options = {
   group: {
     name: 'team',
   },
   ghostClass: 'bg-green-200',
-  setData(dataTransfer, dragEl) {
-    dataTransfer.setData('poop', 'face')
-  },
   sort: false,
 }
 
@@ -34,19 +35,10 @@ const rank = computed(() => {
 })
 
 const addPlayerToNewTeam = (event: SortableEvent) => {
-  const fromTeam: number = parseInt(event.from.dataset['teamId'] as string)
-  const toTeam: number = parseInt(event.to.dataset['teamId'] as string)
+  const fromTeam: number = parseInt(event.from.dataset['teamId']!)
+  const toTeam: number = parseInt(event.to.dataset['teamId']!)
 
-  console.log(fromTeam, toTeam)
-  // const player: Player = teams.value[fromTeam][event.oldIndex as number]
-
-  // // Remove player from old team
-  // teams.value[fromTeam].splice(event.oldIndex, 1)
-  // teams.value[toTeam].splice(event.newIndex, 0, player)
-
-  // writeMethod(`Manually moved ${player.name} to Team ${toTeam + 1}`)
-  // emit('shuffled', { teams, methodology: methodology.value })
-  // event.item.remove()
+  emit('movePlayer', fromTeam, toTeam, event.oldIndex!, event.newIndex!)
 }
 </script>
 
@@ -75,6 +67,7 @@ const addPlayerToNewTeam = (event: SortableEvent) => {
     >
       <template #item="{ element: player, index }: { element: Player, index: number }">
         <li
+          :key="index"
           :data-id="index"
           class="px-2 py-1 text-sm text-gray-600 capitalize bg-gray-100 cursor-pointer rounded-md"
           :class="{ 'font-bold': player.isGoalie }"
