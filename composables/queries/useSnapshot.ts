@@ -6,11 +6,12 @@ export const useSnapshot = () => {
 
   const list = (leagueId: number) => {
     return useQuery({
-      queryKey: ['league', leagueId] as const,
+      queryKey: ['league', leagueId, 'snapshots'],
       queryFn: async ({ queryKey }) => {
         const [_key, id] = queryKey
 
-        const data = await $fetch<League & { players: Player[] }>('/api/account/league', {
+        const data = await $fetch('/api/account/league/:id/snapshot/', {
+          method: 'GET',
           query: { leagueId: id },
         })
 
@@ -50,39 +51,5 @@ export const useSnapshot = () => {
     })
   }
 
-  const update = () => {
-    return useMutation({
-      mutationFn: async ({ id, updatedLeague }: { id: number; updatedLeague: any }) => {
-        const res = await $fetch('/api/account/league/:id', {
-          method: 'PUT',
-          body: { id, updatedLeague },
-        })
-
-        return res
-      },
-      onSuccess: ({ id, account }) => {
-        queryClient.invalidateQueries({ queryKey: ['league', id] })
-        queryClient.invalidateQueries({ queryKey: ['account', account?.hash] })
-      },
-    })
-  }
-
-  const del = () => {
-    return useMutation({
-      mutationFn: async (leagueId: number) => {
-        const res = await $fetch('/api/account/league/:id', {
-          method: 'DELETE',
-          params: { id: leagueId },
-        })
-
-        return res
-      },
-      onSuccess: ({ account, id }) => {
-        queryClient.invalidateQueries({ queryKey: ['account', account?.hash] })
-        queryClient.removeQueries({ queryKey: ['league', id] })
-      },
-    })
-  }
-
-  return { get, create, del, update, list }
+  return { get, create, list }
 }

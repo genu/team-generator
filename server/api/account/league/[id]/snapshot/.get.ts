@@ -3,6 +3,7 @@ export default defineEventHandler(async (event) => {
 
   return $prisma.snapshot.findMany({
     select: {
+      data: true,
       createdAt: true,
     },
     where: {
