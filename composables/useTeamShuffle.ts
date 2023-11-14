@@ -5,7 +5,7 @@ import { groupBy, random, orderBy, filter, map, pullAt, cloneDeep } from 'lodash
 export const useTeamShuffle = () => {
   const methodology = useMethodology()
   const teamToChooseFirst = ref(0)
-  const teams = ref<any>({})
+  const teams = reactive({} as Record<number, Player[]>)
   const isShuffled = ref(false)
 
   interface ShuffleOptions {
@@ -19,7 +19,10 @@ export const useTeamShuffle = () => {
     teamToChooseFirst.value = random(1, options.teamCount)
 
     // Reset teams and methodology
-    teams.value = {}
+    for (const key in teams) {
+      delete teams[key]
+    }
+
     methodology.reset()
 
     let rank = 10
@@ -43,18 +46,19 @@ export const useTeamShuffle = () => {
           `Team ${teamToChooseFirst.value} chose goal keeper ${randomGoalkeeper.name} (${randomGoalkeeper.rank})`
         )
 
-        if (!teams.value[teamToChooseFirst.value]) {
-          const team: any = {}
-          team[teamToChooseFirst.value] = []
+        if (!teams[teamToChooseFirst.value]) {
+          teams[teamToChooseFirst.value] = []
+          // const team: any = {}
+          // team[teamToChooseFirst.value] = []
 
-          teams.value = { ...teams.value, ...team }
+          // teams = { ...teams, ...team }
         }
 
-        teams.value[teamToChooseFirst.value] = [...teams.value[teamToChooseFirst.value], randomGoalkeeper]
+        teams[teamToChooseFirst.value] = [...teams[teamToChooseFirst.value], randomGoalkeeper]
 
         // Next team chooses
         teamToChooseFirst.value = (teamToChooseFirst.value + 1) % options.teamCount
-        console.log(teamToChooseFirst.value)
+        console.log(teamToChooseFirst)
       }
       methodology.write('Finished selecting goalkeepers')
     }
@@ -72,14 +76,15 @@ export const useTeamShuffle = () => {
           `Team ${teamToChooseFirst.value} chose ${randomPlayerFromRank.name} (${randomPlayerFromRank.rank})`
         )
 
-        if (!teams.value[teamToChooseFirst.value]) {
-          const team: any = {}
-          team[teamToChooseFirst.value] = []
+        if (!teams[teamToChooseFirst.value]) {
+          teams[teamToChooseFirst.value] = []
+          // const team: any = {}
+          // team[teamToChooseFirst.value] = []
 
-          teams.value = { ...teams.value, ...team }
+          // teams.value = { ...teams.value, ...team }
         }
 
-        teams.value[teamToChooseFirst.value] = [...teams.value[teamToChooseFirst.value], randomPlayerFromRank]
+        teams[teamToChooseFirst.value] = [...teams[teamToChooseFirst.value], randomPlayerFromRank]
 
         // Next team chooses
         teamToChooseFirst.value = (teamToChooseFirst.value % options.teamCount) + 1
@@ -91,13 +96,13 @@ export const useTeamShuffle = () => {
   }
 
   const movePlayer = (fromTeam: number, toTeam: number, oldPlayerIndex: number, newPlayerIndex: number) => {
-    const updatedTeams = cloneDeep(teams.value)
+    const updatedTeams = teams
 
     const player = pullAt(updatedTeams[fromTeam], oldPlayerIndex)[0]
 
     updatedTeams[toTeam].splice(newPlayerIndex, 0, player)
 
-    teams.value = { ...updatedTeams }
+    // teams.value = { ...updatedTeams }
   }
 
   return { shuffle, methodology, teams, isShuffled, movePlayer }

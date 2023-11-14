@@ -79,5 +79,6 @@ const addPlayerToNewTeam = (event: SortableEvent) => {
         </li>
       </template>
     </Sortable>
+    <pre>{{  }}</pre>
   </div>
 </template>
