@@ -6,6 +6,7 @@ export const useTeamShuffle = () => {
   const methodology = useMethodology()
   const teamToChooseFirst = ref(0)
   const teams = ref<any>({})
+  const shuffled = ref(false)
 
   interface ShuffleOptions {
     teamCount: number
@@ -84,15 +85,15 @@ export const useTeamShuffle = () => {
 
       rank--
     }
+    shuffled.value = true
   }
 
   const movePlayer = (player: Player, fromTeam: number, toTeam: number) => {
-     // const player: Player = teams.value[fromTeam][event.oldIndex as number]
-
-  // // Remove player from old team
-  // teams.value[fromTeam].splice(event.oldIndex, 1)
-  // teams.value[toTeam].splice(event.newIndex, 0, player)
+    // const player: Player = teams.value[fromTeam][event.oldIndex as number]
+    // // Remove player from old team
+    // teams.value[fromTeam].splice(event.oldIndex, 1)
+    // teams.value[toTeam].splice(event.newIndex, 0, player)
   }
 
-  return { shuffle, methodology, teams }
+  return { shuffle, methodology, teams, shuffled }
 }

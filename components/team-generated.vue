@@ -19,7 +19,7 @@ const emit = defineEmits<{ (e: 'shuffled', snapshot: Snapshot): void }>()
 const location = useBrowserLocation()
 const snapshotQuery = useSnapshot()
 
-const { shuffle, methodology: shuffleMethodology, teams } = useTeamShuffle()
+const { shuffle, methodology: shuffleMethodology, teams, shuffled } = useTeamShuffle()
 const { initialize: initializeMethod, write: writeMethod, methodology } = shuffleMethodology
 
 const { data: snapshots } = snapshotQuery.list(props.leagueId)
@@ -126,18 +126,20 @@ const addPlayerToNewTeam = (event: SortableEvent) => {
       <div>
         <UButton color="indigo" variant="ghost" icon="i-ph-star-bold" />
       </div>
-      <UButton
-        v-if="teams"
-        color="gray"
-        icon="i-heroicons-share-20-solid"
-        label="Share"
-        variant="ghost"
-        @click="showSharingWindow"
-      />
-      <UButton @click="shuffle(props.players, { teamCount: props.teamCount })">Shuffle Teams</UButton>
+      <div class="flex items-center gap-2">
+        <UButton
+          v-if="teams"
+          color="gray"
+          icon="i-heroicons-share-20-solid"
+          label="Share"
+          variant="ghost"
+          @click="showSharingWindow"
+        />
+        <UButton @click="shuffle(props.players, { teamCount: props.teamCount })">Shuffle Teams</UButton>
+      </div>
     </div>
     <div class="flex justify-end">
-      <div class="flex flex-col items-center mt-2 mr-3" v-if="players.length > 0">
+      <div class="flex flex-col items-center mt-2 mr-3" v-if="players.length > 0 && !shuffled">
         <UIcon
           name="i-heroicons-arrow-long-up-20-solid"
           class="text-4xl text-gray-400 animate-bounce"
