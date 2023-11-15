@@ -13,9 +13,7 @@ const emit = defineEmits<{ (e: 'teams-changed', updatedTeams: any): void }>()
 const location = useBrowserLocation()
 const snapshotQuery = useSnapshot()
 
-const { data: snapshots } = snapshotQuery.list(props.league.id)
-
-const latestSnapshot = computed(() => maxBy(snapshots.value, (item) => new Date(item.createdAt)))
+const { data: latestSnapshot } = snapshotQuery.latest(props.league.id)
 
 const {
   shuffle,
@@ -118,7 +116,8 @@ const onMovePlayer = (...args: any) => {
         <span class="block text-sm font-medium text-gray-900">Click to shuffle</span>
       </div>
     </div>
-    <div class="items-start mt-2 gap-3 md:gap-3 grid grid-cols-2 lg:grid-cols-3">
+
+    <LeagueSnapshot>
       <Team
         v-for="(players, teamNumber) in teams"
         :team-number="teamNumber"
@@ -126,7 +125,8 @@ const onMovePlayer = (...args: any) => {
         :players="players"
         @move-player="onMovePlayer"
       />
-    </div>
+    </LeagueSnapshot>
+
     <div class="flex justify-around py-2" v-if="numberOfGeneratedTeams > 0 && !usingSeedData">
       <UButton
         variant="outline"

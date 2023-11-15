@@ -20,6 +20,19 @@ export const useSnapshot = () => {
     })
   }
 
+  const latest = (leagueId: number) => {
+    return useQuery({
+      queryKey: ['league', leagueId, 'latest-snapshot'] as const,
+      queryFn: async ({ queryKey }) => {
+        const [_key, id] = queryKey
+
+        const data = await $fetch(`/api/account/league/${leagueId}/snapshot/latest`, {})
+
+        return data
+      },
+    })
+  }
+
   const get = (id: Ref<number | undefined>) => {
     return useQuery({
       queryKey: ['league', id] as const,
@@ -69,5 +82,5 @@ export const useSnapshot = () => {
     })
   }
 
-  return { get, create, list, update }
+  return { get, create, list, update, latest }
 }
