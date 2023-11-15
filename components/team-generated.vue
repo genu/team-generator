@@ -18,24 +18,16 @@ const location = useBrowserLocation()
 const snapshotQuery = useSnapshot()
 
 const { shuffle, methodology: shuffleMethodology, teams, isShuffled, movePlayer } = useTeamShuffle()
-const { initialize: initializeMethod, write: writeMethod, methodology } = shuffleMethodology
+const { initialize: initializeMethod, methodology } = shuffleMethodology
 
 const { data: snapshots } = snapshotQuery.list(props.leagueId)
-
-const shareDialog = ref()
 
 const shareUrl = ref(location.value.href)
 
 const teamToChoose = ref<number>()
 const isShowingProcess = ref(false)
 const usingSeedData = ref(false)
-
 const isSharingDialog = ref(false)
-const snapshotContainer = ref()
-const creatingImage = ref(false)
-
-const previewWidth = ref(0)
-const previewImg = ref()
 
 const { copy, copied } = useClipboard({ source: shareUrl.value })
 
@@ -60,13 +52,11 @@ const toggleFavoriteSnapshot = async () => {}
 <template>
   <div class="flex flex-col gap-2 lg:gap-2">
     <UModal
-      ref="shareDialog"
       header="Share Lineups"
       :ui="{
-        width: 'sm:max-w-4xl',
+        width: 'sm:max-w-2xl',
       }"
       v-model="isSharingDialog"
-      @after-hide="previewImg = null"
     >
       <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
         <template #header>
@@ -82,11 +72,6 @@ const toggleFavoriteSnapshot = async () => {}
             </div>
             <UButton :label="copied ? 'Copied' : 'Copy'" class="mt-6" @click="copy()" variant="ghost" color="indigo" />
           </div>
-          <span class="flex flex-col items-center gap-1" v-if="!previewImg">
-            <UIcon name="i-heroicons-arrow-path-20-solid" class="mt-5 text-4xl animate-spin" />
-            <span class="text-sm font-bold">Generating Image</span>
-          </span>
-          <img :src="previewImg" class="object-contain mt-4 h-96" v-else />
         </div>
         <template #footer>
           <div class="flex justify-end">
@@ -128,7 +113,7 @@ const toggleFavoriteSnapshot = async () => {}
         <span class="block text-sm font-medium text-gray-900">Click to shuffle</span>
       </div>
     </div>
-    <div class="items-start mt-2 gap-3 md:gap-3 grid grid-cols-2 lg:grid-cols-3" ref="snapshotContainer">
+    <div class="items-start mt-2 gap-3 md:gap-3 grid grid-cols-2 lg:grid-cols-3">
       <Team
         v-for="(players, teamNumber) in teams"
         :key="teamNumber"
