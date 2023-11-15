@@ -54,21 +54,6 @@ const showSharingWindow = async () => {
   await promiseTimeout(1000)
 }
 
-// const addPlayerToNewTeam = (event: SortableEvent) => {
-//   const fromTeam: number = parseInt(event.from.dataset['teamId'] as string)
-//   const toTeam: number = parseInt(event.to.dataset['teamId'] as string)
-
-//   const player: Player = teams.value[fromTeam][event.oldIndex as number]
-
-//   // Remove player from old team
-//   teams.value[fromTeam].splice(event.oldIndex, 1)
-//   teams.value[toTeam].splice(event.newIndex, 0, player)
-
-//   writeMethod(`Manually moved ${player.name} to Team ${toTeam + 1}`)
-//   emit('shuffled', { teams, methodology: methodology.value })
-//   event.item.remove()
-// }
-
 const toggleFavoriteSnapshot = async () => {}
 </script>
 
@@ -142,7 +127,6 @@ const toggleFavoriteSnapshot = async () => {}
         />
         <span class="block text-sm font-medium text-gray-900">Click to shuffle</span>
       </div>
-      <UButton @click="movePlayer(2, 1, 0, 0)">Move first back</UButton>
     </div>
     <div class="items-start mt-2 gap-3 md:gap-3 grid grid-cols-2 lg:grid-cols-3" ref="snapshotContainer">
       <Team

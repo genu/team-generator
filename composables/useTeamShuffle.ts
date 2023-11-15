@@ -48,13 +48,8 @@ export const useTeamShuffle = () => {
 
         if (!teams[teamToChooseFirst.value]) {
           teams[teamToChooseFirst.value] = reactive([])
-          // const team: any = {}
-          // team[teamToChooseFirst.value] = []
-
-          // teams = { ...teams, ...team }
         }
         teams[teamToChooseFirst.value].push(randomGoalkeeper)
-        // teams[teamToChooseFirst.value] = [...teams[teamToChooseFirst.value], randomGoalkeeper]
 
         // Next team chooses
         teamToChooseFirst.value = (teamToChooseFirst.value + 1) % options.teamCount
@@ -78,14 +73,9 @@ export const useTeamShuffle = () => {
 
         if (!teams[teamToChooseFirst.value]) {
           teams[teamToChooseFirst.value] = reactive([])
-          // const team: any = {}
-          // team[teamToChooseFirst.value] = []
-
-          // teams.value = { ...teams.value, ...team }
         }
 
         teams[teamToChooseFirst.value].push(randomPlayerFromRank)
-        // teams[teamToChooseFirst.value] = [...teams[teamToChooseFirst.value], randomPlayerFromRank]
 
         // Next team chooses
         teamToChooseFirst.value = (teamToChooseFirst.value % options.teamCount) + 1

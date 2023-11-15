@@ -38,8 +38,9 @@ const addPlayerToNewTeam = (event: SortableEvent) => {
   const fromTeam: number = parseInt(event.from.dataset['teamId']!)
   const toTeam: number = parseInt(event.to.dataset['teamId']!)
 
+  event.item.remove()
+
   emit('movePlayer', fromTeam, toTeam, event.oldIndex!, event.newIndex!)
-  debugger
 }
 </script>
 
@@ -80,6 +81,6 @@ const addPlayerToNewTeam = (event: SortableEvent) => {
         </li>
       </template>
     </Sortable>
-    <pre>{{  }}</pre>
+    <pre>{{}}</pre>
   </div>
 </template>
