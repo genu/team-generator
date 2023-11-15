@@ -6,7 +6,6 @@ export default defineEventHandler(async (event) => {
       id: true,
       name: true,
       configuration: true,
-      defaultSnapshot: true,
       players: {
         select: {
           id: true,

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { Config } from '~/interfaces'
 import type { Player, League } from '@prisma/client'
-import { cloneDeep, keys } from 'lodash-es'
+import { keys } from 'lodash-es'
 import { useClipboard, useBrowserLocation, promiseTimeout } from '@vueuse/core'
 
 const props = defineProps<{
@@ -19,6 +19,7 @@ const { initialize: initializeMethod, methodology } = shuffleMethodology
 const configuration = computed(() => props.league.configuration as unknown as Config)
 
 const { data: snapshots } = snapshotQuery.list(props.league.id)
+const { mutateAsync: createSnapshotAsync } = snapshotQuery.create()
 
 const shareUrl = ref(location.value.href)
 
@@ -30,7 +31,12 @@ const { copy, copied } = useClipboard({ source: shareUrl.value })
 
 const numberOfGeneratedTeams = computed(() => keys(teams).length)
 
-const toggleFavoriteSnapshot = async () => {}
+const toggleBookmark = async () => {
+  await createSnapshotAsync({
+    leagueId: props.league.id,
+    snapshot: teams,
+  })
+}
 
 const onShuffleTeams = () => {
   const snapshot = shuffle(props.league.players, { teamCount: configuration.value.teamCount })
@@ -79,15 +85,7 @@ const onMovePlayer = (...args: any) => {
 
     <div class="flex justify-between gap-4" v-if="league.players.length > 0">
       <div>
-        <DevOnly>
-          <UButton
-            color="indigo"
-            variant="ghost"
-            icon="i-ph-star-bold"
-            label="Favorite"
-            @click="toggleFavoriteSnapshot"
-          />
-        </DevOnly>
+        <UButton color="indigo" variant="ghost" icon="i-ph-star-bold" label="Bookmark" @click="toggleBookmark" />
       </div>
       <div class="flex items-center gap-2">
         <UButton

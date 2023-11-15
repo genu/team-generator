@@ -12,14 +12,6 @@ export default defineEventHandler(async (event) => {
 
   const existingPlayerIds = map(updatedLeague.players, 'id').filter((id) => id !== undefined)
 
-  // Delete existing default snapshot for this league
-  // @TODO Only delete if its not marked favorite
-  await $prisma.snapshot.deleteMany({
-    where: {
-      defaultForLeague: { id },
-    },
-  })
-
   await $prisma.player.deleteMany({
     where: {
       league: { id },
@@ -44,12 +36,6 @@ export default defineEventHandler(async (event) => {
     data: {
       name: updatedLeague.name,
       configuration: updatedLeague.configuration as any,
-      defaultSnapshot: {
-        create: {
-          data: updatedLeague.defaultSnapshot.data as any,
-          league: { connect: { id } },
-        },
-      },
       players: {
         upsert: updatedLeague.players.map((player) => ({
           where: { id: player.id ?? -1 },

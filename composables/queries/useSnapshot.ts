@@ -46,9 +46,9 @@ export const useSnapshot = () => {
 
         return res
       },
-      // onSuccess: ({ account }) => {
-      //   queryClient.invalidateQueries({ queryKey: ['account', account?.hash] })
-      // },
+      onSuccess: ({ leagueId }) => {
+        queryClient.invalidateQueries({ queryKey: ['league', leagueId, 'snapshots'] })
+      },
     })
   }
 
