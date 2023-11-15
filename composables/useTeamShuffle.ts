@@ -1,13 +1,34 @@
-import type { Player } from '@prisma/client'
+import type { Player, Snapshot } from '@prisma/client'
 import type { Rules } from '../interfaces'
 import { groupBy, random, orderBy, filter, map, pullAt, cloneDeep } from 'lodash-es'
 
-export const useTeamShuffle = () => {
+export const useTeamShuffle = (snapshot: Ref) => {
   const methodology = useMethodology()
   const teamThatChoseFirst = ref(0)
   const teamChoosing = ref(0)
   const teams = reactive({} as Record<number, Player[]>)
   const isShuffled = ref(false)
+
+  watch(
+    snapshot,
+    (snapshot: Snapshot) => {
+      if (snapshot) {
+        for (const key in snapshot.data as unknown as Record<number, Player[]>) {
+          //@ts-ignore
+          teams[Number(key)] = reactive(snapshot.data[Number(key)])
+        }
+      }
+    },
+    { immediate: true }
+  )
+  // if (snapshot?.value) {
+  //   console.log('got snapshotp, ', snapshot.value)
+  //   // const { teams: snapshotTeams } = snapshot.value
+
+  //   // for (const key in snapshotTeams) {
+  //   //   teams[Number(key)] = reactive(snapshotTeams[key])
+  //   // }
+  // }
 
   interface ShuffleOptions {
     teamCount: number

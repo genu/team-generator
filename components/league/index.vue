@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { Config } from '~/interfaces'
 import type { Player, League } from '@prisma/client'
-import { keys } from 'lodash-es'
+import { keys, maxBy } from 'lodash-es'
 import { useClipboard, useBrowserLocation, promiseTimeout } from '@vueuse/core'
 
 const props = defineProps<{
@@ -13,16 +13,25 @@ const emit = defineEmits<{ (e: 'teams-changed', updatedTeams: any): void }>()
 const location = useBrowserLocation()
 const snapshotQuery = useSnapshot()
 
-const { shuffle, methodology: shuffleMethodology, teams, isShuffled, movePlayer, teamThatChoseFirst } = useTeamShuffle()
+const { data: snapshots } = snapshotQuery.list(props.league.id)
+
+const latestSnapshot = computed(() => maxBy(snapshots.value, (item) => new Date(item.createdAt)))
+
+const {
+  shuffle,
+  methodology: shuffleMethodology,
+  teams,
+  isShuffled,
+  movePlayer,
+  teamThatChoseFirst,
+} = useTeamShuffle(latestSnapshot)
 const { initialize: initializeMethod, methodology } = shuffleMethodology
 
 const configuration = computed(() => props.league.configuration as unknown as Config)
 
-const { data: snapshots } = snapshotQuery.list(props.league.id)
 const { mutateAsync: createSnapshotAsync } = snapshotQuery.create()
 
 const shareUrl = ref(location.value.href)
-
 const isShowingProcess = ref(false)
 const usingSeedData = ref(false)
 const isSharingDialog = ref(false)
