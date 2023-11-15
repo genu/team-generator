@@ -13,7 +13,7 @@ const emit = defineEmits<{ (e: 'shuffled', snapshot: Snapshot): void }>()
 const location = useBrowserLocation()
 const snapshotQuery = useSnapshot()
 
-const { shuffle, methodology: shuffleMethodology, teams, isShuffled, movePlayer } = useTeamShuffle()
+const { shuffle, methodology: shuffleMethodology, teams, isShuffled, movePlayer, teamThatChoseFirst } = useTeamShuffle()
 const { initialize: initializeMethod, methodology } = shuffleMethodology
 
 const configuration = computed(() => props.league.configuration as unknown as Config)
@@ -59,7 +59,7 @@ const toggleFavoriteSnapshot = async () => {}
       <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
         <template #header>
           <div class="flex items-center justify-between">
-            <h3 class="text-base font-semibold text-gray-900 leading-6 dark:text-white">Share Teams</h3>
+            <h3 class="text-base font-semibold text-gray-900 leading-6 dark:text-white">Share Leagues</h3>
           </div>
         </template>
         <div class="flex flex-col">
@@ -114,8 +114,8 @@ const toggleFavoriteSnapshot = async () => {}
     <div class="items-start mt-2 gap-3 md:gap-3 grid grid-cols-2 lg:grid-cols-3">
       <Team
         v-for="(players, teamNumber) in teams"
-        :key="teamNumber"
         :team-number="teamNumber"
+        :chose-first="teamThatChoseFirst == teamNumber"
         :players="players"
         @move-player="movePlayer"
       />

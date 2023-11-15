@@ -4,7 +4,8 @@ import { groupBy, random, orderBy, filter, map, pullAt, cloneDeep } from 'lodash
 
 export const useTeamShuffle = () => {
   const methodology = useMethodology()
-  const teamToChooseFirst = ref(0)
+  const teamThatChoseFirst = ref(0)
+  const teamChoosing = ref(0)
   const teams = reactive({} as Record<number, Player[]>)
   const isShuffled = ref(false)
 
@@ -16,7 +17,8 @@ export const useTeamShuffle = () => {
     const onlyActivePlayers = filter(players, (player) => player.isActive)
     const groupedByRank = groupBy(onlyActivePlayers, 'rank')
 
-    teamToChooseFirst.value = random(1, options.teamCount)
+    teamChoosing.value = random(1, options.teamCount)
+    teamThatChoseFirst.value = teamChoosing.value
 
     // Reset teams and methodology
     for (const key in teams) {
@@ -27,7 +29,7 @@ export const useTeamShuffle = () => {
 
     let rank = 10
 
-    methodology.write(`Team ${teamToChooseFirst.value} is choosing first`)
+    methodology.write(`Team ${teamChoosing.value} is choosing first`)
 
     // First pick goal keepers
     if (options.rules?.goaliesFirst) {
@@ -43,17 +45,16 @@ export const useTeamShuffle = () => {
         const randomGoalkeeper = goalKeepers.splice(0, 1)[0] as Player
 
         methodology.write(
-          `Team ${teamToChooseFirst.value} chose goal keeper ${randomGoalkeeper.name} (${randomGoalkeeper.rank})`
+          `Team ${teamChoosing.value} chose goal keeper ${randomGoalkeeper.name} (${randomGoalkeeper.rank})`
         )
 
-        if (!teams[teamToChooseFirst.value]) {
-          teams[teamToChooseFirst.value] = reactive([])
+        if (!teams[teamChoosing.value]) {
+          teams[teamChoosing.value] = reactive([])
         }
-        teams[teamToChooseFirst.value].push(randomGoalkeeper)
+        teams[teamChoosing.value].push(randomGoalkeeper)
 
         // Next team chooses
-        teamToChooseFirst.value = (teamToChooseFirst.value + 1) % options.teamCount
-        console.log(teamToChooseFirst)
+        teamChoosing.value = (teamChoosing.value + 1) % options.teamCount
       }
       methodology.write('Finished selecting goalkeepers')
     }
@@ -68,17 +69,17 @@ export const useTeamShuffle = () => {
         if (options.rules?.goaliesFirst && randomPlayerFromRank.isGoalie) continue
 
         methodology.write(
-          `Team ${teamToChooseFirst.value} chose ${randomPlayerFromRank.name} (${randomPlayerFromRank.rank})`
+          `Team ${teamChoosing.value} chose ${randomPlayerFromRank.name} (${randomPlayerFromRank.rank})`
         )
 
-        if (!teams[teamToChooseFirst.value]) {
-          teams[teamToChooseFirst.value] = reactive([])
+        if (!teams[teamChoosing.value]) {
+          teams[teamChoosing.value] = reactive([])
         }
 
-        teams[teamToChooseFirst.value].push(randomPlayerFromRank)
+        teams[teamChoosing.value].push(randomPlayerFromRank)
 
         // Next team chooses
-        teamToChooseFirst.value = (teamToChooseFirst.value % options.teamCount) + 1
+        teamChoosing.value = (teamChoosing.value % options.teamCount) + 1
       }
 
       rank--
@@ -93,5 +94,5 @@ export const useTeamShuffle = () => {
     teams[toTeam].splice(newPlayerIndex, 0, player)
   }
 
-  return { shuffle, methodology, teams, isShuffled, movePlayer }
+  return { shuffle, methodology, teams, isShuffled, movePlayer, teamThatChoseFirst }
 }

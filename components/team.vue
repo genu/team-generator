@@ -55,7 +55,7 @@ const addPlayerToNewTeam = (event: SortableEvent) => {
       <UIcon
         name="i-heroicons-star-20-solid"
         class="absolute top-0 right-0 m-1 text-lg text-amber-600"
-        v-if="$props.choseFirst"
+        v-if="choseFirst"
       />
     </div>
     <Sortable
