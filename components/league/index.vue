@@ -81,13 +81,15 @@ const toggleFavoriteSnapshot = async () => {}
 
     <div class="flex justify-between gap-4" v-if="league.players.length > 0">
       <div>
-        <UButton
-          color="indigo"
-          variant="ghost"
-          icon="i-ph-star-bold"
-          label="Favorite"
-          @click="toggleFavoriteSnapshot"
-        />
+        <DevOnly>
+          <UButton
+            color="indigo"
+            variant="ghost"
+            icon="i-ph-star-bold"
+            label="Favorite"
+            @click="toggleFavoriteSnapshot"
+          />
+        </DevOnly>
       </div>
       <div class="flex items-center gap-2">
         <UButton
