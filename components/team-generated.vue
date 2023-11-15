@@ -1,9 +1,7 @@
 <script lang="ts" setup>
-import type { SortableEvent } from 'sortablejs'
 import type { Rules, Snapshot } from '~/interfaces'
 import type { Player } from '@prisma/client'
 import { keys } from 'lodash-es'
-import html2canvas from 'html2canvas'
 import { useClipboard, useBrowserLocation, promiseTimeout } from '@vueuse/core'
 
 const props = defineProps<{
@@ -42,45 +40,34 @@ const previewImg = ref()
 const { copy, copied } = useClipboard({ source: shareUrl.value })
 
 if (props.snapshot) {
-  teams.value = props.snapshot.teams
+  // teams = props.snapshot.teams
   teamToChoose.value = props.snapshot.teamToChoose
 
   initializeMethod(props.snapshot.methodology as string[])
 }
 
-const numberOfGeneratedTeams = computed(() => keys(teams.value).length)
+const numberOfGeneratedTeams = computed(() => keys(teams).length)
 
 const showSharingWindow = async () => {
   isSharingDialog.value = true
-  creatingImage.value = true
 
   await promiseTimeout(1000)
-
-  previewWidth.value = shareDialog.value.clientWidth
-  const canvas = await html2canvas(snapshotContainer.value)
-  previewImg.value = canvas.toDataURL()
-
-  creatingImage.value = false
-
-  const viewer = document.querySelector('#snapshot-viewer')
-
-  viewer?.appendChild(canvas)
 }
 
-const addPlayerToNewTeam = (event: SortableEvent) => {
-  const fromTeam: number = parseInt(event.from.dataset['teamId'] as string)
-  const toTeam: number = parseInt(event.to.dataset['teamId'] as string)
+// const addPlayerToNewTeam = (event: SortableEvent) => {
+//   const fromTeam: number = parseInt(event.from.dataset['teamId'] as string)
+//   const toTeam: number = parseInt(event.to.dataset['teamId'] as string)
 
-  const player: Player = teams.value[fromTeam][event.oldIndex as number]
+//   const player: Player = teams.value[fromTeam][event.oldIndex as number]
 
-  // Remove player from old team
-  teams.value[fromTeam].splice(event.oldIndex, 1)
-  teams.value[toTeam].splice(event.newIndex, 0, player)
+//   // Remove player from old team
+//   teams.value[fromTeam].splice(event.oldIndex, 1)
+//   teams.value[toTeam].splice(event.newIndex, 0, player)
 
-  writeMethod(`Manually moved ${player.name} to Team ${toTeam + 1}`)
-  emit('shuffled', { teams, methodology: methodology.value })
-  event.item.remove()
-}
+//   writeMethod(`Manually moved ${player.name} to Team ${toTeam + 1}`)
+//   emit('shuffled', { teams, methodology: methodology.value })
+//   event.item.remove()
+// }
 
 const toggleFavoriteSnapshot = async () => {}
 </script>
@@ -155,6 +142,7 @@ const toggleFavoriteSnapshot = async () => {}
         />
         <span class="block text-sm font-medium text-gray-900">Click to shuffle</span>
       </div>
+      <UButton @click="movePlayer(2, 1, 0, 0)">Move first back</UButton>
     </div>
     <div class="items-start mt-2 gap-3 md:gap-3 grid grid-cols-2 lg:grid-cols-3" ref="snapshotContainer">
       <Team
@@ -193,9 +181,3 @@ const toggleFavoriteSnapshot = async () => {}
     </UCard>
   </div>
 </template>
-
-<style>
-body > div:last-child > span + img {
-  display: inline !important;
-}
-</style>

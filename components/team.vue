@@ -39,6 +39,7 @@ const addPlayerToNewTeam = (event: SortableEvent) => {
   const toTeam: number = parseInt(event.to.dataset['teamId']!)
 
   emit('movePlayer', fromTeam, toTeam, event.oldIndex!, event.newIndex!)
+  debugger
 }
 </script>
 
