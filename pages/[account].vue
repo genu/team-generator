@@ -276,14 +276,7 @@ const onShuffled = () => {
               @click="isEditing = !isEditing"
               :disabled="isEditing"
             />
-
-            <TeamGenerated
-              v-else
-              :players="league.players"
-              :league-id="league.id"
-              @shuffled="onShuffled"
-              :team-count="leagueConfiguration.teamCount"
-            />
+            <League v-else :league="league" @shuffled="onShuffled" :team-count="leagueConfiguration.teamCount" />
           </div>
         </div>
       </div>

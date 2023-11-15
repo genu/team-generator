@@ -1,15 +1,11 @@
 <script lang="ts" setup>
-import type { Rules, Snapshot } from '~/interfaces'
-import type { Player } from '@prisma/client'
+import type { Snapshot, Config } from '~/interfaces'
+import type { Player, League } from '@prisma/client'
 import { keys } from 'lodash-es'
 import { useClipboard, useBrowserLocation, promiseTimeout } from '@vueuse/core'
 
 const props = defineProps<{
-  leagueId: number
-  players: Player[]
-  teamCount: number
-  snapshot?: Snapshot
-  rules?: Rules
+  league: League & { players: Player[] }
 }>()
 
 const emit = defineEmits<{ (e: 'shuffled', snapshot: Snapshot): void }>()
@@ -20,7 +16,9 @@ const snapshotQuery = useSnapshot()
 const { shuffle, methodology: shuffleMethodology, teams, isShuffled, movePlayer } = useTeamShuffle()
 const { initialize: initializeMethod, methodology } = shuffleMethodology
 
-const { data: snapshots } = snapshotQuery.list(props.leagueId)
+const configuration = computed(() => props.league.configuration as unknown as Config)
+
+const { data: snapshots } = snapshotQuery.list(props.league.id)
 
 const shareUrl = ref(location.value.href)
 
@@ -31,12 +29,12 @@ const isSharingDialog = ref(false)
 
 const { copy, copied } = useClipboard({ source: shareUrl.value })
 
-if (props.snapshot) {
-  // teams = props.snapshot.teams
-  teamToChoose.value = props.snapshot.teamToChoose
+// if (props.snapshot) {
+//   // teams = props.snapshot.teams
+//   teamToChoose.value = props.snapshot.teamToChoose
 
-  initializeMethod(props.snapshot.methodology as string[])
-}
+//   initializeMethod(props.snapshot.methodology as string[])
+// }
 
 const numberOfGeneratedTeams = computed(() => keys(teams).length)
 
@@ -81,7 +79,7 @@ const toggleFavoriteSnapshot = async () => {}
       </UCard>
     </UModal>
 
-    <div class="flex justify-between gap-4" v-if="players.length > 0">
+    <div class="flex justify-between gap-4" v-if="league.players.length > 0">
       <div>
         <UButton
           color="indigo"
@@ -100,11 +98,11 @@ const toggleFavoriteSnapshot = async () => {}
           variant="ghost"
           @click="showSharingWindow"
         />
-        <UButton @click="shuffle(props.players, { teamCount: props.teamCount })">Shuffle Teams</UButton>
+        <UButton @click="shuffle(props.league.players, { teamCount: configuration.teamCount })">Shuffle Teams</UButton>
       </div>
     </div>
     <div class="flex justify-end">
-      <div class="flex flex-col items-center mt-2 mr-3" v-if="players.length > 0 && !isShuffled">
+      <div class="flex flex-col items-center mt-2 mr-3" v-if="league.players.length > 0 && !isShuffled">
         <UIcon
           name="i-heroicons-arrow-long-up-20-solid"
           class="text-4xl text-gray-400 animate-bounce"
