@@ -23,11 +23,4 @@ export interface Config {
 export interface Data {
   config: Config
   players: LegacyPlayer[]
-  snapshot: Snapshot
-}
-
-export interface Snapshot {
-  teams?: any
-  teamToChoose?: number
-  methodology?: string[]
 }

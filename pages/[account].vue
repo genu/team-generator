@@ -2,7 +2,7 @@
 import { useRouteQuery } from '@vueuse/router'
 import type { RouteParams } from '#vue-router'
 import type { DropdownItem } from '@nuxt/ui/dist/runtime/types'
-import type { League, Player, Prisma } from '@prisma/client'
+import type { League, Player, Prisma, Snapshot } from '@prisma/client'
 import type { Config } from '../interfaces'
 
 interface AccountRouteParams extends RouteParams {
@@ -11,6 +11,8 @@ interface AccountRouteParams extends RouteParams {
 
 const accountQuery = useAccount()
 const leagueQuery = useLeague()
+const snapshotQuery = useSnapshot()
+
 const route = useRoute()
 const router = useRouter()
 const { y: scrollY } = useScroll(process.client ? window : null)
@@ -26,7 +28,6 @@ const isAddingNewLeague = useRouteQuery('isAddingNewLeague', undefined, {
 })
 
 const { data: account, isLoading, suspense: suspenseAccount } = accountQuery.get(accountHash)
-
 const { data: leagueData, isLoading: isLoadingLeague, suspense: suspenseLeague } = leagueQuery.get(leagueId)
 const { mutateAsync: createLeagueAsync } = leagueQuery.create()
 const { mutateAsync: deleteLeagueAsync } = leagueQuery.del()
@@ -35,6 +36,7 @@ const { mutateAsync: duplicateLeagueAsync } = leagueQuery.duplicate()
 
 const leagueConfiguration = computed(() => league.value?.configuration as unknown as Config)
 const league = ref<typeof leagueData.value>()
+const defaultSnapshot = ref()
 
 watch(
   leagueData,
@@ -157,8 +159,12 @@ const deleteLeague = async (league: Partial<League>) => {
   router.replace(`/${account?.hash}`)
 }
 
-const onShuffled = () => {
-  console.log('shuffled')
+const onLeagueTeamsChanged = (teams: any) => {
+  if (!league.value?.defaultSnapshot) {
+    league.value!.defaultSnapshot = { data: teams } as Snapshot
+  } else {
+    league.value!.defaultSnapshot.data = teams
+  }
 }
 </script>
 
@@ -276,7 +282,7 @@ const onShuffled = () => {
               @click="isEditing = !isEditing"
               :disabled="isEditing"
             />
-            <League v-else :league="league" @shuffled="onShuffled" :team-count="leagueConfiguration.teamCount" />
+            <League v-else :league="league" @teams-changed="onLeagueTeamsChanged" />
           </div>
         </div>
       </div>

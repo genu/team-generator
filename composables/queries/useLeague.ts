@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/vue-query'
-import type { League, Player } from '@prisma/client'
+import type { League, Player, Snapshot } from '@prisma/client'
 
 export const useLeague = () => {
   const queryClient = useQueryClient()
@@ -11,7 +11,7 @@ export const useLeague = () => {
       queryFn: async ({ queryKey }) => {
         const [_key, id] = queryKey
 
-        const data = await $fetch<League & { players: Player[] }>('/api/account/league', {
+        const data = await $fetch<League & { players: Player[]; defaultSnapshot: Snapshot }>('/api/account/league', {
           query: { leagueId: id },
         })
 

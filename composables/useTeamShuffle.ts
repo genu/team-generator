@@ -13,6 +13,13 @@ export const useTeamShuffle = () => {
     teamCount: number
     rules?: Rules
   }
+  /**
+   *
+   * @param players Players to Shuffle
+   * @param options
+   *
+   * @returns Non-reactive snapshot of teams
+   */
   const shuffle = (players: Player[], options: ShuffleOptions) => {
     const onlyActivePlayers = filter(players, (player) => player.isActive)
     const groupedByRank = groupBy(onlyActivePlayers, 'rank')
@@ -85,13 +92,21 @@ export const useTeamShuffle = () => {
       rank--
     }
     isShuffled.value = true
+
+    return cloneDeep(teams)
   }
 
+  /**
+   *
+   * @returns Non-reactive snapshot of updated teams after moving player
+   */
   const movePlayer = (fromTeam: number, toTeam: number, oldPlayerIndex: number, newPlayerIndex: number) => {
     const player = teams[fromTeam][oldPlayerIndex]
 
     teams[fromTeam].splice(oldPlayerIndex, 1)
     teams[toTeam].splice(newPlayerIndex, 0, player)
+
+    return cloneDeep(teams)
   }
 
   return { shuffle, methodology, teams, isShuffled, movePlayer, teamThatChoseFirst }

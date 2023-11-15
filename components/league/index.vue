@@ -1,14 +1,14 @@
 <script lang="ts" setup>
-import type { Snapshot, Config } from '~/interfaces'
+import type { Config } from '~/interfaces'
 import type { Player, League } from '@prisma/client'
-import { keys } from 'lodash-es'
+import { cloneDeep, keys } from 'lodash-es'
 import { useClipboard, useBrowserLocation, promiseTimeout } from '@vueuse/core'
 
 const props = defineProps<{
   league: League & { players: Player[] }
 }>()
 
-const emit = defineEmits<{ (e: 'shuffled', snapshot: Snapshot): void }>()
+const emit = defineEmits<{ (e: 'teams-changed', updatedTeams: any): void }>()
 
 const location = useBrowserLocation()
 const snapshotQuery = useSnapshot()
@@ -22,29 +22,27 @@ const { data: snapshots } = snapshotQuery.list(props.league.id)
 
 const shareUrl = ref(location.value.href)
 
-const teamToChoose = ref<number>()
 const isShowingProcess = ref(false)
 const usingSeedData = ref(false)
 const isSharingDialog = ref(false)
 
 const { copy, copied } = useClipboard({ source: shareUrl.value })
 
-// if (props.snapshot) {
-//   // teams = props.snapshot.teams
-//   teamToChoose.value = props.snapshot.teamToChoose
-
-//   initializeMethod(props.snapshot.methodology as string[])
-// }
-
 const numberOfGeneratedTeams = computed(() => keys(teams).length)
 
-const showSharingWindow = async () => {
-  isSharingDialog.value = true
+const toggleFavoriteSnapshot = async () => {}
 
-  await promiseTimeout(1000)
+const onShuffleTeams = () => {
+  const snapshot = shuffle(props.league.players, { teamCount: configuration.value.teamCount })
+
+  emit('teams-changed', snapshot)
 }
 
-const toggleFavoriteSnapshot = async () => {}
+const onMovePlayer = (...args: any) => {
+  const snapshot = movePlayer.apply(null, args)
+
+  emit('teams-changed', snapshot)
+}
 </script>
 
 <template>
@@ -98,9 +96,9 @@ const toggleFavoriteSnapshot = async () => {}
           icon="i-heroicons-share-20-solid"
           label="Share"
           variant="ghost"
-          @click="showSharingWindow"
+          @click="isSharingDialog = true"
         />
-        <UButton @click="shuffle(props.league.players, { teamCount: configuration.teamCount })">Shuffle Teams</UButton>
+        <UButton @click="onShuffleTeams">Shuffle Teams</UButton>
       </div>
     </div>
     <div class="flex justify-end">
@@ -119,7 +117,7 @@ const toggleFavoriteSnapshot = async () => {}
         :team-number="teamNumber"
         :chose-first="teamThatChoseFirst == teamNumber"
         :players="players"
-        @move-player="movePlayer"
+        @move-player="onMovePlayer"
       />
     </div>
     <div class="flex justify-around py-2" v-if="numberOfGeneratedTeams > 0 && !usingSeedData">
