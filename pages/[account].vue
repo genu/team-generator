@@ -253,6 +253,7 @@ const onSnapshotUpdated = (updatedSnapshotData: any) => (latestSnapshot.value = 
           <UDropdown
             class="z-50"
             :items="leaguesDropdown"
+            :popper="{ arrow: true }"
             :ui="{ item: { disabled: 'cursor-text select-text' }, padding: 'flex flex-col gap-1' }"
           >
             <UButton
