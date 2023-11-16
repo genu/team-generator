@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { useRouteQuery } from '@vueuse/router'
+import { sortBy, first } from 'lodash-es'
 import type { RouteParams } from '#vue-router'
 import type { DropdownItem } from '@nuxt/ui/dist/runtime/types'
 import type { League, Player, Prisma, Snapshot } from '@prisma/client'
@@ -34,9 +35,19 @@ const { mutateAsync: deleteLeagueAsync } = leagueQuery.del()
 const { mutateAsync: updateLeagueAsync } = leagueQuery.update()
 const { mutateAsync: duplicateLeagueAsync } = leagueQuery.duplicate()
 
-const leagueConfiguration = computed(() => league.value?.configuration as unknown as Config)
 const league = ref<typeof leagueData.value>()
-const defaultSnapshot = ref()
+
+watch(
+  account,
+  (account) => {
+    if (!leagueId.value && account?.leagues.length! > 0) {
+      const latestCreatedLeague = first(sortBy(account?.leagues, (league) => new Date(league.createdAt)).reverse())
+
+      leagueId.value = latestCreatedLeague?.id
+    }
+  },
+  { immediate: true }
+)
 
 watch(
   leagueData,
@@ -66,14 +77,14 @@ const leagueActions: DropdownItem[] = [
     label: 'Duplicate League',
     icon: 'i-ph-copy',
     click: async () => {
-      const { id } = await duplicateLeagueAsync(selectedLeague.value?.id!)
+      const { id } = await duplicateLeagueAsync(league.value?.id!)
 
       toast.add({
         icon: 'i-heroicons-check-20-solid',
-        title: `"${selectedLeague.value?.name}" league duplicated`,
+        title: `"${league.value?.name}" league duplicated`,
       })
 
-      router.push({ query: { league: id } })
+      leagueId.value = id
     },
   },
   {
@@ -94,14 +105,6 @@ const leaguesDropdown = computed<DropdownItem[][]>(() => {
     })) || []
 
   return [[{ label: 'Your Leagues', slot: 'leagues-header', disabled: true }], mappedLeagues, leagueActions]
-})
-
-const selectedLeague = computed(() => {
-  const selectedLeague = account.value?.leagues.find((league) => league.id === leagueId.value)
-
-  if (!selectedLeague) return account.value?.leagues[0]
-
-  return selectedLeague
 })
 
 const saveStatus = ref(DataStatus.DEFAULT)
@@ -172,10 +175,10 @@ const onLeagueTeamsChanged = (teams: any) => {
 
 <template>
   <div>
-    <UiConfirmation v-model="showConfirmDeleteLeague" title="Delete League" @on-confirm="deleteLeague(selectedLeague!)">
+    <UiConfirmation v-model="showConfirmDeleteLeague" title="Delete League" @on-confirm="deleteLeague(league!)">
       <template #content>
         Are you sure you want to remove
-        <span class="font-semibold">"{{ selectedLeague?.name }}"</span>
+        <span class="font-semibold">"{{ league?.name }}"</span>
         league?
       </template>
     </UiConfirmation>
@@ -224,7 +227,7 @@ const onLeagueTeamsChanged = (teams: any) => {
         >
           <UDropdown :items="leaguesDropdown" :ui="{ item: { disabled: 'cursor-text select-text' } }">
             <UButton
-              :label="selectedLeague?.name || 'Select League'"
+              :label="league?.name || 'Select League'"
               variant="ghost"
               color="black"
               trailing-icon="i-heroicons-chevron-down-20-solid"

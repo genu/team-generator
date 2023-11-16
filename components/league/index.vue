@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import type { Config } from '~/interfaces'
 import type { Player, League } from '@prisma/client'
-import { keys, maxBy } from 'lodash-es'
-import { useClipboard, useBrowserLocation, promiseTimeout } from '@vueuse/core'
+import { keys } from 'lodash-es'
+import { useClipboard, useBrowserLocation } from '@vueuse/core'
 
 const props = defineProps<{
   league: League & { players: Player[] }
