@@ -5,7 +5,7 @@
   "scripts": {
     "build": "prisma generate && prisma migrate deploy && nuxt build",
     "dev": "prisma migrate dev && nuxt dev",
-    "start": "pmpm db-migrate && node .output/server/index.mjs",
+    "start": "pnpm db-migrate && node .output/server/index.mjs",
     "generate": "nuxt generate",
     "db-migrate": "ts-node-esm ./db-migrate.ts",
     "preview": "nuxt preview",
