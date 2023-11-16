@@ -48,8 +48,10 @@ watch(
 
 onServerPrefetch(async () => {
   await suspenseAccount()
-  const { data } = await suspenseLeague()
-  league.value = data
+  if (leagueId.value) {
+    const { data } = await suspenseLeague()
+    league.value = data
+  }
 })
 
 const leagueActions: DropdownItem[] = [
