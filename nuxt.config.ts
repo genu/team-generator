@@ -1,5 +1,8 @@
 export default defineNuxtConfig({
   modules: ['@nuxtjs/google-fonts', '@vueuse/nuxt', '@nuxt/ui', '@floatie/widget-nuxt', '@formkit/nuxt'],
+  typescript: {
+    typeCheck: process.env.NODE_ENV === 'production',
+  },
   runtimeConfig: {
     public: {
       logrocketAppId: '',
