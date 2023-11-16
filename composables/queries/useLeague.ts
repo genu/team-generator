@@ -11,7 +11,7 @@ export const useLeague = () => {
       queryFn: async ({ queryKey }) => {
         const [_key, id] = queryKey
 
-        const data = await $fetch<League & { players: Player[]; defaultSnapshot: Snapshot }>('/api/account/league', {
+        const data = await $fetch<League & { players: Player[]; snapshots: Snapshot[] }>('/api/account/league', {
           query: { leagueId: id },
         })
 

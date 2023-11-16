@@ -6,6 +6,12 @@ export default defineEventHandler(async (event) => {
       id: true,
       name: true,
       configuration: true,
+      snapshots: {
+        take: 1,
+        orderBy: {
+          createdAt: 'desc',
+        },
+      },
       players: {
         select: {
           id: true,

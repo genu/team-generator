@@ -35,8 +35,11 @@ const { mutateAsync: createLeagueAsync } = leagueQuery.create()
 const { mutateAsync: deleteLeagueAsync } = leagueQuery.del()
 const { mutateAsync: updateLeagueAsync } = leagueQuery.update()
 const { mutateAsync: duplicateLeagueAsync } = leagueQuery.duplicate()
+const { mutateAsync: updatedSnapshotAsync } = snapshotQuery.update()
+const { mutateAsync: createSnapshotAsync } = snapshotQuery.create()
 
 const league = ref<typeof leagueData.value>()
+const latestSnapshot = ref()
 
 watch(
   account,
@@ -120,10 +123,29 @@ const toggleEdit = () => {
 
 const isSaving = computed(() => saveStatus.value === DataStatus.PENDING)
 
-const save = async (league: League & { players: Player[] }) => {
+const save = async (league: League & { players: Player[]; snapshots: Snapshot[] }) => {
   saveStatus.value = DataStatus.PENDING
 
-  const { id } = await updateLeagueAsync({ id: league.id, updatedLeague: league })
+  // Save league info
+  await updateLeagueAsync({ id: league.id, updatedLeague: league })
+
+  // Save league snapshot
+  if (latestSnapshot.value) {
+    const latestSnapshotSaved = league.snapshots[0]
+
+    if (latestSnapshotSaved) {
+      await updatedSnapshotAsync({
+        snapshotId: latestSnapshotSaved.id,
+        snapshotData: latestSnapshot.value,
+      })
+    } else {
+      // do a create
+      await createSnapshotAsync({
+        leagueId: league.id,
+        snapshotData: latestSnapshot.value,
+      })
+    }
+  }
 
   toast.add({
     icon: 'i-heroicons-check-20-solid',
@@ -165,13 +187,7 @@ const deleteLeague = async (league: Partial<League>) => {
   router.replace(`/${account?.hash}`)
 }
 
-const onLeagueTeamsChanged = (teams: any) => {
-  if (!league.value?.defaultSnapshot) {
-    league.value!.defaultSnapshot = { data: teams } as Snapshot
-  } else {
-    league.value!.defaultSnapshot.data = teams
-  }
-}
+const onSnapshotUpdated = (updatedSnapshotData: any) => (latestSnapshot.value = updatedSnapshotData)
 </script>
 
 <template>
@@ -288,7 +304,7 @@ const onLeagueTeamsChanged = (teams: any) => {
               @click="isEditing = !isEditing"
               :disabled="isEditing"
             />
-            <League v-else :league="league" @teams-changed="onLeagueTeamsChanged" />
+            <League v-else :league="league" @snapshot-changed="onSnapshotUpdated" />
           </div>
         </div>
       </div>

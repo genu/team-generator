@@ -50,10 +50,10 @@ export const useSnapshot = () => {
 
   const create = () => {
     return useMutation({
-      mutationFn: async ({ leagueId, snapshot }: { leagueId: number; snapshot: any }) => {
+      mutationFn: async ({ leagueId, snapshotData }: { leagueId: number; snapshotData: any }) => {
         const res = await $fetch('/api/account/league/:id/snapshot/', {
           method: 'POST',
-          body: snapshot,
+          body: snapshotData,
           query: { leagueId },
         })
 
@@ -67,18 +67,18 @@ export const useSnapshot = () => {
 
   const update = () => {
     return useMutation({
-      mutationFn: async ({ leagueId, snapshot }: { leagueId: number; snapshot: any }) => {
-        const res = await $fetch('/api/account/league/:id/snapshot/', {
+      mutationFn: async ({ snapshotId, snapshotData }: { snapshotId: number; snapshotData: any }) => {
+        const res = await $fetch('/api/account/league/:id/snapshot/:id', {
           method: 'PUT',
-          body: snapshot,
-          query: { leagueId },
+          body: snapshotData,
+          query: { snapshotId },
         })
 
         return res
       },
-      // onSuccess: ({ account }) => {
-      //   queryClient.invalidateQueries({ queryKey: ['account', account?.hash] })
-      // },
+      onSuccess: ({ league }) => {
+        queryClient.invalidateQueries({ queryKey: ['league', league.id] })
+      },
     })
   }
 

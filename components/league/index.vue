@@ -1,19 +1,17 @@
 <script lang="ts" setup>
 import type { Config } from '~/interfaces'
-import type { Player, League } from '@prisma/client'
+import type { Player, League, Snapshot } from '@prisma/client'
 import { keys } from 'lodash-es'
 import { useClipboard, useBrowserLocation } from '@vueuse/core'
 
 const props = defineProps<{
-  league: League & { players: Player[] }
+  league: League & { players: Player[]; snapshots: Snapshot[] }
 }>()
 
-const emit = defineEmits<{ (e: 'teams-changed', updatedTeams: any): void }>()
+const emit = defineEmits<{ (e: 'snapshotChanged', updatedSnapshotData: any): void }>()
 
 const location = useBrowserLocation()
 const snapshotQuery = useSnapshot()
-
-const { data: latestSnapshot } = snapshotQuery.latest(props.league.id)
 
 const {
   shuffle,
@@ -22,7 +20,7 @@ const {
   isShuffled,
   movePlayer,
   teamThatChoseFirst,
-} = useTeamShuffle(latestSnapshot)
+} = useTeamShuffle(props.league.snapshots[0] ? (props.league.snapshots[0].data as any) : {})
 const { methodology } = shuffleMethodology
 
 const configuration = computed(() => props.league.configuration as unknown as Config)
@@ -41,20 +39,20 @@ const numberOfGeneratedTeams = computed(() => keys(teams).length)
 const toggleBookmark = async () => {
   await createSnapshotAsync({
     leagueId: props.league.id,
-    snapshot: teams,
+    snapshotData: teams,
   })
 }
 
 const onShuffleTeams = () => {
-  const snapshot = shuffle(props.league.players, { teamCount: configuration.value.teamCount })
+  const snapshotData = shuffle(props.league.players, { teamCount: configuration.value.teamCount })
 
-  emit('teams-changed', snapshot)
+  emit('snapshotChanged', snapshotData)
 }
 
 const onMovePlayer = (...args: any) => {
-  const snapshot = movePlayer.apply(null, args)
+  const snapshotData = movePlayer.apply(null, args)
 
-  emit('teams-changed', snapshot)
+  emit('snapshotChanged', snapshotData)
 }
 </script>
 
