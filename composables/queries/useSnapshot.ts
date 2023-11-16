@@ -26,9 +26,9 @@ export const useSnapshot = () => {
       queryFn: async ({ queryKey }) => {
         const [_key, id] = queryKey
 
-        const data = await $fetch(`/api/account/league/${leagueId}/snapshot/latest`, {})
+        const data = await $fetch(`/api/account/league/${leagueId}/snapshot/latest`)
 
-        return data
+        return data || null
       },
     })
   }

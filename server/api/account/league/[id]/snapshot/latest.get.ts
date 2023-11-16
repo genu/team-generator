@@ -1,7 +1,7 @@
 export default defineEventHandler(async (event) => {
   const { id: leagueId } = getRouterParams(event)
 
-  return $prisma.snapshot.findFirst({
+  return await $prisma.snapshot.findFirst({
     where: {
       leagueId: parseInt(leagueId),
     },
