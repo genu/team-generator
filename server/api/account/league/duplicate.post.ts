@@ -3,7 +3,7 @@ import type { League, Player, Prisma } from '@prisma/client'
 export default defineEventHandler(async (event) => {
   const { id: toDuplicate } = await readBody<{ id: string }>(event)
 
-  const { id, hash, name, configuration, players, updatedAt, accountId, ...dataToDuplicate } =
+  const { id, name, configuration, createdAt, players, updatedAt, ...dataToDuplicate } =
     await $prisma.league.findUniqueOrThrow({
       where: {
         id: parseInt(toDuplicate as string),
@@ -15,11 +15,20 @@ export default defineEventHandler(async (event) => {
 
   return await $prisma.league.create({
     data: {
-      account: {
-        connect: {
-          id: accountId!,
+      ...dataToDuplicate,
+      name: `${name} (copy)`,
+      configuration: configuration as Prisma.JsonObject,
+      players: {
+        createMany: {
+          data: players.map(({ id, leagueId, createdAt, updatedAt, ...playerDataToCopy }) => ({
+            ...playerDataToCopy,
+          })),
         },
       },
+    },
+    select: {
+      id: true,
+      account: true,
     },
   })
 })

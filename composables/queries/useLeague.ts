@@ -63,9 +63,9 @@ export const useLeague = () => {
 
         return res
       },
-      // onSuccess: ({ account }) => {
-      //   queryClient.invalidateQueries({ queryKey: ['account', account?.hash] })
-      // },
+      onSuccess: ({ account }) => {
+        queryClient.invalidateQueries({ queryKey: ['account', account?.hash] })
+      },
     })
   }
 

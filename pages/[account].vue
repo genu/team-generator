@@ -73,20 +73,20 @@ const leagueActions: DropdownItem[] = [
       isAddingNewLeague.value = true
     },
   },
-  // {
-  //   label: 'Duplicate League',
-  //   icon: 'i-ph-copy',
-  //   click: async () => {
-  //     const { id } = await duplicateLeagueAsync(league.value?.id!)
+  {
+    label: 'Duplicate League',
+    icon: 'i-ph-copy',
+    click: async () => {
+      const { id } = await duplicateLeagueAsync(league.value?.id!)
 
-  //     toast.add({
-  //       icon: 'i-heroicons-check-20-solid',
-  //       title: `"${league.value?.name}" league duplicated`,
-  //     })
+      toast.add({
+        icon: 'i-heroicons-check-20-solid',
+        title: `"${league.value?.name}" league duplicated`,
+      })
 
-  //     // leagueId.value = id
-  //   },
-  // },
+      leagueId.value = id
+    },
+  },
   {
     label: 'Delete this league',
     iconClass: 'text-red-500',

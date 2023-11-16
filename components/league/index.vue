@@ -23,7 +23,7 @@ const {
   movePlayer,
   teamThatChoseFirst,
 } = useTeamShuffle(latestSnapshot)
-const { initialize: initializeMethod, methodology } = shuffleMethodology
+const { methodology } = shuffleMethodology
 
 const configuration = computed(() => props.league.configuration as unknown as Config)
 
