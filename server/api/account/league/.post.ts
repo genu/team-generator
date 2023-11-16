@@ -1,4 +1,4 @@
-import type { League, Player, Prisma } from '@prisma/client'
+import type { Prisma } from '@prisma/client'
 
 export default defineEventHandler(async (event) => {
   const body = await readBody<Prisma.LeagueCreateInput>(event)
