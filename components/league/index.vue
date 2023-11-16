@@ -13,6 +13,8 @@ const emit = defineEmits<{ (e: 'snapshotChanged', updatedSnapshotData: any): voi
 const location = useBrowserLocation()
 const snapshotQuery = useSnapshot()
 
+const snapshot = computed(() => props.league.snapshots[0]?.data)
+
 const {
   shuffle,
   methodology: shuffleMethodology,
@@ -20,7 +22,8 @@ const {
   isShuffled,
   movePlayer,
   teamThatChoseFirst,
-} = useTeamShuffle(props.league.snapshots[0] ? (props.league.snapshots[0].data as any) : {})
+} = useTeamShuffle(snapshot)
+
 const { methodology } = shuffleMethodology
 
 const configuration = computed(() => props.league.configuration as unknown as Config)
