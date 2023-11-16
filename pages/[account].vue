@@ -270,7 +270,7 @@ const onSnapshotUpdated = (updatedSnapshotData: any) => (latestSnapshot.value = 
           </UDropdown>
         </h2>
         <div
-          class="bg-black/20 fixed top-0 left-0 h-full w-full z-40 transition-opacity duration-1000 ease-in-out"
+          class="bg-black/40 fixed top-0 left-0 h-full w-full z-40 transition-opacity duration-1000 ease-in-out"
           v-if="isLeagueDropdownOpen"
           @click="isLeagueDropdownOpen = false"
           :class="{
