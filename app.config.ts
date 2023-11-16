@@ -1,4 +1,5 @@
 export default defineAppConfig({
+  nuxtIcon: {},
   ui: {
     checkbox: {
       base: 'h-6 w-6',
