@@ -18,6 +18,7 @@ const route = useRoute()
 const router = useRouter()
 const { y: scrollY } = useScroll(process.client ? window : null)
 const toast = useToast()
+const { latest } = useUtils()
 
 const { account: accountHash } = route.params as AccountRouteParams
 
@@ -40,8 +41,8 @@ const league = ref<typeof leagueData.value>()
 watch(
   account,
   (account) => {
-    if (!leagueId.value && account?.leagues.length! > 0) {
-      const latestCreatedLeague = first(sortBy(account?.leagues, (league) => new Date(league.createdAt)).reverse())
+    if (!leagueId.value && account) {
+      const latestCreatedLeague = latest(account.leagues)
 
       leagueId.value = latestCreatedLeague?.id
     }
