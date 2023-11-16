@@ -26,7 +26,7 @@ await $prisma.$transaction(async (prisma) => {
       teamCount: parseAsInt(data.config.teamCount),
     }
 
-    await prisma.account.create({
+    await $prisma.account.create({
       data: {
         hash: league.hash!,
         leagues: {
