@@ -105,7 +105,7 @@ const resetActiveState = () => {
 </script>
 
 <template>
-  <div class="flex w-full">
+  <div class="flex w-full flex-col-reverse md:flex-row">
     <div class="relative flex flex-col lg:w-2/4 gap-2">
       <UDivider label="Squad" />
 
