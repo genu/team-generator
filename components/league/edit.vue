@@ -153,7 +153,7 @@ const resetActiveState = () => {
             <UInput
               v-model="row.rank"
               @update:model-value="(value:number)=>updatePlayer('rank',value, index)"
-              class="w-16"
+              class="w-16 mx-1"
               type="number"
               size="sm"
             />
@@ -162,20 +162,30 @@ const resetActiveState = () => {
             <UCheckbox
               v-model="row.isGoalie"
               @update:model-value="(value:boolean) => updatePlayer('isGoalie', value, index)"
+              class="mx-1"
             />
           </template>
           <template #actions-data="{ index }">
-            <UButton icon="i-heroicons-trash" color="red" variant="outline" @click="removePlayer(index)" size="sm" />
+            <UButton
+              icon="i-heroicons-trash"
+              color="red"
+              variant="outline"
+              @click="removePlayer(index)"
+              size="sm"
+              class="mx-3"
+            />
           </template>
         </UTable>
       </div>
 
       <div class="flex flex-col gap-2" v-if="modelValue.players?.length > 0">
         <UDivider />
-        <div class="flex items-center justify-end text-lg">
+        <div class="flex items-center justify-end text-base px-3 py-2">
           Active Players:
-          <span class="ml-1 font-semibold">{{ activePlayers.length }}</span>
-          <span class="text-sm">&nbsp; ({{ modelValue.players.length }} total)</span>
+          <span class="ml-1 font-semibold">
+            <span class="text-green-600">{{ activePlayers.length }}</span>
+            / {{ modelValue.players.length }}
+          </span>
         </div>
       </div>
     </div>
