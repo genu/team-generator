@@ -36,6 +36,7 @@ export default defineEventHandler(async (event) => {
     data: {
       name: updatedLeague.name,
       configuration: updatedLeague.configuration as any,
+      updatedAt: new Date(),
       players: {
         upsert: updatedLeague.players.map((player) => ({
           where: { id: player.id ?? -1 },
