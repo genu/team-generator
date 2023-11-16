@@ -103,6 +103,7 @@ const leaguesDropdown = computed<DropdownItem[][]>(() => {
   const mappedLeagues: DropdownItem[] =
     account.value?.leagues.map((league) => ({
       label: league.name!,
+      class: league.id === leagueId.value ? 'bg-indigo-500 text-white' : '',
       click: async () => {
         leagueId.value = league.id
       },
@@ -242,7 +243,10 @@ const onSnapshotUpdated = (updatedSnapshotData: any) => (latestSnapshot.value = 
         <h2
           class="relative text-base font-bold text-white capitalize cursor-pointer md:text-2xl leading-7 sm:truncate sm:text-3xl sm:tracking-tight"
         >
-          <UDropdown :items="leaguesDropdown" :ui="{ item: { disabled: 'cursor-text select-text' } }">
+          <UDropdown
+            :items="leaguesDropdown"
+            :ui="{ item: { disabled: 'cursor-text select-text' }, padding: 'flex flex-col gap-1' }"
+          >
             <UButton
               :label="league?.name || 'Select League'"
               variant="ghost"
