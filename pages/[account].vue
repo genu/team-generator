@@ -29,6 +29,7 @@ const isAddingNewLeague = useRouteQuery('isAddingNewLeague', undefined, {
   transform: (value) => value === 'true',
 })
 
+const isLeagueDropdownOpen = ref(false)
 const { data: account, isLoading, suspense: suspenseAccount } = accountQuery.get(accountHash)
 const { data: leagueData, isLoading: isLoadingLeague, suspense: suspenseLeague } = leagueQuery.get(leagueId)
 const { mutateAsync: createLeagueAsync } = leagueQuery.create()
@@ -74,6 +75,7 @@ const leagueActions: DropdownItem[] = [
     label: 'Create new League',
     icon: 'i-ph-plus-square',
     click: () => {
+      isLeagueDropdownOpen.value = false
       isAddingNewLeague.value = true
     },
   },
@@ -81,6 +83,7 @@ const leagueActions: DropdownItem[] = [
     label: 'Duplicate League',
     icon: 'i-ph-copy',
     click: async () => {
+      isLeagueDropdownOpen.value = false
       const { id } = await duplicateLeagueAsync(league.value?.id!)
 
       toast.add({
@@ -95,7 +98,10 @@ const leagueActions: DropdownItem[] = [
     label: 'Delete this league',
     iconClass: 'text-red-500',
     icon: 'i-ph-trash',
-    click: () => (showConfirmDeleteLeague.value = true),
+    click: () => {
+      isLeagueDropdownOpen.value = false
+      showConfirmDeleteLeague.value = true
+    },
   },
 ]
 
@@ -105,6 +111,7 @@ const leaguesDropdown = computed<DropdownItem[][]>(() => {
       label: league.name!,
       class: league.id === leagueId.value ? 'bg-indigo-500 text-white' : '',
       click: async () => {
+        isLeagueDropdownOpen.value = false
         leagueId.value = league.id
       },
     })) || []
@@ -244,6 +251,7 @@ const onSnapshotUpdated = (updatedSnapshotData: any) => (latestSnapshot.value = 
           class="relative text-base font-bold text-white capitalize cursor-pointer md:text-2xl leading-7 sm:truncate sm:text-3xl sm:tracking-tight"
         >
           <UDropdown
+            class="z-50"
             :items="leaguesDropdown"
             :ui="{ item: { disabled: 'cursor-text select-text' }, padding: 'flex flex-col gap-1' }"
           >
@@ -252,6 +260,7 @@ const onSnapshotUpdated = (updatedSnapshotData: any) => (latestSnapshot.value = 
               variant="ghost"
               color="black"
               trailing-icon="i-heroicons-chevron-down-20-solid"
+              @click="isLeagueDropdownOpen = !isLeagueDropdownOpen"
             />
             <template #leagues-header="{ item }">
               <div class="text-left">
@@ -260,6 +269,15 @@ const onSnapshotUpdated = (updatedSnapshotData: any) => (latestSnapshot.value = 
             </template>
           </UDropdown>
         </h2>
+        <div
+          class="bg-black/20 fixed top-0 left-0 h-full w-full z-40 transition-opacity duration-1000 ease-in-out"
+          v-if="isLeagueDropdownOpen"
+          @click="isLeagueDropdownOpen = false"
+          :class="{
+            'opacity-0': !isLeagueDropdownOpen,
+            'opacity-100 ': isLeagueDropdownOpen,
+          }"
+        />
         <div class="flex md:mt-0 md:ml-4 gap-4">
           <UButton color="gray" @click="toggleEdit">{{ isEditing ? 'Hide' : 'Edit' }}</UButton>
           <UButton @click="save(league!)" :disabled="isSaving" :loading="isSaving" :label="isSaving ? '' : 'Save'" />
