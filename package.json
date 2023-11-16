@@ -8,8 +8,7 @@
     "start": "node .output/server/index.mjs",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "prisma generate",
-    "prisma":"prisma"
+    "postinstall": "prisma generate"
   },
   "prisma": {
     "schema": "server/prisma/schema.prisma"
