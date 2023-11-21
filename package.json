@@ -20,7 +20,7 @@
     "@types/sortablejs": "^1.15.5",
     "@vueuse/core": "^10.6.1",
     "@vueuse/nuxt": "^10.6.1",
-    "nuxt": "3.8.1",
+    "nuxt": "3.8.2",
     "prisma": "^5.6.0",
     "vue-tsc": "^1.8.22"
   },
