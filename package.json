@@ -17,7 +17,6 @@
     "@nuxtjs/google-fonts": "3.1.0",
     "@types/lodash-es": "4.17.12",
     "@types/msgpack-lite": "^0.1.11",
-    "@types/sortablejs": "^1.15.5",
     "@vueuse/core": "^10.6.1",
     "@vueuse/nuxt": "^10.6.1",
     "nuxt": "3.8.2",
@@ -37,10 +36,8 @@
     "html2canvas": "^1.4.1",
     "lodash-es": "4.17.21",
     "nanoid": "^5.0.3",
-    "sortablejs": "^1.15.0",
-    "sortablejs-vue3": "^1.2.10",
-    "superjson": "^2.2.1",
     "ts-node": "^10.9.1",
-    "typescript": "^5.2.2"
+    "typescript": "^5.3.2",
+    "vue-slicksort": "^2.0.5"
   }
 }
