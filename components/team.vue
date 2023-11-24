@@ -14,7 +14,14 @@ const props = withDefaults(
   }
 )
 
-const playerList = ref(props.players)
+const playerList = computed({
+  get() {
+    return props.players
+  },
+  set(value: Player[]) {
+    return value
+  },
+})
 
 const emit = defineEmits<{
   (e: 'addPlayer', teamNumber: string, newIndex: number, value: Player): void
