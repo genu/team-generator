@@ -9,7 +9,7 @@ export default defineAppConfig({
     },
     input: {
       default: {
-        size: 'md',
+        size: 'xl',
       },
     },
     button: {
@@ -27,10 +27,8 @@ export default defineAppConfig({
       },
     },
     toggle: {
-      base: 'h-7 w-12',
-      container: {
-        base: 'h-6 w-6',
-        active: 'translate-x-5 rtl:-translate-x-5',
+      default: {
+        size: 'xl',
       },
     },
     notification: {

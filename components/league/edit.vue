@@ -143,11 +143,7 @@ const resetActiveState = () => {
             />
           </template>
           <template #name-data="{ row, index }">
-            <UInput
-              v-model="row.name"
-              @update:model-value="(value:any)=> updatePlayer('name',value, index)"
-              size="sm"
-            />
+            <UInput v-model="row.name" @update:model-value="(value:any)=> updatePlayer('name',value, index)" />
           </template>
           <template #rank-data="{ row, index }">
             <UInput
@@ -155,7 +151,6 @@ const resetActiveState = () => {
               @update:model-value="(value:number)=>updatePlayer('rank',value, index)"
               class="w-16 mx-1"
               type="number"
-              size="sm"
             />
           </template>
           <template #gk-data="{ row, index }">
@@ -166,14 +161,7 @@ const resetActiveState = () => {
             />
           </template>
           <template #actions-data="{ index }">
-            <UButton
-              icon="i-heroicons-trash"
-              color="red"
-              variant="outline"
-              @click="removePlayer(index)"
-              size="sm"
-              class="mx-3"
-            />
+            <UButton icon="i-heroicons-trash" color="red" variant="outline" @click="removePlayer(index)" class="mx-3" />
           </template>
         </UTable>
       </div>
