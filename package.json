@@ -12,7 +12,10 @@
     "start": "node .output/server/index.mjs",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "playwright": "playwright",
+    "prisma": "prisma",
+    "playwright:ui": "playwright test --ui"
   },
   "prisma": {
     "schema": "server/prisma/schema.prisma"
