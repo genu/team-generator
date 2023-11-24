@@ -12,7 +12,7 @@ const emit = defineEmits<{
 <template>
   <button
     type="button"
-    class="relative block p-8 mx-auto my-4 text-center border-2 border-gray-300 border-dashed rounded-lg w-2/3 lg:w-1/3 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+    class="relative block w-2/3 p-8 mx-auto my-4 text-center border-2 border-gray-300 border-dashed rounded-lg lg:w-1/3 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
     @click="emit('click')"
     :disabled="disabled"
   >

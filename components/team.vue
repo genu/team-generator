@@ -55,7 +55,7 @@ const onPlayerAdd = ({ newIndex, value }: { newIndex: number; value: Player }) =
     </div>
     <SlickList
       :list="playerList"
-      class="flex flex-col gap-2 p-2"
+      class="flex flex-col p-2 gap-2"
       group="team"
       @sort-insert="onPlayerAdd"
       @sort-remove="onPlayerRemove"
@@ -65,7 +65,7 @@ const onPlayerAdd = ({ newIndex, value }: { newIndex: number; value: Player }) =
         v-for="(player, index) in playerList"
         :key="player"
         :index="index"
-        class="flex items-center select-none gap-2 px-2 py-1 text-sm text-gray-600 capitalize bg-gray-100 cursor-pointer rounded-md z-auto"
+        class="z-auto flex items-center px-2 py-1 text-sm text-gray-600 capitalize bg-gray-100 cursor-pointer select-none gap-2 rounded-md"
       >
         <UIcon name="i-heroicons-ellipsis-vertical-20-solid" class="text-xl" />
         {{ player.name }}

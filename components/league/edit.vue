@@ -105,7 +105,7 @@ const resetActiveState = () => {
 </script>
 
 <template>
-  <div class="flex w-full flex-col-reverse md:flex-row">
+  <div class="flex flex-col-reverse w-full md:flex-row">
     <div class="relative flex flex-col lg:w-2/4 gap-2">
       <UDivider label="Squad" />
 
@@ -168,7 +168,7 @@ const resetActiveState = () => {
 
       <div class="flex flex-col gap-2" v-if="modelValue.players?.length > 0">
         <UDivider />
-        <div class="flex items-center justify-end text-base px-3 py-2">
+        <div class="flex items-center justify-end px-3 py-2 text-base">
           Active Players:
           <span class="ml-1 font-semibold">
             <span class="text-green-600">{{ activePlayers.length }}</span>

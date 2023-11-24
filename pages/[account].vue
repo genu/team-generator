@@ -211,7 +211,7 @@ const onSnapshotUpdated = (updatedSnapshotData: any) => (latestSnapshot.value = 
         <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
           <template #header>
             <div class="flex items-center justify-between">
-              <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">Add a new league</h3>
+              <h3 class="text-base font-semibold text-gray-900 leading-6 dark:text-white">Add a new league</h3>
               <UButton
                 color="gray"
                 variant="ghost"
@@ -236,10 +236,10 @@ const onSnapshotUpdated = (updatedSnapshotData: any) => (latestSnapshot.value = 
         </UCard>
       </FormKit>
     </UModal>
-    <div v-if="!account || isLoading" class="flex flex-col gap-4 my-5">
+    <div v-if="!account || isLoading" class="flex flex-col my-5 gap-4">
       <USkeleton class="h-20" />
       <div class="flex gap-3">
-        <USkeleton class="h-40 flex-1" v-for="n in 3" />
+        <USkeleton class="flex-1 h-40" v-for="n in 3" />
       </div>
     </div>
     <div class="relative flex flex-col" v-else>
@@ -270,7 +270,7 @@ const onSnapshotUpdated = (updatedSnapshotData: any) => (latestSnapshot.value = 
           </UDropdown>
         </h2>
         <div
-          class="bg-black/40 fixed top-0 left-0 h-full w-full z-40 transition-opacity duration-1000 ease-in-out"
+          class="fixed top-0 left-0 z-40 w-full h-full bg-black/40 transition-opacity duration-1000 ease-in-out"
           v-if="isLeagueDropdownOpen"
           @click="isLeagueDropdownOpen = false"
           :class="{
@@ -301,12 +301,12 @@ const onSnapshotUpdated = (updatedSnapshotData: any) => (latestSnapshot.value = 
       </div>
       <div class="absolute top-0 left-0 flex flex-col w-full py-5 mt-14 lg:mt-20">
         <div class="w-full px-2">
-          <div v-if="isLoadingLeague" class="flex gap-6 flex-col">
+          <div v-if="isLoadingLeague" class="flex flex-col gap-6">
             <div class="flex justify-end">
-              <USkeleton class="h-12 w-40" />
+              <USkeleton class="w-40 h-12" />
             </div>
             <div class="flex gap-4">
-              <USkeleton class="h-40 flex-1" v-for="n in 3" />
+              <USkeleton class="flex-1 h-40" v-for="n in 3" />
             </div>
           </div>
           <EmptyStateButton
