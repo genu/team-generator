@@ -12,5 +12,5 @@
     "*.css": "tailwindcss",
     "*.{env*}": "env"
   },
-  "tailwindCSS.experimental.configFile": "tailwind.config.ts"
+  "tailwindCSS.experimental.configFile": "./config/tailwind.config.ts"
 }
