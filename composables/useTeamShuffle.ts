@@ -109,18 +109,26 @@ export const useTeamShuffle = (snapshot: Ref) => {
     return cloneDeep(teams)
   }
 
-  /**
-   *
-   * @returns Non-reactive snapshot of updated teams after moving player
-   */
-  const movePlayer = (fromTeam: number, toTeam: number, oldPlayerIndex: number, newPlayerIndex: number) => {
-    const player = teams[fromTeam][oldPlayerIndex]
+  const addPlayerToTeam = (team: string, index: number, player: Player) => {
+    teams[team as any].splice(index, 0, player)
+  }
 
-    teams[fromTeam].splice(oldPlayerIndex, 1)
-    teams[toTeam].splice(newPlayerIndex, 0, player)
+  const removePlayerFromTeam = (team: string, index: number) => {
+    teams[team as any].splice(index, 1)
+  }
 
+  const getSnapshot = () => {
     return cloneDeep(teams)
   }
 
-  return { shuffle, methodology, teams, isShuffled, movePlayer, teamThatChoseFirst }
+  return {
+    shuffle,
+    methodology,
+    teams,
+    isShuffled,
+    teamThatChoseFirst,
+    addPlayerToTeam,
+    removePlayerFromTeam,
+    getSnapshot,
+  }
 }

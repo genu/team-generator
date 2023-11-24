@@ -1,9 +1,7 @@
 <script lang="ts" setup>
 import type { Player } from '@prisma/client'
 import { map, sumBy } from 'lodash-es'
-import { Sortable } from 'sortablejs-vue3'
-
-import type { Options, SortableEvent } from 'sortablejs'
+import { SlickList, SlickItem } from 'vue-slicksort'
 
 const props = withDefaults(
   defineProps<{
@@ -16,17 +14,13 @@ const props = withDefaults(
   }
 )
 
-const emit = defineEmits<{
-  (e: 'movePlayer', fromTeam: number, toTeam: number, oldPlayerIndex: number, newPlayerIndex: number): void
-}>()
+const playerList = ref(props.players)
 
-const teamListOptions: Options = {
-  group: {
-    name: 'team',
-  },
-  ghostClass: 'bg-green-200',
-  sort: false,
-}
+const emit = defineEmits<{
+  (e: 'addPlayer', teamNumber: string, newIndex: number, value: Player): void
+  (e: 'removePlayer', teamNumber: string, oldIndex: number): void
+  (e: 'teamChanged'): void
+}>()
 
 const rank = computed(() => {
   const rankAsNumber = map(props.players, (player) => ({ ...player, rank: Number(player.rank) }))
@@ -34,53 +28,48 @@ const rank = computed(() => {
   return sumBy(rankAsNumber, 'rank')
 })
 
-const addPlayerToNewTeam = (event: SortableEvent) => {
-  const fromTeam: number = parseInt(event.from.dataset['teamId']!)
-  const toTeam: number = parseInt(event.to.dataset['teamId']!)
+const onPlayerRemove = ({ oldIndex }: { oldIndex: number }) => {
+  emit('removePlayer', props.teamNumber, oldIndex)
+  emit('teamChanged')
+}
 
-  event.item.remove()
-
-  emit('movePlayer', fromTeam, toTeam, event.oldIndex!, event.newIndex!)
+const onPlayerAdd = ({ newIndex, value }: { newIndex: number; value: Player }) => {
+  emit('addPlayer', props.teamNumber, newIndex, value)
+  emit('teamChanged')
 }
 </script>
 
 <template>
-  <div class="bg-white border-2 border-b border-gray-200 border-gray-400 shadow divide-y divide-gray-200 rounded-md">
+  <div class="bg-white border-2 border-b border-gray-400 shadow divide-y divide-gray-200 rounded-md">
     <div class="relative">
       <h2 class="flex flex-col px-5 pt-5 text-lg font-medium text-gray-900 leading-6 md:items-center md:flex-row">
         <span>Team {{ $props.teamNumber }}</span>
         <span class="ml-1 text-xs">({{ players.length }} players)</span>
       </h2>
-      <span class="absolute top-0 left-0 px-2 text-xs text-sm text-white bg-green-500">Rank {{ rank }}</span>
+      <span class="absolute top-0 left-0 px-2 text-xs text-white bg-green-500">Rank {{ rank }}</span>
       <UIcon
         name="i-heroicons-star-20-solid"
         class="absolute top-0 right-0 m-1 text-lg text-amber-600"
         v-if="choseFirst"
       />
     </div>
-    <Sortable
-      :list="players"
-      item-key="id"
-      tag="ul"
-      :options="teamListOptions"
-      class="flex flex-col px-2 py-2 mt-2 gap-2"
-      @add="addPlayerToNewTeam"
-      :data-team-id="$props.teamNumber"
+    <SlickList
+      :list="playerList"
+      class="flex flex-col gap-2 p-2"
+      group="team"
+      @sort-insert="onPlayerAdd"
+      @sort-remove="onPlayerRemove"
+      helperClass="z-50 z-auto absolute"
     >
-      <template #item="{ element: player, index }: { element: Player, index: number }">
-        <li
-          :key="index"
-          :data-id="index"
-          class="px-2 py-1 text-sm text-gray-600 capitalize bg-gray-100 cursor-pointer rounded-md"
-          :class="{ 'font-bold': player.isGoalie }"
-        >
-          <div class="flex items-center select-none gap-2">
-            <UIcon name="i-heroicons-ellipsis-vertical-20-solid" class="text-xl" />
-            <span>{{ player.name }} {{ player.isGoalie ? '(GK)' : '' }}</span>
-          </div>
-        </li>
-      </template>
-    </Sortable>
-    <pre>{{}}</pre>
+      <SlickItem
+        v-for="(player, index) in playerList"
+        :key="player"
+        :index="index"
+        class="flex items-center select-none gap-2 px-2 py-1 text-sm text-gray-600 capitalize bg-gray-100 cursor-pointer rounded-md z-auto"
+      >
+        <UIcon name="i-heroicons-ellipsis-vertical-20-solid" class="text-xl" />
+        {{ player.name }}
+      </SlickItem>
+    </SlickList>
   </div>
 </template>

@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col justify-between h-screen">
     <FloatieBasic />
-    <div class="z-20 w-full max-w-4xl mx-auto md:w-2/3">
+    <div class="w-full max-w-4xl mx-auto md:w-2/3">
       <slot />
     </div>
     <div class="flex flex-col items-center justify-around">

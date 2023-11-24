@@ -3,6 +3,7 @@ import type { Config } from '~/interfaces'
 import type { Player, League, Snapshot } from '@prisma/client'
 import { keys } from 'lodash-es'
 import { useClipboard, useBrowserLocation } from '@vueuse/core'
+import { SlickList, SlickItem, DragHandle } from 'vue-slicksort'
 
 const props = defineProps<{
   league: League & { players: Player[]; snapshots: Snapshot[] }
@@ -20,8 +21,10 @@ const {
   methodology: shuffleMethodology,
   teams,
   isShuffled,
-  movePlayer,
+  addPlayerToTeam,
+  removePlayerFromTeam,
   teamThatChoseFirst,
+  getSnapshot,
 } = useTeamShuffle(snapshot)
 
 const { methodology } = shuffleMethodology
@@ -52,10 +55,16 @@ const onShuffleTeams = () => {
   emit('snapshotChanged', snapshotData)
 }
 
-const onMovePlayer = (...args: any) => {
-  const snapshotData = movePlayer.apply(null, args)
+const addPlayer = (...args: any) => {
+  addPlayerToTeam(...(args as [string, number, Player]))
 
-  emit('snapshotChanged', snapshotData)
+  emit('snapshotChanged', getSnapshot())
+}
+
+const removePlayer = (...args: any) => {
+  removePlayerFromTeam(...(args as [string, number]))
+
+  emit('snapshotChanged', getSnapshot())
 }
 </script>
 
@@ -120,15 +129,16 @@ const onMovePlayer = (...args: any) => {
       </div>
     </div>
 
-    <LeagueSnapshot>
+    <div class="items-start mt-2 gap-3 md:gap-3 grid grid-cols-2 lg:grid-cols-3">
       <Team
         v-for="(players, teamNumber) in teams"
         :team-number="teamNumber"
         :chose-first="teamThatChoseFirst == teamNumber"
         :players="players"
-        @move-player="onMovePlayer"
+        @add-player="addPlayer"
+        @remove-player="removePlayer"
       />
-    </LeagueSnapshot>
+    </div>
 
     <div class="flex justify-around py-2" v-if="numberOfGeneratedTeams > 0 && !usingSeedData">
       <UButton

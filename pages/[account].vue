@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { useRouteQuery } from '@vueuse/router'
-import { sortBy, first } from 'lodash-es'
 import type { RouteParams } from '#vue-router'
 import type { DropdownItem } from '@nuxt/ui/dist/runtime/types'
 import type { League, Player, Prisma, Snapshot } from '@prisma/client'
@@ -300,7 +299,7 @@ const onSnapshotUpdated = (updatedSnapshotData: any) => (latestSnapshot.value = 
       >
         <LeagueEdit v-model="league" v-if="league" />
       </div>
-      <div class="absolute absolute top-0 left-0 flex flex-col w-full py-5 mt-14 lg:mt-20">
+      <div class="absolute top-0 left-0 flex flex-col w-full py-5 mt-14 lg:mt-20">
         <div class="w-full px-2">
           <div v-if="isLoadingLeague" class="flex gap-6 flex-col">
             <div class="flex justify-end">
