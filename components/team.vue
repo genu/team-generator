@@ -73,9 +73,10 @@ const onPlayerAdd = ({ newIndex, value }: { newIndex: number; value: Player }) =
         :key="player"
         :index="index"
         class="z-auto flex items-center px-2 py-1 text-sm text-gray-600 capitalize bg-gray-100 cursor-pointer select-none gap-2 rounded-md"
+        :class="{ 'font-bold': player.isGoalie }"
       >
         <UIcon name="i-heroicons-ellipsis-vertical-20-solid" class="text-xl" />
-        {{ player.name }}
+        <span>{{ player.name }} {{ player.isGoalie ? '(GK)' : '' }}</span>
       </SlickItem>
     </SlickList>
   </div>
