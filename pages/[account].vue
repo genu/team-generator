@@ -247,8 +247,12 @@ const onSnapshotUpdated = (updatedSnapshotData: any) => (latestSnapshot.value = 
         class="sticky top-0 z-40 flex items-center justify-between w-full h-16 px-2 bg-gray-800 rounded-none lg:h-20 md:px-5 md:rounded-b-md"
       >
         <h2
-          class="relative text-base font-bold text-white capitalize cursor-pointer md:text-2xl leading-7 sm:truncate sm:text-3xl sm:tracking-tight"
+          class="relative text-base flex items-center gap-2 font-bold text-white capitalize cursor-pointer md:text-2xl leading-7 sm:truncate sm:text-3xl sm:tracking-tight"
         >
+          <NuxtLink to="/" class="flex items-center">
+            <UIcon name="i-ph-soccer-ball" class="text-3xl" />
+          </NuxtLink>
+
           <UDropdown
             class="z-50"
             :items="leaguesDropdown"
@@ -257,6 +261,7 @@ const onSnapshotUpdated = (updatedSnapshotData: any) => (latestSnapshot.value = 
           >
             <UButton
               :label="league?.name || 'Select League'"
+              data-test="league-dropdown-button"
               variant="ghost"
               color="black"
               trailing-icon="i-heroicons-chevron-down-20-solid"
