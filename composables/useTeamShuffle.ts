@@ -37,7 +37,7 @@ export const useTeamShuffle = (snapshot: Ref) => {
     const onlyActivePlayers = filter(players, (player) => player.isActive)
     const groupedByRank = groupBy(onlyActivePlayers, 'rank')
 
-    teamChoosing.value = random(1, options.teamCount)
+    teamChoosing.value = random(0, options.teamCount - 1)
     teamThatChoseFirst.value = teamChoosing.value
 
     // Reset teams and methodology
@@ -54,7 +54,7 @@ export const useTeamShuffle = (snapshot: Ref) => {
     // First pick goal keepers
     if (options.rules?.goaliesFirst) {
       const goalKeepers = orderBy(
-        filter(players, (player) => player.isGoalie),
+        filter(players, (player) => player.isGoalie && player.isActive),
         ['rank'],
         ['desc']
       )
@@ -62,6 +62,7 @@ export const useTeamShuffle = (snapshot: Ref) => {
       methodology.write(`Choosing Goalkeepers first (${map(goalKeepers, 'name').join(', ')})`)
 
       while (goalKeepers.length > 0) {
+        console.log('team choosing: ', teamChoosing.value)
         const randomGoalkeeper = goalKeepers.splice(0, 1)[0] as Player
 
         methodology.write(
@@ -99,7 +100,7 @@ export const useTeamShuffle = (snapshot: Ref) => {
         teams[teamChoosing.value].push(randomPlayerFromRank)
 
         // Next team chooses
-        teamChoosing.value = (teamChoosing.value % options.teamCount) + 1
+        teamChoosing.value = (teamChoosing.value + 1) % options.teamCount
       }
 
       rank--

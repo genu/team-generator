@@ -50,7 +50,7 @@ const toggleBookmark = async () => {
 }
 
 const onShuffleTeams = () => {
-  const snapshotData = shuffle(props.league.players, { teamCount: configuration.value.teamCount })
+  const snapshotData = shuffle(props.league.players, configuration.value)
 
   emit('snapshotChanged', snapshotData)
 }
