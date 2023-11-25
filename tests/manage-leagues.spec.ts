@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 import { execSync } from 'child_process'
 
 test.describe('Managing leagues', () => {
-  test.beforeAll(async ({ page }) => execSync('pnpm prisma migrate reset --force'))
+  test.beforeAll(async () => execSync('pnpm prisma migrate reset --force'))
   test.afterAll(async () => execSync('pnpm prisma migrate reset --force'))
 
   test('creating first league', async ({ page }) => {
