@@ -9,7 +9,7 @@
   "scripts": {
     "build": "prisma generate && prisma migrate deploy && nuxt build",
     "dev": "prisma migrate dev && nuxt dev",
-    "dev:test": "dotenv -e .env.test -- pnpm prisma migrate reset --force && prisma migrate dev && nuxt dev --dotenv .env.test --port 3001",
+    "dev:test": "dotenv -e .env.test -- prisma migrate dev && nuxt dev --dotenv .env.test --port 3001",
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
     "start": "node .output/server/index.mjs",
@@ -18,7 +18,8 @@
     "postinstall": "prisma generate",
     "playwright": "playwright",
     "prisma": "prisma",
-    "playwright:ui": "playwright test --ui"
+    "playwright:ui": "playwright test --ui",
+    "dotenv": "dotenv"
   },
   "prisma": {
     "schema": "server/prisma/schema.prisma"
