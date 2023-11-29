@@ -18,6 +18,7 @@
     "postinstall": "prisma generate",
     "playwright": "playwright",
     "prisma": "prisma",
+    "test": "pnpm docker:up -d && playwright test && pnpm docker:down",
     "playwright:ui": "playwright test --ui",
     "dotenv": "dotenv"
   },
