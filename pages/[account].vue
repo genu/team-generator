@@ -330,6 +330,7 @@ const onSnapshotUpdated = (updatedSnapshotData: any) => (latestSnapshot.value = 
           />
 
           <div v-else>
+            <Title>{{ league.name }}</Title>
             <EmptyStateButton
               v-if="league.players.length === 0"
               icon="i-ph-users-three-light"
