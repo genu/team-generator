@@ -6,6 +6,7 @@ on:
     branches: [main, master]
 jobs:
   test:
+    name: Integration Tests
     timeout-minutes: 60
     runs-on: ubuntu-latest
     services:
