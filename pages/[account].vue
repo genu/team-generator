@@ -47,7 +47,8 @@ watch(
     if (!leagueId.value && account) {
       const latestCreatedLeague = latest(account.leagues)
 
-      leagueId.value = latestCreatedLeague?.id
+      if (!latestCreatedLeague) league.value = undefined
+      else leagueId.value = latestCreatedLeague?.id
     }
   },
   { immediate: true }
@@ -108,11 +109,8 @@ const leaguesDropdown = computed<DropdownItem[][]>(() => {
   const mappedLeagues: DropdownItem[] =
     account.value?.leagues.map((league) => ({
       label: league.name!,
-      class: league.id === leagueId.value ? 'bg-indigo-500 text-white' : '',
-      click: async () => {
-        isLeagueDropdownOpen.value = false
-        leagueId.value = league.id
-      },
+      exactActiveClass: 'bg-indigo-500 text-white',
+      to: `/${account.value?.hash}?league=${league.id}`,
     })) || []
 
   return [[{ label: 'Your Leagues', slot: 'leagues-header', disabled: true }], mappedLeagues, leagueActions]
