@@ -41,10 +41,10 @@ jobs:
           pnpm install
 
       - name: Install Playwright Browsers
-        run: pnpm exec playwright install --with-deps
+        run: pnpm playwright install --with-deps
 
       - name: Run Playwright tests
-        run: pnpm exec playwright test --exit-zero-on-success=false
+        run: pnpm playwright test
 
       - uses: actions/upload-artifact@v3
         if: always()
