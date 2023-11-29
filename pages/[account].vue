@@ -261,7 +261,7 @@ const onSnapshotUpdated = (updatedSnapshotData: any) => (latestSnapshot.value = 
           >
             <UButton
               :label="league?.name || 'Select League'"
-              data-test="league-dropdown-button"
+              data-testid="league-dropdown-button"
               variant="ghost"
               color="black"
               trailing-icon="i-heroicons-chevron-down-20-solid"
