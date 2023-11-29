@@ -115,7 +115,7 @@ const removePlayer = (...args: any) => {
           variant="ghost"
           @click="isSharingDialog = true"
         />
-        <UButton @click="onShuffleTeams">Shuffle Teams</UButton>
+        <UButton data-testid="league-shuffle" @click="onShuffleTeams">Shuffle Teams</UButton>
       </div>
     </div>
     <div class="flex justify-end">
@@ -131,6 +131,7 @@ const removePlayer = (...args: any) => {
 
     <div class="items-start mt-2 gap-3 md:gap-3 grid grid-cols-2 lg:grid-cols-3">
       <Team
+        data-testid="league-team"
         v-for="(players, teamNumber) in teams"
         :team-number="teamNumber"
         :chose-first="teamThatChoseFirst == teamNumber"

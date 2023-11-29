@@ -111,12 +111,18 @@ const resetActiveState = () => {
 
       <div class="sticky z-50 flex items-center px-2 py-2 bg-gray-200 dark:bg-gray-800 gap-2 top-16 lg:top-20">
         <UInput v-model="newPlayer.name" placeholder="Player Name" class="w-full" @keyup.enter="addPlayer" />
-        <UButton color="indigo" label="Add" @click="addPlayer" class="justify-around w-32" />
+        <UButton
+          data-testid="add-player-button"
+          color="indigo"
+          label="Add"
+          @click="addPlayer"
+          class="justify-around w-32"
+        />
       </div>
 
       <div v-if="modelValue.players?.length > 0">
         <UDivider />
-        <UTable :rows="modelValue.players" :columns="columns">
+        <UTable :rows="modelValue.players" :columns="columns" :ui="{ base: 'table-player-list' }">
           <template #yes-header>
             <div class="flex flex-col">
               <span class="ml-1">Active?</span>
@@ -183,11 +189,16 @@ const resetActiveState = () => {
       <div class="flex flex-col font-semibold gap-2">
         <div class="flex items-center gap-2">
           <span class="text-sm text-right text-gray-700 w-28">League Name:</span>
-          <UInput :model-value="modelValue.name" @update:model-value="(value:string) => updateLeague('name', value)" />
+          <UInput
+            data-testid="edit-team-name-input"
+            :model-value="modelValue.name"
+            @update:model-value="(value:string) => updateLeague('name', value)"
+          />
         </div>
         <div class="flex items-center gap-2">
           <span class="text-sm text-right text-gray-700 w-28"># of teams:</span>
           <UInput
+            data-testid="edit-team-count-input"
             type="number"
             :model-value="configuration.teamCount"
             @update:model-value="(value:number) => updateConfiguration('teamCount', value)"

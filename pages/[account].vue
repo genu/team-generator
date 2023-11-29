@@ -282,8 +282,16 @@ const onSnapshotUpdated = (updatedSnapshotData: any) => (latestSnapshot.value = 
           }"
         />
         <div class="flex md:mt-0 md:ml-4 gap-4">
-          <UButton color="gray" @click="toggleEdit">{{ isEditing ? 'Hide' : 'Edit' }}</UButton>
-          <UButton @click="save(league!)" :disabled="isSaving" :loading="isSaving" :label="isSaving ? '' : 'Save'" />
+          <UButton data-testid="squad-edit-button" color="gray" @click="toggleEdit">
+            {{ isEditing ? 'Hide' : 'Edit' }}
+          </UButton>
+          <UButton
+            data-testid="league-save-button"
+            @click="save(league!)"
+            :disabled="isSaving"
+            :loading="isSaving"
+            :label="isSaving ? '' : 'Save'"
+          />
         </div>
       </div>
       <div
