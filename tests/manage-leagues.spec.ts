@@ -11,7 +11,7 @@ test.describe('Managing leagues', () => {
     await createFirstLeague(page, 'La Liga')
 
     // await expect
-    await expect(page.getByTestId('league-dropdown-button')).toContainText('La Liga')
+    await expect(page.getByTestId('league-dropdown-button')).toContainText('La Ligaa')
   })
 
   test('deleting a league', async ({ page }) => {
