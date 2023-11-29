@@ -252,10 +252,10 @@ const onSnapshotUpdated = (updatedSnapshotData: any) => (latestSnapshot.value = 
           </NuxtLink>
 
           <UDropdown
-            class="z-50"
             :items="leaguesDropdown"
+            data-testid="league-dropdown"
             :popper="{ arrow: true }"
-            :ui="{ item: { disabled: 'cursor-text select-text' }, padding: 'flex flex-col gap-1' }"
+            :ui="{ wrapper: 'z-50', item: { disabled: 'cursor-text select-text' }, padding: 'flex flex-col gap-1' }"
           >
             <UButton
               :label="league?.name || 'Select League'"

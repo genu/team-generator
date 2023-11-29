@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test'
 import { execSync } from 'child_process'
+import { createFirstLeague, createLeagueFromMenu } from './helpers/league.helper'
 
 test.describe('Managing leagues', () => {
   test.beforeAll(async () => execSync('pnpm dotenv -e .env.test -- pnpm prisma migrate reset --force'))
@@ -7,10 +8,7 @@ test.describe('Managing leagues', () => {
 
   test('creating first league', async ({ page }) => {
     await page.goto('/', { waitUntil: 'networkidle', timeout: 60000 })
-    await page.getByTestId('btn-setup-league').click()
-    await page.getByPlaceholder('League name').click()
-    await page.getByPlaceholder('League name').fill('La Liga')
-    await page.getByRole('button', { name: 'Add League' }).click()
+    await createFirstLeague(page, 'La Liga')
 
     // await expect
     await expect(page.getByTestId('league-dropdown-button')).toContainText('La Liga')
@@ -19,10 +17,7 @@ test.describe('Managing leagues', () => {
   test('deleting a league', async ({ page }) => {
     // Create a league
     await page.goto('/', { waitUntil: 'networkidle', timeout: 60000 })
-    await page.getByTestId('btn-setup-league').click()
-    await page.getByPlaceholder('League name').click()
-    await page.getByPlaceholder('League name').fill('La Liga')
-    await page.getByRole('button', { name: 'Add League' }).click()
+    await createFirstLeague(page, 'La Liga')
 
     // Delete the league
     await page.getByTestId('league-dropdown-button').click()
@@ -35,10 +30,7 @@ test.describe('Managing leagues', () => {
   test('duplicate a league', async ({ page }) => {
     // Create a league
     await page.goto('/', { waitUntil: 'networkidle', timeout: 60000 })
-    await page.getByRole('button', { name: 'Setup a league' }).click()
-    await page.getByPlaceholder('League name').click()
-    await page.getByPlaceholder('League name').fill('La Liga')
-    await page.getByRole('button', { name: 'Add League' }).click()
+    await createFirstLeague(page, 'La Liga')
 
     // Duplicate the league
     await page.getByTestId('league-dropdown-button').click()
@@ -47,5 +39,18 @@ test.describe('Managing leagues', () => {
     await expect(page.getByTestId('league-dropdown-button')).toContainText('La Liga (copy)')
   })
 
-  test('creating a new league from menu', async ({ page }) => {})
+  test('creating a new league from menu', async ({ page }) => {
+    // Create league 1
+    await page.goto('/', { waitUntil: 'networkidle', timeout: 60000 })
+    await createFirstLeague(page, 'La Liga')
+
+    // Create league 2
+    await createLeagueFromMenu(page, 'Premier League')
+    await expect(page.getByTestId('league-dropdown-button')).toContainText('Premier League')
+
+    // Open the league menu
+    await page.getByTestId('league-dropdown-button').click()
+    const leagues = await page.$$('[data-testid="league-dropdown"] a')
+    await expect(leagues).toHaveLength(2)
+  })
 })
