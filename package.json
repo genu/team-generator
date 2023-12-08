@@ -27,7 +27,7 @@
     "schema": "server/prisma/schema.prisma"
   },
   "devDependencies": {
-    "@nuxtjs/google-fonts": "3.1.0",
+    "@nuxtjs/google-fonts": "3.1.1",
     "@playwright/test": "^1.40.1",
     "@types/lodash-es": "4.17.12",
     "@types/msgpack-lite": "^0.1.11",
