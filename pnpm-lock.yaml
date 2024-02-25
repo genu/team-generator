@@ -72,7 +72,7 @@ devDependencies:
     version: 10.7.2(vue@3.4.19)
   '@vueuse/nuxt':
     specifier: ^10.6.1
-    version: 10.7.2(nuxt@3.10.3)(vue@3.4.19)
+    version: 10.8.0(nuxt@3.10.3)(vue@3.4.19)
   dotenv-cli:
     specifier: ^7.3.0
     version: 7.3.0
@@ -2490,7 +2490,6 @@ packages:
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
-    dev: false
 
   /@vueuse/integrations@10.7.2(fuse.js@6.6.2)(vue@3.4.19):
     resolution: {integrity: sha512-+u3RLPFedjASs5EKPc69Ge49WNgqeMfSxFn+qrQTzblPXZg6+EFzhjarS5edj2qAf6xQ93f95TUxRwKStXj/sQ==}
@@ -2557,19 +2556,18 @@ packages:
 
   /@vueuse/metadata@10.8.0:
     resolution: {integrity: sha512-Nim/Vle5OgXcXhAvGOgkJQXB1Yb+Kq/fMbLuv3YYDYbiQrwr39ljuD4k9fPeq4yUyokYRo2RaNQmbbIMWB/9+w==}
-    dev: false
 
-  /@vueuse/nuxt@10.7.2(nuxt@3.10.3)(vue@3.4.19):
-    resolution: {integrity: sha512-yv2hY4AiRoSqg9ELNpN6gOkDWxGuLiKE/bEbuTAAuUBhS5OeEDf5aB/kY0e/V6ZXj5XiU4LX3nE8YV8c+UKfmQ==}
+  /@vueuse/nuxt@10.8.0(nuxt@3.10.3)(vue@3.4.19):
+    resolution: {integrity: sha512-7b1S52exryoJoAgwH/4GRjtCjr7j8Fc5/H/orAt1DxZuiOGYEOCo7zaoM6twiURSzyiBiUemdvaRJqYzV37W6A==}
     peerDependencies:
       nuxt: ^3.0.0
     dependencies:
-      '@nuxt/kit': 3.9.3
-      '@vueuse/core': 10.7.2(vue@3.4.19)
-      '@vueuse/metadata': 10.7.2
+      '@nuxt/kit': 3.10.3
+      '@vueuse/core': 10.8.0(vue@3.4.19)
+      '@vueuse/metadata': 10.8.0
       local-pkg: 0.5.0
       nuxt: 3.10.3(@types/node@20.11.10)(typescript@5.3.3)(vite@5.1.4)(vue-tsc@1.8.27)
-      vue-demi: 0.14.6(vue@3.4.19)
+      vue-demi: 0.14.7(vue@3.4.19)
     transitivePeerDependencies:
       - '@vue/composition-api'
       - rollup
@@ -2605,7 +2603,6 @@ packages:
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
-    dev: false
 
   /abbrev@1.1.1:
     resolution: {integrity: sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==}
@@ -4501,7 +4498,7 @@ packages:
     resolution: {integrity: sha512-ok6z3qlYyCDS4ZEU27HaU6x/xZa9Whf8jD4ptH5UZTQYZVYeb9bnZ3ojVhiJNLiXK1Hfc0GNbLXcmZ5plLDDBg==}
     engines: {node: '>=14'}
     dependencies:
-      mlly: 1.5.0
+      mlly: 1.6.1
       pkg-types: 1.0.3
 
   /locate-path@6.0.0:
@@ -7126,7 +7123,6 @@ packages:
         optional: true
     dependencies:
       vue: 3.4.19(typescript@5.3.3)
-    dev: false
 
   /vue-devtools-stub@0.1.0:
     resolution: {integrity: sha512-RutnB7X8c5hjq39NceArgXg28WZtZpGc3+J16ljMiYnFhKvd8hITxSWQSQ5bvldxMDU6gG5mkxl1MTQLXckVSQ==}
