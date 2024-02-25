@@ -5,7 +5,7 @@ import { SlickList, SlickItem } from 'vue-slicksort'
 
 const props = withDefaults(
   defineProps<{
-    teamNumber: string
+    teamNumber: number
     players: Player[]
     choseFirst?: boolean
   }>(),
@@ -24,8 +24,8 @@ const playerList = computed({
 })
 
 const emit = defineEmits<{
-  (e: 'addPlayer', teamNumber: string, newIndex: number, value: Player): void
-  (e: 'removePlayer', teamNumber: string, oldIndex: number): void
+  (e: 'addPlayer', teamNumber: number, newIndex: number, value: Player): void
+  (e: 'removePlayer', teamNumber: number, oldIndex: number): void
   (e: 'teamChanged'): void
 }>()
 

@@ -191,7 +191,7 @@ const resetActiveState = () => {
           <span class="text-sm text-right text-gray-700 w-28">League Name:</span>
           <UInput
             data-testid="edit-team-name-input"
-            :model-value="modelValue.name"
+            :model-value="modelValue.name!"
             @update:model-value="(value:string) => updateLeague('name', value)"
           />
         </div>

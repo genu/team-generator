@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useRouteQuery } from '@vueuse/router'
 import type { RouteParams } from '#vue-router'
-import type { DropdownItem } from '@nuxt/ui/dist/runtime/types'
+import type { DropdownItem } from '#ui/types'
 import type { League, Player, Prisma, Snapshot } from '@prisma/client'
 import type { Config } from '../interfaces'
 
