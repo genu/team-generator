@@ -16,7 +16,7 @@ dependencies:
     version: 1.5.9(tailwindcss@3.4.1)
   '@iconify-json/ph':
     specifier: ^1.1.8
-    version: 1.1.10
+    version: 1.1.11
   '@nuxt/ui':
     specifier: npm:@nuxt/ui-edge@latest
     version: /@nuxt/ui-edge@2.12.3-28439204.20ac4b3(nuxt@3.10.3)(ts-node@10.9.2)(vite@5.1.4)(vue@3.4.19)
@@ -1011,8 +1011,8 @@ packages:
       '@iconify/types': 2.0.0
     dev: false
 
-  /@iconify-json/ph@1.1.10:
-    resolution: {integrity: sha512-e7owJfx9BgnUVGXKk/243iFV4tHH1UiBDl5mWYkwKoPf4nN2rzPGdD7ISfvwr3SB25VvOteSC5DOVWxjs56Ywg==}
+  /@iconify-json/ph@1.1.11:
+    resolution: {integrity: sha512-izLvLZrU7WM03zNwNWNrAySv3i45hM3D3K6USjCGBSQMUG0HB8zxwrMf4O0leDrganmuQBH7Z0DWTgyH1ET/fg==}
     dependencies:
       '@iconify/types': 2.0.0
     dev: false
