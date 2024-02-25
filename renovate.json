@@ -15,7 +15,7 @@
     },
     {
       "matchPackageNames": [
-        "@vueuse/*"
+        "@vueuse"
       ],
       "groupName": "@vueuse packages",
       "groupSlug": "@vueuse"
