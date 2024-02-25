@@ -13,7 +13,7 @@ dependencies:
     version: 1.5.9(tailwindcss@3.4.1)(typescript@5.3.3)(vite@5.1.4)
   '@formkit/themes':
     specifier: ^1.3.2
-    version: 1.5.2(tailwindcss@3.4.1)
+    version: 1.5.9(tailwindcss@3.4.1)
   '@iconify-json/ph':
     specifier: ^1.1.8
     version: 1.1.10
@@ -871,12 +871,6 @@ packages:
       - typescript
     dev: false
 
-  /@formkit/core@1.5.2:
-    resolution: {integrity: sha512-4p88LXfky6bstRIxr5UQnSFyqyYAJn6TCNq8XT8mtSMZydJOw15PKjPp7uNd/cFnVT1fMa0T3eTsiENB2PJFlQ==}
-    dependencies:
-      '@formkit/utils': 1.5.2
-    dev: false
-
   /@formkit/core@1.5.9:
     resolution: {integrity: sha512-hkF2uwmXcyeGqrYAO1RN3me77NdRWhuH4pZP+A2xlGZqBLx98nvABYUfTiQsCmdnPv9RkGHHB7qTq9BOvFATHQ==}
     dependencies:
@@ -943,24 +937,6 @@ packages:
       '@formkit/validation': 1.5.9
     dev: false
 
-  /@formkit/themes@1.5.2(tailwindcss@3.4.1):
-    resolution: {integrity: sha512-N88ep5ZJEajUkqNmO6Ywseb3KCIv9yp6F3r9O28/jDCSPSyamdjnK9s9wjR+QGGgOlIz0R4krTYpnlnBlc+M8g==}
-    peerDependencies:
-      tailwindcss: ^3.2.0
-      unocss: ^0.31.0
-      windicss: ^3.0.0
-    peerDependenciesMeta:
-      tailwindcss:
-        optional: true
-      unocss:
-        optional: true
-      windicss:
-        optional: true
-    dependencies:
-      '@formkit/core': 1.5.2
-      tailwindcss: 3.4.1(ts-node@10.9.2)
-    dev: false
-
   /@formkit/themes@1.5.9(tailwindcss@3.4.1):
     resolution: {integrity: sha512-hQ2paR/ycOsq25/44M6WQtniYmri9/WIU59zGyx0c34kPBh1kZTdHOkXNL/Er9nITA5O+Dlax5PseO5UH2/jYQ==}
     peerDependencies:
@@ -977,10 +953,6 @@ packages:
     dependencies:
       '@formkit/core': 1.5.9
       tailwindcss: 3.4.1(ts-node@10.9.2)
-    dev: false
-
-  /@formkit/utils@1.5.2:
-    resolution: {integrity: sha512-wWqFIyIoeld6v+nqwV89z96HSvEFXKJv0sigmaXT+j6wZKnQgNFVsSEaG/B4Ku3fx2OW03GrtjJKm0qBBpt4qw==}
     dev: false
 
   /@formkit/utils@1.5.9:
