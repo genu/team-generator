@@ -31,7 +31,7 @@ dependencies:
     version: 10.8.0(vue@3.4.19)
   '@vueuse/router':
     specifier: ^10.6.1
-    version: 10.7.2(vue-router@4.3.0)(vue@3.4.19)
+    version: 10.8.0(vue-router@4.3.0)(vue@3.4.19)
   html2canvas:
     specifier: ^1.4.1
     version: 1.4.1
@@ -2577,13 +2577,13 @@ packages:
       - vue
     dev: true
 
-  /@vueuse/router@10.7.2(vue-router@4.3.0)(vue@3.4.19):
-    resolution: {integrity: sha512-TE9QtcqtZ793bwJWnlxn1gir7TXHJh5Y0KTIAS2DFOFvz4f3yTPmxAtIHC5e96oBVaVdnzxQQ9EsOhBDfBtCDg==}
+  /@vueuse/router@10.8.0(vue-router@4.3.0)(vue@3.4.19):
+    resolution: {integrity: sha512-5WI5QYEs2XLC01JGrOC8dMDAkNsp3rOvvwed2O2gHUQt/OQ3cu3wLu8RfI0CZfoetDrj/LDcIYDcGhh70ST6+Q==}
     peerDependencies:
       vue-router: '>=4.0.0-rc.1'
     dependencies:
-      '@vueuse/shared': 10.7.2(vue@3.4.19)
-      vue-demi: 0.14.6(vue@3.4.19)
+      '@vueuse/shared': 10.8.0(vue@3.4.19)
+      vue-demi: 0.14.7(vue@3.4.19)
       vue-router: 4.3.0(vue@3.4.19)
     transitivePeerDependencies:
       - '@vue/composition-api'
