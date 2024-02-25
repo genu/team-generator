@@ -7,7 +7,7 @@
       "groupSlug": "all-minor-patch",
       "matchPackagePatterns": ["*"],
       "matchUpdateTypes": ["minor", "patch"],
-      "automerge": false
+      "automerge": true
     }
   ],
   "lockFileMaintenance": {
