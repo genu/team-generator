@@ -22,7 +22,7 @@
     },
     {
       "matchPackagePrefixes": [
-        "@types/"
+        "@types"
       ],
       "groupName": "@types packages",
       "groupSlug": "@types"
