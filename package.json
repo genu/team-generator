@@ -19,8 +19,8 @@
     "docker:down": "docker-compose down",
     "test": "pnpm docker:up -d && playwright test && pnpm docker:down",
     "test:db": "pnpm docker:down && pnpm docker:up",
-    "test:dev": "dotenv -e .env.test -- prisma migrate dev && nuxt dev --dotenv .env.test --port 3001",
-    "test:ci": "dotenv -e .env.test -- prisma migrate deploy && nuxt build --dotenv .env.test && nuxt start --dotenv .env.test --port 3001",
+    "test:dev": "dotenv -e .env.test -- prisma migrate dev && nuxt dev --dotenv .env.test",
+    "test:ci": "dotenv -e .env.test -- prisma migrate dev && nuxt build --dotenv .env.test && nuxt preview --dotenv .env.test",
     "playwright:ui": "playwright test --ui",
     "dotenv": "dotenv"
   },
