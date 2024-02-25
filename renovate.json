@@ -1,31 +1,12 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:base"
-  ],
+  "extends": ["config:base"],
   "packageRules": [
     {
-      "matchUpdateTypes": [
-        "minor",
-        "patch",
-        "pin"
-      ],
-      "matchCurrentVersion": "!/^0/",
-      "automerge": true
-    },
-    {
-      "matchPackageNames": [
-        "@vueuse"
-      ],
-      "groupName": "@vueuse packages",
-      "groupSlug": "@vueuse"
-    },
-    {
-      "matchPackagePrefixes": [
-        "@types"
-      ],
-      "groupName": "@types packages",
-      "groupSlug": "@types"
+      "groupName": "all non-major dependencies",
+      "groupSlug": "all-minor-patch",
+      "matchPackagePatterns": ["*"],
+      "matchUpdateTypes": ["minor", "patch"]
     }
   ],
   "lockFileMaintenance": {
