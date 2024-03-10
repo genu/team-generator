@@ -75,7 +75,7 @@ devDependencies:
     version: 10.9.0(nuxt@3.10.3)(vue@3.4.21)
   dotenv-cli:
     specifier: ^7.3.0
-    version: 7.4.0
+    version: 7.4.1
   nuxt:
     specifier: 3.10.3
     version: 3.10.3(@types/node@20.11.25)(typescript@5.4.2)(vite@5.1.5)(vue-tsc@1.8.27)
@@ -3467,8 +3467,8 @@ packages:
     dependencies:
       type-fest: 3.13.1
 
-  /dotenv-cli@7.4.0:
-    resolution: {integrity: sha512-fZGFOGCC5rEz1OJ0Pp+1LN8y78ClMcyXDmBEmjvJwqCqZVsPHcQ85bLCh5hZ4Bqotw4dptXOLvvw0vxm2MD30g==}
+  /dotenv-cli@7.4.1:
+    resolution: {integrity: sha512-fE1aywjRrWGxV3miaiUr3d2zC/VAiuzEGghi+QzgIA9fEf/M5hLMaRSXb4IxbUAwGmaLi0IozdZddnVU96acag==}
     hasBin: true
     dependencies:
       cross-spawn: 7.0.3
