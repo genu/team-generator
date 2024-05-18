@@ -28,7 +28,7 @@ importers:
         version: 5.14.0(prisma@5.14.0)
       '@tanstack/vue-query':
         specifier: ^5.9.0
-        version: 5.36.1(vue@3.4.27(typescript@5.4.5))
+        version: 5.37.1(vue@3.4.27(typescript@5.4.5))
       '@vueuse/components':
         specifier: 10.9.0
         version: 10.9.0(vue@3.4.27(typescript@5.4.5))
@@ -1133,8 +1133,8 @@ packages:
   '@tanstack/virtual-core@3.5.0':
     resolution: {integrity: sha512-KnPRCkQTyqhanNC0K63GBG3wA8I+D1fQuVnAvcBF8f13akOKeQp1gSbu6f77zCxhEk727iV5oQnbHLYzHrECLg==}
 
-  '@tanstack/vue-query@5.36.1':
-    resolution: {integrity: sha512-gbn3Rf8/4FDbdh1xikGYOuse65nr3ObUhWKngoMc4fu8v8EbtKpX34Mem4wf5MBMt1MOo0Hq3xfatgzrtmGBJw==}
+  '@tanstack/vue-query@5.37.1':
+    resolution: {integrity: sha512-KlE1BlvoPw3cjxf/Hpk/m46ClIXAAdii7lqyMnO0sr0Yka2SPReHOIivy30Z0n3N1eSGaO98CEQ9uHLwI/CDcg==}
     peerDependencies:
       '@vue/composition-api': ^1.1.2
       vue: ^2.6.0 || ^3.3.0
@@ -5697,7 +5697,7 @@ snapshots:
 
   '@tanstack/virtual-core@3.5.0': {}
 
-  '@tanstack/vue-query@5.36.1(vue@3.4.27(typescript@5.4.5))':
+  '@tanstack/vue-query@5.37.1(vue@3.4.27(typescript@5.4.5))':
     dependencies:
       '@tanstack/match-sorter-utils': 8.15.1
       '@tanstack/query-core': 5.36.1
