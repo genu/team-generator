@@ -30,8 +30,8 @@ importers:
         specifier: ^5.9.0
         version: 5.40.0(vue@3.4.27(typescript@5.4.5))
       '@vueuse/components':
-        specifier: 10.9.0
-        version: 10.9.0(vue@3.4.27(typescript@5.4.5))
+        specifier: 10.10.0
+        version: 10.10.0(vue@3.4.27(typescript@5.4.5))
       '@vueuse/router':
         specifier: ^10.6.1
         version: 10.10.0(vue-router@4.3.2(vue@3.4.27(typescript@5.4.5)))(vue@3.4.27(typescript@5.4.5))
@@ -1402,8 +1402,8 @@ packages:
   '@vue/shared@3.4.27':
     resolution: {integrity: sha512-DL3NmY2OFlqmYYrzp39yi3LDkKxa5vZVwxWdQ3rG0ekuWscHraeIbnI8t+aZK7qhYqEqWKTUdijadunb9pnrgA==}
 
-  '@vueuse/components@10.9.0':
-    resolution: {integrity: sha512-BHQpA0yIi3y7zKa1gYD0FUzLLkcRTqVhP8smnvsCK6GFpd94Nziq1XVPD7YpFeho0k5BzbBiNZF7V/DpkJ967A==}
+  '@vueuse/components@10.10.0':
+    resolution: {integrity: sha512-HiA10NQ9HJAGnju+8ZK4TyA8LIc0a6BnJmVWDa/k+TRhaYCVacSDU04k0BQ2otV+gghUDdwu98upf6TDRXpoeg==}
 
   '@vueuse/core@10.10.0':
     resolution: {integrity: sha512-vexJ/YXYs2S42B783rI95lMt3GzEwkxzC8Hb0Ndpd8rD+p+Lk/Za4bd797Ym7yq4jXqdSyj3JLChunF/vyYjUw==}
@@ -6079,7 +6079,7 @@ snapshots:
     dependencies:
       '@unocss/reset': 0.60.3
       '@vue/devtools-shared': 7.2.1
-      '@vueuse/components': 10.9.0(vue@3.4.27(typescript@5.4.5))
+      '@vueuse/components': 10.10.0(vue@3.4.27(typescript@5.4.5))
       '@vueuse/core': 10.10.0(vue@3.4.27(typescript@5.4.5))
       '@vueuse/integrations': 10.9.0(focus-trap@7.5.4)(fuse.js@6.6.2)(vue@3.4.27(typescript@5.4.5))
       colord: 2.9.3
@@ -6138,10 +6138,10 @@ snapshots:
 
   '@vue/shared@3.4.27': {}
 
-  '@vueuse/components@10.9.0(vue@3.4.27(typescript@5.4.5))':
+  '@vueuse/components@10.10.0(vue@3.4.27(typescript@5.4.5))':
     dependencies:
-      '@vueuse/core': 10.9.0(vue@3.4.27(typescript@5.4.5))
-      '@vueuse/shared': 10.9.0(vue@3.4.27(typescript@5.4.5))
+      '@vueuse/core': 10.10.0(vue@3.4.27(typescript@5.4.5))
+      '@vueuse/shared': 10.10.0(vue@3.4.27(typescript@5.4.5))
       vue-demi: 0.14.7(vue@3.4.27(typescript@5.4.5))
     transitivePeerDependencies:
       - '@vue/composition-api'
