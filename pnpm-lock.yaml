@@ -28,7 +28,7 @@ importers:
         version: 5.14.0(prisma@5.14.0)
       '@tanstack/vue-query':
         specifier: ^5.9.0
-        version: 5.40.0(vue@3.4.27(typescript@5.4.5))
+        version: 5.40.1(vue@3.4.27(typescript@5.4.5))
       '@vueuse/components':
         specifier: 10.10.0
         version: 10.10.0(vue@3.4.27(typescript@5.4.5))
@@ -1120,8 +1120,8 @@ packages:
   '@tanstack/virtual-core@3.5.0':
     resolution: {integrity: sha512-KnPRCkQTyqhanNC0K63GBG3wA8I+D1fQuVnAvcBF8f13akOKeQp1gSbu6f77zCxhEk727iV5oQnbHLYzHrECLg==}
 
-  '@tanstack/vue-query@5.40.0':
-    resolution: {integrity: sha512-gETTW0n9QK9lw8aXtk5WPHdGEvGh+xb/+FH6QXK/g1A+6vUeGAKoocPK39N9IMQgKR/lirW20IIo6+WmnHBHvQ==}
+  '@tanstack/vue-query@5.40.1':
+    resolution: {integrity: sha512-S6zUwFPcLyfwpJO3llD2iTZtQp0Na8cTh+LggdRulIcHMxgjVAKRkjPETFE5fnQiVvtXDkz3pCmTl1Yf5/xxFQ==}
     peerDependencies:
       '@vue/composition-api': ^1.1.2
       vue: ^2.6.0 || ^3.3.0
@@ -1350,8 +1350,8 @@ packages:
   '@vue/compiler-ssr@3.4.27':
     resolution: {integrity: sha512-CVRzSJIltzMG5FcidsW0jKNQnNRYC8bT21VegyMMtHmhW3UOI7knmUehzswXLrExDLE6lQCZdrhD4ogI7c+vuw==}
 
-  '@vue/devtools-api@6.6.2':
-    resolution: {integrity: sha512-134clD8u7cBBXdmBbXI282gHGF7T/eAbD/G7mAK2llQF62IbI4ny28IVamZVMoJSvfImC2Xxnj732hXkJvUj6g==}
+  '@vue/devtools-api@6.6.3':
+    resolution: {integrity: sha512-0MiMsFma/HqA6g3KLKn+AGpL1kgKhFWszC9U29NfpWK5LE7bjeXxySWJrOJ77hBz+TBrBQ7o4QJqbPbqbs8rJw==}
 
   '@vue/devtools-applet@7.2.1':
     resolution: {integrity: sha512-WGFXgMaph+9aT6ApN0ZQEjjAEeVN/o6DuoXOI5lJzpvXGxRpVWonziNlIcXW9PG/xVuZVWAEST7CQpXs4kzmdg==}
@@ -5660,11 +5660,11 @@ snapshots:
 
   '@tanstack/virtual-core@3.5.0': {}
 
-  '@tanstack/vue-query@5.40.0(vue@3.4.27(typescript@5.4.5))':
+  '@tanstack/vue-query@5.40.1(vue@3.4.27(typescript@5.4.5))':
     dependencies:
       '@tanstack/match-sorter-utils': 8.15.1
       '@tanstack/query-core': 5.40.0
-      '@vue/devtools-api': 6.6.2
+      '@vue/devtools-api': 6.6.3
       vue: 3.4.27(typescript@5.4.5)
       vue-demi: 0.14.8(vue@3.4.27(typescript@5.4.5))
 
@@ -6012,7 +6012,7 @@ snapshots:
       '@vue/compiler-dom': 3.4.27
       '@vue/shared': 3.4.27
 
-  '@vue/devtools-api@6.6.2': {}
+  '@vue/devtools-api@6.6.3': {}
 
   '@vue/devtools-applet@7.2.1(@unocss/reset@0.60.4)(floating-vue@5.2.2(@nuxt/kit@3.11.2(rollup@4.18.0))(vue@3.4.27(typescript@5.4.5)))(fuse.js@6.6.2)(unocss@0.60.4(postcss@8.4.38)(rollup@4.18.0)(vite@5.2.12(@types/node@20.14.1)(terser@5.31.0)))(vite@5.2.12(@types/node@20.14.1)(terser@5.31.0))(vue@3.4.27(typescript@5.4.5))':
     dependencies:
@@ -9232,7 +9232,7 @@ snapshots:
 
   vue-router@4.3.2(vue@3.4.27(typescript@5.4.5)):
     dependencies:
-      '@vue/devtools-api': 6.6.2
+      '@vue/devtools-api': 6.6.3
       vue: 3.4.27(typescript@5.4.5)
 
   vue-slicksort@2.0.5(vue@3.4.27(typescript@5.4.5)):
