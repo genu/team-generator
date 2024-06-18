@@ -6,7 +6,7 @@
     "node": "20.x",
     "pnpm": "9.x"
   },
-  "packageManager": "pnpm@9.3.0",
+  "packageManager": "pnpm@9.4.0",
   "scripts": {
     "build": "prisma generate && prisma migrate deploy && nuxt build",
     "dev": "prisma migrate dev && nuxt dev",
