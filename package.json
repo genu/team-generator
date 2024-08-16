@@ -35,7 +35,7 @@
     "@types/msgpack-lite": "^0.1.11",
     "@types/node": "^20.10.0",
     "@vueuse/core": "^10.6.1",
-    "@vueuse/nuxt": "^10.6.1",
+    "@vueuse/nuxt": "^11.0.0",
     "dotenv-cli": "^7.3.0",
     "nuxt": "3.12.2",
     "prisma": "^5.6.0",
