@@ -5,7 +5,7 @@
       <slot />
     </div>
     <div class="flex flex-col items-center justify-around">
-      <UDivider />
+      <!-- <UDivider /> -->
       <div class="text-sm">
         Project by
         <NuxtLink to="https://twitter.com/eugenistoc" target="_blank">

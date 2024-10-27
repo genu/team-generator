@@ -1,16 +1,25 @@
 <script lang="ts" setup>
-const accountQuery = useAccount()
-const router = useRouter()
+import { DialogCreateLeague } from '#components'
 
-const { mutateAsync: createAccountAsync } = accountQuery.create()
-const createAccountStatus = ref(DataStatus.DEFAULT)
+const { createOverlay } = useOverlay()
+const accountQuery = useAccount()
+
+const { mutateAsync: createAccountAsync, isPending: isCreatingAccount } = accountQuery.create()
+
+const createLeagueDialog = createOverlay(DialogCreateLeague)
 
 const createAccount = async () => {
-  createAccountStatus.value = DataStatus.PENDING
-  const { hash } = await createAccountAsync()
+  const { hash, id } = await createAccountAsync()
 
-  await router.push(`/${hash}?isAddingNewLeague=true`)
-  createAccountStatus.value = DataStatus.SUCCESS
+  createLeagueDialog
+    .open({
+      attrs: {
+        accountId: id,
+      },
+    })
+    .onClose(async () => {
+      await navigateTo(`/${hash}`)
+    })
 }
 </script>
 
@@ -30,8 +39,6 @@ const createAccount = async () => {
           icon="i-ph-users-three-light"
           label="Setup a league"
           @click="createAccount"
-          :disabled="createAccountStatus === DataStatus.SUCCESS || createAccountStatus === DataStatus.PENDING"
-          :loading="createAccountStatus === DataStatus.PENDING"
         />
       </div>
     </div>

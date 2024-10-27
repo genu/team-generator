@@ -7,6 +7,7 @@ export default defineEventHandler(async (event) => {
     },
     select: {
       hash: true,
+      id: true,
     },
   })
 })

@@ -18,6 +18,6 @@ const emit = defineEmits<{
   >
     <UIcon :name="icon" class="text-6xl text-gray-400" v-if="!loading" />
     <UIcon name="i-ph-spinner-bold" class="text-6xl text-gray-400 animate-spin" v-else />
-    <span class="block mt-4 text-sm font-medium text-gray-900">{{ label }}</span>
+    <span class="block mt-4 text-sm font-medium text-gray-900 dark:text-gray-400">{{ label }}</span>
   </button>
 </template>
