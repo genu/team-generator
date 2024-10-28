@@ -1,77 +1,85 @@
 <script lang="ts" setup>
 import { useRouteQuery } from '@vueuse/router'
-import type { RouteParams } from '#vue-router'
 import type { DropdownMenuItem } from '#ui/types'
 import type { League, Player, Snapshot } from '@prisma/client'
 import { DialogCreateLeague } from '#components'
+import { parse } from 'path'
 
-interface AccountRouteParams extends RouteParams {
-  account: string
-}
-
-const accountQuery = useAccount()
-const leagueQuery = useLeague()
-const snapshotQuery = useSnapshot()
 const { confirm } = useDialog()
 const { createOverlay } = useOverlay()
+const leagueActions = useLeagueActions()
+const accountHash = useRouteParams('account', undefined, { transform: String })
+const leagueId = useRouteQuery('league', undefined, { transform: (value) => (value ? parseInt(value) : undefined) })
 
 const route = useRoute()
-const router = useRouter()
 const { y: scrollY } = useScroll(process.client ? window : null)
 const toast = useToast()
-const { latest } = useUtils()
-
-const { account: accountHash } = route.params as AccountRouteParams
+// const { latest } = useUtils()
 
 const createLeagueDialog = createOverlay(DialogCreateLeague)
 
-const leagueId = useRouteQuery('league', undefined, {
-  transform: (value) => (value ? parseInt(value) : undefined),
+const isLeagueDropdownOpen = ref(false)
+
+const {
+  data: account,
+  isLoading,
+  suspense: suspenseAccount,
+} = useFindUniqueAccount({
+  where: { hash: accountHash.value },
+  include: { leagues: { select: { id: true, name: true } } },
 })
 
-const isLeagueDropdownOpen = ref(false)
-const { data: account, isLoading, suspense: suspenseAccount } = accountQuery.get(accountHash)
-const { data: leagueData, isLoading: isLoadingLeague, suspense: suspenseLeague } = leagueQuery.get(leagueId)
-const { mutateAsync: createLeagueAsync, isPending: isAddNewLeagueStatus } = leagueQuery.create()
-const { mutateAsync: deleteLeagueAsync } = leagueQuery.del()
-const { mutateAsync: updateLeagueAsync, isPending: isUpdatingLeague } = leagueQuery.update()
-const { mutateAsync: duplicateLeagueAsync } = leagueQuery.duplicate()
-const { mutateAsync: updatedSnapshotAsync, isPending: isUpdatingSnapshot } = snapshotQuery.update()
-const { mutateAsync: createSnapshotAsync, isPending: isCreatingSnapshot } = snapshotQuery.create()
+const {
+  data: league,
+  isLoading: isLoadingLeague,
+  suspense: suspenseLeague,
+} = useFindUniqueLeague(
+  computed(() => ({
+    where: { id: leagueId.value },
+    include: { players: true },
+  })),
+  {
+    enabled: () => leagueId.value !== undefined,
+  }
+)
 
-const league = ref<typeof leagueData.value>()
+const { mutateAsync: createLeagueAsync, isPending: isAddNewLeagueStatus } = useCreateLeague()
+const { mutateAsync: deleteLeagueAsync } = useDeleteLeague()
+const { mutateAsync: updateLeagueAsync, isPending: isUpdatingLeague } = useUpdateLeague()
+const { mutateAsync: duplicateLeagueAsync } = leagueActions.duplicate()
+const { mutateAsync: updatedSnapshotAsync, isPending: isUpdatingSnapshot } = useUpdateSnapshot()
+const { mutateAsync: createSnapshotAsync, isPending: isCreatingSnapshot } = useCreateSnapshot()
+
+// const league = ref<typeof leagueData.value>()
 const latestSnapshot = ref()
 
-watch(
-  account,
-  (account) => {
-    if (!leagueId.value && account) {
-      const latestCreatedLeague = latest(account.leagues)
+// watch(
+//   account,
+//   (account) => {
+//     if (!leagueId.value && account) {
+//       const latestCreatedLeague = latest(account.leagues)
 
-      if (!latestCreatedLeague) league.value = undefined
-      else leagueId.value = latestCreatedLeague?.id
-    }
-  },
-  { immediate: true }
-)
+//       if (!latestCreatedLeague) league.value = undefined
+//       else leagueId.value = latestCreatedLeague?.id
+//     }
+//   },
+//   { immediate: true }
+// )
 
-watch(
-  leagueData,
-  (leagueData) => {
-    if (leagueData) league.value = useCloned(leagueData).cloned.value
-  },
-  { immediate: true }
-)
+// watch(
+//   leagueData,
+//   (leagueData) => {
+//     if (leagueData) league.value = useCloned(leagueData).cloned.value
+//   },
+//   { immediate: true }
+// )
 
 onServerPrefetch(async () => {
   await suspenseAccount()
-  if (leagueId.value) {
-    const { data } = await suspenseLeague()
-    league.value = data
-  }
+  if (leagueId.value) await suspenseLeague()
 })
 
-const leagueActions: DropdownMenuItem[] = [
+const leagueMenu: DropdownMenuItem[] = [
   {
     label: 'Your Leagues',
     type: 'label',
@@ -107,14 +115,17 @@ const leagueActions: DropdownMenuItem[] = [
       })
         .open()
         .onConfirm(async () => {
-          const { account, name } = await deleteLeagueAsync(league.value?.id!)
+          const deletedLeague = await deleteLeagueAsync({
+            where: {
+              id: league.value?.id!,
+            },
+            select: { name: true },
+          })
 
           toast.add({
             icon: 'i-heroicons-check-20-solid',
-            title: `${name} deleted`,
+            title: `${deletedLeague?.name} deleted`,
           })
-
-          router.replace(`/${account?.hash}`)
         })
     },
   },
@@ -128,7 +139,7 @@ const leaguesDropdown = computed<DropdownMenuItem[][]>(() => {
       to: `/${account.value?.hash}?league=${league.id}`,
     })) || []
 
-  return [mappedLeagues, leagueActions]
+  return [mappedLeagues, leagueMenu]
 })
 
 const isEditing = ref(false)
@@ -139,8 +150,12 @@ const toggleEdit = () => {
 }
 
 const save = async (league: League & { players: Player[]; snapshots: Snapshot[] }) => {
-  // Save league info
-  await updateLeagueAsync({ id: league.id, updatedLeague: league })
+  await updateLeagueAsync({
+    data: {},
+    where: {
+      id: league.id,
+    },
+  })
 
   // Save league snapshot
   if (latestSnapshot.value) {
@@ -148,14 +163,24 @@ const save = async (league: League & { players: Player[]; snapshots: Snapshot[] 
 
     if (latestSnapshotSaved) {
       await updatedSnapshotAsync({
-        snapshotId: latestSnapshotSaved.id,
-        snapshotData: latestSnapshot.value,
+        data: {},
+        where: {
+          id: latestSnapshotSaved.id,
+        },
+        // snapshotId: latestSnapshotSaved.id,
+        // snapshotData: latestSnapshot.value,
       })
     } else {
       // do a create
       await createSnapshotAsync({
-        leagueId: league.id,
-        snapshotData: latestSnapshot.value,
+        data: {
+          // league: { connect: { id: league.id }
+          // ...latestSnapshot.value,
+          data: '',
+          leagueId: league.id,
+        },
+        // leagueId: league.id,
+        // snapshotData: latestSnapshot.value,
       })
     }
   }
@@ -178,12 +203,12 @@ const onSnapshotUpdated = (updatedSnapshotData: any) => (latestSnapshot.value = 
     <div v-if="!account || isLoading" class="flex flex-col my-5 gap-4">
       <USkeleton class="h-20" />
       <div class="flex gap-3">
-        <USkeleton class="flex-1 h-40" v-for="n in 3" />
+        <USkeleton class="flex-1 h-40" v-for="_ in 3" />
       </div>
     </div>
     <div class="relative flex flex-col" v-else>
       <div
-        class="sticky top-0 z-40 flex items-center justify-between w-full h-16 px-2 bg-gray-800 rounded-none lg:h-20 md:px-5 md:rounded-b-md"
+        class="sticky top-0 z-40 flex items-center justify-between w-full h-16 px-2 bg-gray-900 rounded-none lg:h-20 md:px-5 md:rounded-b-md"
       >
         <h2
           class="relative text-base flex items-center gap-2 font-bold text-white capitalize cursor-pointer md:text-2xl leading-7 sm:truncate sm:text-3xl sm:tracking-tight"
@@ -197,7 +222,7 @@ const onSnapshotUpdated = (updatedSnapshotData: any) => (latestSnapshot.value = 
               :label="league?.name || 'Select League'"
               data-testid="league-dropdown-button"
               color="neutral"
-              variant="soft"
+              variant="solid"
               trailing-icon="i-heroicons-chevron-down-20-solid"
             />
             <template #delete-league-leading="{ item }">
@@ -218,12 +243,8 @@ const onSnapshotUpdated = (updatedSnapshotData: any) => (latestSnapshot.value = 
           <UButton data-testid="squad-edit-button" @click="toggleEdit" variant="soft" color="neutral">
             {{ isEditing ? 'Hide' : 'Edit' }}
           </UButton>
-          <UButton
-            data-testid="league-save-button"
-            @click="save(league!)"
-            :loading="isUpdatingLeague || isUpdatingSnapshot || isCreatingSnapshot"
-            label="Save"
-          />
+          <!-- @click="save(league!)" -->
+          <UButton data-testid="league-save-button" :loading="isUpdatingLeague || isUpdatingSnapshot || isCreatingSnapshot" label="Save" />
         </div>
       </div>
       <div
@@ -240,7 +261,7 @@ const onSnapshotUpdated = (updatedSnapshotData: any) => (latestSnapshot.value = 
           '-translate-y-full': !isEditing,
         }"
       >
-        <LeagueEdit v-model="league" v-if="league" />
+        <LeagueEdit :league="league" v-if="league" />
       </div>
       <div class="absolute top-0 left-0 flex flex-col w-full py-5 mt-14 lg:mt-20">
         <div class="w-full px-2">
@@ -252,23 +273,18 @@ const onSnapshotUpdated = (updatedSnapshotData: any) => (latestSnapshot.value = 
               <USkeleton class="flex-1 h-40" v-for="n in 3" />
             </div>
           </div>
-          <EmptyStateButton
-            v-else-if="!league"
-            icon="i-ph-users-three-light"
-            label="Create a league"
-            @click="createLeagueDialog.open()"
-          />
+          <!-- <EmptyStateButton v-else-if="!league" icon="i-ph-users-three-light" label="Create a league" @click="createLeagueDialog.open()" /> -->
 
           <div v-else>
-            <Title>{{ league?.name }}</Title>
+            <!-- <Title>{{ league?.name }}</Title>
             <EmptyStateButton
               v-if="league.players.length === 0"
               icon="i-ph-users-three-light"
               :label="`Add some players to the ${league.name}`"
               @click="isEditing = !isEditing"
               :disabled="isEditing"
-            />
-            <League v-else :league="league" @snapshot-changed="onSnapshotUpdated" />
+            /> -->
+            <!-- <League v-else :league="league" @snapshot-changed="onSnapshotUpdated" /> -->
           </div>
         </div>
       </div>

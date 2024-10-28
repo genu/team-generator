@@ -5,15 +5,17 @@
   "engines": {
     "node": "22.x"
   },
-  "packageManager": "pnpm@9.4.0",
+  "zenstack": {
+    "schema": "./prisma/schema.zmodel"
+  },
   "scripts": {
     "build": "prisma generate && prisma migrate deploy && nuxt build",
+    "clean": "nuxt cleanup && rm -rf node_modules .generated .nuxt",
     "dev": "nuxt dev",
     "start": "node .output/server/index.mjs",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "prisma generate",
-    "prisma": "prisma",
+    "postinstall": "zenstack generate && nuxt prepare",
     "playwright": "playwright",
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
@@ -21,6 +23,11 @@
     "test:db": "pnpm docker:down && pnpm docker:up",
     "test:dev": "dotenv -e .env.test -- prisma migrate dev && nuxt dev --dotenv .env.test",
     "test:ci": "dotenv -e .env.test -- prisma migrate dev && nuxt build --dotenv .env.test && nuxt preview --dotenv .env.test",
+    "prisma": "prisma",
+    "zenstack": "zenstack",
+    "db:repl": "zenstack repl",
+    "db:generate": "zenstack generate",
+    "db:migrate": "prisma migrate",
     "playwright:ui": "playwright test --ui",
     "dotenv": "dotenv"
   },
@@ -34,10 +41,12 @@
     "@types/node": "^22.8.1",
     "@vueuse/core": "^11.1.0",
     "@vueuse/nuxt": "^11.1.0",
+    "@zenstackhq/tanstack-query": "^2.7.4",
     "dotenv-cli": "^7.4.2",
     "nuxt": "^3.13.2",
     "prisma": "^5.21.1",
-    "vue-tsc": "^2.1.8"
+    "vue-tsc": "^2.1.8",
+    "zenstack": "2.7.4"
   },
   "dependencies": {
     "@floatie/widget-nuxt": "^3.0.5",
@@ -51,6 +60,8 @@
     "@vue-final-modal/nuxt": "^1.0.3",
     "@vueuse/components": "11.1.0",
     "@vueuse/router": "^11.1.0",
+    "@zenstackhq/runtime": "2.7.4",
+    "@zenstackhq/server": "^2.7.4",
     "html2canvas": "^1.4.1",
     "lodash-es": "4.17.21",
     "nanoid": "^5.0.7",

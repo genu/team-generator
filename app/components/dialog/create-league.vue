@@ -1,15 +1,13 @@
 <script lang="ts" setup>
-import { CreateLeagueFormSchema } from '~~/schemas/forms/create-league.form'
+import { LeagueDTOSchema } from '~~/schemas/forms/create-league.form'
 
 const { accountId } = defineProps<{ accountId: number }>()
 const emits = defineEmits<{ close: [] }>()
 
-const leagueQuery = useLeague()
-
-const { mutateAsync: asyncCreateLeague, isPending: isCreatingLeague } = leagueQuery.create()
+const { mutateAsync: asyncCreateLeague, isPending: isCreatingLeague } = useCreateLeague()
 
 const { defineField, handleSubmit } = useForm({
-  validationSchema: toTypedSchema(CreateLeagueFormSchema),
+  validationSchema: toTypedSchema(LeagueDTOSchema),
   initialValues: {
     accountId,
     configuration: {
@@ -22,7 +20,9 @@ const { defineField, handleSubmit } = useForm({
 const [name] = defineField('name')
 
 const onCreateLeague = handleSubmit(async (league) => {
-  await asyncCreateLeague(league)
+  await asyncCreateLeague({
+    data: league,
+  })
 
   emits('close')
 })

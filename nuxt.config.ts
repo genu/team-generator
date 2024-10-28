@@ -17,6 +17,9 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       logrocketAppId: '',
+      site: {
+        url: '',
+      },
     },
   },
   appConfig: {
@@ -25,7 +28,7 @@ export default defineNuxtConfig({
     },
   },
   imports: {
-    dirs: ['./composables/queries'],
+    dirs: ['../.generated/vue-query', './composables/data'],
   },
   /**
    * Module configurations
@@ -34,9 +37,18 @@ export default defineNuxtConfig({
   colorMode: {
     preference: 'light',
   },
-  // tailwindcss: {
-  //   configPath: './config/tailwind.config.ts',
-  // },
+  vueQuery: {
+    vueQueryPluginOptions: {
+      enableDevtoolsV6Plugin: true,
+      queryClientConfig: {
+        defaultOptions: {
+          queries: {
+            staleTime: 300000, // 5 minutes
+          },
+        },
+      },
+    },
+  },
 
   // floatie: {
   //   clientKey: process.env.NUXT_PUBLIC_FLOATIE_CLIENT_KEY,

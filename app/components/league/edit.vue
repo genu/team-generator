@@ -1,20 +1,46 @@
 <script lang="ts" setup>
 import type { League, Player } from '@prisma/client'
 import { find, filter } from 'lodash-es'
-import type { Config } from '../../interfaces'
+import { type LeagueDTO, type LeagueConfig, PlayerDTOSchema } from '~~/schemas/forms/create-league.form'
+import type { TableColumn } from '@nuxt/ui'
 
-interface LeagueWithPlayers extends League {
-  players: Partial<Player>[]
-}
-const props = defineProps<{ modelValue: LeagueWithPlayers }>()
+type LeagueWithPlayers = League & { players: Player[] }
 
-const emit = defineEmits<{ 'update:modelValue': [LeagueWithPlayers] }>()
+const { league } = defineProps<{ league: LeagueWithPlayers }>()
 
-const configuration = computed(() => props.modelValue.configuration as unknown as Config)
+const squadTableColumns: TableColumn<Player>[] = [
+  {
+    header: 'Active?',
+  },
+  { header: 'Player' },
+  { header: 'Rank' },
+  { header: 'Gk' },
+  { id: 'actions' },
+]
 
-const newPlayer = ref<Partial<Player>>({ name: '', isActive: true, rank: 1 })
+// const props = defineProps<{ modelValue: LeagueWithPlayers }>()
+// const emit = defineEmits<{ 'update:modelValue': [LeagueWithPlayers] }>()
 
-const activePlayers = computed(() => filter(props.modelValue.players, { isActive: true }))
+// const {} = useFocus({
+
+// })
+const configuration = computed(() => league.configuration)
+
+// const newPlayer = ref<Partial<Player>>({ name: '', isActive: true, rank: 1 })
+
+// const activePlayers = computed(() => filter(props.modelValue.players, { isActive: true }))
+
+// const ctx = useFormContext()
+const { defineField: defineNewPlayerField, handleSubmit: handleAddNewPlayer } = useForm({
+  validationSchema: toTypedSchema(PlayerDTOSchema),
+  initialValues: {
+    rank: 1,
+    isActive: true,
+    isGoalie: false,
+  },
+})
+
+const [newPlayerName] = defineNewPlayerField('name')
 
 const columns = [
   {
@@ -44,95 +70,78 @@ const rulesAccordian = [
   },
 ]
 const updatePlayer = (field: keyof Player, value: any, index: number) => {
-  const updatedPlayer = { ...props.modelValue.players[index], [field]: value }
-
-  emit('update:modelValue', {
-    ...props.modelValue,
-    players: props.modelValue.players.map((player, i) => (i === index ? updatedPlayer : toRaw(player))),
-  })
+  // const updatedPlayer = { ...props.modelValue.players[index], [field]: value }
+  // emit('update:modelValue', {
+  //   ...props.modelValue,
+  //   players: props.modelValue.players.map((player, i) => (i === index ? updatedPlayer : toRaw(player))),
+  // })
 }
 
-const updateLeague = (field: keyof League, value: string) => {
-  emit('update:modelValue', { ...props.modelValue, [field]: value })
+const updateLeague = (field: any, value: string) => {
+  // emit('update:modelValue', { ...props.modelValue, [field]: value })
 }
 
-const updateConfiguration = (field: keyof Config, value: any) => {
-  emit('update:modelValue', {
-    ...props.modelValue,
-    configuration: { ...(props.modelValue.configuration as object), [field]: value },
-  })
+const updateConfiguration = (field: any, value: any) => {
+  // emit('update:modelValue', {
+  //   ...props.modelValue,
+  //   configuration: { ...(props.modelValue.configuration as object), [field]: value },
+  // })
 }
 
-const updateRules = (field: keyof Config['rules'], value: any) => {
-  emit('update:modelValue', {
-    ...props.modelValue,
-    configuration: {
-      ...(props.modelValue.configuration as object),
-      rules: { ...(props.modelValue.configuration as unknown as Config).rules, [field]: value },
-    },
-  })
+const updateRules = (field: any, value: any) => {
+  // emit('update:modelValue', {
+  //   ...props.modelValue,
+  //   configuration: {
+  //     ...(props.modelValue.configuration as object),
+  //     rules: { ...(props.modelValue.configuration as unknown as Config).rules, [field]: value },
+  //   },
+  // })
 }
 
-const addPlayer = () => {
-  // No empty strings
-  if (newPlayer.value.name === '') return
-
+const addPlayer = handleAddNewPlayer((player) => {
   // No existing players
-  if (find(props.modelValue.players, { name: newPlayer.value.name })) return
+  if (find(league.players, { name: player.name })) return
 
-  newPlayer.value.name = newPlayer.value.name!.trim()
-
-  emit('update:modelValue', {
-    ...props.modelValue,
-    players: [...props.modelValue.players, { ...newPlayer.value }],
-  })
-
-  newPlayer.value = { name: '', isActive: true, rank: 1 }
-}
+  // newPlayer.value.name = newPlayer.value.name!.trim()
+  // emit('update:modelValue', {
+  //   ...props.modelValue,
+  //   players: [...props.modelValue.players, { ...newPlayer.value }],
+  // })
+  // newPlayer.value = { name: '', isActive: true, rank: 1 }
+})
 
 const removePlayer = (index: number) => {
-  const updatedPlayers = props.modelValue.players.filter((_player, i) => i !== index)
-
-  emit('update:modelValue', { ...props.modelValue, players: updatedPlayers })
+  // const updatedPlayers = props.modelValue.players.filter((_player, i) => i !== index)
+  // emit('update:modelValue', { ...props.modelValue, players: updatedPlayers })
 }
 
 const resetActiveState = () => {
   // set all players to inactive
-  const updatedPlayers = props.modelValue.players.map((player) => ({ ...player, isActive: false }))
-
-  emit('update:modelValue', { ...props.modelValue, players: updatedPlayers })
+  // const updatedPlayers = props.modelValue.players.map((player) => ({ ...player, isActive: false }))
+  // emit('update:modelValue', { ...props.modelValue, players: updatedPlayers })
 }
 </script>
 
 <template>
   <div class="flex flex-col-reverse w-full md:flex-row">
     <div class="relative flex flex-col lg:w-2/4 gap-2">
-      <UDivider label="Squad" />
+      <USeparator label="Squad" />
 
       <div class="sticky z-50 flex items-center px-2 py-2 bg-gray-200 dark:bg-gray-800 gap-2 top-16 lg:top-20">
-        <UInput v-model="newPlayer.name" placeholder="Player Name" class="w-full" @keyup.enter="addPlayer" />
-        <UButton
-          data-testid="add-player-button"
-          color="indigo"
-          label="Add"
-          @click="addPlayer"
-          class="justify-around w-32"
-        />
+        <UInput v-model="newPlayerName" placeholder="Player Name" class="w-full" @keyup.enter="addPlayer" />
+        <UButton data-testid="add-player-button" color="secondary" label="Add" @click="addPlayer" class="justify-around w-32" />
       </div>
 
-      <div v-if="modelValue.players?.length > 0">
-        <UDivider />
-        <UTable :rows="modelValue.players" :columns="columns" :ui="{ base: 'table-player-list' }">
+      <div>
+        <USeparator />
+        <UTable :data="league.players" :columns="squadTableColumns">
+          <template #empty>There are no players here</template>
+        </UTable>
+        <!-- <UTable :rows="modelValue.players" :columns="columns" :ui="{ base: 'table-player-list' }">
           <template #yes-header>
             <div class="flex flex-col">
               <span class="ml-1">Active?</span>
-              <UButton
-                label="Reset"
-                @click="resetActiveState"
-                variant="link"
-                color="indigo"
-                :ui="{ padding: { md: 'p-1' } }"
-              />
+              <UButton label="Reset" @click="resetActiveState" variant="link" color="indigo" :ui="{ padding: { md: 'p-1' } }" />
             </div>
           </template>
           <template #rank-header>
@@ -169,10 +178,10 @@ const resetActiveState = () => {
           <template #actions-data="{ index }">
             <UButton icon="i-heroicons-trash" color="red" variant="outline" @click="removePlayer(index)" class="mx-3" />
           </template>
-        </UTable>
+        </UTable> -->
       </div>
 
-      <div class="flex flex-col gap-2" v-if="modelValue.players?.length > 0">
+      <!-- <div class="flex flex-col gap-2" v-if="modelValue.players?.length > 0">
         <UDivider />
         <div class="flex items-center justify-end px-3 py-2 text-base">
           Active Players:
@@ -181,10 +190,10 @@ const resetActiveState = () => {
             / {{ modelValue.players.length }}
           </span>
         </div>
-      </div>
+      </div> -->
     </div>
-    <UDivider orientation="vertical" class="w-5" />
-    <div class="flex flex-col flex-1 p-2 gap-2">
+    <!-- <UDivider orientation="vertical" class="w-5" /> -->
+    <!-- <div class="flex flex-col flex-1 p-2 gap-2">
       <h2 class="font-bold">Options</h2>
       <div class="flex flex-col font-semibold gap-2">
         <div class="flex items-center gap-2">
@@ -252,6 +261,6 @@ const resetActiveState = () => {
           </template>
         </UAccordion>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>

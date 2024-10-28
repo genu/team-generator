@@ -1,7 +1,7 @@
 export default defineEventHandler(async (event) => {
   const { leagueId } = getQuery(event)
 
-  return await $prisma.league.findFirst({
+  return await $database().db.league.findFirst({
     select: {
       id: true,
       name: true,

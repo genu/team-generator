@@ -2,23 +2,30 @@
 import { DialogCreateLeague } from '#components'
 
 const { createOverlay } = useOverlay()
-const accountQuery = useAccount()
 
-const { mutateAsync: createAccountAsync, isPending: isCreatingAccount } = accountQuery.create()
+const { mutateAsync: createAccountAsync, isPending: isCreatingAccount } = useCreateAccount()
 
 const createLeagueDialog = createOverlay(DialogCreateLeague)
 
 const createAccount = async () => {
-  const { hash, id } = await createAccountAsync()
+  const account = await createAccountAsync({
+    data: {},
+    select: {
+      hash: true,
+      id: true,
+    },
+  })
+
+  if (!account) throw new Error('Account creation failed unexpectedly')
 
   createLeagueDialog
     .open({
       attrs: {
-        accountId: id,
+        accountId: account.id,
       },
     })
     .onClose(async () => {
-      await navigateTo(`/${hash}`)
+      await navigateTo(`/${account.hash}`)
     })
 }
 </script>

@@ -1,7 +1,7 @@
 export default defineEventHandler(async (event) => {
   const { id } = getQuery(event)
 
-  return await $prisma.league.delete({
+  return await $database().db.league.delete({
     where: { id: parseInt(id as string) },
     select: {
       id: true,

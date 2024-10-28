@@ -1,9 +1,9 @@
 export default defineEventHandler(async (event) => {
   const { id: leagueId } = getRouterParams(event)
 
-  return await $prisma.snapshot.findFirst({
+  return await $database().db.snapshot.findFirst({
     where: {
-      leagueId: parseInt(leagueId),
+      leagueId: parseInt(leagueId!),
     },
     select: {
       id: true,

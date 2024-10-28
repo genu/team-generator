@@ -1,5 +1,15 @@
 <script lang="ts" setup>
+import type { FetchFn } from '@zenstackhq/tanstack-query/runtime'
 import { ModalsContainer } from 'vue-final-modal'
+
+const {
+  public: { site },
+} = useRuntimeConfig()
+
+provideHooksContext({
+  endpoint: `${site.url}/api/model`,
+  logging: true,
+})
 
 useHead({
   titleTemplate: (title) => title || 'Team Generator',
