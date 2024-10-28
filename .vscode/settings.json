@@ -1,9 +1,10 @@
 {
   "files.exclude": {
-    // "**/.nuxt": true,
+    "**/.nuxt": true,
     "**/.output": true,
     "**/node_modules": true,
-    "**/dist": true
+    "**/dist": true,
+    "**/.generated": true
   },
   "editor.quickSuggestions": {
     "strings": true

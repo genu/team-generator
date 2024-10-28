@@ -4,7 +4,7 @@ export default defineEventHandler(async (event) => {
   const { id: toDuplicate } = await readBody<{ id: string }>(event)
 
   const { id, name, configuration, createdAt, players, updatedAt, ...dataToDuplicate } =
-    await $prisma.league.findUniqueOrThrow({
+    await $database().db.league.findUniqueOrThrow({
       where: {
         id: parseInt(toDuplicate as string),
       },
@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
       },
     })
 
-  return await $prisma.league.create({
+  return await $database().db.league.create({
     data: {
       ...dataToDuplicate,
       name: `${name} (copy)`,

@@ -2,7 +2,7 @@ export default defineEventHandler(async (event) => {
   const { snapshotId } = getQuery(event)
   const snapshotData = await readBody(event)
 
-  return await $prisma.snapshot.update({
+  return await $database().db.snapshot.update({
     data: {
       data: snapshotData as any,
       updatedAt: new Date(),

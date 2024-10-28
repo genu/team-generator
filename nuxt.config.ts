@@ -1,11 +1,25 @@
 export default defineNuxtConfig({
-  modules: ['@nuxtjs/google-fonts', '@vueuse/nuxt', '@nuxt/ui', '@floatie/widget-nuxt', '@formkit/nuxt'],
+  future: {
+    compatibilityVersion: 4,
+  },
+  compatibilityDate: '2024-10-26',
+  modules: [
+    '@nuxt/ui',
+    '@vueuse/nuxt',
+    '@floatie/widget-nuxt',
+    '@hebilicious/vue-query-nuxt',
+    '@vue-final-modal/nuxt',
+    '@vee-validate/nuxt',
+  ],
   typescript: {
     typeCheck: process.env.NODE_ENV === 'production',
   },
   runtimeConfig: {
     public: {
       logrocketAppId: '',
+      site: {
+        url: '',
+      },
     },
   },
   appConfig: {
@@ -14,33 +28,29 @@ export default defineNuxtConfig({
     },
   },
   imports: {
-    dirs: ['./composables/queries', './enum'],
+    dirs: ['../.generated/vue-query', './composables/data'],
   },
   /**
    * Module configurations
    **/
-  googleFonts: {
-    families: {
-      Inter: {
-        wght: [100, 200, 300, 400, 500, 600, 700, 800, 900],
-      },
-    },
-  },
-  tailwindcss: {
-    configPath: '~/config/tailwind.config.ts',
-  },
-  ui: {
-    global: true,
-    icons: ['ph'],
-  },
+
   colorMode: {
     preference: 'light',
   },
-  floatie: {
-    clientKey: process.env.NUXT_PUBLIC_FLOATIE_CLIENT_KEY,
+  vueQuery: {
+    vueQueryPluginOptions: {
+      enableDevtoolsV6Plugin: true,
+      queryClientConfig: {
+        defaultOptions: {
+          queries: {
+            staleTime: 300000, // 5 minutes
+          },
+        },
+      },
+    },
   },
-  formkit: {
-    autoImport: true,
-    configFile: './config/formkit.config.ts',
-  },
+
+  // floatie: {
+  //   clientKey: process.env.NUXT_PUBLIC_FLOATIE_CLIENT_KEY,
+  // },
 })

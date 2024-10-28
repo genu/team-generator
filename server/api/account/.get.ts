@@ -1,7 +1,7 @@
 export default defineEventHandler(async (event) => {
   const { hash } = getQuery(event)
 
-  return await $prisma.account.findFirst({
+  return await $database().db.account.findFirst({
     select: {
       id: true,
       hash: true,

@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
 
   const existingPlayerIds = map(updatedLeague.players, 'id').filter((id) => id !== undefined)
 
-  await $prisma.player.deleteMany({
+  await $database().db.player.deleteMany({
     where: {
       league: { id },
       NOT: {
@@ -23,7 +23,7 @@ export default defineEventHandler(async (event) => {
     },
   })
 
-  return await $prisma.league.update({
+  return await $database().db.league.update({
     where: { id },
     select: {
       id: true,

@@ -1,10 +1,10 @@
-import type { Prisma } from '@prisma/client'
+import { LeagueSchema } from '~~/schemas/forms/create-league.form'
 
 export default defineEventHandler(async (event) => {
-  const body = await readBody<Prisma.LeagueCreateInput>(event)
+  const data = await readValidatedBody(event, LeagueSchema.parse)
 
-  return await $prisma.league.create({
-    data: body,
+  return await $database().db.league.create({
+    data,
     select: {
       id: true,
       account: {
