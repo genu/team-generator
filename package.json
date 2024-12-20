@@ -39,7 +39,7 @@
     "dotenv-cli": "^7.3.0",
     "nuxt": "3.12.2",
     "prisma": "^6.0.0",
-    "vue-tsc": "^1.8.24"
+    "vue-tsc": "^2.0.0"
   },
   "dependencies": {
     "@floatie/widget-nuxt": "^2.1.1",
