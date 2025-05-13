@@ -1,7 +1,7 @@
-import { LeagueSchema } from '~~/schemas/forms/create-league.form'
+import { LeagueDTOSchema } from '#shared/schemas/forms'
 
 export default defineEventHandler(async (event) => {
-  const data = await readValidatedBody(event, LeagueSchema.parse)
+  const data = await readValidatedBody(event, LeagueDTOSchema.parse)
 
   return await $database().db.league.create({
     data,

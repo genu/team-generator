@@ -1,4 +1,3 @@
-import { useModal } from 'vue-final-modal'
 import { DialogConfirm } from '#components'
 
 type CallbackFn = () => void | Promise<void>
@@ -8,14 +7,14 @@ interface DialogInstance {
   open: () => DialogInstance
 }
 export const useDialog = () => {
-  const confirm = (
-    options: Omit<InstanceType<typeof DialogConfirm>['$props'], 'onClose' | 'onDismiss' | 'onConfirm' | 'class'>
-  ) => {
+  const overlay = useOverlay()
+
+  const confirm = (options: Omit<InstanceType<typeof DialogConfirm>['$props'], 'onDismiss' | 'onConfirm' | 'class'>) => {
     let confirmCallback: CallbackFn = () => {}
     let dismissCallback: CallbackFn = () => {}
 
-    const modal = useModal({
-      component: DialogConfirm,
+    const modal = overlay.create(DialogConfirm, {
+      props: options,
     })
 
     const dialogInstance: DialogInstance = {
@@ -34,19 +33,28 @@ export const useDialog = () => {
       },
     }
 
-    modal.patchOptions({
-      attrs: {
-        ...options,
-        onConfirm: () => confirmCallback(),
-        onDismiss: () => dismissCallback(),
-        onClose: () => {
-          modal.close()
-        },
+    modal.patch({
+      onConfirm: async () => {
+        await confirmCallback()
+        modal.close()
+      },
+      onDismiss: async () => {
+        await dismissCallback()
+        modal.close()
       },
     })
 
     return dialogInstance
   }
 
-  return { confirm }
+  const confirmNavigate = (path: string) => {
+    confirm({
+      title: 'Leave this page?',
+      description: 'Are you sure you want to navigate away? Unsaved changes will be lost.',
+    }).onConfirm(() => {
+      navigateTo(path)
+    })
+  }
+
+  return { confirm, confirmNavigate }
 }

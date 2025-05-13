@@ -1,13 +1,14 @@
 <script lang="ts" setup>
-import { LeagueDTOSchema } from '~~/schemas/forms/create-league.form'
+import { useForm } from '@formwerk/core'
+import { LeagueDTOSchema } from '#shared/schemas/forms/create-league.form'
 
 const { accountId } = defineProps<{ accountId: number }>()
 const emits = defineEmits<{ close: [] }>()
 
 const { mutateAsync: asyncCreateLeague, isPending: isCreatingLeague } = useCreateLeague()
 
-const { defineField, handleSubmit } = useForm({
-  validationSchema: toTypedSchema(LeagueDTOSchema),
+const { handleSubmit } = useForm({
+  schema: LeagueDTOSchema,
   initialValues: {
     accountId,
     configuration: {
@@ -17,12 +18,10 @@ const { defineField, handleSubmit } = useForm({
   },
 })
 
-const [name] = defineField('name')
-
 const onCreateLeague = handleSubmit(async (league) => {
-  await asyncCreateLeague({
-    data: league,
-  })
+  // await asyncCreateLeague({
+  //   data: league,
+  // })
 
   emits('close')
 })
@@ -30,11 +29,9 @@ const onCreateLeague = handleSubmit(async (league) => {
 
 <template>
   <OverlayModal title="Create a League" size="xs">
-    <UFormField required size="xl">
-      <UInput v-model="name" placeholder="League name" :ui="{ root: 'w-full' }" />
-    </UFormField>
+    <UFormInputText name="name" placeholder="League name" size="xl" />
     <template #footer-right>
-      <UButton color="primary" @click="onCreateLeague()" :loading="isCreatingLeague">Create</UButton>
+      <UButton color="primary" :loading="isCreatingLeague" @click="onCreateLeague()">Create</UButton>
     </template>
   </OverlayModal>
 </template>

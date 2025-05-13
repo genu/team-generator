@@ -12,14 +12,12 @@ generator client {
   provider = "prisma-client-js"
 }
 
-/// @@allow('all', true)
 model Account {
   id      Int      @id() @default(autoincrement())
   hash    String   @unique() @default(uuid())
   leagues League[]
 }
 
-/// @@allow('all', true)
 model League {
   id            Int        @id() @default(autoincrement())
   name          String?
@@ -32,7 +30,6 @@ model League {
   updatedAt     DateTime?
 }
 
-/// @@allow('all', true)
 model Snapshot {
   id        Int       @id() @default(autoincrement())
   data      Json
@@ -42,7 +39,6 @@ model Snapshot {
   leagueId  Int
 }
 
-/// @@allow('all', true)
 model Player {
   id        Int       @id() @default(autoincrement())
   name      String

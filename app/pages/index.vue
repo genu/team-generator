@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { DialogCreateLeague } from '#components'
 
-const { createOverlay } = useOverlay()
+const overlay = useOverlay()
 
-const { mutateAsync: createAccountAsync, isPending: isCreatingAccount } = useCreateAccount()
+const { mutateAsync: createAccountAsync } = useCreateAccount()
 
-const createLeagueDialog = createOverlay(DialogCreateLeague)
+const createLeagueDialog = overlay.create(DialogCreateLeague)
 
 const createAccount = async () => {
   const account = await createAccountAsync({
@@ -18,15 +18,10 @@ const createAccount = async () => {
 
   if (!account) throw new Error('Account creation failed unexpectedly')
 
-  createLeagueDialog
-    .open({
-      attrs: {
-        accountId: account.id,
-      },
-    })
-    .onClose(async () => {
-      await navigateTo(`/${account.hash}`)
-    })
+  const res = createLeagueDialog.open({ accountId: account.id })
+
+  await res.result
+  await navigateTo(`/${account.hash}`)
 }
 </script>
 
@@ -41,12 +36,7 @@ const createAccount = async () => {
     </h2>
     <div class="absolute top-0 left-0 flex flex-col w-full py-5 mt-14 lg:mt-20">
       <div class="w-full px-2">
-        <EmptyStateButton
-          data-testid="btn-setup-league"
-          icon="i-ph-users-three-light"
-          label="Setup a league"
-          @click="createAccount"
-        />
+        <EmptyStateButton data-testid="btn-setup-league" icon="i-ph-users-three-light" label="Setup a league" @click="createAccount" />
       </div>
     </div>
   </div>

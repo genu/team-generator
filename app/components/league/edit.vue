@@ -1,8 +1,9 @@
 <script lang="ts" setup>
 import type { League, Player } from '@prisma/client'
 import { find, filter } from 'lodash-es'
-import { type LeagueDTO, type LeagueConfig, PlayerDTOSchema } from '~~/schemas/forms/create-league.form'
+import { useForm } from '@formwerk/core'
 import type { TableColumn } from '@nuxt/ui'
+import { type LeagueDTO, type LeagueConfig, PlayerDTOSchema } from '#shared/schemas/forms/create-league.form'
 
 type LeagueWithPlayers = League & { players: Player[] }
 
@@ -31,16 +32,14 @@ const configuration = computed(() => league.configuration)
 // const activePlayers = computed(() => filter(props.modelValue.players, { isActive: true }))
 
 // const ctx = useFormContext()
-const { defineField: defineNewPlayerField, handleSubmit: handleAddNewPlayer } = useForm({
-  validationSchema: toTypedSchema(PlayerDTOSchema),
+const { handleSubmit: handleAddNewPlayer } = useForm({
+  schema: PlayerDTOSchema,
   initialValues: {
     rank: 1,
     isActive: true,
     isGoalie: false,
   },
 })
-
-const [newPlayerName] = defineNewPlayerField('name')
 
 const columns = [
   {
@@ -128,8 +127,8 @@ const resetActiveState = () => {
       <USeparator label="Squad" />
 
       <div class="sticky z-50 flex items-center px-2 py-2 bg-gray-200 dark:bg-gray-800 gap-2 top-16 lg:top-20">
-        <UInput v-model="newPlayerName" placeholder="Player Name" class="w-full" @keyup.enter="addPlayer" />
-        <UButton data-testid="add-player-button" color="secondary" label="Add" @click="addPlayer" class="justify-around w-32" />
+        <UFormInputText name="name" placeholder="Player Name" @keyup.enter="addPlayer" />
+        <UButton data-testid="add-player-button" color="secondary" label="Add" class="justify-around w-32" @click="addPlayer" />
       </div>
 
       <div>

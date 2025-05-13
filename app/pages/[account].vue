@@ -1,22 +1,22 @@
 <script lang="ts" setup>
-import { useRouteQuery } from '@vueuse/router'
-import type { DropdownMenuItem } from '#ui/types'
-import type { League, Player, Snapshot } from '@prisma/client'
-import { DialogCreateLeague } from '#components'
 import { parse } from 'path'
+import { useRouteQuery } from '@vueuse/router'
+import type { League, Player, Snapshot } from '@prisma/client'
+import type { DropdownMenuItem } from '#ui/types'
+import { DialogCreateLeague } from '#components'
 
 const { confirm } = useDialog()
-const { createOverlay } = useOverlay()
+const overlay = useOverlay()
 const leagueActions = useLeagueActions()
 const accountHash = useRouteParams('account', undefined, { transform: String })
 const leagueId = useRouteQuery('league', undefined, { transform: (value) => (value ? parseInt(value) : undefined) })
 
 const route = useRoute()
-const { y: scrollY } = useScroll(process.client ? window : null)
+const { y: scrollY } = useScroll(import.meta.client ? window : null)
 const toast = useToast()
 // const { latest } = useUtils()
 
-const createLeagueDialog = createOverlay(DialogCreateLeague)
+const createLeagueDialog = overlay.create(DialogCreateLeague)
 
 const isLeagueDropdownOpen = ref(false)
 
@@ -40,7 +40,7 @@ const {
   })),
   {
     enabled: () => leagueId.value !== undefined,
-  }
+  },
 )
 
 const { mutateAsync: createLeagueAsync, isPending: isAddNewLeagueStatus } = useCreateLeague()
@@ -203,10 +203,10 @@ const onSnapshotUpdated = (updatedSnapshotData: any) => (latestSnapshot.value = 
     <div v-if="!account || isLoading" class="flex flex-col my-5 gap-4">
       <USkeleton class="h-20" />
       <div class="flex gap-3">
-        <USkeleton class="flex-1 h-40" v-for="_ in 3" />
+        <USkeleton v-for="_ in 3" class="flex-1 h-40" />
       </div>
     </div>
-    <div class="relative flex flex-col" v-else>
+    <div v-else class="relative flex flex-col">
       <div
         class="sticky top-0 z-40 flex items-center justify-between w-full h-16 px-2 bg-gray-900 rounded-none lg:h-20 md:px-5 md:rounded-b-md"
       >
@@ -231,16 +231,16 @@ const onSnapshotUpdated = (updatedSnapshotData: any) => (latestSnapshot.value = 
           </UDropdownMenu>
         </h2>
         <div
-          class="fixed top-0 left-0 z-40 w-full h-full bg-black/40 transition-opacity duration-1000 ease-in-out"
           v-if="isLeagueDropdownOpen"
-          @click="isLeagueDropdownOpen = false"
+          class="fixed top-0 left-0 z-40 w-full h-full bg-black/40 transition-opacity duration-1000 ease-in-out"
           :class="{
             'opacity-0': !isLeagueDropdownOpen,
             'opacity-100 ': isLeagueDropdownOpen,
           }"
+          @click="isLeagueDropdownOpen = false"
         />
         <div class="flex md:mt-0 md:ml-4 gap-4">
-          <UButton data-testid="squad-edit-button" @click="toggleEdit" variant="soft" color="neutral">
+          <UButton data-testid="squad-edit-button" variant="soft" color="neutral" @click="toggleEdit">
             {{ isEditing ? 'Hide' : 'Edit' }}
           </UButton>
           <!-- @click="save(league!)" -->
@@ -261,7 +261,7 @@ const onSnapshotUpdated = (updatedSnapshotData: any) => (latestSnapshot.value = 
           '-translate-y-full': !isEditing,
         }"
       >
-        <LeagueEdit :league="league" v-if="league" />
+        <LeagueEdit v-if="league" :league="league" />
       </div>
       <div class="absolute top-0 left-0 flex flex-col w-full py-5 mt-14 lg:mt-20">
         <div class="w-full px-2">
@@ -270,7 +270,7 @@ const onSnapshotUpdated = (updatedSnapshotData: any) => (latestSnapshot.value = 
               <USkeleton class="w-40 h-12" />
             </div>
             <div class="flex gap-4">
-              <USkeleton class="flex-1 h-40" v-for="n in 3" />
+              <USkeleton v-for="n in 3" class="flex-1 h-40" />
             </div>
           </div>
           <!-- <EmptyStateButton v-else-if="!league" icon="i-ph-users-three-light" label="Create a league" @click="createLeagueDialog.open()" /> -->
