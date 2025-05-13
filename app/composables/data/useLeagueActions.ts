@@ -14,7 +14,7 @@ export const useLeagueActions = () => {
         return res
       },
       onSuccess: ({ account }) => {
-        queryClient.invalidateQueries({ queryKey: ['account', account.hash] })
+        queryClient.invalidateQueries({ queryKey: ['zenstack', 'Account'] })
       },
     })
   }

@@ -1,8 +1,7 @@
 <script lang="ts" setup>
-import { parse } from 'path'
 import { useRouteQuery } from '@vueuse/router'
 import type { League, Player, Snapshot } from '@prisma/client'
-import type { DropdownMenuItem } from '#ui/types'
+import type { DropdownMenuItem } from '@nuxt/ui'
 import { DialogCreateLeague } from '#components'
 
 const { confirm } = useDialog()
@@ -14,6 +13,7 @@ const leagueId = useRouteQuery('league', undefined, { transform: (value) => (val
 const route = useRoute()
 const { y: scrollY } = useScroll(import.meta.client ? window : null)
 const toast = useToast()
+// const { data: account } = useAccount(accountHash)
 // const { latest } = useUtils()
 
 const createLeagueDialog = overlay.create(DialogCreateLeague)
@@ -43,7 +43,15 @@ const {
   },
 )
 
+const { data: leagueData } = useFindUniqueLeague(
+  computed(() => ({ where: { id: leagueId.value }, include: { players: true } })),
+  {
+    enabled: () => leagueId.value !== undefined,
+  },
+)
+
 const { mutateAsync: createLeagueAsync, isPending: isAddNewLeagueStatus } = useCreateLeague()
+
 const { mutateAsync: deleteLeagueAsync } = useDeleteLeague()
 const { mutateAsync: updateLeagueAsync, isPending: isUpdatingLeague } = useUpdateLeague()
 const { mutateAsync: duplicateLeagueAsync } = leagueActions.duplicate()
@@ -88,18 +96,21 @@ const leagueMenu: DropdownMenuItem[] = [
     label: 'Create new League',
     icon: 'i-ph-plus-square',
     onSelect: () => {
-      createLeagueDialog.open()
+      if (!account.value) return
+
+      createLeagueDialog.open({ accountId: account.value.id })
     },
   },
   {
     label: 'Duplicate League',
     icon: 'i-ph-copy',
     onSelect: async () => {
-      const { id } = await duplicateLeagueAsync(league.value?.id!)
+      if (!league.value) return
 
+      const { id } = await duplicateLeagueAsync(league.value.id!)
       toast.add({
         icon: 'i-heroicons-check-20-solid',
-        title: `"${league.value?.name}" league duplicated`,
+        title: `"${league.value.name}" league duplicated`,
       })
 
       leagueId.value = id
@@ -115,13 +126,14 @@ const leagueMenu: DropdownMenuItem[] = [
       })
         .open()
         .onConfirm(async () => {
+          if (!league.value) return
+
           const deletedLeague = await deleteLeagueAsync({
             where: {
-              id: league.value?.id!,
+              id: league.value.id,
             },
             select: { name: true },
           })
-
           toast.add({
             icon: 'i-heroicons-check-20-solid',
             title: `${deletedLeague?.name} deleted`,
@@ -135,6 +147,7 @@ const leaguesDropdown = computed<DropdownMenuItem[][]>(() => {
   const mappedLeagues: DropdownMenuItem[] =
     account.value?.leagues.map((league) => ({
       label: league.name!,
+      exact: true,
       exactActiveClass: 'bg-indigo-500 text-white',
       to: `/${account.value?.hash}?league=${league.id}`,
     })) || []
@@ -200,10 +213,10 @@ const onSnapshotUpdated = (updatedSnapshotData: any) => (latestSnapshot.value = 
 
 <template>
   <div>
-    <div v-if="!account || isLoading" class="flex flex-col my-5 gap-4">
+    <div v-if="!account || isLoading" class="flex flex-col m-5 gap-4">
       <USkeleton class="h-20" />
       <div class="flex gap-3">
-        <USkeleton v-for="_ in 3" class="flex-1 h-40" />
+        <USkeleton v-for="_ in 3" :key="_" class="flex-1 h-40" />
       </div>
     </div>
     <div v-else class="relative flex flex-col">
@@ -217,7 +230,7 @@ const onSnapshotUpdated = (updatedSnapshotData: any) => (latestSnapshot.value = 
             <UIcon name="i-ph-soccer-ball" class="text-3xl" />
           </NuxtLink>
 
-          <UDropdownMenu :items="leaguesDropdown" arrow size="md">
+          <UDropdownMenu :items="leaguesDropdown" arrow size="lg">
             <UButton
               :label="league?.name || 'Select League'"
               data-testid="league-dropdown-button"
@@ -270,20 +283,20 @@ const onSnapshotUpdated = (updatedSnapshotData: any) => (latestSnapshot.value = 
               <USkeleton class="w-40 h-12" />
             </div>
             <div class="flex gap-4">
-              <USkeleton v-for="n in 3" class="flex-1 h-40" />
+              <USkeleton v-for="n in 3" :key="n" class="flex-1 h-40" />
             </div>
           </div>
-          <!-- <EmptyStateButton v-else-if="!league" icon="i-ph-users-three-light" label="Create a league" @click="createLeagueDialog.open()" /> -->
+          <EmptyStateButton v-else-if="!league" icon="i-ph-users-three-light" label="Create a league" @click="createLeagueDialog.open()" />
 
           <div v-else>
-            <!-- <Title>{{ league?.name }}</Title>
+            <Title>{{ league?.name }}</Title>
             <EmptyStateButton
               v-if="league.players.length === 0"
               icon="i-ph-users-three-light"
               :label="`Add some players to the ${league.name}`"
-              @click="isEditing = !isEditing"
               :disabled="isEditing"
-            /> -->
+              @click="isEditing = !isEditing"
+            />
             <!-- <League v-else :league="league" @snapshot-changed="onSnapshotUpdated" /> -->
           </div>
         </div>

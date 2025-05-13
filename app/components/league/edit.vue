@@ -99,8 +99,7 @@ const updateRules = (field: any, value: any) => {
 
 const addPlayer = handleAddNewPlayer((player) => {
   // No existing players
-  if (find(league.players, { name: player.name })) return
-
+  // if (find(league.players, { name: player.name })) return
   // newPlayer.value.name = newPlayer.value.name!.trim()
   // emit('update:modelValue', {
   //   ...props.modelValue,
@@ -126,8 +125,8 @@ const resetActiveState = () => {
     <div class="relative flex flex-col lg:w-2/4 gap-2">
       <USeparator label="Squad" />
 
-      <div class="sticky z-50 flex items-center px-2 py-2 bg-gray-200 dark:bg-gray-800 gap-2 top-16 lg:top-20">
-        <UFormInputText name="name" placeholder="Player Name" @keyup.enter="addPlayer" />
+      <div class="sticky z-50 flex items-center px-2 py-2 bg-gray-200 dark:bg-gray-800 gap-2 top-16 lg:top-20 justify-between">
+        <UFormInputText name="name" placeholder="Player Name" :field-ui="{ root: 'flex-1' }" @keyup.enter="addPlayer" />
         <UButton data-testid="add-player-button" color="secondary" label="Add" class="justify-around w-32" @click="addPlayer" />
       </div>
 

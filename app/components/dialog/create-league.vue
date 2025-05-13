@@ -8,6 +8,7 @@ const emits = defineEmits<{ close: [] }>()
 const { mutateAsync: asyncCreateLeague, isPending: isCreatingLeague } = useCreateLeague()
 
 const { handleSubmit } = useForm({
+  id: 'create-league',
   schema: LeagueDTOSchema,
   initialValues: {
     accountId,
@@ -19,9 +20,9 @@ const { handleSubmit } = useForm({
 })
 
 const onCreateLeague = handleSubmit(async (league) => {
-  // await asyncCreateLeague({
-  //   data: league,
-  // })
+  await asyncCreateLeague({
+    data: league.toJSON(),
+  })
 
   emits('close')
 })
