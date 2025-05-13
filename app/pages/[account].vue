@@ -51,7 +51,6 @@ const { data: leagueData } = useFindUniqueLeague(
 )
 
 const { mutateAsync: createLeagueAsync, isPending: isAddNewLeagueStatus } = useCreateLeague()
-
 const { mutateAsync: deleteLeagueAsync } = useDeleteLeague()
 const { mutateAsync: updateLeagueAsync, isPending: isUpdatingLeague } = useUpdateLeague()
 const { mutateAsync: duplicateLeagueAsync } = leagueActions.duplicate()
@@ -147,7 +146,7 @@ const leaguesDropdown = computed<DropdownMenuItem[][]>(() => {
   const mappedLeagues: DropdownMenuItem[] =
     account.value?.leagues.map((league) => ({
       label: league.name!,
-      exact: true,
+      exactQuery: true,
       exactActiveClass: 'bg-indigo-500 text-white',
       to: `/${account.value?.hash}?league=${league.id}`,
     })) || []
@@ -238,7 +237,7 @@ const onSnapshotUpdated = (updatedSnapshotData: any) => (latestSnapshot.value = 
               variant="solid"
               trailing-icon="i-heroicons-chevron-down-20-solid"
             />
-            <template #delete-league-leading="{ item }">
+            <template #delete-league-leading>
               <UIcon name="i-ph-trash" class="text-red-500 size-6" />
             </template>
           </UDropdownMenu>
