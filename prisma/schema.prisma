@@ -21,7 +21,7 @@ model Account {
 model League {
   id            Int        @id() @default(autoincrement())
   name          String?
-  configuration Json?
+  configuration Json
   account       Account    @relation(fields: [accountId], references: [id], onDelete: Cascade)
   snapshots     Snapshot[]
   players       Player[]
