@@ -1,10 +1,13 @@
 <script lang="ts" setup>
+import type { ModalProps } from '@nuxt/ui'
+
 const { size = 'md', dismissible = false } = defineProps<{
   title: string
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full'
   bodyClass?: string
   modalContentClass?: string
   dismissible?: boolean
+  ui?: ModalProps['ui']
 }>()
 
 const sizeClass = computed(() => {
@@ -26,7 +29,15 @@ const sizeClass = computed(() => {
 </script>
 
 <template>
-  <UModal :title="title" :dismissible="dismissible" :ui="{ content: sizeClass }">
+  <UModal
+    :title="title"
+    :dismissible="dismissible"
+    :ui="{
+      ...ui,
+      content: `${sizeClass} ${ui?.content}`,
+    }"
+  >
+    <template #title>yo dawg</template>
     <template #body>
       <slot />
     </template>
