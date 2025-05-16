@@ -37,7 +37,6 @@ const sizeClass = computed(() => {
       content: `${sizeClass} ${ui?.content}`,
     }"
   >
-    <template #title>yo dawg</template>
     <template #body>
       <slot />
     </template>

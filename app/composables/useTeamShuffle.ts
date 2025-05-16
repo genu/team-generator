@@ -1,31 +1,32 @@
-import type { Player } from '@prisma/client'
-import type { Rules } from '../interfaces'
+import type { LeagueConfiguration, Player } from '@zenstackhq/runtime/models'
 import { groupBy, random, orderBy, filter, map, size, cloneDeep } from 'lodash-es'
+import { SnapshotDataSchema, type SnapshotData } from '#shared/schemas'
 
-export const useTeamShuffle = (snapshot: Ref) => {
+export const useTeamShuffle = (snapshotData: Ref<SnapshotData>) => {
   const methodology = useMethodology()
   const teamThatChoseFirst = ref(0)
   const teamChoosing = ref(0)
-  const teams = reactive({} as Record<number, Player[]>)
+  const teams = ref<SnapshotData>({})
   const isShuffled = ref(false)
 
   watch(
-    snapshot,
+    snapshotData,
     (snapshot) => {
-      if (size(snapshot) > 0) {
-        for (const key in snapshot) {
-          teams[Number(key)] = reactive(snapshot[Number(key)])
+      const snapshotData = SnapshotDataSchema.parse(snapshot)
+
+      if (size(snapshotData) > 0) {
+        for (const teamKey in snapshotData) {
+          teams.value = {
+            ...teams.value,
+            [teamKey]: snapshotData[Number(teamKey)]!,
+          }
         }
         isShuffled.value = true
       }
     },
-    { immediate: true }
+    { immediate: true },
   )
 
-  interface ShuffleOptions {
-    teamCount: number
-    rules?: Rules
-  }
   /**
    *
    * @param players Players to Shuffle
@@ -33,7 +34,7 @@ export const useTeamShuffle = (snapshot: Ref) => {
    *
    * @returns Non-reactive snapshot of teams
    */
-  const shuffle = (players: Player[], options: ShuffleOptions) => {
+  const shuffle = (players: Player[], options: LeagueConfiguration) => {
     const onlyActivePlayers = filter(players, (player) => player.isActive)
     const groupedByRank = groupBy(onlyActivePlayers, 'rank')
 
@@ -41,10 +42,16 @@ export const useTeamShuffle = (snapshot: Ref) => {
     teamThatChoseFirst.value = teamChoosing.value
 
     // Reset teams and methodology
-    for (const key in teams) {
-      delete teams[key]
-    }
 
+    // for (const key in teams) {
+    //   teams.value = {
+    //     ...teams.value,
+    //     [key]: [],
+    //   }
+    //   delete teams[key]
+    // }
+
+    teams.value = {}
     methodology.reset()
 
     let rank = 10
@@ -56,7 +63,7 @@ export const useTeamShuffle = (snapshot: Ref) => {
       const goalKeepers = orderBy(
         filter(players, (player) => player.isGoalie && player.isActive),
         ['rank'],
-        ['desc']
+        ['desc'],
       )
 
       methodology.write(`Choosing Goalkeepers first (${map(goalKeepers, 'name').join(', ')})`)
@@ -65,14 +72,13 @@ export const useTeamShuffle = (snapshot: Ref) => {
         console.log('team choosing: ', teamChoosing.value)
         const randomGoalkeeper = goalKeepers.splice(0, 1)[0] as Player
 
-        methodology.write(
-          `Team ${teamChoosing.value} chose goal keeper ${randomGoalkeeper.name} (${randomGoalkeeper.rank})`
-        )
+        methodology.write(`Team ${teamChoosing.value} chose goal keeper ${randomGoalkeeper.name} (${randomGoalkeeper.rank})`)
 
-        if (!teams[teamChoosing.value]) {
-          teams[teamChoosing.value] = reactive([])
+        if (!teams.value[teamChoosing.value]) {
+          teams.value[teamChoosing.value] = reactive([])
         }
-        teams[teamChoosing.value].push(randomGoalkeeper)
+
+        teams.value[teamChoosing.value]!.push(randomGoalkeeper)
 
         // Next team chooses
         teamChoosing.value = (teamChoosing.value + 1) % options.teamCount
@@ -84,20 +90,18 @@ export const useTeamShuffle = (snapshot: Ref) => {
       const playersAtRank = groupedByRank[rank] || []
 
       while (playersAtRank.length > 0) {
-        const randomPlayerFromRank = playersAtRank.splice(random(0, playersAtRank.length - 1), 1)[0]
+        const randomPlayerFromRank = playersAtRank.splice(random(0, playersAtRank.length - 1), 1)[0]!
 
         // Goalies were already chosen, this team can choose again.
         if (options.rules?.goaliesFirst && randomPlayerFromRank.isGoalie) continue
 
-        methodology.write(
-          `Team ${teamChoosing.value} chose ${randomPlayerFromRank.name} (${randomPlayerFromRank.rank})`
-        )
+        methodology.write(`Team ${teamChoosing.value} chose ${randomPlayerFromRank.name} (${randomPlayerFromRank.rank})`)
 
-        if (!teams[teamChoosing.value]) {
-          teams[teamChoosing.value] = reactive([])
+        if (!teams.value[teamChoosing.value]) {
+          teams.value[teamChoosing.value] = reactive([])
         }
 
-        teams[teamChoosing.value].push(randomPlayerFromRank)
+        teams.value[teamChoosing.value]!.push(randomPlayerFromRank)
 
         // Next team chooses
         teamChoosing.value = (teamChoosing.value + 1) % options.teamCount
@@ -110,12 +114,18 @@ export const useTeamShuffle = (snapshot: Ref) => {
     return cloneDeep(teams)
   }
 
-  const addPlayerToTeam = (team: string, index: number, player: Player) => {
-    teams[team as any].splice(index, 0, player)
+  const addPlayerToTeam = (team: number, index: number, player: Player) => {
+    if (!teams.value[team]) return
+
+    const upatedTeams = [...teams.value[team].slice(0, index), player, ...teams.value[team].slice(index)]
+    teams.value = { ...teams.value, [team]: upatedTeams }
   }
 
-  const removePlayerFromTeam = (team: string, index: number) => {
-    teams[team as any].splice(index, 1)
+  const removePlayerFromTeam = (team: number, index: number) => {
+    if (!teams.value[team]) return
+
+    const upatedTeams = [...teams.value[team].slice(0, index), ...teams.value[team].slice(index + 1)]
+    teams.value = { ...teams.value, [team]: upatedTeams }
   }
 
   const getSnapshot = () => {

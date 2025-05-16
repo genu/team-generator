@@ -9,6 +9,6 @@ export const latest = (list: any[], property = 'createdAt') => {
         throw new Error(`Invalid date value ${item[property]}`)
       }
       return date
-    }).reverse()
+    }).reverse(),
   )
 }

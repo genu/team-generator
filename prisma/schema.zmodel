@@ -50,10 +50,10 @@ model League {
 }
 
 model Snapshot {
-    id        Int       @id @default(autoincrement())
+    id        Int          @id @default(autoincrement())
     data      Json
-    league    League    @relation(fields: [leagueId], references: [id], onDelete: Cascade)
-    createdAt DateTime  @default(now())
+    league    League       @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+    createdAt DateTime     @default(now())
     updatedAt DateTime?
     leagueId  Int
 

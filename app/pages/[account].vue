@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { useRouteQuery } from '@vueuse/router'
-import type { League, Player, Snapshot } from '@prisma/client'
+import type { Snapshot } from '@prisma/client'
 import type { DropdownMenuItem } from '@nuxt/ui'
-import { DialogCreateLeague } from '#components'
+import { DialogCreateLeague, LeagueEdit } from '#components'
 
 const { confirm } = useDialog()
 const overlay = useOverlay()
@@ -13,12 +13,13 @@ const leagueId = useRouteQuery('league', undefined, { transform: (value) => (val
 const route = useRoute()
 const { y: scrollY } = useScroll(import.meta.client ? window : null)
 const toast = useToast()
-// const { data: account } = useAccount(accountHash)
-// const { latest } = useUtils()
+
+const { latest } = useUtils()
 
 const createLeagueDialog = overlay.create(DialogCreateLeague)
+const editLeagueDrawer = overlay.create(LeagueEdit)
 
-const isLeagueDropdownOpen = ref(false)
+const leagueFormData = ref<LeagueEditForm$['$value']>()
 
 const {
   data: account,
@@ -36,28 +37,19 @@ const {
 } = useFindUniqueLeague(
   computed(() => ({
     where: { id: leagueId.value },
-    include: { players: true },
+    include: { snapshots: true, players: { orderBy: { id: 'asc' } } },
   })),
   {
     enabled: () => leagueId.value !== undefined,
   },
 )
 
-const { data: leagueData } = useFindUniqueLeague(
-  computed(() => ({ where: { id: leagueId.value }, include: { players: true } })),
-  {
-    enabled: () => leagueId.value !== undefined,
-  },
-)
-
-const { mutateAsync: createLeagueAsync, isPending: isAddNewLeagueStatus } = useCreateLeague()
 const { mutateAsync: deleteLeagueAsync } = useDeleteLeague()
 const { mutateAsync: updateLeagueAsync, isPending: isUpdatingLeague } = useUpdateLeague()
 const { mutateAsync: duplicateLeagueAsync } = leagueActions.duplicate()
 const { mutateAsync: updatedSnapshotAsync, isPending: isUpdatingSnapshot } = useUpdateSnapshot()
 const { mutateAsync: createSnapshotAsync, isPending: isCreatingSnapshot } = useCreateSnapshot()
 
-// const league = ref<typeof leagueData.value>()
 const latestSnapshot = ref()
 
 // watch(
@@ -156,19 +148,47 @@ const leaguesDropdown = computed<DropdownMenuItem[][]>(() => {
 
 const isEditing = ref(false)
 
-const toggleEdit = () => {
-  isEditing.value = !isEditing.value
-  scrollY.value = 0
-}
+const saveLeague = async () => {
+  if (!leagueFormData.value || !league.value) return
 
-const save = async (league: League & { players: Player[]; snapshots: Snapshot[] }) => {
   await updateLeagueAsync({
-    data: {},
+    data: {
+      accountId: league.value.accountId,
+      name: leagueFormData.value.options.name,
+      configuration: {
+        teamCount: leagueFormData.value.options.teamCount,
+        rules: leagueFormData.value.options.rules,
+      },
+      players: {
+        upsert: leagueFormData.value.players.map(({ id, ...player }) => ({
+          where: { id: id || -1 },
+          create: {
+            ...player,
+            leagueId: league.value.id,
+          },
+          update: {
+            ...player,
+          },
+        })),
+      },
+    },
     where: {
-      id: league.id,
+      id: league.value?.id,
     },
   })
+  console.log('save league', leagueFormData.value)
+}
 
+const saveSnapshot = () => {
+  console.log('save snapshot', latestSnapshot.value)
+}
+
+const save = async () => {
+  await saveLeague()
+  await saveSnapshot()
+}
+
+const _save = async (league: any & { players: any[]; snapshots: Snapshot[] }) => {
   // Save league snapshot
   if (latestSnapshot.value) {
     const latestSnapshotSaved = league.snapshots[0]
@@ -208,6 +228,28 @@ const save = async (league: League & { players: Player[]; snapshots: Snapshot[] 
 }
 
 const onSnapshotUpdated = (updatedSnapshotData: any) => (latestSnapshot.value = updatedSnapshotData)
+
+const onEditLeague = async () => {
+  if (!league.value) return
+
+  const { result } = editLeagueDrawer.open({
+    league: {
+      id: league.value.id,
+      options: {
+        name: league.value.name!,
+        teamCount: league.value.configuration.teamCount,
+        rules: {
+          keepGoalies: league.value.configuration.rules.keepGoalies!,
+          goaliesFirst: league.value.configuration.rules.goaliesFirst!,
+          noBestGolieAndPlayer: league.value.configuration.rules.noBestGolieAndPlayer!,
+        },
+      },
+      players: league.value.players.map(({ id, name, isActive, isGoalie, rank }) => ({ id, name, isActive, isGoalie, rank })),
+    },
+  })
+
+  leagueFormData.value = await result
+}
 </script>
 
 <template>
@@ -229,7 +271,7 @@ const onSnapshotUpdated = (updatedSnapshotData: any) => (latestSnapshot.value = 
             <UIcon name="i-ph-soccer-ball" class="text-3xl" />
           </NuxtLink>
 
-          <UDropdownMenu :items="leaguesDropdown" arrow size="lg">
+          <UDropdownMenu :items="leaguesDropdown" arrow size="lg" :disabled="isUpdatingLeague">
             <UButton
               :label="league?.name || 'Select League'"
               data-testid="league-dropdown-button"
@@ -242,39 +284,27 @@ const onSnapshotUpdated = (updatedSnapshotData: any) => (latestSnapshot.value = 
             </template>
           </UDropdownMenu>
         </h2>
-        <div
-          v-if="isLeagueDropdownOpen"
-          class="fixed top-0 left-0 z-40 w-full h-full bg-black/40 transition-opacity duration-1000 ease-in-out"
-          :class="{
-            'opacity-0': !isLeagueDropdownOpen,
-            'opacity-100 ': isLeagueDropdownOpen,
-          }"
-          @click="isLeagueDropdownOpen = false"
-        />
         <div class="flex md:mt-0 md:ml-4 gap-4">
-          <UButton data-testid="squad-edit-button" variant="soft" color="neutral" @click="toggleEdit">
-            {{ isEditing ? 'Hide' : 'Edit' }}
-          </UButton>
-          <!-- @click="save(league!)" -->
-          <UButton data-testid="league-save-button" :loading="isUpdatingLeague || isUpdatingSnapshot || isCreatingSnapshot" label="Save" />
+          <UButtonGroup size="lg">
+            <UButton
+              data-testid="squad-edit-button"
+              variant="soft"
+              color="neutral"
+              label="Edit"
+              :disabled="isUpdatingLeague"
+              @click="onEditLeague"
+            />
+
+            <UButton
+              data-testid="league-save-button"
+              :loading="isUpdatingLeague || isUpdatingSnapshot || isCreatingSnapshot"
+              label="Save"
+              @click="save"
+            />
+          </UButtonGroup>
         </div>
       </div>
-      <div
-        class="absolute z-10 w-full h-screen pointer-events-none transition-all lg:w-full"
-        :class="{
-          'bg-black/30 backdrop-blur-sm': isEditing,
-          'bg-black/0': !isEditing,
-        }"
-      ></div>
-      <div
-        class="relative z-10 flex flex-col-reverse pt-4 -mt-2 border border-gray-700 rounded-b shadow-md bg-slate-100 dark:bg-slate-900 lg:flex-row transition-all gap-2"
-        :class="{
-          'translate-y-0': isEditing,
-          '-translate-y-full': !isEditing,
-        }"
-      >
-        <LeagueEdit v-if="league" :league="league" />
-      </div>
+
       <div class="absolute top-0 left-0 flex flex-col w-full py-5 mt-14 lg:mt-20">
         <div class="w-full px-2">
           <div v-if="isLoadingLeague" class="flex flex-col gap-6">
@@ -296,7 +326,15 @@ const onSnapshotUpdated = (updatedSnapshotData: any) => (latestSnapshot.value = 
               :disabled="isEditing"
               @click="isEditing = !isEditing"
             />
-            <!-- <League v-else :league="league" @snapshot-changed="onSnapshotUpdated" /> -->
+            <League
+              v-else
+              :league-id="league.id"
+              :snapshots="league.snapshots"
+              :league-configuration="league.configuration"
+              :league="league"
+              :players="league.players"
+              @snapshot-changed="onSnapshotUpdated"
+            />
           </div>
         </div>
       </div>

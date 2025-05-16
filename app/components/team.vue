@@ -2,16 +2,17 @@
 import type { Player } from '@prisma/client'
 import { map, sumBy } from 'lodash-es'
 import { SlickList, SlickItem } from 'vue-slicksort'
+import type { SnapshotPlayer } from '#shared/schemas'
 
 const props = withDefaults(
   defineProps<{
     teamNumber: number
-    players: Player[]
+    players: SnapshotPlayer[]
     choseFirst?: boolean
   }>(),
   {
     choseFirst: false,
-  }
+  },
 )
 
 const playerList = computed({
@@ -54,19 +55,15 @@ const onPlayerAdd = ({ newIndex, value }: { newIndex: number; value: Player }) =
         <span class="ml-1 text-xs">({{ players.length }} players)</span>
       </h2>
       <span class="absolute top-0 left-0 px-2 text-xs text-white bg-green-500">Rank {{ rank }}</span>
-      <UIcon
-        name="i-heroicons-star-20-solid"
-        class="absolute top-0 right-0 m-1 text-lg text-amber-600"
-        v-if="choseFirst"
-      />
+      <UIcon v-if="choseFirst" name="i-heroicons-star-20-solid" class="absolute top-0 right-0 m-1 text-lg text-amber-600" />
     </div>
     <SlickList
       :list="playerList"
       class="flex flex-col p-2 gap-2"
       group="team"
+      helper-class="z-50 z-auto absolute"
       @sort-insert="onPlayerAdd"
       @sort-remove="onPlayerRemove"
-      helperClass="z-50 z-auto absolute"
     >
       <SlickItem
         v-for="(player, index) in playerList"
