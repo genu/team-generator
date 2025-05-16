@@ -1,7 +1,7 @@
 export default defineNuxtConfig({
   modules: ['@nuxt/ui', '@nuxt/eslint', '@vueuse/nuxt', '@hebilicious/vue-query-nuxt', '@regle/nuxt'],
   imports: {
-    dirs: ['../.generated/vue-query', './composables/data', './.generated/zod'],
+    dirs: ['../.generated/vue-query', './composables/data', './.generated/zod', './forms'],
   },
   css: ['~/assets/css/main.css'],
   colorMode: {
