@@ -3,16 +3,6 @@ import { filter } from 'lodash-es'
 import type z from 'zod'
 import { useRegle } from '@regle/core'
 import { required } from '@regle/rules'
-import type { PlayerCreateSchema } from '~~/.generated/zod/models'
-
-type PlayerUpdate = z.infer<typeof models.PlayerUpdateScalarSchema>
-type PlayerCreate = z.infer<typeof PlayerCreateSchema>
-
-defineEmits<{
-  addPlayer: PlayerCreate
-  removePlayer: number
-  updatePlayer: PlayerUpdate
-}>()
 
 const toast = useToast()
 
