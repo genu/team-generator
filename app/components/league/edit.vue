@@ -1,68 +1,17 @@
 <script lang="ts" setup>
 import { filter } from 'lodash-es'
-import type z from 'zod'
-import { useRegle } from '@regle/core'
-import { required } from '@regle/rules'
+import { useNewPlayerForm } from '~/forms/useNewPlayerForm'
 
 const toast = useToast()
 
-interface NewPlayerForm {
-  name: string
-  rank: number
-  isActive: boolean
-  isGoalie: boolean
-}
+const { r$: newPlayerForm } = useNewPlayerForm()
+const { r$: editLeagueForm } = useEditLeagueForm()
 
-interface LeagueForm {
-  options: {
-    name: string
-    teamCount: number
-    rules: {
-      goaliesFirst: boolean
-      noBestGolieAndPlayer: boolean
-      keepGoalies: boolean
-      beniMode: boolean
-    }
-  }
-  players: NewPlayerForm[]
-}
+const activeSquad = computed(() => filter(editLeagueForm.$value.players, { isActive: true }))
 
-const leagueForm = ref<LeagueForm>({
-  options: {
-    name: '',
-    teamCount: 0,
-    rules: {
-      goaliesFirst: false,
-      noBestGolieAndPlayer: false,
-      keepGoalies: false,
-      beniMode: false,
-    },
-  },
-  players: [],
-})
+const onAddPlayer = async () => {
+  const player = newPlayerForm.$value
 
-const newPlayerForm = ref({
-  name: '',
-  rank: 1,
-  isActive: true,
-  isGoalie: false,
-})
-
-const { r$: leagueForm$ } = useRegle(leagueForm, {
-  options: {
-    name: { required },
-  },
-  players: {
-    $each: {
-      name: { required },
-    },
-  },
-})
-const { r$: newPlayerForm$ } = useRegle(newPlayerForm, {})
-
-const activeSquad = computed(() => filter(leagueForm.value.players, { isActive: true }))
-
-const onAddPlayer = async (player: NewPlayerForm) => {
   if (!player.name) {
     toast.add({
       title: 'Player name is required',
@@ -71,7 +20,7 @@ const onAddPlayer = async (player: NewPlayerForm) => {
     })
     return
   }
-  const existingPlayer = leagueForm.value.players.find((p) => p.name.toLowerCase() === player.name.trim().toLowerCase())
+  const existingPlayer = editLeagueForm.$value.players.find((p) => p.name.toLowerCase() === player.name.trim().toLowerCase())
 
   if (existingPlayer) {
     toast.add({
@@ -82,18 +31,18 @@ const onAddPlayer = async (player: NewPlayerForm) => {
     return
   }
 
-  leagueForm.value.players.push({
+  editLeagueForm.$value.players.push({
     name: player.name,
     rank: 1,
     isActive: true,
     isGoalie: false,
   })
 
-  newPlayerForm$.$reset({ toInitialState: true })
+  newPlayerForm.$reset({ toInitialState: true })
 }
 
 const onRemovePlayer = (index: number) => {
-  leagueForm.value.players.splice(index, 1)
+  editLeagueForm.$value.players.splice(index, 1)
 }
 </script>
 
@@ -123,8 +72,8 @@ const onRemovePlayer = (index: number) => {
             <div
               class="relative w-full flex items-center justify-end bg-tertiary dark:bg-gray-800 border-gray-800 border p-2 border-t-0 -mt-px"
             >
-              <UFormField :error="newPlayerForm$.$errors.name[0]">
-                <UInput v-model="newPlayerForm$.$value.name" placeholder="Player Name" @keyup.enter="onAddPlayer(newPlayerForm)" />
+              <UFormField :error="newPlayerForm.$errors.name[0]">
+                <UInput v-model="newPlayerForm.$value.name" placeholder="Player Name" @keyup.enter="onAddPlayer" />
               </UFormField>
 
               <UButton
@@ -134,28 +83,31 @@ const onRemovePlayer = (index: number) => {
                 label="Add Player"
                 size="xs"
                 :ui="{ base: 'absolute mr-2' }"
-                @click="onAddPlayer(newPlayerForm)"
+                @click="onAddPlayer"
               />
             </div>
-            <div v-if="leagueForm$.$value.players.length > 0" class="p-2 bg-tertiary w-full rounded-b-md flex justify-between items-center">
+            <div
+              v-if="editLeagueForm.$value.players.length > 0"
+              class="p-2 bg-tertiary w-full rounded-b-md flex justify-between items-center"
+            >
               <UButton
                 label="Set All Inactive"
                 color="neutral"
                 size="sm"
-                @click="() => leagueForm$.$value.players.forEach((player) => (player.isActive = false))"
+                @click="() => editLeagueForm.$value.players.forEach((player) => (player.isActive = false))"
               />
               <div class="text-inverted flex items-center justify-between px-2 text-sm">
                 <span class="font-medium">Active Players</span>
                 <span class="ml-1 font-semibold">
                   <span class="text-primary">{{ activeSquad.length }}</span>
-                  / {{ leagueForm$.$value.players.length }}
+                  / {{ editLeagueForm.$value.players.length }}
                 </span>
               </div>
             </div>
           </div>
           <div>
             <UTable
-              :data="leagueForm.players"
+              :data="editLeagueForm.$value.players"
               :columns="[
                 {
                   header: 'Active?',
@@ -168,7 +120,7 @@ const onRemovePlayer = (index: number) => {
                 { id: 'actions' },
               ]"
               class="flex-1 max-h-full"
-              :ui="{ thead: leagueForm.players.length === 0 ? 'hidden' : '', td: 'p-1.5', th: 'py-1.5 px-2' }"
+              :ui="{ thead: editLeagueForm.$value.players.length === 0 ? 'hidden' : '', td: 'p-1.5', th: 'py-1.5 px-2' }"
             >
               <template #isActive-cell="{ row }">
                 <div class="flex items-center justify-center">
@@ -213,11 +165,11 @@ const onRemovePlayer = (index: number) => {
                 <UFormField
                   label="League Name:"
                   size="lg"
-                  :error="leagueForm$.$errors.options.name[0]"
+                  :error="editLeagueForm.$errors.options.name[0]"
                   :ui="{ root: 'flex items-center gap-2', labelWrapper: 'flex justify-end', wrapper: 'w-28', container: 'flex-1' }"
                 >
                   <UInput
-                    v-model="leagueForm$.$value.options.name"
+                    v-model="editLeagueForm.$value.options.name"
                     testid="edit-team-name"
                     size="lg"
                     placeholder="League Name"
@@ -228,11 +180,11 @@ const onRemovePlayer = (index: number) => {
                 <UFormField
                   label="# of Teams:"
                   size="lg"
-                  :error="newPlayerForm$.$errors.name[0]"
+                  :error="editLeagueForm.$errors.options.teamCount[0]"
                   :ui="{ root: 'flex items-center gap-2', labelWrapper: 'flex justify-end', wrapper: 'w-28', container: 'flex-1' }"
                 >
                   <UInputNumber
-                    v-model="leagueForm$.$value.options.teamCount"
+                    v-model="editLeagueForm.$value.options.teamCount"
                     testid="edit-team-count"
                     :ui="{ root: 'w-28' }"
                     :min="0"
@@ -244,16 +196,25 @@ const onRemovePlayer = (index: number) => {
             </template>
             <template #rules>
               <div class="p-2 flex flex-col gap-2">
-                <USwitch v-model="leagueForm.options.rules.goaliesFirst" testid="config-goalies-first" label="Choose goalies first" />
                 <USwitch
-                  v-model="leagueForm.options.rules.noBestGolieAndPlayer"
+                  v-model="editLeagueForm.$value.options.rules.goaliesFirst"
+                  testid="config-goalies-first"
+                  label="Choose goalies first"
+                />
+                <USwitch
+                  v-model="editLeagueForm.$value.options.rules.noBestGolieAndPlayer"
                   disabled
                   testid="config-no-best-goalies-and-player"
                   label="Best goalie cannot be on same team with best player (soon)"
                 />
-                <USwitch v-model="leagueForm.options.rules.keepGoalies" disabled testid="config-keepGoalies" label="Keep goalies (soon)" />
                 <USwitch
-                  v-model="leagueForm.options.rules.beniMode"
+                  v-model="editLeagueForm.$value.options.rules.keepGoalies"
+                  disabled
+                  testid="config-keepGoalies"
+                  label="Keep goalies (soon)"
+                />
+                <USwitch
+                  v-model="editLeagueForm.$value.options.rules.beniMode"
                   disabled
                   testid="config-beniMode"
                   label="Every player on the same team as Beni drops in rank by 1 point (soon)"
