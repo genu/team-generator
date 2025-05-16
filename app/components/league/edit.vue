@@ -172,22 +172,20 @@ const onRemovePlayer = (index: number) => {
             >
               <template #isActive-cell="{ row }">
                 <div class="flex items-center justify-center">
-                  <USwitch v-model="leagueForm.players[row.index]!.isActive" size="lg" />
+                  <USwitch v-model="row.original.isActive" size="lg" />
                 </div>
               </template>
               <template #name-cell="{ row }">
-                <div class="w-22 truncate">
-                  {{ row.original.name }}
-                </div>
+                <div class="w-22 truncate">{{ row.original.name }}</div>
               </template>
-              <template #rank-cell="{}">
+              <template #rank-cell="{ row }">
                 <div class="w-24">
-                  <UInputNumber :min="1" :max="10" :step="1" size="lg" name="rank" />
+                  <UInputNumber v-model="row.original.rank" :min="1" :max="10" :step="1" size="lg" name="rank" />
                 </div>
               </template>
               <template #isGoalie-cell="{ row }">
                 <div class="flex items-center justify-center">
-                  <UCheckbox v-model="leagueForm.players[row.index]!.isGoalie" size="xl" color="neutral" :ui="{ root: 'justify-around' }" />
+                  <UCheckbox v-model="row.original.isGoalie" size="xl" color="neutral" :ui="{ root: 'justify-around' }" />
                 </div>
               </template>
               <template #actions-cell="{ row }">
