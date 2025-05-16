@@ -1,264 +1,280 @@
 <script lang="ts" setup>
-import type { League, Player } from '@prisma/client'
-import { find, filter } from 'lodash-es'
-import { useForm } from '@formwerk/core'
-import type { TableColumn } from '@nuxt/ui'
-import { type LeagueDTO, type LeagueConfig, PlayerDTOSchema } from '#shared/schemas/forms/create-league.form'
+import { filter } from 'lodash-es'
+import type z from 'zod'
+import { useRegle } from '@regle/core'
+import { required } from '@regle/rules'
+import type { PlayerCreateSchema } from '~~/.generated/zod/models'
 
-type LeagueWithPlayers = League & { players: Player[] }
+type PlayerUpdate = z.infer<typeof models.PlayerUpdateScalarSchema>
+type PlayerCreate = z.infer<typeof PlayerCreateSchema>
 
-const { league } = defineProps<{ league: LeagueWithPlayers }>()
+defineEmits<{
+  addPlayer: PlayerCreate
+  removePlayer: number
+  updatePlayer: PlayerUpdate
+}>()
 
-const squadTableColumns: TableColumn<Player>[] = [
-  {
-    header: 'Active?',
+const toast = useToast()
+
+interface NewPlayerForm {
+  name: string
+  rank: number
+  isActive: boolean
+  isGoalie: boolean
+}
+
+interface LeagueForm {
+  options: {
+    name: string
+    teamCount: number
+    rules: {
+      goaliesFirst: boolean
+      noBestGolieAndPlayer: boolean
+      keepGoalies: boolean
+      beniMode: boolean
+    }
+  }
+  players: NewPlayerForm[]
+}
+
+const leagueForm = ref<LeagueForm>({
+  options: {
+    name: '',
+    teamCount: 0,
+    rules: {
+      goaliesFirst: false,
+      noBestGolieAndPlayer: false,
+      keepGoalies: false,
+      beniMode: false,
+    },
   },
-  { header: 'Player' },
-  { header: 'Rank' },
-  { header: 'Gk' },
-  { id: 'actions' },
-]
+  players: [],
+})
 
-// const props = defineProps<{ modelValue: LeagueWithPlayers }>()
-// const emit = defineEmits<{ 'update:modelValue': [LeagueWithPlayers] }>()
+const newPlayerForm = ref({
+  name: '',
+  rank: 1,
+  isActive: true,
+  isGoalie: false,
+})
 
-// const {} = useFocus({
+const { r$: leagueForm$ } = useRegle(leagueForm, {
+  options: {
+    name: { required },
+  },
+  players: {
+    $each: {
+      name: { required },
+    },
+  },
+})
+const { r$: newPlayerForm$ } = useRegle(newPlayerForm, {})
 
-// })
-const configuration = computed(() => league.configuration)
+const activeSquad = computed(() => filter(leagueForm.value.players, { isActive: true }))
 
-// const newPlayer = ref<Partial<Player>>({ name: '', isActive: true, rank: 1 })
+const onAddPlayer = async (player: NewPlayerForm) => {
+  if (!player.name) {
+    toast.add({
+      title: 'Player name is required',
+      icon: 'i-heroicons-exclamation-triangle-solid',
+      color: 'warning',
+    })
+    return
+  }
+  const existingPlayer = leagueForm.value.players.find((p) => p.name.toLowerCase() === player.name.trim().toLowerCase())
 
-// const activePlayers = computed(() => filter(props.modelValue.players, { isActive: true }))
+  if (existingPlayer) {
+    toast.add({
+      title: 'Player already exists',
+      icon: 'i-heroicons-exclamation-triangle-solid',
+      color: 'warning',
+    })
+    return
+  }
 
-// const ctx = useFormContext()
-const { handleSubmit: handleAddNewPlayer } = useForm({
-  schema: PlayerDTOSchema,
-  initialValues: {
+  leagueForm.value.players.push({
+    name: player.name,
     rank: 1,
     isActive: true,
     isGoalie: false,
-  },
-})
+  })
 
-const columns = [
-  {
-    key: 'yes',
-  },
-  {
-    key: 'name',
-    label: 'Player',
-  },
-  {
-    key: 'rank',
-  },
-  {
-    key: 'gk',
-    label: 'Gk',
-  },
-  {
-    key: 'actions',
-  },
-]
-
-const rulesAccordian = [
-  {
-    label: 'Rules',
-    icon: 'i-heroicons-cog-6-tooth',
-    slot: 'rules',
-  },
-]
-const updatePlayer = (field: keyof Player, value: any, index: number) => {
-  // const updatedPlayer = { ...props.modelValue.players[index], [field]: value }
-  // emit('update:modelValue', {
-  //   ...props.modelValue,
-  //   players: props.modelValue.players.map((player, i) => (i === index ? updatedPlayer : toRaw(player))),
-  // })
+  newPlayerForm$.$reset({ toInitialState: true })
 }
 
-const updateLeague = (field: any, value: string) => {
-  // emit('update:modelValue', { ...props.modelValue, [field]: value })
-}
-
-const updateConfiguration = (field: any, value: any) => {
-  // emit('update:modelValue', {
-  //   ...props.modelValue,
-  //   configuration: { ...(props.modelValue.configuration as object), [field]: value },
-  // })
-}
-
-const updateRules = (field: any, value: any) => {
-  // emit('update:modelValue', {
-  //   ...props.modelValue,
-  //   configuration: {
-  //     ...(props.modelValue.configuration as object),
-  //     rules: { ...(props.modelValue.configuration as unknown as Config).rules, [field]: value },
-  //   },
-  // })
-}
-
-const addPlayer = handleAddNewPlayer((player) => {
-  // No existing players
-  // if (find(league.players, { name: player.name })) return
-  // newPlayer.value.name = newPlayer.value.name!.trim()
-  // emit('update:modelValue', {
-  //   ...props.modelValue,
-  //   players: [...props.modelValue.players, { ...newPlayer.value }],
-  // })
-  // newPlayer.value = { name: '', isActive: true, rank: 1 }
-})
-
-const removePlayer = (index: number) => {
-  // const updatedPlayers = props.modelValue.players.filter((_player, i) => i !== index)
-  // emit('update:modelValue', { ...props.modelValue, players: updatedPlayers })
-}
-
-const resetActiveState = () => {
-  // set all players to inactive
-  // const updatedPlayers = props.modelValue.players.map((player) => ({ ...player, isActive: false }))
-  // emit('update:modelValue', { ...props.modelValue, players: updatedPlayers })
+const onRemovePlayer = (index: number) => {
+  leagueForm.value.players.splice(index, 1)
 }
 </script>
 
 <template>
-  <div class="flex flex-col-reverse w-full md:flex-row">
-    <div class="relative flex flex-col lg:w-2/4 gap-2">
-      <USeparator label="Squad" />
+  <UModal
+    fullscreen
+    title="Edit League"
+    :close="{
+      variant: 'soft',
+      color: 'neutral',
+      size: 'md',
+      label: 'Hide',
+      icon: '',
+    }"
+    :ui="{
+      body: 'px-0 py-0 sm:p-0',
+      header: 'bg-tertiary border-0',
+      title: 'text-inverted',
+      content: 'data-[state=open]:animate-[slide-in-from-top_200ms_ease-out] data-[state=closed]:animate-[slide-out-to-top_200ms_ease-in]',
+    }"
+  >
+    <template #body>
+      <div class="flex flex-col-reverse w-full md:flex-row md:h-full">
+        <div class="relative flex flex-col lg:w-2/4 gap-">
+          <div name="newPlayer" class="sticky z-50 items-center flex flex-col top-0 justify-between">
+            <div class="bg-tertiary text-center text-sm text-inverted sticky top-0 w-full">Squad</div>
+            <div
+              class="relative w-full flex items-center justify-end bg-tertiary dark:bg-gray-800 border-gray-800 border p-2 border-t-0 -mt-px"
+            >
+              <UFormField :error="newPlayerForm$.$errors.name[0]">
+                <UInput v-model="newPlayerForm$.$value.name" placeholder="Player Name" @keyup.enter="onAddPlayer(newPlayerForm)" />
+              </UFormField>
 
-      <div class="sticky z-50 flex items-center px-2 py-2 bg-gray-200 dark:bg-gray-800 gap-2 top-16 lg:top-20 justify-between">
-        <UFormInputText name="name" placeholder="Player Name" :field-ui="{ root: 'flex-1' }" @keyup.enter="addPlayer" />
-        <UButton data-testid="add-player-button" color="secondary" label="Add" class="justify-around w-32" @click="addPlayer" />
-      </div>
-
-      <div>
-        <USeparator />
-        <UTable :data="league.players" :columns="squadTableColumns">
-          <template #empty>There are no players here</template>
-        </UTable>
-        <!-- <UTable :rows="modelValue.players" :columns="columns" :ui="{ base: 'table-player-list' }">
-          <template #yes-header>
-            <div class="flex flex-col">
-              <span class="ml-1">Active?</span>
-              <UButton label="Reset" @click="resetActiveState" variant="link" color="indigo" :ui="{ padding: { md: 'p-1' } }" />
-            </div>
-          </template>
-          <template #rank-header>
-            <div class="flex flex-col">
-              <span class="text-center">Rank</span>
-              <span class="text-center">(1-10)</span>
-            </div>
-          </template>
-          <template #yes-data="{ row, index }">
-            <UToggle
-              v-model="row.isActive"
-              @update:model-value="(value:boolean) => updatePlayer('isActive', value, index)"
-              color="indigo"
-            />
-          </template>
-          <template #name-data="{ row, index }">
-            <UInput v-model="row.name" @update:model-value="(value:any)=> updatePlayer('name',value, index)" />
-          </template>
-          <template #rank-data="{ row, index }">
-            <UInput
-              v-model="row.rank"
-              @update:model-value="(value:number)=>updatePlayer('rank',value, index)"
-              class="w-16 mx-1"
-              type="number"
-            />
-          </template>
-          <template #gk-data="{ row, index }">
-            <UCheckbox
-              v-model="row.isGoalie"
-              @update:model-value="(value:boolean) => updatePlayer('isGoalie', value, index)"
-              class="mx-1"
-            />
-          </template>
-          <template #actions-data="{ index }">
-            <UButton icon="i-heroicons-trash" color="red" variant="outline" @click="removePlayer(index)" class="mx-3" />
-          </template>
-        </UTable> -->
-      </div>
-
-      <!-- <div class="flex flex-col gap-2" v-if="modelValue.players?.length > 0">
-        <UDivider />
-        <div class="flex items-center justify-end px-3 py-2 text-base">
-          Active Players:
-          <span class="ml-1 font-semibold">
-            <span class="text-green-600">{{ activePlayers.length }}</span>
-            / {{ modelValue.players.length }}
-          </span>
-        </div>
-      </div> -->
-    </div>
-    <!-- <UDivider orientation="vertical" class="w-5" /> -->
-    <!-- <div class="flex flex-col flex-1 p-2 gap-2">
-      <h2 class="font-bold">Options</h2>
-      <div class="flex flex-col font-semibold gap-2">
-        <div class="flex items-center gap-2">
-          <span class="text-sm text-right text-gray-700 w-28">League Name:</span>
-          <UInput
-            data-testid="edit-team-name-input"
-            :model-value="modelValue.name!"
-            @update:model-value="(value:string) => updateLeague('name', value)"
-          />
-        </div>
-        <div class="flex items-center gap-2">
-          <span class="text-sm text-right text-gray-700 w-28"># of teams:</span>
-          <UInput
-            data-testid="edit-team-count-input"
-            type="number"
-            :model-value="configuration.teamCount"
-            @update:model-value="(value:number) => updateConfiguration('teamCount', value)"
-            class="w-20"
-          />
-        </div>
-        <UAccordion :items="rulesAccordian" color="indigo" variant="soft">
-          <template #rules>
-            <div class="flex flex-col px-2 gap-3">
-              <UCheckbox
-                @update:model-value="(value:boolean)=>updateRules('goaliesFirst',value)"
-                :model-value="configuration.rules.goaliesFirst"
-                label="Choose goalies first"
-              />
-              <UCheckbox
-                disabled
-                :model-value="configuration.rules.noBestGolieAndPlayer"
-                @update:model-value="(value:boolean)=>updateRules('noBestGolieAndPlayer',value)"
-                label="Best goalie cannot be on same team with best player"
-              >
-                <template #label>
-                  Best goalie cannot be on same team with best player
-                  <small class="bg-gray-400 px-1 py-0.5 text-white rounded font-bold">soon</small>
-                </template>
-              </UCheckbox>
-              <UCheckbox
-                disabled
-                :model-value="configuration.rules.keepGoalies"
-                @update:model-value="(value:boolean)=>updateRules('keepGoalies',value)"
-              >
-                <template #label>
-                  Keep goalies
-                  <small class="bg-gray-400 px-1 py-0.5 text-white rounded font-bold">soon</small>
-                </template>
-              </UCheckbox>
-              <UCheckbox
-                class="hidden"
-                label="Stefan mode"
-                :model-value="configuration.rules.stefanMode"
-                @update:model-value="(value:boolean)=>updateRules('stefanMode',value)"
-                help="Stefan's team has all of the best players"
-              />
-              <UCheckbox
-                class="hidden"
-                label="Beni mode"
-                :model-value="configuration.rules.beniMode"
-                @update:model-value="(value:boolean)=>updateRules('beniMode',value)"
-                help="Every player on the same team as Beni drops in rank by 1 point"
+              <UButton
+                data-testid="add-player-button"
+                color="success"
+                icon="i-ph-plus-bold"
+                label="Add Player"
+                size="xs"
+                :ui="{ base: 'absolute mr-2' }"
+                @click="onAddPlayer(newPlayerForm)"
               />
             </div>
-          </template>
-        </UAccordion>
+            <div v-if="leagueForm$.$value.players.length > 0" class="p-2 bg-tertiary w-full rounded-b-md flex justify-between items-center">
+              <UButton
+                label="Set All Inactive"
+                color="neutral"
+                size="sm"
+                @click="() => leagueForm$.$value.players.forEach((player) => (player.isActive = false))"
+              />
+              <div class="text-inverted flex items-center justify-between px-2 text-sm">
+                <span class="font-medium">Active Players</span>
+                <span class="ml-1 font-semibold">
+                  <span class="text-primary">{{ activeSquad.length }}</span>
+                  / {{ leagueForm$.$value.players.length }}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <UTable
+              :data="leagueForm.players"
+              :columns="[
+                {
+                  header: 'Active?',
+                  accessorKey: 'isActive',
+                  meta: { class: { th: 'w-0' } },
+                },
+                { header: 'Player', accessorKey: 'name', meta: { class: { th: 'w-22' } } },
+                { header: 'Rank', accessorKey: 'rank', meta: { class: { th: 'w-10' } } },
+                { header: 'Gk', accessorKey: 'isGoalie', meta: { class: { th: 'w-0' } } },
+                { id: 'actions' },
+              ]"
+              class="flex-1 max-h-full"
+              :ui="{ thead: leagueForm.players.length === 0 ? 'hidden' : '', td: 'p-1.5', th: 'py-1.5 px-2' }"
+            >
+              <template #isActive-cell="{ row }">
+                <div class="flex items-center justify-center">
+                  <USwitch v-model="leagueForm.players[row.index]!.isActive" size="lg" />
+                </div>
+              </template>
+              <template #name-cell="{ row }">
+                <div class="w-22 truncate">
+                  {{ row.original.name }}
+                </div>
+              </template>
+              <template #rank-cell="{}">
+                <div class="w-24">
+                  <UInputNumber :min="1" :max="10" :step="1" size="lg" name="rank" />
+                </div>
+              </template>
+              <template #isGoalie-cell="{ row }">
+                <div class="flex items-center justify-center">
+                  <UCheckbox v-model="leagueForm.players[row.index]!.isGoalie" size="xl" color="neutral" :ui="{ root: 'justify-around' }" />
+                </div>
+              </template>
+              <template #actions-cell="{ row }">
+                <div class="flex justify-around items-center">
+                  <UButton color="error" variant="soft" icon="i-ph-trash" @click="onRemovePlayer(row.index)" />
+                </div>
+              </template>
+              <template #empty>There no players in this league</template>
+            </UTable>
+          </div>
+        </div>
+        <USeparator orientation="vertical" />
+        <div class="flex flex-col gap-2 flex-1">
+          <UAccordion
+            :unmount-on-hide="false"
+            :items="[
+              { label: 'League Options', slot: 'options' },
+              { label: 'Rules', slot: 'rules' },
+            ]"
+            type="single"
+            :ui="{ content: 'flex flex-col gap-1.5', trigger: 'px-2' }"
+          >
+            <template #options>
+              <div class="p-2 flex flex-col gap-2">
+                <UFormField
+                  label="League Name:"
+                  size="lg"
+                  :error="leagueForm$.$errors.options.name[0]"
+                  :ui="{ root: 'flex items-center gap-2', labelWrapper: 'flex justify-end', wrapper: 'w-28', container: 'flex-1' }"
+                >
+                  <UInput
+                    v-model="leagueForm$.$value.options.name"
+                    testid="edit-team-name"
+                    size="lg"
+                    placeholder="League Name"
+                    :ui="{ root: 'flex items-center gap-2' }"
+                  />
+                </UFormField>
+
+                <UFormField
+                  label="# of Teams:"
+                  size="lg"
+                  :error="newPlayerForm$.$errors.name[0]"
+                  :ui="{ root: 'flex items-center gap-2', labelWrapper: 'flex justify-end', wrapper: 'w-28', container: 'flex-1' }"
+                >
+                  <UInputNumber
+                    v-model="leagueForm$.$value.options.teamCount"
+                    testid="edit-team-count"
+                    :ui="{ root: 'w-28' }"
+                    :min="0"
+                    :increment="{ color: 'info', variant: 'solid', size: 'sm' }"
+                    :decrement="{ color: 'info', variant: 'solid', size: 'sm' }"
+                  />
+                </UFormField>
+              </div>
+            </template>
+            <template #rules>
+              <div class="p-2 flex flex-col gap-2">
+                <USwitch v-model="leagueForm.options.rules.goaliesFirst" testid="config-goalies-first" label="Choose goalies first" />
+                <USwitch
+                  v-model="leagueForm.options.rules.noBestGolieAndPlayer"
+                  disabled
+                  testid="config-no-best-goalies-and-player"
+                  label="Best goalie cannot be on same team with best player (soon)"
+                />
+                <USwitch v-model="leagueForm.options.rules.keepGoalies" disabled testid="config-keepGoalies" label="Keep goalies (soon)" />
+                <USwitch
+                  v-model="leagueForm.options.rules.beniMode"
+                  disabled
+                  testid="config-beniMode"
+                  label="Every player on the same team as Beni drops in rank by 1 point (soon)"
+                />
+              </div>
+            </template>
+          </UAccordion>
+        </div>
       </div>
-    </div> -->
-  </div>
+    </template>
+  </UModal>
 </template>
