@@ -1,36 +1,42 @@
 <script lang="ts" setup>
-import { useForm } from '@formwerk/core'
-import { LeagueDTOSchema } from '#shared/schemas/forms/create-league.form'
+import { required } from '@regle/rules'
 
 const { accountId } = defineProps<{ accountId: number }>()
 const emits = defineEmits<{ close: [] }>()
 
 const { mutateAsync: asyncCreateLeague, isPending: isCreatingLeague } = useCreateLeague()
 
-const { handleSubmit } = useForm({
-  id: 'create-league',
-  schema: LeagueDTOSchema,
-  initialValues: {
-    accountId,
-    configuration: {
-      rules: {},
-      teamCount: 2,
-    },
+interface CreateLeagueForm {
+  name: string
+}
+
+const createLeague = ref<CreateLeagueForm>({
+  name: '',
+})
+
+const { r$ } = useRegle(createLeague, {
+  name: {
+    required,
   },
 })
 
-const onCreateLeague = handleSubmit(async (league) => {
+const onCreateLeague = async () => {
   await asyncCreateLeague({
-    data: league.toJSON(),
+    data: {
+      name: 'League name',
+      accountId,
+    },
   })
-
   emits('close')
-})
+}
 </script>
 
 <template>
   <OverlayModal title="Create a League" size="xs">
-    <UFormInputText name="name" placeholder="League name" size="xl" />
+    <UFormField label="League name" size="xl" :error="r$.$errors.name[0]">
+      <UInput v-model="createLeague.name" placeholder="League name" />
+    </UFormField>
+
     <template #footer-right>
       <UButton color="primary" :loading="isCreatingLeague" @click="onCreateLeague()">Create</UButton>
     </template>
