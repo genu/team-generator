@@ -1,40 +1,35 @@
 <script lang="ts" setup>
-import { required } from '@regle/rules'
-
 const { accountId } = defineProps<{ accountId: number }>()
 const emits = defineEmits<{ close: [] }>()
 
 const { mutateAsync: asyncCreateLeague, isPending: isCreatingLeague } = useCreateLeague()
 
-interface CreateLeagueForm {
-  name: string
-}
-
-const createLeague = ref<CreateLeagueForm>({
-  name: '',
-})
-
-const { r$ } = useRegle(createLeague, {
-  name: {
-    required,
-  },
-})
+const { r$: leagueCreateForm } = useLeagueCreateForm()
 
 const onCreateLeague = async () => {
+  const { valid, data } = await leagueCreateForm.$validate()
+  if (!valid) {
+    return
+  }
   await asyncCreateLeague({
     data: {
-      name: 'League name',
+      name: data.name,
       accountId,
+      configuration: {
+        teamCount: 2,
+        rules: {},
+      },
     },
   })
+
   emits('close')
 }
 </script>
 
 <template>
   <OverlayModal title="Create a League" size="xs">
-    <UFormField label="League name" size="xl" :error="r$.$errors.name[0]">
-      <UInput v-model="createLeague.name" placeholder="League name" />
+    <UFormField label="League name" size="xl" :error="leagueCreateForm.$errors.name[0]">
+      <UInput v-model="leagueCreateForm.$value.name" placeholder="League name" />
     </UFormField>
 
     <template #footer-right>
