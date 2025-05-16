@@ -15,7 +15,7 @@
     // Dotfiles
     ".{idea,nuxt,output,trigger,generated,data,github,gitignore,prettierignore,env.example}": true,
     // Config files
-    // "{prettier,eslint,vitest}.config.{mjs,ts}": true,
+    "{prettier,eslint,vitest}.config.{mjs,ts}": true,
     // JSON files
     "{railway,renovate}.json": true
   },
@@ -30,5 +30,8 @@
   "typescript.tsdk": "node_modules/typescript/lib",
   "[vue]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[zmodel]": {
+    "editor.defaultFormatter": "zenstack.zenstack"
   }
 }

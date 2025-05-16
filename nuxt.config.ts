@@ -1,15 +1,16 @@
 export default defineNuxtConfig({
-  modules: ['@nuxt/ui', '@nuxt/eslint', '@vueuse/nuxt', '@hebilicious/vue-query-nuxt'],
+  modules: ['@nuxt/ui', '@nuxt/eslint', '@vueuse/nuxt', '@hebilicious/vue-query-nuxt', '@regle/nuxt'],
   imports: {
-    dirs: ['../.generated/vue-query', './composables/data'],
+    dirs: ['../.generated/vue-query', './composables/data', './.generated/zod'],
   },
   css: ['~/assets/css/main.css'],
-  /**
-   * Module configurations
-   **/
-
   colorMode: {
     preference: 'light',
+  },
+  ui: {
+    theme: {
+      colors: ['primary', 'secondary', 'tertiary', 'info', 'success', 'warning', 'error'],
+    },
   },
   runtimeConfig: {
     public: {
@@ -23,6 +24,11 @@ export default defineNuxtConfig({
     compatibilityVersion: 4,
   },
   compatibilityDate: '2024-10-26',
+  nitro: {
+    imports: {
+      dirs: ['./server/helpers', './server/social-clients', './server/services', './server/flows', './.generated/zod'],
+    },
+  },
   typescript: {
     typeCheck: process.env.NODE_ENV === 'production',
   },
