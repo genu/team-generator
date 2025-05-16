@@ -1,3 +1,5 @@
+import "./includes/json-types"
+
 generator client {
     provider = "prisma-client-js"
 }
@@ -14,6 +16,11 @@ plugin hooks {
     target = "vue"
 }
 
+plugin zod {
+    provider = '@core/zod'
+    output = '../.generated/zod'
+    modelOnly = true
+}
 
 datasource db {
     provider = "postgresql"
@@ -29,14 +36,14 @@ model Account {
 }
 
 model League {
-    id            Int        @id @default(autoincrement())
+    id            Int                 @id @default(autoincrement())
     name          String?
-    configuration Json?
-    account       Account    @relation(fields: [accountId], references: [id], onDelete: Cascade)
+    configuration LeagueConfiguration @json
+    account       Account             @relation(fields: [accountId], references: [id], onDelete: Cascade)
     snapshots     Snapshot[]
     players       Player[]
     accountId     Int
-    createdAt     DateTime   @default(now())
+    createdAt     DateTime            @default(now())
     updatedAt     DateTime?
 
     @@allow('all', true)
