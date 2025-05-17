@@ -12,14 +12,9 @@ type SortRemoveEvent = {
   oldIndex: number
 }
 
-type SortEndEvent = {
-  newIndex: number
-  oldIndex: number
-  value: SnapshotPlayer
-}
-
 const props = withDefaults(
   defineProps<{
+    teamName: string
     teamNumber: number
     players: SnapshotPlayer[]
     choseFirst?: boolean
@@ -46,7 +41,7 @@ const rank = computed(() => {
   <div class="bg-white border-2 border-b border-gray-400 shadow divide-y divide-gray-200 rounded-md">
     <div class="relative">
       <h2 class="flex flex-col px-5 pt-5 text-lg font-medium text-gray-900 leading-6 md:items-center md:flex-row">
-        <span>Team {{ props.teamNumber }}</span>
+        <span>{{ props.teamName }}</span>
         <span class="ml-1 text-xs">({{ players.length }} players)</span>
       </h2>
       <span class="absolute top-0 left-0 px-2 text-xs text-white bg-green-500">Rank {{ rank }}</span>
