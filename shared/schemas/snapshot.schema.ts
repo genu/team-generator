@@ -13,9 +13,8 @@ export const SnapshotDataSchema = z.record(
     // Then transform to ensure it's a number
     const num = typeof val === 'string' ? Number(val) : val
 
-    if (isNaN(num)) {
-      throw new Error(`Invalid numeric key: ${val}`)
-    }
+    if (isNaN(num)) throw new Error(`Invalid numeric key: ${val}`)
+
     return num
   }),
   z.array(SnapshotPlayerSchema),

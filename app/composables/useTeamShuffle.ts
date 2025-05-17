@@ -64,7 +64,6 @@ export const useTeamShuffle = (snapshotData: Ref<SnapshotData>) => {
       methodology.write(`Choosing Goalkeepers first (${map(goalKeepers, 'name').join(', ')})`)
 
       while (goalKeepers.length > 0) {
-        console.log('team choosing: ', teamChoosing.value)
         const randomGoalkeeper = goalKeepers.splice(0, 1)[0] as Player
 
         methodology.write(`Team ${teamChoosing.value} chose goal keeper ${randomGoalkeeper.name} (${randomGoalkeeper.rank})`)
@@ -109,18 +108,22 @@ export const useTeamShuffle = (snapshotData: Ref<SnapshotData>) => {
     return cloneDeep(teams)
   }
 
-  const addPlayerToTeam = (team: number, index: number, player: Player) => {
-    if (!teams.value[team]) return
-
-    const upatedTeams = [...teams.value[team].slice(0, index), player, ...teams.value[team].slice(index)]
-    teams.value = { ...teams.value, [team]: upatedTeams }
+  const movePlayer = (fromIndex: number, toIndex: number) => {
+    console.log('movePlayer', fromIndex, toIndex)
   }
 
-  const removePlayerFromTeam = (team: number, index: number) => {
-    if (!teams.value[team]) return
+  const addPlayerToTeam = (toTeam: number, at: number, player: SnapshotPlayer) => {
+    if (!teams.value[toTeam]) return
 
-    const upatedTeams = [...teams.value[team].slice(0, index), ...teams.value[team].slice(index + 1)]
-    teams.value = { ...teams.value, [team]: upatedTeams }
+    const upatedTeams = [...teams.value[toTeam].slice(0, at), player, ...teams.value[toTeam].slice(at)]
+    teams.value = { ...teams.value, [toTeam]: upatedTeams }
+  }
+
+  const removePlayerFromTeam = (fromTeam: number, at: number) => {
+    if (!teams.value[fromTeam]) return
+
+    const upatedTeams = [...teams.value[fromTeam].slice(0, at), ...teams.value[fromTeam].slice(at + 1)]
+    teams.value = { ...teams.value, [fromTeam]: upatedTeams }
   }
 
   const getSnapshot = () => {
@@ -135,6 +138,7 @@ export const useTeamShuffle = (snapshotData: Ref<SnapshotData>) => {
     teamThatChoseFirst,
     addPlayerToTeam,
     removePlayerFromTeam,
+    movePlayer,
     getSnapshot,
   }
 }

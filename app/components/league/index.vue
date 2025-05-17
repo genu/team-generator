@@ -39,6 +39,7 @@ const {
   methodology: shuffleMethodology,
   teams,
   isShuffled,
+  movePlayer,
   addPlayerToTeam,
   removePlayerFromTeam,
   teamThatChoseFirst,
@@ -64,14 +65,6 @@ const onShuffleTeams = () => {
   latestUnsavedSnapshot.value = {
     data: snapshotData.value,
   }
-}
-
-const addPlayer = (toTeam: number, at: number, player: Player) => {
-  addPlayerToTeam(toTeam, at, player)
-}
-
-const removePlayer = (fromTeam: number, at: number) => {
-  removePlayerFromTeam(fromTeam, at)
 }
 </script>
 
@@ -111,11 +104,12 @@ const removePlayer = (fromTeam: number, at: number) => {
         v-for="(snapshotPlayers, idx) in teams"
         :key="idx"
         data-testid="league-team"
-        :team-number="parseInt(idx as unknown as string) + 1"
+        :team-number="parseInt(idx as unknown as string)"
         :chose-first="teamThatChoseFirst == idx"
         :players="snapshotPlayers"
-        @add-player="addPlayer"
-        @remove-player="removePlayer"
+        @move-player="movePlayer"
+        @add-player="addPlayerToTeam"
+        @remove-player="removePlayerFromTeam"
       />
     </div>
 
