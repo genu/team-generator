@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { useRouteQuery } from '@vueuse/router'
-import type { Snapshot } from '@prisma/client'
 import type { DropdownMenuItem } from '@nuxt/ui'
 import { DialogCreateLeague, LeagueEdit } from '#components'
+import { SnapshotPlayerSchema, SnapshotSchem, type Snapshot } from '#shared/schemas'
 
 const { confirm } = useDialog()
 const overlay = useOverlay()
@@ -47,32 +47,15 @@ const {
 const { mutateAsync: deleteLeagueAsync } = useDeleteLeague()
 const { mutateAsync: updateLeagueAsync, isPending: isUpdatingLeague } = useUpdateLeague()
 const { mutateAsync: duplicateLeagueAsync } = leagueActions.duplicate()
-const { mutateAsync: updatedSnapshotAsync, isPending: isUpdatingSnapshot } = useUpdateSnapshot()
-const { mutateAsync: createSnapshotAsync, isPending: isCreatingSnapshot } = useCreateSnapshot()
 
-const latestSnapshot = ref()
+const latestUnsavedSnapshot = ref<Snapshot>()
+const latestUnsavedPlayers = ref<EditPlayerForm[]>([])
 
-// watch(
-//   account,
-//   (account) => {
-//     if (!leagueId.value && account) {
-//       const latestCreatedLeague = latest(account.leagues)
+watchEffect(() => {
+  if (!league.value) return
 
-//       if (!latestCreatedLeague) league.value = undefined
-//       else leagueId.value = latestCreatedLeague?.id
-//     }
-//   },
-//   { immediate: true }
-// )
-
-// watch(
-//   leagueData,
-//   (leagueData) => {
-//     if (leagueData) league.value = useCloned(leagueData).cloned.value
-//   },
-//   { immediate: true }
-// )
-
+  latestUnsavedPlayers.value = league.value?.players
+})
 onServerPrefetch(async () => {
   await suspenseAccount()
   if (leagueId.value) await suspenseLeague()
@@ -146,10 +129,14 @@ const leaguesDropdown = computed<DropdownMenuItem[][]>(() => {
   return [mappedLeagues, leagueMenu]
 })
 
-const isEditing = ref(false)
-
 const saveLeague = async () => {
   if (!leagueFormData.value || !league.value) return
+
+  const snapshots = [...league.value.snapshots.map((s) => SnapshotSchem.parse(s))]
+
+  if (latestUnsavedSnapshot.value) {
+    snapshots.push(latestUnsavedSnapshot.value)
+  }
 
   await updateLeagueAsync({
     data: {
@@ -164,10 +151,22 @@ const saveLeague = async () => {
           where: { id: id || -1 },
           create: {
             ...player,
-            leagueId: league.value.id,
           },
           update: {
             ...player,
+          },
+        })),
+      },
+      snapshots: {
+        upsert: snapshots.map(({ id, ...snapshot }) => ({
+          where: { id: id || -1 },
+          create: {
+            ...snapshot,
+            data: snapshot.data!,
+          },
+          update: {
+            ...snapshot,
+            data: snapshot.data!,
           },
         })),
       },
@@ -176,58 +175,17 @@ const saveLeague = async () => {
       id: league.value?.id,
     },
   })
-  console.log('save league', leagueFormData.value)
-}
-
-const saveSnapshot = () => {
-  console.log('save snapshot', latestSnapshot.value)
 }
 
 const save = async () => {
   await saveLeague()
-  await saveSnapshot()
-}
-
-const _save = async (league: any & { players: any[]; snapshots: Snapshot[] }) => {
-  // Save league snapshot
-  if (latestSnapshot.value) {
-    const latestSnapshotSaved = league.snapshots[0]
-
-    if (latestSnapshotSaved) {
-      await updatedSnapshotAsync({
-        data: {},
-        where: {
-          id: latestSnapshotSaved.id,
-        },
-        // snapshotId: latestSnapshotSaved.id,
-        // snapshotData: latestSnapshot.value,
-      })
-    } else {
-      // do a create
-      await createSnapshotAsync({
-        data: {
-          // league: { connect: { id: league.id }
-          // ...latestSnapshot.value,
-          data: '',
-          leagueId: league.id,
-        },
-        // leagueId: league.id,
-        // snapshotData: latestSnapshot.value,
-      })
-    }
-  }
 
   toast.add({
     icon: 'i-heroicons-check-20-solid',
     title: 'Saved',
   })
-
-  isEditing.value = false
-
   scrollY.value = 0
 }
-
-const onSnapshotUpdated = (updatedSnapshotData: any) => (latestSnapshot.value = updatedSnapshotData)
 
 const onEditLeague = async () => {
   if (!league.value) return
@@ -249,6 +207,7 @@ const onEditLeague = async () => {
   })
 
   leagueFormData.value = await result
+  latestUnsavedPlayers.value = leagueFormData.value.players
 }
 </script>
 
@@ -295,12 +254,7 @@ const onEditLeague = async () => {
               @click="onEditLeague"
             />
 
-            <UButton
-              data-testid="league-save-button"
-              :loading="isUpdatingLeague || isUpdatingSnapshot || isCreatingSnapshot"
-              label="Save"
-              @click="save"
-            />
+            <UButton data-testid="league-save-button" :loading="isUpdatingLeague" label="Save" @click="save" />
           </UButtonGroup>
         </div>
       </div>
@@ -323,17 +277,15 @@ const onEditLeague = async () => {
               v-if="league.players.length === 0"
               icon="i-ph-users-three-light"
               :label="`Add some players to the ${league.name}`"
-              :disabled="isEditing"
-              @click="isEditing = !isEditing"
             />
             <League
               v-else
+              v-model:latest-unsaved-="latestUnsavedSnapshot"
               :league-id="league.id"
-              :snapshots="league.snapshots"
+              :snapshots="league.snapshots.map((s) => SnapshotSchem.parse(s))"
               :league-configuration="league.configuration"
               :league="league"
-              :players="league.players"
-              @snapshot-changed="onSnapshotUpdated"
+              :players="latestUnsavedPlayers.map((p) => SnapshotPlayerSchema.parse(p))"
             />
           </div>
         </div>

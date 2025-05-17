@@ -1,31 +1,37 @@
 <script lang="ts" setup>
-import type { Player, Snapshot, LeagueConfiguration } from '@zenstackhq/runtime/models'
+import type { Player, LeagueConfiguration } from '@zenstackhq/runtime/models'
 import { keys } from 'lodash-es'
 import { useBrowserLocation } from '@vueuse/core'
 import { DialogShareLeague } from '#components'
-import { SnapshotDataSchema } from '#shared/schemas'
+import { SnapshotDataSchema, type Snapshot, type SnapshotPlayer } from '#shared/schemas'
 
 const { players, snapshots, leagueConfiguration, leagueId } = defineProps<{
   leagueId: number
   leagueConfiguration: LeagueConfiguration
-  players: Player[]
+  players: SnapshotPlayer[]
   snapshots: Snapshot[]
 }>()
 
-const emit = defineEmits<{ (e: 'snapshotChanged', updatedSnapshotData: any): void }>()
+const latestUnsavedSnapshot = defineModel<Snapshot | undefined>('latestUnsavedSnapshot')
 
 const location = useBrowserLocation()
-
 const overlay = useOverlay()
 const { mutateAsync: createSnapshotAsync } = useCreateSnapshot()
 
 const shareLeagueDialog = overlay.create(DialogShareLeague)
 
 const snapshot = computed(() => {
-  const snapshotData = snapshots[0]
-  if (!snapshotData) return {}
+  const latestSavedSnapshot = snapshots[0]
 
-  return SnapshotDataSchema.parse(snapshotData.data)
+  let snapshotToUse: Snapshot = { data: {} }
+
+  if (latestUnsavedSnapshot.value) {
+    snapshotToUse = latestUnsavedSnapshot.value
+  } else if (latestSavedSnapshot) {
+    snapshotToUse = latestSavedSnapshot
+  }
+
+  return SnapshotDataSchema.parse(snapshotToUse.data)
 })
 
 const {
@@ -36,15 +42,11 @@ const {
   addPlayerToTeam,
   removePlayerFromTeam,
   teamThatChoseFirst,
-  getSnapshot,
 } = useTeamShuffle(snapshot)
 
 const { methodology } = shuffleMethodology
 
 const configuration = computed(() => leagueConfiguration)
-
-const isShowingProcess = ref(false)
-
 const numberOfGeneratedTeams = computed(() => keys(teams).length)
 
 const toggleBookmark = async () => {
@@ -59,19 +61,17 @@ const toggleBookmark = async () => {
 const onShuffleTeams = () => {
   const snapshotData = shuffle(players, configuration.value)
 
-  emit('snapshotChanged', snapshotData)
+  latestUnsavedSnapshot.value = {
+    data: snapshotData.value,
+  }
 }
 
 const addPlayer = (toTeam: number, at: number, player: Player) => {
   addPlayerToTeam(toTeam, at, player)
-
-  emit('snapshotChanged', getSnapshot())
 }
 
 const removePlayer = (fromTeam: number, at: number) => {
   removePlayerFromTeam(fromTeam, at)
-
-  emit('snapshotChanged', getSnapshot())
 }
 </script>
 
@@ -111,7 +111,7 @@ const removePlayer = (fromTeam: number, at: number) => {
         v-for="(snapshotPlayers, idx) in teams"
         :key="idx"
         data-testid="league-team"
-        :team-number="parseInt(idx as unknown as string)"
+        :team-number="parseInt(idx as unknown as string) + 1"
         :chose-first="teamThatChoseFirst == idx"
         :players="snapshotPlayers"
         @add-player="addPlayer"
@@ -122,7 +122,7 @@ const removePlayer = (fromTeam: number, at: number) => {
     <div v-if="numberOfGeneratedTeams > 0" class="flex justify-around py-2">
       <UAccordion :items="[{ label: ' How were teams chosen?', slot: 'methodology' }]">
         <template #methodology>
-          <UCard v-if="isShowingProcess" class="text-sm">
+          <UCard class="text-sm">
             <div class="not-italic">
               <h2 class="py-0 my-0">Strategy</h2>
               <ul class="pb-2 mx-5 list-disc">

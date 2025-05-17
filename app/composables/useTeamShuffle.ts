@@ -1,6 +1,6 @@
 import type { LeagueConfiguration, Player } from '@zenstackhq/runtime/models'
 import { groupBy, random, orderBy, filter, map, size, cloneDeep } from 'lodash-es'
-import { SnapshotDataSchema, type SnapshotData } from '#shared/schemas'
+import { SnapshotDataSchema, type SnapshotData, type SnapshotPlayer } from '#shared/schemas'
 
 export const useTeamShuffle = (snapshotData: Ref<SnapshotData>) => {
   const methodology = useMethodology()
@@ -15,13 +15,16 @@ export const useTeamShuffle = (snapshotData: Ref<SnapshotData>) => {
       const snapshotData = SnapshotDataSchema.parse(snapshot)
 
       if (size(snapshotData) > 0) {
+        let newTeams: SnapshotData = {}
+
         for (const teamKey in snapshotData) {
-          teams.value = {
-            ...teams.value,
+          newTeams = {
+            ...newTeams,
             [teamKey]: snapshotData[Number(teamKey)]!,
           }
         }
         isShuffled.value = true
+        teams.value = newTeams
       }
     },
     { immediate: true },
@@ -34,7 +37,7 @@ export const useTeamShuffle = (snapshotData: Ref<SnapshotData>) => {
    *
    * @returns Non-reactive snapshot of teams
    */
-  const shuffle = (players: Player[], options: LeagueConfiguration) => {
+  const shuffle = (players: SnapshotPlayer[], options: LeagueConfiguration) => {
     const onlyActivePlayers = filter(players, (player) => player.isActive)
     const groupedByRank = groupBy(onlyActivePlayers, 'rank')
 
@@ -42,14 +45,6 @@ export const useTeamShuffle = (snapshotData: Ref<SnapshotData>) => {
     teamThatChoseFirst.value = teamChoosing.value
 
     // Reset teams and methodology
-
-    // for (const key in teams) {
-    //   teams.value = {
-    //     ...teams.value,
-    //     [key]: [],
-    //   }
-    //   delete teams[key]
-    // }
 
     teams.value = {}
     methodology.reset()
