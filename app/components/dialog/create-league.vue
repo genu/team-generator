@@ -1,17 +1,18 @@
 <script lang="ts" setup>
 const { accountId } = defineProps<{ accountId: number }>()
-const emits = defineEmits<{ close: [] }>()
+const emits = defineEmits<{ close: [number] }>()
 
 const { mutateAsync: asyncCreateLeague, isPending: isCreatingLeague } = useCreateLeague()
 
 const { r$: leagueCreateForm } = useLeagueCreateForm()
+const toast = useToast()
 
 const onCreateLeague = async () => {
   const { valid, data } = await leagueCreateForm.$validate()
   if (!valid) {
     return
   }
-  await asyncCreateLeague({
+  const league = await asyncCreateLeague({
     data: {
       name: data.name,
       accountId,
@@ -20,9 +21,20 @@ const onCreateLeague = async () => {
         rules: {},
       },
     },
+    select: { id: true },
   })
 
-  emits('close')
+  if (!league) {
+    toast.add({
+      title: 'League creation failed',
+      description: 'Please try again later.',
+      color: 'error',
+    })
+
+    return
+  }
+
+  emits('close', league.id)
 }
 </script>
 
@@ -33,7 +45,7 @@ const onCreateLeague = async () => {
     </UFormField>
 
     <template #footer-right>
-      <UButton color="primary" :loading="isCreatingLeague" @click="onCreateLeague()">Create</UButton>
+      <UButton data-testid="btn-create-league" color="primary" :loading="isCreatingLeague" @click="onCreateLeague()">Create</UButton>
     </template>
   </OverlayModal>
 </template>

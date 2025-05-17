@@ -4,7 +4,7 @@ export const createFirstLeague = async (page: Page, leagueName: string) => {
   await page.getByTestId('btn-setup-league').click()
   await page.getByPlaceholder('League name').click()
   await page.getByPlaceholder('League name').fill(leagueName)
-  await page.getByRole('button', { name: 'Add League' }).click()
+  await page.getByTestId('btn-create-league').click()
 }
 
 export const createLeagueFromMenu = async (page: Page, leagueName: string) => {
@@ -12,7 +12,7 @@ export const createLeagueFromMenu = async (page: Page, leagueName: string) => {
   await page.getByRole('menuitem', { name: 'Create new League' }).click()
   await page.getByPlaceholder('League name').click()
   await page.getByPlaceholder('League name').fill(leagueName)
-  await page.getByRole('button', { name: 'Add League' }).click()
+  await page.getByTestId('btn-create-league').click()
 }
 
 export const addPlayer = async (page: Page, playerName: string) => {

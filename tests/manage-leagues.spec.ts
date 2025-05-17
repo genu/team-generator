@@ -1,5 +1,5 @@
-import { test, expect } from '@playwright/test'
 import { execSync } from 'child_process'
+import { test, expect } from '@playwright/test'
 import { createFirstLeague, createLeagueFromMenu } from './helpers/league.helper'
 
 test.describe('Managing leagues', () => {
@@ -50,7 +50,7 @@ test.describe('Managing leagues', () => {
 
     // Open the league menu
     await page.getByTestId('league-dropdown-button').click()
-    const leagues = await page.$$('[data-testid="league-dropdown"] a')
+    const leagues = await page.$$('.data-testid-league-dropdown-item')
     await expect(leagues).toHaveLength(2)
   })
 })

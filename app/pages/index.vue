@@ -20,8 +20,9 @@ const createAccount = async () => {
 
   const res = createLeagueDialog.open({ accountId: account.id })
 
-  await res.result
-  await navigateTo(`/${account.hash}`)
+  const leagueId = await res.result
+
+  await navigateTo(`/${account.hash}?league=${leagueId}`)
 }
 </script>
 

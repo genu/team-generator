@@ -78,7 +78,6 @@ const onShuffleTeams = () => {
       </div>
       <div class="flex items-center gap-2">
         <UButton
-          v-if="teams"
           color="neutral"
           icon="i-heroicons-share-20-solid"
           label="Share"

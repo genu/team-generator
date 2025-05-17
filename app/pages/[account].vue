@@ -49,13 +49,7 @@ const { mutateAsync: updateLeagueAsync, isPending: isUpdatingLeague } = useUpdat
 const { mutateAsync: duplicateLeagueAsync } = leagueActions.duplicate()
 
 const latestUnsavedSnapshot = ref<Snapshot>()
-const latestUnsavedPlayers = ref<EditPlayerForm[]>([])
 
-watchEffect(() => {
-  if (!league.value) return
-
-  latestUnsavedPlayers.value = league.value?.players
-})
 onServerPrefetch(async () => {
   await suspenseAccount()
   if (leagueId.value) await suspenseLeague()
@@ -69,10 +63,13 @@ const leagueMenu: DropdownMenuItem[] = [
   {
     label: 'Create new League',
     icon: 'i-ph-plus-square',
-    onSelect: () => {
+    onSelect: async () => {
       if (!account.value) return
 
-      createLeagueDialog.open({ accountId: account.value.id })
+      const res = createLeagueDialog.open({ accountId: account.value.id })
+      const leagueId = await res.result
+
+      await navigateTo(`/${account.value.hash}?league=${leagueId}`)
     },
   },
   {
@@ -122,6 +119,7 @@ const leaguesDropdown = computed<DropdownMenuItem[][]>(() => {
     account.value?.leagues.map((league) => ({
       label: league.name!,
       exactQuery: true,
+      class: 'data-testid-league-dropdown-item',
       exactActiveClass: 'bg-indigo-500 text-white',
       to: `/${account.value?.hash}?league=${league.id}`,
     })) || []
@@ -207,7 +205,8 @@ const onEditLeague = async () => {
   })
 
   leagueFormData.value = await result
-  latestUnsavedPlayers.value = leagueFormData.value.players
+  // latestUnsavedPlayers.value = leagueFormData.value.players
+  await saveLeague()
 }
 </script>
 
@@ -273,6 +272,7 @@ const onEditLeague = async () => {
 
           <div v-else>
             <Title>{{ league?.name }}</Title>
+
             <EmptyStateButton
               v-if="league.players.length === 0"
               icon="i-ph-users-three-light"
@@ -285,7 +285,7 @@ const onEditLeague = async () => {
               :snapshots="league.snapshots.map((s) => SnapshotSchem.parse(s))"
               :league-configuration="league.configuration"
               :league="league"
-              :players="latestUnsavedPlayers.map((p) => SnapshotPlayerSchema.parse(p))"
+              :players="league.players.map((p) => SnapshotPlayerSchema.parse(p))"
             />
           </div>
         </div>

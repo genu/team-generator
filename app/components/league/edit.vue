@@ -44,8 +44,10 @@ const onAddPlayer = async () => {
   }
 
   leagueEditForm.$value.players.push({
-    ...newPlayer,
     name: newPlayer.name.trim(),
+    rank: 1,
+    isActive: true,
+    isGoalie: false,
   })
 
   PlayerEditForm.$reset({ toInitialState: true })
@@ -70,6 +72,7 @@ const onClose = () => {
       icon: '',
     }"
     :ui="{
+      close: 'data-testid-edit-close-button',
       body: 'px-0 py-0 sm:p-0',
       header: 'bg-tertiary border-0',
       title: 'text-inverted',
@@ -119,6 +122,7 @@ const onClose = () => {
           </div>
           <div>
             <UTable
+              data-testid="table-player-list"
               :data="leagueEditForm.$value.players"
               :columns="[
                 {
@@ -164,9 +168,10 @@ const onClose = () => {
         <USeparator orientation="vertical" />
         <div class="flex flex-col gap-2 flex-1">
           <UAccordion
+            default-value="options"
             :unmount-on-hide="false"
             :items="[
-              { label: 'League Options', slot: 'options' },
+              { value: 'options', label: 'League Options', slot: 'options' },
               { label: 'Rules', slot: 'rules' },
             ]"
             type="single"
@@ -185,6 +190,7 @@ const onClose = () => {
                     testid="edit-team-name"
                     size="lg"
                     placeholder="League Name"
+                    data-testid="edit-team-name-input"
                     :ui="{ root: 'flex items-center gap-2' }"
                   />
                 </UFormField>

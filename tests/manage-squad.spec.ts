@@ -1,5 +1,5 @@
-import { test, expect } from '@playwright/test'
 import { execSync } from 'child_process'
+import { test, expect } from '@playwright/test'
 import { createFirstLeague, addPlayer } from './helpers/league.helper'
 
 test.describe('Managing Squad', () => {
@@ -13,12 +13,12 @@ test.describe('Managing Squad', () => {
     await page.getByTestId('squad-edit-button').click()
     await addPlayer(page, 'Lionel Messi')
 
-    let players = await page.$$('table.table-player-list tbody tr')
-    await expect(players).toHaveLength(1)
+    const players = await page.getByTestId('table-player-list').locator('tbody tr')
+    expect(players).toHaveCount(1)
 
     await addPlayer(page, 'Cristiano Ronaldo')
-    players = await page.$$('table.table-player-list tbody tr')
-    await expect(players).toHaveLength(2)
+    const updatedPlayers = await page.getByTestId('table-player-list').locator('tbody tr')
+    expect(updatedPlayers).toHaveCount(2)
   })
 
   test('Update league name', async ({ page }) => {
@@ -28,6 +28,7 @@ test.describe('Managing Squad', () => {
 
     await page.getByTestId('edit-team-name-input').click()
     await page.getByTestId('edit-team-name-input').fill('updated')
+    await page.locator('.data-testid-edit-close-button').click()
 
     await expect(page.getByTestId('league-dropdown-button')).toContainText('updated')
   })
@@ -43,7 +44,7 @@ test.describe('Managing Squad', () => {
     await addPlayer(page, 'Neymar')
     await addPlayer(page, 'Kylian Mbappe')
 
-    await page.getByTestId('squad-edit-button').click()
+    await page.locator('.data-testid-edit-close-button').click()
 
     await page.getByTestId('league-shuffle').click()
 
@@ -52,8 +53,8 @@ test.describe('Managing Squad', () => {
 
     // Update team number to 3
     await page.getByTestId('squad-edit-button').click()
-    await page.getByTestId('edit-team-count-input').fill('3')
-    await page.getByTestId('squad-edit-button').click()
+    await page.getByRole('spinbutton', { name: '# of Teams:' }).fill('3')
+    await page.getByRole('button', { name: 'Close' }).click()
     await page.getByTestId('league-shuffle').click()
 
     teams = await page.$$('[data-testid="league-team"]')
