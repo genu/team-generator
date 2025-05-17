@@ -10,14 +10,7 @@ export interface EditPlayerForm {
 }
 
 export const usePlayerEditForm = () => {
-  const form: EditPlayerForm = {
-    name: '',
-    rank: 1,
-    isActive: true,
-    isGoalie: false,
-  }
-
-  return useRegle(form, {
+  return useRegle({} as EditPlayerForm, {
     name: {
       required,
     },

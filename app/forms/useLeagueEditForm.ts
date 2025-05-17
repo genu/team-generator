@@ -19,16 +19,7 @@ export interface LeagueEditForm {
 }
 
 export const useLeagueEditForm = () => {
-  const form: LeagueEditForm = {
-    options: {
-      name: '',
-      teamCount: 2,
-      rules: {},
-    },
-    players: [],
-  }
-
-  return useRegle(form, {
+  return useRegle({} as LeagueEditForm, {
     options: {
       name: { required },
     },

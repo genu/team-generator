@@ -9,7 +9,7 @@
     "schema": "./prisma/schema.zmodel"
   },
   "scripts": {
-    "build": "prisma generate && prisma migrate deploy && nuxt build",
+    "build": "zenstack generate && prisma migrate deploy && nuxt build",
     "clean": "nuxt cleanup && rm -rf node_modules .generated .nuxt",
     "dev": "nuxt dev",
     "start": "node .output/server/index.mjs",
@@ -21,8 +21,8 @@
     "docker:down": "docker-compose down",
     "test": "pnpm docker:up -d && playwright test && pnpm docker:down",
     "test:db": "pnpm docker:down && pnpm docker:up",
-    "test:dev": "dotenv -e .env.test -- prisma migrate dev && nuxt dev --dotenv .env.test",
-    "test:ci": "dotenv -e .env.test -- prisma migrate dev && nuxt build --dotenv .env.test && nuxt preview --dotenv .env.test",
+    "test:dev": "dotenv -e .env.test -- zenstack generate && prisma migrate dev && nuxt dev --dotenv .env.test",
+    "test:ci": "dotenv -e .env.test -- zenstack generate && prisma migrate dev && nuxt build --dotenv .env.test && nuxt preview --dotenv .env.test",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "prisma": "prisma",

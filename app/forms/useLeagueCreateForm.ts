@@ -6,11 +6,7 @@ export interface CreateLeagueForm {
 }
 
 export const useLeagueCreateForm = () => {
-  const form: CreateLeagueForm = {
-    name: '',
-  }
-
-  return useRegle(form, {
+  return useRegle({} as CreateLeagueForm, {
     name: {
       required: withMessage(required, 'League name is required'),
     },
