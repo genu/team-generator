@@ -24,27 +24,18 @@ jobs:
       DATABASE_URL: postgresql://test:test@localhost:5432/test
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: oven-sh/setup-bun@v2
         with:
-          node-version: 22
-
-      - uses: actions/cache@v4
-        with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-
+          bun-version: latest
 
       - name: Install dependencies
-        run: |
-          npm install -g pnpm
-          pnpm install
+        run: bun i
 
       - name: Install Playwright Browsers
-        run: pnpm playwright install --with-deps
+        run: bun playwright install --with-deps
 
       - name: Run Playwright tests
-        run: pnpm playwright test
+        run: bun playwright test
 
       - uses: actions/upload-artifact@v4
         if: always()
