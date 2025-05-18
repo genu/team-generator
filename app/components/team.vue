@@ -12,12 +12,11 @@ type SortRemoveEvent = {
   oldIndex: number
 }
 
-const { shirtColor = 'black', ...props } = defineProps<{
-  shirtColor?: string
+const props = defineProps<{
+  teamColor?: ShirtColorEnum
   teamName: string
   teamNumber: number
   players: SnapshotPlayer[]
-  choseFirst?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -42,10 +41,10 @@ const rank = computed(() => {
       </h2>
       <span class="absolute top-0 left-0 px-2 text-xs text-white bg-green-500">Rank {{ rank }}</span>
       <div
-        v-if="shirtColor"
+        v-if="teamColor"
         class="bg-amber-300 w-12 h-6 absolute right-1 top-1 p-1.5 text-xs flex items-center justify-around font-medium rounded-sm"
       >
-        {{ shirtColor }}
+        {{ teamColor }}
       </div>
     </div>
     <SlickList

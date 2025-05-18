@@ -231,7 +231,7 @@ const onClose = async () => {
                 </DevOnly>
                 <UFormField
                   size="lg"
-                  :error="leagueEditForm.$errors.options.teamColors && leagueEditForm.$errors.options.teamColors[0]!"
+                  :error="(leagueEditForm.$errors.options.teamColors as unknown as string[])[0]"
                   :ui="{
                     root: 'flex items-center gap-2',
                     labelWrapper: 'flex justify-end',

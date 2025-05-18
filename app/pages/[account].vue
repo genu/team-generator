@@ -10,11 +10,8 @@ const leagueActions = useLeagueActions()
 const accountHash = useRouteParams('account', undefined, { transform: String })
 const leagueId = useRouteQuery('league', undefined, { transform: (value) => (value ? parseInt(value) : undefined) })
 
-const route = useRoute()
 const { y: scrollY } = useScroll(import.meta.client ? window : null)
 const toast = useToast()
-
-const { latest } = useUtils()
 
 const createLeagueDialog = overlay.create(DialogCreateLeague)
 const editLeagueDrawer = overlay.create(LeagueEdit)
@@ -142,7 +139,7 @@ const saveLeague = async () => {
       name: leagueFormData.value.options.name,
       configuration: {
         teamCount: leagueFormData.value.options.teamCount,
-        teamColors: leagueFormData.value.options.useTeamColors,
+        teamColors: leagueFormData.value.options.teamColors,
         rules: leagueFormData.value.options.rules,
       },
       players: {
@@ -195,6 +192,7 @@ const onEditLeague = async () => {
       options: {
         name: league.value.name!,
         teamCount: league.value.configuration.teamCount,
+        teamColors: league.value.configuration.teamColors as ShirtColorEnum[],
         rules: {
           keepGoalies: league.value.configuration.rules.keepGoalies!,
           goaliesFirst: league.value.configuration.rules.goaliesFirst!,
@@ -206,7 +204,7 @@ const onEditLeague = async () => {
   })
 
   leagueFormData.value = await result
-  // latestUnsavedPlayers.value = leagueFormData.value.players
+
   await saveLeague()
 }
 </script>

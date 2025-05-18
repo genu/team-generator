@@ -29,7 +29,7 @@ export const useLeagueEditForm = () => {
       teamColors: {
         conditionalRequire: withMessage(
           and(
-            requiredIf(() => form.value.options.useTeamColors === true),
+            requiredIf(() => form.value.options.useTeamColors),
             minLength(1),
           ),
           'Team colors are required',

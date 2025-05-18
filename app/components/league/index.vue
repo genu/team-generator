@@ -105,7 +105,6 @@ const onShuffleTeams = () => {
         data-testid="league-team"
         :team-name="`Team ${parseInt(idx as unknown as string) + 1}`"
         :team-number="parseInt(idx as unknown as string)"
-        :chose-first="teamThatChoseFirst == idx"
         :players="snapshotPlayers"
         @move-player="movePlayer"
         @add-player="addPlayerToTeam"
