@@ -3,8 +3,8 @@ import { test, expect } from '@playwright/test'
 import { createFirstLeague, addPlayer } from './helpers/league.helper'
 
 test.describe('Managing Squad', () => {
-  test.beforeAll(async () => execSync('pnpm dotenv -e .env.test -- pnpm prisma migrate reset --force'))
-  test.afterAll(async () => execSync('pnpm dotenv -e .env.test -- pnpm prisma migrate reset --force'))
+  test.beforeAll(async () => execSync('bun dotenv -e .env.test -- bun prisma migrate reset --force'))
+  test.afterAll(async () => execSync('bun dotenv -e .env.test -- bun prisma migrate reset --force'))
 
   test('Add a player', async ({ page }) => {
     await page.goto('/', { waitUntil: 'networkidle', timeout: 60000 })
