@@ -11,6 +11,7 @@ const emits = defineEmits<{
 }>()
 
 const toast = useToast()
+const { colors } = useShirtColors()
 
 const { r$: PlayerEditForm } = usePlayerEditForm()
 const { r$: leagueEditForm } = useLeagueEditForm()
@@ -54,31 +55,36 @@ const onAddPlayer = async () => {
 }
 
 const onRemovePlayer = (index: number) => leagueEditForm.$value.players.splice(index, 1)
-const onClose = () => {
-  emits('close', leagueEditForm.$value)
+const onClose = async () => {
+  const { valid } = await leagueEditForm.$validate()
+
+  if (valid) emits('close', leagueEditForm.$value)
 }
 </script>
 
 <template>
   <UModal
     fullscreen
-    title="Edit League"
-    :close="{
-      variant: 'soft',
-      color: 'neutral',
-      size: 'md',
-      label: 'Hide',
-      onClick: onClose,
-      icon: '',
-    }"
     :ui="{
       close: 'data-testid-edit-close-button',
       body: 'px-0 py-0 sm:p-0',
-      header: 'bg-tertiary border-0',
+      header: 'bg-tertiary border-0 flex justify-between',
       title: 'text-inverted',
       content: 'data-[state=open]:animate-[slide-in-from-top_200ms_ease-out] data-[state=closed]:animate-[slide-out-to-top_200ms_ease-in]',
     }"
   >
+    <template #header>
+      <span class="text-inverted font-semibold">Edit League</span>
+      <UButton
+        label="Close"
+        data-testid="edit-league-close-button"
+        icon="i-ph-caret-up"
+        variant="solid"
+        color="neutral"
+        size="md"
+        @click="onClose"
+      />
+    </template>
     <template #body>
       <div class="flex flex-col-reverse w-full md:flex-row md:h-full">
         <div class="relative flex flex-col lg:w-2/4 gap-">
@@ -209,6 +215,46 @@ const onClose = () => {
                     :increment="{ color: 'info', variant: 'solid', size: 'sm' }"
                     :decrement="{ color: 'info', variant: 'solid', size: 'sm' }"
                   />
+                </UFormField>
+                <DevOnly>
+                  <UFormField
+                    size="lg"
+                    :error="leagueEditForm.$errors.options.useTeamColors && leagueEditForm.$errors.options.useTeamColors[0]"
+                    :ui="{ root: 'flex items-center gap-2', labelWrapper: 'flex justify-end', wrapper: 'w-28', container: 'flex-1' }"
+                  >
+                    <UCheckbox
+                      v-model="leagueEditForm.$value.options.useTeamColors"
+                      label="Use Team Colors"
+                      description="Assign shirt colors for teams"
+                    />
+                  </UFormField>
+                </DevOnly>
+                <UFormField
+                  size="lg"
+                  :error="leagueEditForm.$errors.options.teamColors && leagueEditForm.$errors.options.teamColors[0]!"
+                  :ui="{
+                    root: 'flex items-center gap-2',
+                    labelWrapper: 'flex justify-end',
+                    wrapper: 'w-28',
+                    container: 'flex-1',
+                  }"
+                >
+                  <USelect
+                    v-if="leagueEditForm.$value.options.useTeamColors"
+                    v-model="leagueEditForm.$value.options.teamColors"
+                    :items="colors"
+                    multiple
+                    value-key="name"
+                    label-key="name"
+                    placeholder="Select Team Colors"
+                    :ui="{ base: 'flex w-full', content: 'w-full', viewport: 'yo', group: 'yo', label: 'hi', value: 'yo' }"
+                  >
+                    <template #item-label="{ item }">
+                      <div :style="{ backgroundColor: item.background, color: item.foreground }" class="p-1 rounded-md bg-gray-200">
+                        {{ item.name }}
+                      </div>
+                    </template>
+                  </USelect>
                 </UFormField>
               </div>
             </template>

@@ -12,17 +12,13 @@ type SortRemoveEvent = {
   oldIndex: number
 }
 
-const props = withDefaults(
-  defineProps<{
-    teamName: string
-    teamNumber: number
-    players: SnapshotPlayer[]
-    choseFirst?: boolean
-  }>(),
-  {
-    choseFirst: false,
-  },
-)
+const { shirtColor = 'black', ...props } = defineProps<{
+  shirtColor?: string
+  teamName: string
+  teamNumber: number
+  players: SnapshotPlayer[]
+  choseFirst?: boolean
+}>()
 
 const emit = defineEmits<{
   movePlayer: [number, number]
@@ -45,7 +41,12 @@ const rank = computed(() => {
         <span class="ml-1 text-xs">({{ players.length }} players)</span>
       </h2>
       <span class="absolute top-0 left-0 px-2 text-xs text-white bg-green-500">Rank {{ rank }}</span>
-      <UIcon v-if="choseFirst" name="i-heroicons-star-20-solid" class="absolute top-0 right-0 m-1 text-lg text-amber-600" />
+      <div
+        v-if="shirtColor"
+        class="bg-amber-300 w-12 h-6 absolute right-1 top-1 p-1.5 text-xs flex items-center justify-around font-medium rounded-sm"
+      >
+        {{ shirtColor }}
+      </div>
     </div>
     <SlickList
       :list="props.players"

@@ -4,7 +4,10 @@ type LeagueRules {
     keepGoalies          Boolean? @default(false)
 }
 
+
 type LeagueConfiguration {
-    teamCount Int
-    rules     LeagueRules
+    teamCount     Int
+    useTeamColors Boolean?
+    teamColors    String[]?
+    rules         LeagueRules
 }

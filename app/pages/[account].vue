@@ -142,6 +142,7 @@ const saveLeague = async () => {
       name: leagueFormData.value.options.name,
       configuration: {
         teamCount: leagueFormData.value.options.teamCount,
+        teamColors: leagueFormData.value.options.useTeamColors,
         rules: leagueFormData.value.options.rules,
       },
       players: {
