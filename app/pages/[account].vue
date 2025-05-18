@@ -243,15 +243,7 @@ const onEditLeague = async () => {
         </h2>
         <div class="flex md:mt-0 md:ml-4 gap-4">
           <UButtonGroup size="lg">
-            <UButton
-              data-testid="squad-edit-button"
-              variant="soft"
-              color="neutral"
-              label="Edit"
-              :disabled="isUpdatingLeague"
-              @click="onEditLeague"
-            />
-
+            <UButton variant="soft" color="neutral" label="Edit" :disabled="isUpdatingLeague" @click="onEditLeague" />
             <UButton data-testid="league-save-button" :loading="isUpdatingLeague" label="Save" @click="save" />
           </UButtonGroup>
         </div>

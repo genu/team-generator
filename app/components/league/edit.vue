@@ -75,15 +75,7 @@ const onClose = async () => {
   >
     <template #header>
       <span class="text-inverted font-semibold">Edit League</span>
-      <UButton
-        label="Close"
-        data-testid="edit-league-close-button"
-        icon="i-ph-caret-up"
-        variant="solid"
-        color="neutral"
-        size="md"
-        @click="onClose"
-      />
+      <UButton label="Close" icon="i-ph-caret-up" variant="solid" color="neutral" size="md" @click="onClose" />
     </template>
     <template #body>
       <div class="flex flex-col-reverse w-full md:flex-row md:h-full">
@@ -98,7 +90,6 @@ const onClose = async () => {
               </UFormField>
 
               <UButton
-                data-testid="add-player-button"
                 color="success"
                 icon="i-ph-plus-bold"
                 label="Add Player"
@@ -174,7 +165,6 @@ const onClose = async () => {
         <USeparator orientation="vertical" />
         <div class="flex flex-col gap-2 flex-1">
           <UAccordion
-            default-value="options"
             :unmount-on-hide="false"
             :items="[
               { value: 'options', label: 'League Options', slot: 'options' },
@@ -196,7 +186,6 @@ const onClose = async () => {
                     testid="edit-team-name"
                     size="lg"
                     placeholder="League Name"
-                    data-testid="edit-team-name-input"
                     :ui="{ root: 'flex items-center gap-2' }"
                   />
                 </UFormField>

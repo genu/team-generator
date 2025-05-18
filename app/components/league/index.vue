@@ -84,7 +84,7 @@ const onShuffleTeams = () => {
           variant="ghost"
           @click="shareLeagueDialog.open({ shareUrl: location.href! })"
         />
-        <UButton data-testid="league-shuffle" @click="onShuffleTeams">Shuffle Teams</UButton>
+        <UButton @click="onShuffleTeams">Shuffle Teams</UButton>
       </div>
     </div>
     <div class="flex justify-end">

@@ -45,7 +45,7 @@ const onCreateLeague = async () => {
     </UFormField>
 
     <template #footer-right>
-      <UButton data-testid="btn-create-league" color="primary" :loading="isCreatingLeague" @click="onCreateLeague()">Create</UButton>
+      <UButton color="primary" :loading="isCreatingLeague" @click="onCreateLeague()">Create</UButton>
     </template>
   </OverlayModal>
 </template>

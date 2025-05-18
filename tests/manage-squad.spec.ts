@@ -1,6 +1,6 @@
 import { execSync } from 'child_process'
 import { test, expect } from '@playwright/test'
-import { createFirstLeague, addPlayer } from './helpers/league.helper'
+import { createFirstLeague, addPlayer, getNumberOfLeagues, getNumberOfTeams } from './helpers/league.helper'
 
 test.describe('Managing Squad', () => {
   test.beforeAll(async () => execSync('bun dotenv -e .env.test -- bun prisma migrate reset --force'))
@@ -10,7 +10,7 @@ test.describe('Managing Squad', () => {
     await page.goto('/', { waitUntil: 'networkidle', timeout: 60000 })
     await createFirstLeague(page, 'La Liga')
 
-    await page.getByTestId('squad-edit-button').click()
+    await page.getByRole('button', { name: 'Edit' }).click()
     await addPlayer(page, 'Lionel Messi')
 
     const players = await page.getByTestId('table-player-list').locator('tbody tr')
@@ -24,19 +24,20 @@ test.describe('Managing Squad', () => {
   test('Update league name', async ({ page }) => {
     await page.goto('/', { waitUntil: 'networkidle', timeout: 60000 })
     await createFirstLeague(page, 'La Liga')
-    await page.getByTestId('squad-edit-button').click()
 
-    await page.getByTestId('edit-team-name-input').click()
-    await page.getByTestId('edit-team-name-input').fill('updated')
-    await page.locator('.data-testid-edit-close-button').click()
+    await page.getByRole('button', { name: 'Edit' }).click()
+    await page.getByRole('button', { name: 'League Options' }).click()
+    await page.getByRole('textbox', { name: 'League Name' }).fill('updated')
+    await page.getByRole('button', { name: 'Close' }).click()
 
     await expect(page.getByTestId('league-dropdown-button')).toContainText('updated')
+    await expect(await getNumberOfLeagues(page)).toBe(1)
   })
 
   test('Update number of teams', async ({ page }) => {
     await page.goto('/', { waitUntil: 'networkidle', timeout: 60000 })
     await createFirstLeague(page, 'La Liga')
-    await page.getByTestId('squad-edit-button').click()
+    await page.getByRole('button', { name: 'Edit' }).click()
 
     // Add 4 players
     await addPlayer(page, 'Lionel Messi')
@@ -44,20 +45,18 @@ test.describe('Managing Squad', () => {
     await addPlayer(page, 'Neymar')
     await addPlayer(page, 'Kylian Mbappe')
 
-    await page.locator('.data-testid-edit-close-button').click()
+    await page.getByRole('button', { name: 'Close' }).click()
+    await page.getByRole('button', { name: 'Shuffle Teams' }).click()
 
-    await page.getByTestId('league-shuffle').click()
-
-    let teams = await page.$$('[data-testid="league-team"]')
-    await expect(teams).toHaveLength(2)
+    await expect(await getNumberOfTeams(page)).toBe(2)
 
     // Update team number to 3
-    await page.getByTestId('squad-edit-button').click()
+    await page.getByRole('button', { name: 'Edit' }).click()
+    await page.getByRole('button', { name: 'League Options' }).click()
     await page.getByRole('spinbutton', { name: '# of Teams:' }).fill('3')
     await page.getByRole('button', { name: 'Close' }).click()
-    await page.getByTestId('league-shuffle').click()
+    await page.getByRole('button', { name: 'Shuffle Teams' }).click()
 
-    teams = await page.$$('[data-testid="league-team"]')
-    await expect(teams).toHaveLength(3)
+    await expect(await getNumberOfTeams(page)).toBe(3)
   })
 })

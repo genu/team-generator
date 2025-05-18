@@ -37,7 +37,7 @@ const createAccount = async () => {
     </h2>
     <div class="absolute top-0 left-0 flex flex-col w-full py-5 mt-14 lg:mt-20">
       <div class="w-full px-2">
-        <EmptyStateButton data-testid="btn-setup-league" icon="i-ph-users-three-light" label="Setup a league" @click="createAccount" />
+        <EmptyStateButton icon="i-ph-users-three-light" label="Setup a league" @click="createAccount" />
       </div>
     </div>
   </div>

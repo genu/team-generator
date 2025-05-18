@@ -1,6 +1,6 @@
 import { execSync } from 'child_process'
 import { test, expect } from '@playwright/test'
-import { createFirstLeague, createLeagueFromMenu } from './helpers/league.helper'
+import { createFirstLeague, createLeagueFromMenu, getNumberOfLeagues } from './helpers/league.helper'
 
 test.describe('Managing leagues', () => {
   test.beforeAll(async () => execSync('bun dotenv -e .env.test -- bun prisma migrate reset --force'))
@@ -11,7 +11,7 @@ test.describe('Managing leagues', () => {
     await createFirstLeague(page, 'La Liga')
 
     // await expect
-    await expect(page.getByTestId('league-dropdown-button')).toContainText('La Liga')
+    await expect(await page.getByTestId('league-dropdown-button')).toContainText('La Liga')
   })
 
   test('deleting a league', async ({ page }) => {
@@ -24,7 +24,7 @@ test.describe('Managing leagues', () => {
     await page.getByRole('menuitem', { name: 'Delete this league' }).click()
     await page.getByRole('button', { name: 'Yes' }).click()
 
-    await expect(page.getByTestId('league-dropdown-button')).toContainText('Select League')
+    await expect(await page.getByTestId('league-dropdown-button')).toContainText('Select League')
   })
 
   test('duplicate a league', async ({ page }) => {
@@ -36,7 +36,7 @@ test.describe('Managing leagues', () => {
     await page.getByTestId('league-dropdown-button').click()
     await page.getByRole('menuitem', { name: 'Duplicate League' }).click()
 
-    await expect(page.getByTestId('league-dropdown-button')).toContainText('La Liga (copy)')
+    await expect(await page.getByTestId('league-dropdown-button')).toContainText('La Liga (copy)')
   })
 
   test('creating a new league from menu', async ({ page }) => {
@@ -49,8 +49,6 @@ test.describe('Managing leagues', () => {
     await expect(page.getByTestId('league-dropdown-button')).toContainText('Premier League')
 
     // Open the league menu
-    await page.getByTestId('league-dropdown-button').click()
-    const leagues = await page.$$('.data-testid-league-dropdown-item')
-    await expect(leagues).toHaveLength(2)
+    await expect(await getNumberOfLeagues(page)).toBe(2)
   })
 })
