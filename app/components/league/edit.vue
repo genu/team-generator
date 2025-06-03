@@ -16,7 +16,7 @@
   const addPlayerForm = useTemplateRef("addPlayerFormRef")
 
   const { values: leagueForm, ...form } = useForm({
-    id: "Test",
+    id: "Test2",
     schema: LeagueEditFormSchema,
     initialValues: {
       players: [
@@ -28,6 +28,10 @@
         },
       ],
     },
+  })
+
+  onMounted(() => {
+    form.reset({ value: league })
   })
 
   // const { values: leagueForm, ...form } = useForm({

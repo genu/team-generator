@@ -1,9 +1,10 @@
 <script lang="ts" setup>
   import { useRouteQuery } from "@vueuse/router"
   import type { DropdownMenuItem } from "@nuxt/ui"
+  import { useForm } from "@formwerk/core"
   import { DialogCreateLeague, LeagueEdit } from "#components"
   import { SnapshotPlayerSchema, SnapshotSchem, type Snapshot } from "#shared/schemas"
-  import type { LeagueEditForm } from "#shared/schemas/forms"
+  import { LeagueEditFormSchema, type LeagueEditForm } from "#shared/schemas/forms"
 
   const { confirm } = useDialog()
   const overlay = useOverlay()
@@ -19,6 +20,21 @@
 
   const leagueFormData = ref<LeagueEditForm>()
   const localLeagueFormData = ref<LeagueEditForm | null>(null)
+
+  const { values: leagueForm, ...form } = useForm({
+    id: "Test",
+    schema: LeagueEditFormSchema,
+    initialValues: {
+      players: [
+        {
+          name: "yo",
+          isActive: true,
+          isGoalie: true,
+          rank: 8,
+        },
+      ],
+    },
+  })
 
   const {
     data: account,
