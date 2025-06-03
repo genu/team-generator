@@ -1,6 +1,6 @@
-import { first, sortBy } from 'lodash-es'
+import { first, sortBy } from "lodash-es"
 
-export const latest = (list: any[], property = 'createdAt') => {
+export const latest = (list: any[], property = "createdAt") => {
   return first(
     sortBy(list, (item) => {
       const date = new Date(item[property])

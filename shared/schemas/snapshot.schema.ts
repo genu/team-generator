@@ -1,5 +1,5 @@
-import z from 'zod'
-import { PlayerSchema } from '~~/.generated/zod/models'
+import z from "zod"
+import { PlayerSchema } from "~~/.generated/zod/models"
 
 export type Snapshot = z.infer<typeof SnapshotSchem>
 export type SnapshotData = z.infer<typeof SnapshotDataSchema>
@@ -11,7 +11,7 @@ export const SnapshotPlayerSchema = PlayerSchema.pick({ name: true, rank: true, 
 export const SnapshotDataSchema = z.record(
   z.union([z.string(), z.number()]).transform((val) => {
     // Then transform to ensure it's a number
-    const num = typeof val === 'string' ? Number(val) : val
+    const num = typeof val === "string" ? Number(val) : val
 
     if (isNaN(num)) throw new Error(`Invalid numeric key: ${val}`)
 

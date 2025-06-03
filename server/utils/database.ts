@@ -1,8 +1,8 @@
-import { enhance } from '@zenstackhq/runtime'
-import { PrismaClient } from '@prisma/client'
+import { enhance } from "@zenstackhq/runtime"
+import { PrismaClient } from "@prisma/client"
 
 const sudo = new PrismaClient({
-  log: import.meta.dev ? ['info'] : [],
+  log: import.meta.dev ? ["info"] : [],
 })
 
 export const $database = () => {

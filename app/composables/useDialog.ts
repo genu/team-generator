@@ -1,4 +1,4 @@
-import { DialogConfirm } from '#components'
+import { DialogConfirm } from "#components"
 
 type CallbackFn = () => void | Promise<void>
 interface DialogInstance {
@@ -9,7 +9,7 @@ interface DialogInstance {
 export const useDialog = () => {
   const overlay = useOverlay()
 
-  const confirm = (options: Omit<InstanceType<typeof DialogConfirm>['$props'], 'onDismiss' | 'onConfirm' | 'class'>) => {
+  const confirm = (options: Omit<InstanceType<typeof DialogConfirm>["$props"], "onDismiss" | "onConfirm" | "class">) => {
     let confirmCallback: CallbackFn = () => {}
     let dismissCallback: CallbackFn = () => {}
 
@@ -49,8 +49,8 @@ export const useDialog = () => {
 
   const confirmNavigate = (path: string) => {
     confirm({
-      title: 'Leave this page?',
-      description: 'Are you sure you want to navigate away? Unsaved changes will be lost.',
+      title: "Leave this page?",
+      description: "Are you sure you want to navigate away? Unsaved changes will be lost.",
     }).onConfirm(() => {
       navigateTo(path)
     })

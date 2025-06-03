@@ -1,71 +1,70 @@
 <script lang="ts" setup>
-import type { Player, LeagueConfiguration } from '@zenstackhq/runtime/models'
-import { keys } from 'lodash-es'
-import { useBrowserLocation } from '@vueuse/core'
-import { DialogShareLeague } from '#components'
-import { SnapshotDataSchema, type Snapshot, type SnapshotPlayer } from '#shared/schemas'
+  import type { LeagueConfiguration } from "@zenstackhq/runtime/models"
+  import { keys } from "lodash-es"
+  import { useBrowserLocation } from "@vueuse/core"
+  import { DialogShareLeague } from "#components"
+  import { SnapshotDataSchema, type Snapshot, type SnapshotPlayer } from "#shared/schemas"
 
-const { players, snapshots, leagueConfiguration, leagueId } = defineProps<{
-  leagueId: number
-  leagueConfiguration: LeagueConfiguration
-  players: SnapshotPlayer[]
-  snapshots: Snapshot[]
-}>()
+  const { players, snapshots, leagueConfiguration, leagueId } = defineProps<{
+    leagueId: number
+    leagueConfiguration: LeagueConfiguration
+    players: SnapshotPlayer[]
+    snapshots: Snapshot[]
+  }>()
 
-const latestUnsavedSnapshot = defineModel<Snapshot | undefined>('latestUnsavedSnapshot')
+  const latestUnsavedSnapshot = defineModel<Snapshot | undefined>("latestUnsavedSnapshot")
 
-const location = useBrowserLocation()
-const overlay = useOverlay()
-const { mutateAsync: createSnapshotAsync } = useCreateSnapshot()
+  const location = useBrowserLocation()
+  const overlay = useOverlay()
+  const { mutateAsync: createSnapshotAsync } = useCreateSnapshot()
 
-const shareLeagueDialog = overlay.create(DialogShareLeague)
+  const shareLeagueDialog = overlay.create(DialogShareLeague)
 
-const snapshot = computed(() => {
-  const latestSavedSnapshot = snapshots[0]
+  const snapshot = computed(() => {
+    const latestSavedSnapshot = snapshots[0]
 
-  let snapshotToUse: Snapshot = { data: {} }
+    let snapshotToUse: Snapshot = { data: {} }
 
-  if (latestUnsavedSnapshot.value) {
-    snapshotToUse = latestUnsavedSnapshot.value
-  } else if (latestSavedSnapshot) {
-    snapshotToUse = latestSavedSnapshot
-  }
+    if (latestUnsavedSnapshot.value) {
+      snapshotToUse = latestUnsavedSnapshot.value
+    } else if (latestSavedSnapshot) {
+      snapshotToUse = latestSavedSnapshot
+    }
 
-  return SnapshotDataSchema.parse(snapshotToUse.data)
-})
-
-const {
-  shuffle,
-  methodology: shuffleMethodology,
-  teams,
-  isShuffled,
-  movePlayer,
-  addPlayerToTeam,
-  removePlayerFromTeam,
-  teamThatChoseFirst,
-} = useTeamShuffle(snapshot)
-
-const { methodology } = shuffleMethodology
-
-const configuration = computed(() => leagueConfiguration)
-const numberOfGeneratedTeams = computed(() => keys(teams).length)
-
-const toggleBookmark = async () => {
-  await createSnapshotAsync({
-    data: {
-      data: {},
-      leagueId,
-    },
+    return SnapshotDataSchema.parse(snapshotToUse.data)
   })
-}
 
-const onShuffleTeams = () => {
-  const snapshotData = shuffle(players, configuration.value)
+  const {
+    shuffle,
+    methodology: shuffleMethodology,
+    teams,
+    isShuffled,
+    movePlayer,
+    addPlayerToTeam,
+    removePlayerFromTeam,
+  } = useTeamShuffle(snapshot)
 
-  latestUnsavedSnapshot.value = {
-    data: snapshotData.value,
+  const { methodology } = shuffleMethodology
+
+  const configuration = computed(() => leagueConfiguration)
+  const numberOfGeneratedTeams = computed(() => keys(teams).length)
+
+  const toggleBookmark = async () => {
+    await createSnapshotAsync({
+      data: {
+        data: {},
+        leagueId,
+      },
+    })
   }
-}
+
+  const onShuffleTeams = () => {
+    const snapshotData = shuffle(players, configuration.value)
+
+    latestUnsavedSnapshot.value = {
+      data: snapshotData.value,
+    }
+  }
 </script>
 
 <template>
@@ -82,8 +81,7 @@ const onShuffleTeams = () => {
           icon="i-heroicons-share-20-solid"
           label="Share"
           variant="ghost"
-          @click="shareLeagueDialog.open({ shareUrl: location.href! })"
-        />
+          @click="shareLeagueDialog.open({ shareUrl: location.href! })" />
         <UButton @click="onShuffleTeams">Shuffle Teams</UButton>
       </div>
     </div>
@@ -92,8 +90,7 @@ const onShuffleTeams = () => {
         <UIcon
           name="i-heroicons-arrow-long-up-20-solid"
           class="text-4xl text-gray-400 animate-bounce"
-          style="--fa-bounce-jump-scale-y: 1"
-        />
+          style="--fa-bounce-jump-scale-y: 1" />
         <span class="block text-sm font-medium text-gray-900">Click to shuffle</span>
       </div>
     </div>
@@ -108,8 +105,7 @@ const onShuffleTeams = () => {
         :players="snapshotPlayers"
         @move-player="movePlayer"
         @add-player="addPlayerToTeam"
-        @remove-player="removePlayerFromTeam"
-      />
+        @remove-player="removePlayerFromTeam" />
     </div>
 
     <div v-if="numberOfGeneratedTeams > 0" class="flex justify-around py-2">

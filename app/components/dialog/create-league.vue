@@ -1,51 +1,53 @@
 <script lang="ts" setup>
-const { accountId } = defineProps<{ accountId: number }>()
-const emits = defineEmits<{ close: [number] }>()
+  import { useForm } from "@formwerk/core"
+  import { CreateLeagueFormSchema } from "#shared/schemas/forms"
 
-const { mutateAsync: asyncCreateLeague, isPending: isCreatingLeague } = useCreateLeague()
+  const { accountId } = defineProps<{ accountId: number }>()
+  const emits = defineEmits<{ close: [number] }>()
 
-const { r$: leagueCreateForm } = useLeagueCreateForm()
-const toast = useToast()
+  const { mutateAsync: asyncCreateLeague, isPending: loading } = useCreateLeague()
 
-const onCreateLeague = async () => {
-  const { valid, data } = await leagueCreateForm.$validate()
-  if (!valid) {
-    return
-  }
-  const league = await asyncCreateLeague({
-    data: {
-      name: data.name,
-      accountId,
-      configuration: {
-        teamCount: 2,
-        rules: {},
-      },
-    },
-    select: { id: true },
+  const form = useForm({
+    id: "CreateLeagueForm",
+    schema: CreateLeagueFormSchema,
   })
+  const toast = useToast()
 
-  if (!league) {
-    toast.add({
-      title: 'League creation failed',
-      description: 'Please try again later.',
-      color: 'error',
+  const onCreateLeague = form.handleSubmit(async (form) => {
+    const { name } = form.toJSON()
+
+    const league = await asyncCreateLeague({
+      data: {
+        name,
+        accountId,
+        configuration: {
+          teamCount: 2,
+          rules: {},
+        },
+      },
+      select: { id: true },
     })
 
-    return
-  }
+    if (!league) {
+      toast.add({
+        title: "League creation failed",
+        description: "Please try again later.",
+        color: "error",
+      })
 
-  emits('close', league.id)
-}
+      return
+    }
+
+    emits("close", league.id)
+  })
 </script>
 
 <template>
   <OverlayModal title="Create a League" size="xs">
-    <UFormField label="League name" size="xl" :error="leagueCreateForm.$errors.name[0]">
-      <UInput v-model="leagueCreateForm.$value.name" placeholder="League name" />
-    </UFormField>
+    <FormInput name="name" placeholder="League Name" />
 
     <template #footer-right>
-      <UButton color="primary" :loading="isCreatingLeague" @click="onCreateLeague()">Create</UButton>
+      <UButton color="primary" :loading @click="onCreateLeague()">Create</UButton>
     </template>
   </OverlayModal>
 </template>

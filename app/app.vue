@@ -1,18 +1,16 @@
 <script lang="ts" setup>
-import type { FetchFn } from '@zenstackhq/tanstack-query/runtime'
+  const {
+    public: { site },
+  } = useRuntimeConfig()
 
-const {
-  public: { site },
-} = useRuntimeConfig()
+  provideHooksContext({
+    endpoint: `${site.url}/api/model`,
+    logging: true,
+  })
 
-provideHooksContext({
-  endpoint: `${site.url}/api/model`,
-  logging: true,
-})
-
-useHead({
-  titleTemplate: (title) => title || 'Team Generator',
-})
+  useHead({
+    titleTemplate: (title) => title || "Team Generator",
+  })
 </script>
 
 <template>

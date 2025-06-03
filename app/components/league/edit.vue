@@ -1,65 +1,95 @@
 <script lang="ts" setup>
-import { filter } from 'lodash-es'
-import type { LeagueEditForm$ } from '~/forms/useLeagueEditForm'
+  import { useForm } from "@formwerk/core"
+  import { filter } from "lodash-es"
+  import { LeagueEditFormSchema, type LeagueEditForm, type PlayerEditForm } from "#shared/schemas/forms"
 
-const { league } = defineProps<{
-  league: LeagueEditForm$['$value']
-}>()
+  const { league } = defineProps<{
+    league: LeagueEditForm
+  }>()
 
-const emits = defineEmits<{
-  close: [LeagueEditForm$['$value']]
-}>()
+  const emits = defineEmits<{
+    close: [LeagueEditForm]
+  }>()
 
-const toast = useToast()
-const { colors } = useShirtColors()
+  const toast = useToast()
+  const { colors } = useShirtColors()
+  const addPlayerForm = useTemplateRef("addPlayerFormRef")
 
-const { r$: PlayerEditForm } = usePlayerEditForm()
-const { r$: leagueEditForm } = useLeagueEditForm()
-
-leagueEditForm.$reset({
-  toState: league,
-})
-
-const activeSquad = computed(() => filter(leagueEditForm.$value.players, { isActive: true }))
-
-const onAddPlayer = async () => {
-  const newPlayer = PlayerEditForm.$value
-
-  if (!newPlayer.name) {
-    toast.add({
-      title: 'Player name is required',
-      icon: 'i-heroicons-exclamation-triangle-solid',
-      color: 'warning',
-    })
-    return
-  }
-  const existingPlayer = leagueEditForm.$value.players.find((p) => p.name.toLowerCase() === newPlayer.name.trim().toLowerCase())
-
-  if (existingPlayer) {
-    toast.add({
-      title: 'Player already exists',
-      icon: 'i-heroicons-exclamation-triangle-solid',
-      color: 'warning',
-    })
-    return
-  }
-
-  leagueEditForm.$value.players.push({
-    name: newPlayer.name.trim(),
-    rank: 1,
-    isActive: true,
-    isGoalie: false,
+  const { values: leagueForm, ...form } = useForm({
+    id: "Test",
+    schema: LeagueEditFormSchema,
+    initialValues: {
+      players: [
+        {
+          name: "yo",
+          isActive: true,
+          isGoalie: true,
+          rank: 8,
+        },
+      ],
+    },
   })
 
-  PlayerEditForm.$reset({ toInitialState: true })
-}
+  // const { values: leagueForm, ...form } = useForm({
+  //   id: "LeagueEditForm",
+  //   schema: LeagueEditFormSchema,
+  //   // initialValues: LeagueEditFormSchema.parse(league),
+  //   initialValues: {
+  //     options: {
+  //       name: "poop",
+  //     },
+  //     players: [
+  //       {
+  //         name: "poop",
+  //         isActive: true,
+  //         isGoalie: false,
+  //         rank: 8,
+  //       },
+  //     ],
+  //   },
+  // })
 
-const onRemovePlayer = (index: number) => leagueEditForm.$value.players.splice(index, 1)
-const onClose = async () => {
-  const { valid } = await leagueEditForm.$validate()
+  const activeSquad = computed(() => filter(leagueForm.players, { isActive: true }))
 
-  if (valid) emits('close', leagueEditForm.$value)
-}
+  const onAddPlayer = async (player: PlayerEditForm) => {
+    const currentPlayers = leagueForm.players || []
+    const newPlayers = [...currentPlayers, player]
+
+    const existingPlayer = currentPlayers.find((p) => p.name.toLowerCase() === player.name.trim().toLowerCase())
+
+    if (existingPlayer) {
+      toast.add({
+        title: "Player already exists",
+        icon: "i-heroicons-exclamation-triangle-solid",
+        color: "warning",
+      })
+      return
+    }
+
+    form.setValue("players", newPlayers)
+
+    addPlayerForm.value?.reset()
+  }
+
+  const onRemovePlayer = (index: number) => {
+    const currentPlayers = leagueForm.players || []
+    const newPlayers = currentPlayers.filter((_, i) => i !== index)
+
+    form.setValue("players", newPlayers)
+  }
+
+  const onClose = form.handleSubmit((values) => {
+    const data = values.toJSON()
+
+    emits("close", data)
+  })
+
+  const onSetAllInactive = () => {
+    const currentPlayers = leagueForm.players || []
+    const newPlayers = currentPlayers.map((player) => ({ ...player, isActive: false }))
+
+    form.setValue("players", newPlayers)
+  }
 </script>
 
 <template>
@@ -70,9 +100,9 @@ const onClose = async () => {
       body: 'px-0 py-0 sm:p-0',
       header: 'bg-tertiary border-0 flex justify-between',
       title: 'text-inverted',
-      content: 'data-[state=open]:animate-[slide-in-from-top_200ms_ease-out] data-[state=closed]:animate-[slide-out-to-top_200ms_ease-in]',
-    }"
-  >
+      content:
+        'data-[state=open]:animate-[slide-in-from-top_200ms_ease-out] data-[state=closed]:animate-[slide-out-to-top_200ms_ease-in]',
+    }">
     <template #header>
       <span class="text-inverted font-semibold">Edit League</span>
       <UButton label="Close" icon="i-ph-caret-up" variant="solid" color="neutral" size="md" @click="onClose" />
@@ -83,36 +113,18 @@ const onClose = async () => {
           <div name="newPlayer" class="sticky z-50 items-center flex flex-col top-0 justify-between">
             <div class="bg-tertiary text-center text-sm text-inverted sticky top-0 w-full">Squad</div>
             <div
-              class="relative w-full flex items-center justify-end bg-tertiary dark:bg-gray-800 border-gray-800 border p-2 border-t-0 -mt-px"
-            >
-              <UFormField :error="PlayerEditForm.$errors.name[0]">
-                <UInput v-model="PlayerEditForm.$value.name" placeholder="Player Name" @keyup.enter="onAddPlayer" />
-              </UFormField>
-
-              <UButton
-                color="success"
-                icon="i-ph-plus-bold"
-                label="Add Player"
-                size="xs"
-                :ui="{ base: 'absolute mr-2' }"
-                @click="onAddPlayer"
-              />
+              class="relative w-full flex items-center justify-end bg-tertiary dark:bg-gray-800 border-gray-800 border p-2 border-t-0 -mt-px">
+              <FormsAddPlayer ref="addPlayerFormRef" @add-player="onAddPlayer" />
             </div>
             <div
-              v-if="leagueEditForm.$value.players.length > 0"
-              class="p-2 bg-tertiary w-full rounded-b-md flex justify-between items-center"
-            >
-              <UButton
-                label="Set All Inactive"
-                color="neutral"
-                size="sm"
-                @click="() => leagueEditForm.$value.players.forEach((player) => (player.isActive = false))"
-              />
+              v-if="leagueForm.players?.length && leagueForm.players.length > 0"
+              class="p-2 bg-tertiary w-full rounded-b-md flex justify-between items-center">
+              <UButton label="Set All Inactive" color="neutral" size="sm" @click="() => onSetAllInactive()" />
               <div class="text-inverted flex items-center justify-between px-2 text-sm">
                 <span class="font-medium">Active Players</span>
                 <span class="ml-1 font-semibold">
                   <span class="text-primary">{{ activeSquad.length }}</span>
-                  / {{ leagueEditForm.$value.players.length }}
+                  / {{ leagueForm.players?.length }}
                 </span>
               </div>
             </div>
@@ -120,7 +132,7 @@ const onClose = async () => {
           <div>
             <UTable
               data-testid="table-player-list"
-              :data="leagueEditForm.$value.players"
+              :data="leagueForm.players"
               :columns="[
                 {
                   header: 'Active?',
@@ -133,11 +145,10 @@ const onClose = async () => {
                 { id: 'actions' },
               ]"
               class="flex-1 max-h-full"
-              :ui="{ thead: leagueEditForm.$value.players.length === 0 ? 'hidden' : '', td: 'p-1.5', th: 'py-1.5 px-2' }"
-            >
+              :ui="{ thead: leagueForm.players?.length === 0 ? 'hidden' : '', td: 'p-1.5', th: 'py-1.5 px-2' }">
               <template #isActive-cell="{ row }">
                 <div class="flex items-center justify-center">
-                  <USwitch v-model="row.original.isActive" size="lg" />
+                  <FormSwitch :name="`players.${row.index}.isActive`" size="lg" />
                 </div>
               </template>
               <template #name-cell="{ row }">
@@ -145,12 +156,16 @@ const onClose = async () => {
               </template>
               <template #rank-cell="{ row }">
                 <div class="w-24">
-                  <UInputNumber v-model="row.original.rank" :min="1" :max="10" :step="1" size="lg" name="rank" />
+                  <FormInputNumber :name="`players.${row.index}.rank`" size="lg" :min="1" :max="10" :step="1" />
                 </div>
               </template>
               <template #isGoalie-cell="{ row }">
                 <div class="flex items-center justify-center">
-                  <UCheckbox v-model="row.original.isGoalie" size="xl" color="neutral" :ui="{ root: 'justify-around' }" />
+                  <FormCheckbox
+                    :name="`players.${row.index}.isGoalie`"
+                    size="xl"
+                    color="neutral"
+                    :ui="{ input: { root: 'justify-around' } }" />
                 </div>
               </template>
               <template #actions-cell="{ row }">
@@ -160,6 +175,7 @@ const onClose = async () => {
               </template>
               <template #empty>There no players in this league</template>
             </UTable>
+            <pre>{{ leagueForm.players }}</pre>
           </div>
         </div>
         <USeparator orientation="vertical" />
@@ -171,108 +187,84 @@ const onClose = async () => {
               { label: 'Rules', slot: 'rules' },
             ]"
             type="single"
-            :ui="{ content: 'flex flex-col gap-1.5', trigger: 'px-2' }"
-          >
+            :ui="{ trigger: 'px-2' }">
             <template #options>
-              <div class="p-2 flex flex-col gap-2">
-                <UFormField
-                  label="League Name:"
+              <FormGroup name="options" class="flex flex-col gap-2 p-2">
+                <FormInput
+                  name="name"
                   size="lg"
-                  :error="leagueEditForm.$errors.options.name[0]"
-                  :ui="{ root: 'flex items-center gap-2', labelWrapper: 'flex justify-end', wrapper: 'w-28', container: 'flex-1' }"
-                >
-                  <UInput
-                    v-model="leagueEditForm.$value.options.name"
-                    testid="edit-team-name"
-                    size="lg"
-                    placeholder="League Name"
-                    :ui="{ root: 'flex items-center gap-2' }"
-                  />
-                </UFormField>
-
-                <UFormField
+                  placeholder="League Name"
+                  label="League Name:"
+                  :ui="{
+                    field: { root: 'flex items-center gap-2', labelWrapper: 'flex justify-end', wrapper: 'w-28', container: 'flex-1' },
+                    input: { root: 'flex items-center gap-2' },
+                  }" />
+                <FormInputNumber
+                  name="teamCount"
                   label="# of Teams:"
                   size="lg"
-                  :error="leagueEditForm.$errors.options.teamCount[0]"
-                  :ui="{ root: 'flex items-center gap-2', labelWrapper: 'flex justify-end', wrapper: 'w-28', container: 'flex-1' }"
-                >
-                  <UInputNumber
-                    v-model="leagueEditForm.$value.options.teamCount"
-                    testid="edit-team-count"
-                    :ui="{ root: 'w-28' }"
-                    :min="0"
-                    :increment="{ color: 'info', variant: 'solid', size: 'sm' }"
-                    :decrement="{ color: 'info', variant: 'solid', size: 'sm' }"
-                  />
-                </UFormField>
-                <DevOnly>
-                  <UFormField
-                    size="lg"
-                    :error="leagueEditForm.$errors.options.useTeamColors && leagueEditForm.$errors.options.useTeamColors[0]"
-                    :ui="{ root: 'flex items-center gap-2', labelWrapper: 'flex justify-end', wrapper: 'w-28', container: 'flex-1' }"
-                  >
-                    <UCheckbox
-                      v-model="leagueEditForm.$value.options.useTeamColors"
-                      label="Use Team Colors"
-                      description="Assign shirt colors for teams"
-                    />
-                  </UFormField>
-                </DevOnly>
-                <UFormField
-                  size="lg"
-                  :error="(leagueEditForm.$errors.options.teamColors as unknown as string[])[0]"
+                  placeholder="Team Count"
                   :ui="{
-                    root: 'flex items-center gap-2',
-                    labelWrapper: 'flex justify-end',
-                    wrapper: 'w-28',
-                    container: 'flex-1',
+                    field: { root: 'flex items-center gap-2', labelWrapper: 'flex justify-end', wrapper: 'w-28', container: 'flex-1' },
+                    input: { root: 'w-28' },
                   }"
-                >
-                  <USelect
-                    v-if="leagueEditForm.$value.options.useTeamColors"
-                    v-model="leagueEditForm.$value.options.teamColors"
-                    :items="colors"
-                    multiple
+                  :increment="{ color: 'info', variant: 'solid', size: 'sm' }"
+                  :decrement="{ color: 'info', variant: 'solid', size: 'sm' }" />
+
+                <DevOnly>
+                  <FormCheckbox
+                    :ui="{
+                      field: {
+                        root: 'flex items-center gap-2',
+                        labelWrapper: 'flex justify-end',
+                        wrapper: 'w-28',
+                        container: 'flex-1',
+                      },
+                    }"
+                    size="lg"
+                    color="info"
+                    name="useTeamColors"
+                    label="Use Team Colors"
+                    description="Assign shirt colors for teams" />
+
+                  <FormSelect
+                    v-if="leagueForm.options?.useTeamColors"
+                    name="teamColors"
+                    size="lg"
+                    placeholder="Select Team Colors"
                     value-key="name"
                     label-key="name"
-                    placeholder="Select Team Colors"
-                    :ui="{ base: 'flex w-full', content: 'w-full', viewport: 'yo', group: 'yo', label: 'hi', value: 'yo' }"
-                  >
-                    <template #item-label="{ item }">
-                      <div :style="{ backgroundColor: item.background, color: item.foreground }" class="p-1 rounded-md bg-gray-200">
-                        {{ item.name }}
+                    :items="colors"
+                    multiple
+                    :ui="{
+                      field: {
+                        root: 'flex items-center gap-2',
+                        labelWrapper: 'flex justify-end',
+                        wrapper: 'w-28',
+                        container: 'flex-1',
+                      },
+                      input: { base: 'flex w-full', content: 'w-full' },
+                    }">
+                    <template #input-item-label="{ item }">
+                      <div
+                        :style="{ backgroundColor: (item as ShirtColor).background, color: (item as ShirtColor).foreground }"
+                        class="p-1 rounded-md bg-gray-200">
+                        {{ (item as ShirtColor).name }}
                       </div>
                     </template>
-                  </USelect>
-                </UFormField>
-              </div>
+                  </FormSelect>
+                </DevOnly>
+              </FormGroup>
             </template>
             <template #rules>
-              <div class="p-2 flex flex-col gap-2">
-                <USwitch
-                  v-model="leagueEditForm.$value.options.rules.goaliesFirst"
-                  testid="config-goalies-first"
-                  label="Choose goalies first"
-                />
-                <USwitch
-                  v-model="leagueEditForm.$value.options.rules.noBestGolieAndPlayer"
+              <FormGroup name="rules" class="flex flex-col gap-2 p-2">
+                <FormCheckbox name="goaliesFirst" label="Choose goalies first" />
+                <FormCheckbox
+                  name="noBestGolieAndPlayer"
                   disabled
-                  testid="config-no-best-goalies-and-player"
-                  label="Best goalie cannot be on same team with best player (soon)"
-                />
-                <USwitch
-                  v-model="leagueEditForm.$value.options.rules.keepGoalies"
-                  disabled
-                  testid="config-keepGoalies"
-                  label="Keep goalies (soon)"
-                />
-                <USwitch
-                  v-model="leagueEditForm.$value.options.rules.beniMode"
-                  disabled
-                  testid="config-beniMode"
-                  label="Every player on the same team as Beni drops in rank by 1 point (soon)"
-                />
-              </div>
+                  label="Best goalie cannot be on same team with best player (soon)" />
+                <FormCheckbox name="keepGoalies" label="Keep goalies (soon)" disabled />
+              </FormGroup>
             </template>
           </UAccordion>
         </div>

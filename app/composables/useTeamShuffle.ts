@@ -1,6 +1,6 @@
-import type { LeagueConfiguration, Player } from '@zenstackhq/runtime/models'
-import { groupBy, random, orderBy, filter, map, size, cloneDeep } from 'lodash-es'
-import { SnapshotDataSchema, type SnapshotData, type SnapshotPlayer } from '#shared/schemas'
+import type { LeagueConfiguration, Player } from "@zenstackhq/runtime/models"
+import { groupBy, random, orderBy, filter, map, size, cloneDeep } from "lodash-es"
+import { SnapshotDataSchema, type SnapshotData, type SnapshotPlayer } from "#shared/schemas"
 
 export const useTeamShuffle = (snapshotData: Ref<SnapshotData>) => {
   const methodology = useMethodology()
@@ -39,7 +39,7 @@ export const useTeamShuffle = (snapshotData: Ref<SnapshotData>) => {
    */
   const shuffle = (players: SnapshotPlayer[], options: LeagueConfiguration) => {
     const onlyActivePlayers = filter(players, (player) => player.isActive)
-    const groupedByRank = groupBy(onlyActivePlayers, 'rank')
+    const groupedByRank = groupBy(onlyActivePlayers, "rank")
 
     teamChoosing.value = random(0, options.teamCount - 1)
     teamThatChoseFirst.value = teamChoosing.value
@@ -57,11 +57,11 @@ export const useTeamShuffle = (snapshotData: Ref<SnapshotData>) => {
     if (options.rules?.goaliesFirst) {
       const goalKeepers = orderBy(
         filter(players, (player) => player.isGoalie && player.isActive),
-        ['rank'],
-        ['desc'],
+        ["rank"],
+        ["desc"],
       )
 
-      methodology.write(`Choosing Goalkeepers first (${map(goalKeepers, 'name').join(', ')})`)
+      methodology.write(`Choosing Goalkeepers first (${map(goalKeepers, "name").join(", ")})`)
 
       while (goalKeepers.length > 0) {
         const randomGoalkeeper = goalKeepers.splice(0, 1)[0] as Player
@@ -77,7 +77,7 @@ export const useTeamShuffle = (snapshotData: Ref<SnapshotData>) => {
         // Next team chooses
         teamChoosing.value = (teamChoosing.value + 1) % options.teamCount
       }
-      methodology.write('Finished selecting goalkeepers')
+      methodology.write("Finished selecting goalkeepers")
     }
 
     while (rank > 0) {
@@ -109,7 +109,7 @@ export const useTeamShuffle = (snapshotData: Ref<SnapshotData>) => {
   }
 
   const movePlayer = (fromIndex: number, toIndex: number) => {
-    console.log('movePlayer', fromIndex, toIndex)
+    console.log("movePlayer", fromIndex, toIndex)
   }
 
   const addPlayerToTeam = (toTeam: number, at: number, player: SnapshotPlayer) => {

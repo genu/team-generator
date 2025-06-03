@@ -1,4 +1,4 @@
-import { latest } from './useLatest'
+import { latest } from "./useLatest"
 
 export const useUtils = () => {
   return { latest }

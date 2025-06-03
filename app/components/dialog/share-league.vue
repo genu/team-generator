@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-const { shareUrl } = defineProps<{ shareUrl: string }>()
-const emits = defineEmits<{ close: [] }>()
+  const { shareUrl } = defineProps<{ shareUrl: string }>()
+  const emits = defineEmits<{ close: [] }>()
 
-const { copy, copied } = useClipboard({ source: shareUrl })
+  const { copy, copied } = useClipboard({ source: shareUrl })
 </script>
 
 <template>

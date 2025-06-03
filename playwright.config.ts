@@ -1,32 +1,32 @@
-import { defineConfig, devices } from '@playwright/test'
+import { defineConfig, devices } from "@playwright/test"
 
 export default defineConfig({
-  testDir: './tests',
+  testDir: "./tests",
 
   fullyParallel: false,
   forbidOnly: !!process.env.CI,
   retries: 1,
   workers: 1,
-  reporter: 'html',
+  reporter: "html",
   use: {
-    baseURL: 'http://localhost:3001',
-    trace: 'on-first-retry',
+    baseURL: "http://localhost:3001",
+    trace: "on-first-retry",
   },
   projects: [
     {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      name: "chromium",
+      use: { ...devices["Desktop Chrome"] },
     },
     {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
+      name: "webkit",
+      use: { ...devices["Desktop Safari"] },
     },
   ],
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'bun test:dev',
-    url: 'http://localhost:3001',
+    command: "bun test:ci",
+    url: "http://localhost:3001",
     reuseExistingServer: !process.env.CI,
     timeout: 300000, // 5 minutes
   },

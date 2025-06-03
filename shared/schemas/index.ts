@@ -1,1 +1,1 @@
-export * from './snapshot.schema'
+export * from "./snapshot.schema"

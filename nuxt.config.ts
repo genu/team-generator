@@ -1,36 +1,36 @@
 export default defineNuxtConfig({
-  modules: ['@nuxt/ui', '@nuxt/eslint', '@vueuse/nuxt', '@hebilicious/vue-query-nuxt', '@regle/nuxt'],
+  modules: ["@nuxt/ui", "@nuxt/eslint", "@vueuse/nuxt", "@hebilicious/vue-query-nuxt"],
   imports: {
-    dirs: ['../.generated/vue-query', './composables/data', './.generated/zod', './forms'],
+    dirs: ["../.generated/vue-query", "./composables/data", "./.generated/zod"],
   },
-  css: ['~/assets/css/main.css'],
+  css: ["~/assets/css/main.css"],
   colorMode: {
-    preference: 'light',
+    preference: "light",
   },
   ui: {
     theme: {
-      colors: ['primary', 'secondary', 'tertiary', 'info', 'success', 'warning', 'error'],
+      colors: ["primary", "secondary", "tertiary", "info", "success", "warning", "error"],
     },
   },
   runtimeConfig: {
     public: {
-      logrocketAppId: '',
+      logrocketAppId: "",
       site: {
-        url: '',
+        url: "",
       },
     },
   },
   future: {
     compatibilityVersion: 4,
   },
-  compatibilityDate: '2024-10-26',
+  compatibilityDate: "2024-10-26",
   nitro: {
     imports: {
-      dirs: ['./server/helpers', './server/social-clients', './server/services', './server/flows', './.generated/zod'],
+      dirs: ["./server/helpers", "./server/social-clients", "./server/services", "./server/flows", "./.generated/zod"],
     },
   },
   typescript: {
-    typeCheck: process.env.NODE_ENV === 'production',
+    typeCheck: process.env.NODE_ENV === "production",
   },
   eslint: {
     config: {

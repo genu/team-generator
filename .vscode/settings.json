@@ -10,12 +10,12 @@
   "eslint.useFlatConfig": true,
   "eslint.format.enable": true,
   "files.exclude": {
-    "node_modules": true,
+    // "node_modules": true,
     "bun.lock": true,
     // Dotfiles
     ".{idea,nuxt,output,trigger,generated,data,github,gitignore,prettierignore,env.example}": true,
     // Config files
-    "{prettier,eslint,vitest}.config.{mjs,ts}": true,
+    // "{prettier,eslint,vitest}.config.{mjs,ts}": true,
     // JSON files
     "{railway,renovate}.json": true
   },

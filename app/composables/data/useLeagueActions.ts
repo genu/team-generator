@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from '@tanstack/vue-query'
+import { useMutation, useQueryClient } from "@tanstack/vue-query"
 
 export const useLeagueActions = () => {
   const queryClient = useQueryClient()
@@ -6,15 +6,15 @@ export const useLeagueActions = () => {
   const duplicate = () => {
     return useMutation({
       mutationFn: async (leagueId: number) => {
-        const res = await $fetch('/api/account/league/duplicate', {
-          method: 'POST',
+        const res = await $fetch("/api/account/league/duplicate", {
+          method: "POST",
           body: { id: leagueId },
         })
 
         return res
       },
-      onSuccess: ({ account }) => {
-        queryClient.invalidateQueries({ queryKey: ['zenstack', 'Account'] })
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["zenstack", "Account"] })
       },
     })
   }

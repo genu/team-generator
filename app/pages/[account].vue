@@ -1,212 +1,216 @@
 <script lang="ts" setup>
-import { useRouteQuery } from '@vueuse/router'
-import type { DropdownMenuItem } from '@nuxt/ui'
-import { DialogCreateLeague, LeagueEdit } from '#components'
-import { SnapshotPlayerSchema, SnapshotSchem, type Snapshot } from '#shared/schemas'
+  import { useRouteQuery } from "@vueuse/router"
+  import type { DropdownMenuItem } from "@nuxt/ui"
+  import { DialogCreateLeague, LeagueEdit } from "#components"
+  import { SnapshotPlayerSchema, SnapshotSchem, type Snapshot } from "#shared/schemas"
+  import type { LeagueEditForm } from "#shared/schemas/forms"
 
-const { confirm } = useDialog()
-const overlay = useOverlay()
-const leagueActions = useLeagueActions()
-const accountHash = useRouteParams('account', undefined, { transform: String })
-const leagueId = useRouteQuery('league', undefined, { transform: (value) => (value ? parseInt(value) : undefined) })
+  const { confirm } = useDialog()
+  const overlay = useOverlay()
+  const leagueActions = useLeagueActions()
+  const accountHash = useRouteParams("account", undefined, { transform: String })
+  const leagueId = useRouteQuery("league", undefined, { transform: (value) => (value ? parseInt(value) : undefined) })
 
-const { y: scrollY } = useScroll(import.meta.client ? window : null)
-const toast = useToast()
+  const { y: scrollY } = useScroll(import.meta.client ? window : null)
+  const toast = useToast()
 
-const createLeagueDialog = overlay.create(DialogCreateLeague)
-const editLeagueDrawer = overlay.create(LeagueEdit)
+  const createLeagueDialog = overlay.create(DialogCreateLeague)
+  const editLeagueDrawer = overlay.create(LeagueEdit)
 
-const leagueFormData = ref<LeagueEditForm$['$value']>()
+  const leagueFormData = ref<LeagueEditForm>()
+  const localLeagueFormData = ref<LeagueEditForm | null>(null)
 
-const {
-  data: account,
-  isLoading,
-  suspense: suspenseAccount,
-} = useFindUniqueAccount({
-  where: { hash: accountHash.value },
-  include: { leagues: { select: { id: true, name: true } } },
-})
+  const {
+    data: account,
+    isLoading,
+    suspense: suspenseAccount,
+  } = useFindUniqueAccount({
+    where: { hash: accountHash.value },
+    include: { leagues: { select: { id: true, name: true } } },
+  })
 
-const {
-  data: league,
-  isLoading: isLoadingLeague,
-  suspense: suspenseLeague,
-} = useFindUniqueLeague(
-  computed(() => ({
-    where: { id: leagueId.value },
-    include: { snapshots: true, players: { orderBy: { id: 'asc' } } },
-  })),
-  {
-    enabled: () => leagueId.value !== undefined,
-  },
-)
-
-const { mutateAsync: deleteLeagueAsync } = useDeleteLeague()
-const { mutateAsync: updateLeagueAsync, isPending: isUpdatingLeague } = useUpdateLeague()
-const { mutateAsync: duplicateLeagueAsync } = leagueActions.duplicate()
-
-const latestUnsavedSnapshot = ref<Snapshot>()
-
-onServerPrefetch(async () => {
-  await suspenseAccount()
-  if (leagueId.value) await suspenseLeague()
-})
-
-const leagueMenu: DropdownMenuItem[] = [
-  {
-    label: 'Your Leagues',
-    type: 'label',
-  },
-  {
-    label: 'Create new League',
-    icon: 'i-ph-plus-square',
-    onSelect: async () => {
-      if (!account.value) return
-
-      const res = createLeagueDialog.open({ accountId: account.value.id })
-      const leagueId = await res.result
-
-      await navigateTo(`/${account.value.hash}?league=${leagueId}`)
+  const {
+    data: league,
+    isLoading: isLoadingLeague,
+    suspense: suspenseLeague,
+  } = useFindUniqueLeague(
+    computed(() => ({
+      where: { id: leagueId.value },
+      include: { snapshots: true, players: { orderBy: { id: "asc" } } },
+    })),
+    {
+      enabled: () => leagueId.value !== undefined,
     },
-  },
-  {
-    label: 'Duplicate League',
-    icon: 'i-ph-copy',
-    onSelect: async () => {
-      if (!league.value) return
+  )
 
-      const { id } = await duplicateLeagueAsync(league.value.id!)
-      toast.add({
-        icon: 'i-heroicons-check-20-solid',
-        title: `"${league.value.name}" league duplicated`,
-      })
+  const { mutateAsync: deleteLeagueAsync } = useDeleteLeague()
+  const { mutateAsync: updateLeagueAsync, isPending: isUpdatingLeague } = useUpdateLeague()
+  const { mutateAsync: duplicateLeagueAsync } = leagueActions.duplicate()
 
-      leagueId.value = id
+  const latestUnsavedSnapshot = ref<Snapshot>()
+
+  onServerPrefetch(async () => {
+    await suspenseAccount()
+    if (leagueId.value) await suspenseLeague()
+  })
+
+  const leagueMenu: DropdownMenuItem[] = [
+    {
+      label: "Your Leagues",
+      type: "label",
     },
-  },
-  {
-    label: 'Delete this league',
-    slot: 'delete-league',
-    onSelect: async () => {
-      confirm({
-        title: 'Delete League',
-        description: `Are you sure you want to remove "${league.value?.name}" league?`,
-      })
-        .open()
-        .onConfirm(async () => {
-          if (!league.value) return
+    {
+      label: "Create new League",
+      icon: "i-ph-plus-square",
+      onSelect: async () => {
+        if (!account.value) return
 
-          const deletedLeague = await deleteLeagueAsync({
-            where: {
-              id: league.value.id,
-            },
-            select: { name: true },
-          })
-          toast.add({
-            icon: 'i-heroicons-check-20-solid',
-            title: `${deletedLeague?.name} deleted`,
-          })
+        const res = createLeagueDialog.open({ accountId: account.value.id })
+        const leagueId = await res.result
+
+        await navigateTo(`/${account.value.hash}?league=${leagueId}`)
+      },
+    },
+    {
+      label: "Duplicate League",
+      icon: "i-ph-copy",
+      onSelect: async () => {
+        if (!league.value) return
+
+        const { id } = await duplicateLeagueAsync(league.value.id!)
+        toast.add({
+          icon: "i-heroicons-check-20-solid",
+          title: `"${league.value.name}" league duplicated`,
         })
+
+        leagueId.value = id
+      },
     },
-  },
-]
+    {
+      label: "Delete this league",
+      slot: "delete-league",
+      onSelect: async () => {
+        confirm({
+          title: "Delete League",
+          description: `Are you sure you want to remove "${league.value?.name}" league?`,
+        })
+          .open()
+          .onConfirm(async () => {
+            if (!league.value) return
 
-const leaguesDropdown = computed<DropdownMenuItem[][]>(() => {
-  const mappedLeagues: DropdownMenuItem[] =
-    account.value?.leagues.map((league) => ({
-      label: league.name!,
-      exactQuery: true,
-      class: 'data-testid-league-dropdown-item',
-      exactActiveClass: 'bg-indigo-500 text-white',
-      to: `/${account.value?.hash}?league=${league.id}`,
-    })) || []
+            const deletedLeague = await deleteLeagueAsync({
+              where: {
+                id: league.value.id,
+              },
+              select: { name: true },
+            })
+            toast.add({
+              icon: "i-heroicons-check-20-solid",
+              title: `${deletedLeague?.name} deleted`,
+            })
+          })
+      },
+    },
+  ]
 
-  return [mappedLeagues, leagueMenu]
-})
+  const leaguesDropdown = computed<DropdownMenuItem[][]>(() => {
+    const mappedLeagues: DropdownMenuItem[] =
+      account.value?.leagues.map((league) => ({
+        label: league.name!,
+        exactQuery: true,
+        class: "data-testid-league-dropdown-item",
+        exactActiveClass: "bg-indigo-500 text-white",
+        to: `/${account.value?.hash}?league=${league.id}`,
+      })) || []
 
-const saveLeague = async () => {
-  if (!leagueFormData.value || !league.value) return
+    return [mappedLeagues, leagueMenu]
+  })
 
-  const snapshots = [...league.value.snapshots.map((s) => SnapshotSchem.parse(s))]
+  const saveLeague = async () => {
+    const formData = localLeagueFormData.value || leagueFormData.value
+    if (!formData || !league.value) return
 
-  if (latestUnsavedSnapshot.value) {
-    snapshots.push(latestUnsavedSnapshot.value)
+    const snapshots = [...league.value.snapshots.map((s) => SnapshotSchem.parse(s))]
+
+    if (latestUnsavedSnapshot.value) {
+      snapshots.push(latestUnsavedSnapshot.value)
+    }
+
+    await updateLeagueAsync({
+      data: {
+        accountId: league.value.accountId,
+        name: formData.options.name,
+        configuration: {
+          teamCount: formData.options.teamCount,
+          teamColors: formData.options.teamColors,
+          rules: formData.rules,
+        },
+        players: {
+          upsert: formData.players.map(({ id, ...player }) => ({
+            where: { id: id || -1 },
+            create: {
+              ...player,
+            },
+            update: {
+              ...player,
+            },
+          })),
+        },
+        snapshots: {
+          upsert: snapshots.map(({ id, ...snapshot }) => ({
+            where: { id: id || -1 },
+            create: {
+              ...snapshot,
+              data: snapshot.data!,
+            },
+            update: {
+              ...snapshot,
+              data: snapshot.data!,
+            },
+          })),
+        },
+      },
+      where: {
+        id: league.value?.id,
+      },
+    })
   }
 
-  await updateLeagueAsync({
-    data: {
-      accountId: league.value.accountId,
-      name: leagueFormData.value.options.name,
-      configuration: {
-        teamCount: leagueFormData.value.options.teamCount,
-        teamColors: leagueFormData.value.options.teamColors,
-        rules: leagueFormData.value.options.rules,
-      },
-      players: {
-        upsert: leagueFormData.value.players.map(({ id, ...player }) => ({
-          where: { id: id || -1 },
-          create: {
-            ...player,
-          },
-          update: {
-            ...player,
-          },
-        })),
-      },
-      snapshots: {
-        upsert: snapshots.map(({ id, ...snapshot }) => ({
-          where: { id: id || -1 },
-          create: {
-            ...snapshot,
-            data: snapshot.data!,
-          },
-          update: {
-            ...snapshot,
-            data: snapshot.data!,
-          },
-        })),
-      },
-    },
-    where: {
-      id: league.value?.id,
-    },
-  })
-}
+  const save = async () => {
+    await saveLeague()
+    localLeagueFormData.value = null
 
-const save = async () => {
-  await saveLeague()
+    toast.add({
+      icon: "i-heroicons-check-20-solid",
+      title: "Saved",
+    })
+    scrollY.value = 0
+  }
 
-  toast.add({
-    icon: 'i-heroicons-check-20-solid',
-    title: 'Saved',
-  })
-  scrollY.value = 0
-}
+  const onEditLeague = async () => {
+    if (!league.value) return
 
-const onEditLeague = async () => {
-  if (!league.value) return
-
-  const { result } = editLeagueDrawer.open({
-    league: {
+    const formData = localLeagueFormData.value || {
       id: league.value.id,
       options: {
         name: league.value.name!,
         teamCount: league.value.configuration.teamCount,
         teamColors: league.value.configuration.teamColors as ShirtColorEnum[],
-        rules: {
-          keepGoalies: league.value.configuration.rules.keepGoalies!,
-          goaliesFirst: league.value.configuration.rules.goaliesFirst!,
-          noBestGolieAndPlayer: league.value.configuration.rules.noBestGolieAndPlayer!,
-        },
+      },
+      rules: {
+        keepGoalies: league.value.configuration.rules.keepGoalies!,
+        goaliesFirst: league.value.configuration.rules.goaliesFirst!,
+        noBestGolieAndPlayer: league.value.configuration.rules.noBestGolieAndPlayer!,
       },
       players: league.value.players.map(({ id, name, isActive, isGoalie, rank }) => ({ id, name, isActive, isGoalie, rank })),
-    },
-  })
+    }
 
-  leagueFormData.value = await result
+    const { result } = editLeagueDrawer.open({
+      league: formData,
+    })
 
-  await saveLeague()
-}
+    localLeagueFormData.value = await result
+  }
 </script>
 
 <template>
@@ -219,11 +223,9 @@ const onEditLeague = async () => {
     </div>
     <div v-else class="relative flex flex-col">
       <div
-        class="sticky top-0 z-40 flex items-center justify-between w-full h-16 px-2 bg-gray-900 rounded-none lg:h-20 md:px-5 md:rounded-b-md"
-      >
+        class="sticky top-0 z-40 flex items-center justify-between w-full h-16 px-2 bg-gray-900 rounded-none lg:h-20 md:px-5 md:rounded-b-md">
         <h2
-          class="relative text-base flex items-center gap-2 font-bold text-white capitalize cursor-pointer md:text-2xl leading-7 sm:truncate sm:text-3xl sm:tracking-tight"
-        >
+          class="relative text-base flex items-center gap-2 font-bold text-white capitalize cursor-pointer md:text-2xl leading-7 sm:truncate sm:text-3xl sm:tracking-tight">
           <NuxtLink to="/" class="flex items-center">
             <UIcon name="i-ph-soccer-ball" class="text-3xl" />
           </NuxtLink>
@@ -234,8 +236,7 @@ const onEditLeague = async () => {
               data-testid="league-dropdown-button"
               color="neutral"
               variant="solid"
-              trailing-icon="i-heroicons-chevron-down-20-solid"
-            />
+              trailing-icon="i-heroicons-chevron-down-20-solid" />
             <template #delete-league-leading>
               <UIcon name="i-ph-trash" class="text-red-500 size-6" />
             </template>
@@ -259,7 +260,11 @@ const onEditLeague = async () => {
               <USkeleton v-for="n in 3" :key="n" class="flex-1 h-40" />
             </div>
           </div>
-          <EmptyStateButton v-else-if="!league" icon="i-ph-users-three-light" label="Create a league" @click="createLeagueDialog.open()" />
+          <EmptyStateButton
+            v-else-if="!league"
+            icon="i-ph-users-three-light"
+            label="Create a league"
+            @click="createLeagueDialog.open()" />
 
           <div v-else>
             <Title>{{ league?.name }}</Title>
@@ -267,8 +272,7 @@ const onEditLeague = async () => {
             <EmptyStateButton
               v-if="league.players.length === 0"
               icon="i-ph-users-three-light"
-              :label="`Add some players to the ${league.name}`"
-            />
+              :label="`Add some players to the ${league.name}`" />
             <League
               v-else
               v-model:latest-unsaved-="latestUnsavedSnapshot"
@@ -276,8 +280,7 @@ const onEditLeague = async () => {
               :snapshots="league.snapshots.map((s) => SnapshotSchem.parse(s))"
               :league-configuration="league.configuration"
               :league="league"
-              :players="league.players.map((p) => SnapshotPlayerSchema.parse(p))"
-            />
+              :players="league.players.map((p) => SnapshotPlayerSchema.parse(p))" />
           </div>
         </div>
       </div>

@@ -1,24 +1,24 @@
 export default defineAppConfig({
   ui: {
     colors: {
-      tertiary: 'indigo',
+      tertiary: "indigo",
     },
     formField: {
       slots: {
-        root: 'w-full',
+        root: "w-full",
       },
     },
     input: {
       defaultVariants: {
-        size: 'xl',
+        size: "xl",
       },
       slots: {
-        root: 'w-full',
+        root: "w-full",
       },
     },
     button: {
       defaultVariants: {
-        size: 'md',
+        size: "md",
       },
     },
   },
