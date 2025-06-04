@@ -12,6 +12,7 @@
   "files.exclude": {
     "node_modules": true,
     "bun.lock": true,
+    "**/schema.prisma": true,
     // Dotfiles
     ".{idea,nuxt,output,trigger,generated,data,github,gitignore,prettierignore,env.example}": true,
     // Config files
