@@ -50,7 +50,7 @@
     "eslint": "9.28.0",
     "eslint-config-prettier": "10.1.5",
     "eslint-plugin-prettier": "5.4.1",
-    "nuxt": "^3.17.4",
+    "nuxt": "^3.17.5",
     "prisma": "^6.9.0",
     "vue-tsc": "^2.2.10",
     "zenstack": "2.15.1"
@@ -72,7 +72,7 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3",
     "vue-slicksort": "^2.0.5",
-    "zod": "^3.25.49"
+    "zod": "^3.25.50"
   },
   "overrides": {
     "parse-url": "10.0.0"
