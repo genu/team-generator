@@ -6,7 +6,10 @@
     "node": "22.x"
   },
   "zenstack": {
-    "schema": "./prisma/schema.zmodel"
+    "schema": "./zenstack/schema.zmodel"
+  },
+  "prisma": {
+    "schema": "./zenstack/schema.prisma"
   },
   "scripts": {
     "build": "zenstack generate && prisma migrate deploy && nuxt build",
