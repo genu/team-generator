@@ -4,9 +4,9 @@
   "type": "module",
   "engines": {
     "node": "22.x",
-    "pnpm": "9.x"
+    "pnpm": "10.x"
   },
-  "packageManager": "pnpm@9.4.0",
+  "packageManager": "pnpm@10.12.1",
   "scripts": {
     "build": "prisma generate && prisma migrate deploy && nuxt build",
     "dev": "prisma migrate dev && nuxt dev",
