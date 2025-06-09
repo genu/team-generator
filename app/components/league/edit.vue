@@ -16,42 +16,10 @@
   const addPlayerForm = useTemplateRef("addPlayerFormRef")
 
   const { values: leagueForm, ...form } = useForm({
-    id: "Test2",
+    id: "LeagueEditForm",
     schema: LeagueEditFormSchema,
-    initialValues: {
-      players: [
-        {
-          name: "yo",
-          isActive: true,
-          isGoalie: true,
-          rank: 8,
-        },
-      ],
-    },
+    initialValues: LeagueEditFormSchema.parse(league),
   })
-
-  onMounted(() => {
-    form.reset({ value: league })
-  })
-
-  // const { values: leagueForm, ...form } = useForm({
-  //   id: "LeagueEditForm",
-  //   schema: LeagueEditFormSchema,
-  //   // initialValues: LeagueEditFormSchema.parse(league),
-  //   initialValues: {
-  //     options: {
-  //       name: "poop",
-  //     },
-  //     players: [
-  //       {
-  //         name: "poop",
-  //         isActive: true,
-  //         isGoalie: false,
-  //         rank: 8,
-  //       },
-  //     ],
-  //   },
-  // })
 
   const activeSquad = computed(() => filter(leagueForm.players, { isActive: true }))
 
@@ -179,7 +147,6 @@
               </template>
               <template #empty>There no players in this league</template>
             </UTable>
-            <pre>{{ leagueForm.players }}</pre>
           </div>
         </div>
         <USeparator orientation="vertical" />

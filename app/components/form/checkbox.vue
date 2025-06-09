@@ -15,12 +15,14 @@
     color?: CheckboxProps["color"]
   }
 
-  const { name, label, ...props } = defineProps<Props>()
+  const { name, label, value = undefined, modelValue = undefined, ...props } = defineProps<Props>()
 
   const { fieldValue, errorMessage, isDisabled, isTouched, ...field } = useCustomField<boolean | "indeterminate">({
     ...props,
     name,
     label: label || "",
+    value,
+    modelValue,
   })
 
   const setValueAndValidate = (value: boolean | "indeterminate") => {
