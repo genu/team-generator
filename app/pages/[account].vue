@@ -21,21 +21,6 @@
   const leagueFormData = ref<LeagueEditForm>()
   const localLeagueFormData = ref<LeagueEditForm | null>(null)
 
-  const { values: leagueForm, ...form } = useForm({
-    id: "Test",
-    schema: LeagueEditFormSchema,
-    initialValues: {
-      players: [
-        {
-          name: "yo",
-          isActive: true,
-          isGoalie: true,
-          rank: 8,
-        },
-      ],
-    },
-  })
-
   const {
     data: account,
     isLoading,
@@ -64,6 +49,16 @@
   const { mutateAsync: duplicateLeagueAsync } = leagueActions.duplicate()
 
   const latestUnsavedSnapshot = ref<Snapshot>()
+
+  const currentPlayers = computed(() => {
+    if (!localLeagueFormData.value && !league.value) return []
+
+    const players = localLeagueFormData.value?.players ?? league.value?.players
+
+    if (!players) return []
+
+    return players.map((p) => SnapshotPlayerSchema.parse(p))
+  })
 
   onServerPrefetch(async () => {
     await suspenseAccount()
@@ -142,6 +137,17 @@
     return [mappedLeagues, leagueMenu]
   })
 
+  const save = async () => {
+    await saveLeague()
+    localLeagueFormData.value = null
+
+    toast.add({
+      icon: "i-heroicons-check-20-solid",
+      title: "Saved",
+    })
+    scrollY.value = 0
+  }
+
   const saveLeague = async () => {
     const formData = localLeagueFormData.value || leagueFormData.value
     if (!formData || !league.value) return
@@ -190,17 +196,6 @@
         id: league.value?.id,
       },
     })
-  }
-
-  const save = async () => {
-    await saveLeague()
-    localLeagueFormData.value = null
-
-    toast.add({
-      icon: "i-heroicons-check-20-solid",
-      title: "Saved",
-    })
-    scrollY.value = 0
   }
 
   const onEditLeague = async () => {
@@ -296,7 +291,7 @@
               :snapshots="league.snapshots.map((s) => SnapshotSchem.parse(s))"
               :league-configuration="league.configuration"
               :league="league"
-              :players="league.players.map((p) => SnapshotPlayerSchema.parse(p))" />
+              :players="currentPlayers" />
           </div>
         </div>
       </div>
