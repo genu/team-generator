@@ -8,9 +8,6 @@
   "zenstack": {
     "schema": "./zenstack/schema.zmodel"
   },
-  "prisma": {
-    "schema": "./zenstack/schema.prisma"
-  },
   "scripts": {
     "build": "zenstack generate && prisma migrate deploy && nuxt build",
     "clean": "nuxt cleanup && rm -rf node_modules .generated .nuxt",
@@ -24,20 +21,21 @@
     "docker:down": "docker-compose down",
     "test": "bun docker:up -d && playwright test && bun docker:down",
     "test:db": "bun docker:down && bun docker:up",
-    "test:dev": "dotenv -e .env.test -- zenstack generate && prisma migrate dev && nuxt dev --dotenv .env.test",
-    "test:ci": "dotenv -e .env.test -- zenstack generate && prisma migrate dev && nuxt build --dotenv .env.test && nuxt preview --dotenv .env.test",
+    "test:dev": "zenstack generate && dotenv -e .env.test -- prisma migrate dev && nuxt dev --dotenv .env.test",
+    "test:ci": "zenstack generate && dotenv -e .env.test -- prisma migrate dev && nuxt build --dotenv .env.test && nuxt preview --dotenv .env.test",
+    "test:db:reset": "dotenv -e .env.test -- prisma migrate reset --force",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "prisma": "prisma",
+    "prisma": "dotenv -e .env -- prisma",
     "zenstack": "zenstack",
-    "db:repl": "zenstack repl",
     "db:generate": "zenstack generate",
-    "db:migrate": "prisma migrate",
+    "db:migrate": "dotenv -e .env -- prisma migrate",
     "playwright:ui": "playwright test --ui",
     "dotenv": "dotenv"
   },
   "devDependencies": {
     "@nuxt/eslint": "1.4.1",
+    "@nuxt/test-utils": "^3.19.1",
     "@playwright/test": "^1.53.0",
     "@tanstack/eslint-plugin-query": "5.78.0",
     "@types/lodash-es": "4.17.12",
@@ -49,9 +47,10 @@
     "dotenv-cli": "^8.0.0",
     "eslint": "9.29.0",
     "eslint-config-prettier": "10.1.5",
-    "eslint-plugin-prettier": "5.4.1",
+    "eslint-plugin-prettier": "5.5.0",
     "nuxt": "^3.17.5",
     "prisma": "^6.9.0",
+    "std-env": "^3.9.0",
     "vue-tsc": "^2.2.10",
     "zenstack": "2.15.1"
   },

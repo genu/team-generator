@@ -1,10 +1,10 @@
 <script lang="ts" setup>
   import { useRouteQuery } from "@vueuse/router"
   import type { DropdownMenuItem } from "@nuxt/ui"
-  import { useForm } from "@formwerk/core"
+  import type { LeagueConfiguration } from "@zenstackhq/runtime/models"
   import { DialogCreateLeague, LeagueEdit } from "#components"
   import { SnapshotPlayerSchema, SnapshotSchem, type Snapshot } from "#shared/schemas"
-  import { LeagueEditFormSchema, type LeagueEditForm } from "#shared/schemas/forms"
+  import type { LeagueEditForm } from "#shared/schemas/forms"
 
   const { confirm } = useDialog()
   const overlay = useOverlay()
@@ -125,14 +125,30 @@
   ]
 
   const leaguesDropdown = computed<DropdownMenuItem[][]>(() => {
-    const mappedLeagues: DropdownMenuItem[] =
+    let mappedLeagues: DropdownMenuItem[] =
       account.value?.leagues.map((league) => ({
+        id: league.id,
         label: league.name!,
         exactQuery: true,
         class: "data-testid-league-dropdown-item",
         exactActiveClass: "bg-indigo-500 text-white",
         to: `/${account.value?.hash}?league=${league.id}`,
       })) || []
+
+    if (localLeagueFormData.value) {
+      // Remove the current league from the dropdown
+      mappedLeagues = mappedLeagues.filter((league) => league.id !== localLeagueFormData.value?.id)
+
+      // Add the current locally edited league to the dropdown
+      mappedLeagues.push({
+        id: localLeagueFormData.value?.id,
+        label: localLeagueFormData.value?.options.name,
+        exactQuery: true,
+        class: "data-testid-league-dropdown-item",
+        exactActiveClass: "bg-indigo-500 text-white",
+        to: `/${account.value?.hash}?league=${localLeagueFormData.value?.id}`,
+      })
+    }
 
     return [mappedLeagues, leagueMenu]
   })
@@ -152,7 +168,7 @@
     const formData = localLeagueFormData.value || leagueFormData.value
     if (!formData || !league.value) return
 
-    const snapshots = [...league.value.snapshots.map((s) => SnapshotSchem.parse(s))]
+    const snapshots = league.value.snapshots.map((s) => SnapshotSchem.parse(s))
 
     if (latestUnsavedSnapshot.value) {
       snapshots.push(latestUnsavedSnapshot.value)
@@ -243,7 +259,7 @@
 
           <UDropdownMenu :items="leaguesDropdown" arrow size="lg" :disabled="isUpdatingLeague">
             <UButton
-              :label="league?.name || 'Select League'"
+              :label="localLeagueFormData?.options.name || league?.name || 'Select League'"
               data-testid="league-dropdown-button"
               color="neutral"
               variant="solid"
@@ -281,7 +297,7 @@
             <Title>{{ league?.name }}</Title>
 
             <EmptyStateButton
-              v-if="league.players.length === 0"
+              v-if="currentPlayers.length === 0"
               icon="i-ph-users-three-light"
               :label="`Add some players to the ${league.name}`"
               @click="onEditLeague" />
@@ -290,7 +306,7 @@
               v-model:latest-unsaved-="latestUnsavedSnapshot"
               :league-id="league.id"
               :snapshots="league.snapshots.map((s) => SnapshotSchem.parse(s))"
-              :league-configuration="league.configuration"
+              :league-configuration="localLeagueFormData!.options as LeagueConfiguration"
               :league="league"
               :players="currentPlayers" />
           </div>

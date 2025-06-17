@@ -68,7 +68,6 @@
   <UModal
     fullscreen
     :ui="{
-      close: 'data-testid-edit-close-button',
       body: 'px-0 py-0 sm:p-0',
       header: 'bg-tertiary border-0 flex justify-between',
       title: 'text-inverted',

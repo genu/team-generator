@@ -6,7 +6,7 @@ const sudo = new PrismaClient({
 })
 
 export const $database = () => {
-  const db = enhance(sudo, undefined, { logPrismaQuery: false })
+  const db = enhance(sudo, undefined, { logPrismaQuery: true })
 
   return {
     sudo,

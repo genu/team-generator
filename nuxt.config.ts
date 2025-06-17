@@ -1,5 +1,5 @@
 export default defineNuxtConfig({
-  modules: ["@nuxt/ui", "@nuxt/eslint", "@vueuse/nuxt", "@hebilicious/vue-query-nuxt"],
+  modules: ["@nuxt/ui", "@nuxt/eslint", "@vueuse/nuxt", "@hebilicious/vue-query-nuxt", "@nuxt/test-utils/module"],
   imports: {
     dirs: ["../.generated/vue-query", "./composables/data", "./.generated/zod"],
   },

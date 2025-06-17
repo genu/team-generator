@@ -1,16 +1,15 @@
-import { execSync } from "child_process"
 import { test, expect } from "@playwright/test"
 import { createFirstLeague, addPlayer, getNumberOfLeagues, getNumberOfTeams } from "./helpers/league.helper"
 
 test.describe("Managing Squad", () => {
-  test.beforeAll(async () => execSync("bun dotenv -e .env.test -- bun prisma migrate reset --force"))
-  test.afterAll(async () => execSync("bun dotenv -e .env.test -- bun prisma migrate reset --force"))
-
-  test("Add a player", async ({ page }) => {
+  test.beforeEach(async ({ page }) => {
+    // Create a league
     await page.goto("/", { waitUntil: "networkidle", timeout: 60000 })
     await createFirstLeague(page, "La Liga")
+  })
 
-    await page.getByRole("button", { name: "Edit" }).click()
+  test("Add a player", async ({ page }) => {
+    await page.getByRole("button", { name: "Edit", exact: true }).click()
     await addPlayer(page, "Lionel Messi")
 
     const players = await page.getByTestId("table-player-list").locator("tbody tr")
@@ -22,10 +21,7 @@ test.describe("Managing Squad", () => {
   })
 
   test("Update league name", async ({ page }) => {
-    await page.goto("/", { waitUntil: "networkidle", timeout: 60000 })
-    await createFirstLeague(page, "La Liga")
-
-    await page.getByRole("button", { name: "Edit" }).click()
+    await page.getByRole("button", { name: "Edit", exact: true }).click()
     await page.getByRole("button", { name: "League Options" }).click()
     await page.getByRole("textbox", { name: "League Name" }).fill("updated")
     await page.getByRole("button", { name: "Close" }).click()
@@ -35,9 +31,7 @@ test.describe("Managing Squad", () => {
   })
 
   test("Update number of teams", async ({ page }) => {
-    await page.goto("/", { waitUntil: "networkidle", timeout: 60000 })
-    await createFirstLeague(page, "La Liga")
-    await page.getByRole("button", { name: "Edit" }).click()
+    await page.getByRole("button", { name: "Edit", exact: true }).click()
 
     // Add 4 players
     await addPlayer(page, "Lionel Messi")
@@ -51,7 +45,7 @@ test.describe("Managing Squad", () => {
     await expect(await getNumberOfTeams(page)).toBe(2)
 
     // Update team number to 3
-    await page.getByRole("button", { name: "Edit" }).click()
+    await page.getByRole("button", { name: "Edit", exact: true }).click()
     await page.getByRole("button", { name: "League Options" }).click()
     await page.getByRole("spinbutton", { name: "# of Teams:" }).fill("3")
     await page.getByRole("button", { name: "Close" }).click()
