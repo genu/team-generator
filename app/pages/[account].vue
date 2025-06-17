@@ -283,7 +283,8 @@
             <EmptyStateButton
               v-if="league.players.length === 0"
               icon="i-ph-users-three-light"
-              :label="`Add some players to the ${league.name}`" />
+              :label="`Add some players to the ${league.name}`"
+              @click="onEditLeague" />
             <League
               v-else
               v-model:latest-unsaved-="latestUnsavedSnapshot"
