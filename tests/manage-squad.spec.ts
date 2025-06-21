@@ -16,8 +16,9 @@ test.describe("Managing Squad", () => {
     expect(players).toHaveCount(1)
 
     await addPlayer(page, "Cristiano Ronaldo")
-    const updatedPlayers = await page.getByTestId("table-player-list").locator("tbody tr")
-    expect(updatedPlayers).toHaveCount(2)
+
+    // Wait for the table to have exactly 2 rows - more reliable across browsers
+    await expect(page.getByTestId("table-player-list").locator("tbody tr")).toHaveCount(2, { timeout: 10000 })
   })
 
   test("Update league name", async ({ page }) => {
