@@ -1,16 +1,38 @@
 {
-  "files.exclude": {
-    // "**/.nuxt": true,
-    "**/.output": true,
-    "**/node_modules": true,
-    "**/dist": true
+  "editor.formatOnSave": false,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
   },
   "editor.quickSuggestions": {
-    "strings": true
+    "strings": "on"
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "eslint.useFlatConfig": true,
+  "eslint.format.enable": true,
+  "files.exclude": {
+    "node_modules": true,
+    "bun.lock": true,
+    "**/schema.prisma": true,
+    // Dotfiles
+    ".{idea,nuxt,output,trigger,generated,data,github,gitignore,prettierignore,env.example}": true,
+    // Config files
+    "{prettier,eslint,vitest}.config.{mjs,ts}": true,
+    // JSON files
+    "{railway,renovate}.json": true
   },
   "files.associations": {
-    "*.css": "tailwindcss",
-    "*.{env*}": "env"
+    "*.css": "tailwindcss"
   },
-  "tailwindCSS.experimental.configFile": "./config/tailwind.config.ts"
+  "vue.format.script.initialIndent": true,
+  "vue.format.style.initialIndent": true,
+  "vue.inlayHints.missingProps": true,
+  "tailwindCSS.classAttributes": ["class", "ui"],
+  "tailwindCSS.experimental.classRegex": [["ui:\\s*{([^)]*)\\s*}", "(?:'|\"|`)([^']*)(?:'|\"|`)"]],
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "[vue]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[zmodel]": {
+    "editor.defaultFormatter": "zenstack.zenstack"
+  }
 }

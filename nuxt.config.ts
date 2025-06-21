@@ -1,46 +1,52 @@
 export default defineNuxtConfig({
-  modules: ['@nuxtjs/google-fonts', '@vueuse/nuxt', '@nuxt/ui', '@floatie/widget-nuxt', '@formkit/nuxt'],
-  typescript: {
-    typeCheck: process.env.NODE_ENV === 'production',
+  modules: ["@nuxt/ui", "@nuxt/eslint", "@vueuse/nuxt", "@hebilicious/vue-query-nuxt", "@nuxt/test-utils/module"],
+  imports: {
+    dirs: ["../.generated/vue-query", "./composables/data", "./.generated/zod"],
+  },
+  css: ["~/assets/css/main.css"],
+  colorMode: {
+    preference: "light",
+  },
+  ui: {
+    theme: {
+      colors: ["primary", "secondary", "tertiary", "info", "success", "warning", "error"],
+    },
   },
   runtimeConfig: {
     public: {
-      logrocketAppId: '',
-    },
-  },
-  appConfig: {
-    umami: {
-      ignoreLocalhost: true,
-    },
-  },
-  imports: {
-    dirs: ['./composables/queries', './enum'],
-  },
-  /**
-   * Module configurations
-   **/
-  googleFonts: {
-    families: {
-      Inter: {
-        wght: [100, 200, 300, 400, 500, 600, 700, 800, 900],
+      logrocketAppId: "",
+      site: {
+        url: "",
       },
     },
   },
-  tailwindcss: {
-    configPath: '~/config/tailwind.config.ts',
+  future: {
+    compatibilityVersion: 4,
   },
-  ui: {
-    global: true,
-    icons: ['ph'],
+  compatibilityDate: "2024-10-26",
+  nitro: {
+    imports: {
+      dirs: ["./server/helpers", "./server/social-clients", "./server/services", "./server/flows", "./.generated/zod"],
+    },
   },
-  colorMode: {
-    preference: 'light',
+  typescript: {
+    typeCheck: process.env.NODE_ENV === "production",
   },
-  floatie: {
-    clientKey: process.env.NUXT_PUBLIC_FLOATIE_CLIENT_KEY,
+  eslint: {
+    config: {
+      stylistic: true,
+    },
   },
-  formkit: {
-    autoImport: true,
-    configFile: './config/formkit.config.ts',
+  vueQuery: {
+    vueQueryPluginOptions: {
+      enableDevtoolsV6Plugin: true,
+      queryClientConfig: {
+        defaultOptions: {
+          queries: {
+            staleTime: 300000, // 5 minutes
+          },
+        },
+      },
+    },
   },
 })

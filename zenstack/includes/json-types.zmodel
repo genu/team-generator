@@ -1,0 +1,13 @@
+type LeagueRules {
+    goaliesFirst         Boolean? @default(false)
+    noBestGolieAndPlayer Boolean? @default(false)
+    keepGoalies          Boolean? @default(false)
+}
+
+
+type LeagueConfiguration {
+    teamCount     Int
+    useTeamColors Boolean?
+    teamColors    String[]?
+    rules         LeagueRules
+}

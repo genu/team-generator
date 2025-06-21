@@ -1,0 +1,75 @@
+import "./includes/json-types"
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+plugin prisma {
+    provider = '@core/prisma'
+    output = './schema.prisma'
+    format = true
+}
+
+plugin hooks {
+    provider = '@zenstackhq/tanstack-query'
+    output = "../.generated/vue-query"
+    target = "vue"
+}
+
+plugin zod {
+    provider = '@core/zod'
+    output = '../.generated/zod'
+    modelOnly = true
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model Account {
+    id      Int      @id @default(autoincrement())
+    hash    String   @unique @default(uuid())
+    leagues League[]
+
+    @@allow('all', true)
+}
+
+model League {
+    id            Int                 @id @default(autoincrement())
+    name          String?
+    configuration LeagueConfiguration @json
+    account       Account             @relation(fields: [accountId], references: [id], onDelete: Cascade)
+    snapshots     Snapshot[]
+    players       Player[]
+    accountId     Int
+    createdAt     DateTime            @default(now())
+    updatedAt     DateTime?
+
+    @@allow('all', true)
+}
+
+model Snapshot {
+    id        Int          @id @default(autoincrement())
+    data      Json
+    league    League       @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+    createdAt DateTime     @default(now())
+    updatedAt DateTime?
+    leagueId  Int
+
+    @@allow('all', true)
+}
+
+model Player {
+    id        Int       @id @default(autoincrement())
+    name      String
+    rank      Int
+    isActive  Boolean   @default(false)
+    isGoalie  Boolean   @default(false)
+    league    League    @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+    leagueId  Int
+    createdAt DateTime  @default(now())
+    updatedAt DateTime?
+
+    @@allow('all', true)
+}
