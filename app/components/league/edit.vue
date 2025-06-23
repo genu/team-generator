@@ -185,6 +185,7 @@
                     field: { root: 'flex items-center gap-2', labelWrapper: 'flex justify-end', wrapper: 'w-28', container: 'flex-1' },
                     input: { root: 'w-28' },
                   }"
+                  disable-keyboard-input
                   :increment="{ color: 'info', variant: 'solid', size: 'sm' }"
                   :decrement="{ color: 'info', variant: 'solid', size: 'sm' }" />
 
