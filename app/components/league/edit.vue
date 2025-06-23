@@ -32,7 +32,7 @@
     if (existingPlayer) {
       toast.add({
         title: "Player already exists",
-        icon: "i-heroicons-exclamation-triangle-solid",
+        icon: "i-ph-warning-fill",
         color: "warning",
       })
       return

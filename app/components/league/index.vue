@@ -78,7 +78,7 @@
       <div class="flex items-center gap-2">
         <UButton
           color="neutral"
-          icon="i-heroicons-share-20-solid"
+          icon="i-ph-share-network-fill"
           label="Share"
           variant="ghost"
           @click="shareLeagueDialog.open({ shareUrl: location.href! })" />
@@ -87,10 +87,7 @@
     </div>
     <div class="flex justify-end">
       <div v-if="players.length > 0 && !isShuffled" class="flex flex-col items-center mt-2 mr-3">
-        <UIcon
-          name="i-heroicons-arrow-long-up-20-solid"
-          class="text-4xl text-gray-400 animate-bounce"
-          style="--fa-bounce-jump-scale-y: 1" />
+        <UIcon name="i-ph-arrow-up-bold" class="text-4xl text-gray-400 animate-bounce" style="--fa-bounce-jump-scale-y: 1" />
         <span class="block text-sm font-medium text-gray-900">Click to shuffle</span>
       </div>
     </div>
