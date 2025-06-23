@@ -54,4 +54,55 @@ test.describe("Managing Squad", () => {
 
     await expect(await getNumberOfTeams(page)).toBe(3)
   })
+
+  test("shows latest snapshot after shuffle, save, and refresh", async ({ page }) => {
+    // Add players
+    await page.getByRole("button", { name: "Edit", exact: true }).click()
+    await addPlayer(page, "Player 1")
+    await addPlayer(page, "Player 2")
+    await addPlayer(page, "Player 3")
+    await addPlayer(page, "Player 4")
+    await page.getByRole("button", { name: "Close" }).click()
+
+    // Shuffle and save
+    await page.getByRole("button", { name: "Shuffle Teams" }).click()
+    // Capture the team arrangement after shuffle
+    const teamsBefore = await page.$$eval('[data-testid="league-team"]', (teams) => teams.map((team) => team.textContent))
+    await page.getByRole("button", { name: "Save" }).click()
+
+    // Refresh
+    await page.reload({ waitUntil: "networkidle" })
+
+    // Assert the team arrangement matches what was saved
+    const teamsAfter = await page.$$eval('[data-testid="league-team"]', (teams) => teams.map((team) => team.textContent))
+    expect(teamsAfter).toEqual(teamsBefore)
+  })
+
+  test("shows latest snapshot after multiple shuffles and saves", async ({ page }) => {
+    // Add players
+    await page.getByRole("button", { name: "Edit", exact: true }).click()
+    await addPlayer(page, "Player 1")
+    await addPlayer(page, "Player 2")
+    await addPlayer(page, "Player 3")
+    await addPlayer(page, "Player 4")
+    await page.getByRole("button", { name: "Close" }).click()
+
+    // Shuffle and save (first)
+    await page.getByRole("button", { name: "Shuffle Teams" }).click()
+    const teamsFirst = await page.$$eval('[data-testid="league-team"]', (teams) => teams.map((team) => team.textContent))
+    await page.getByRole("button", { name: "Save" }).click()
+
+    // Shuffle and save (second)
+    await page.getByRole("button", { name: "Shuffle Teams" }).click()
+    const teamsSecond = await page.$$eval('[data-testid="league-team"]', (teams) => teams.map((team) => team.textContent))
+    await page.getByRole("button", { name: "Save" }).click()
+
+    // Refresh
+    await page.reload({ waitUntil: "networkidle" })
+
+    // Assert the team arrangement matches the second shuffle (latest)
+    const teamsAfter = await page.$$eval('[data-testid="league-team"]', (teams) => teams.map((team) => team.textContent))
+    expect(teamsAfter).toEqual(teamsSecond)
+    expect(teamsAfter).not.toEqual(teamsFirst)
+  })
 })
