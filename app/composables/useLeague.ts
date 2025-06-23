@@ -23,7 +23,7 @@ export const useLeague = (leagueId: Ref<number | undefined>) => {
   } = useFindUniqueLeague(
     computed(() => ({
       where: { id: leagueId.value },
-      include: { snapshots: true, players: { orderBy: { id: "asc" } } },
+      include: { snapshots: { orderBy: { createdAt: "desc" } }, players: { orderBy: { id: "asc" } } },
     })),
     {
       enabled: () => leagueId.value !== undefined,
@@ -89,8 +89,21 @@ export const useLeague = (leagueId: Ref<number | undefined>) => {
   }
 
   const save = async () => {
-    const formData = editedLeagueData.value
-    if (!formData || !league.value) return
+    if (!league.value || (!editedLeagueData.value && !latestUnsavedSnapshot.value)) return
+
+    const formData = editedLeagueData.value || {
+      options: {
+        name: league.value.name!,
+        teamCount: league.value.configuration.teamCount,
+        teamColors: league.value.configuration.teamColors as ShirtColorEnum[],
+      },
+      rules: {
+        keepGoalies: league.value.configuration.rules.keepGoalies!,
+        goaliesFirst: league.value.configuration.rules.goaliesFirst!,
+        noBestGolieAndPlayer: league.value.configuration.rules.noBestGolieAndPlayer!,
+      },
+      players: league.value.players.map(({ id, name, isActive, isGoalie, rank }) => ({ id, name, isActive, isGoalie, rank })),
+    }
 
     const snapshots = league.value.snapshots.map((s) => SnapshotSchem.parse(s))
 

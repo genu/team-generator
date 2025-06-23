@@ -182,7 +182,7 @@
               @click="actions.edit" />
             <League
               v-else-if="leagueConfiguration"
-              v-model:latest-unsaved-="latestUnsavedSnapshot"
+              v-model:latest-unsaved-snapshot="latestUnsavedSnapshot"
               :league-id="league.id"
               :snapshots="parsedSnapshots"
               :league-configuration="leagueConfiguration"
