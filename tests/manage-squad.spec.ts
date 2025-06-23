@@ -48,7 +48,7 @@ test.describe("Managing Squad", () => {
     // Update team number to 3
     await page.getByRole("button", { name: "Edit", exact: true }).click()
     await page.getByRole("button", { name: "League Options" }).click()
-    await page.getByRole("spinbutton", { name: "# of Teams:" }).fill("3")
+    await page.getByRole("region", { name: "League Options" }).getByLabel("Increment").click()
     await page.getByRole("button", { name: "Close" }).click()
     await page.getByRole("button", { name: "Shuffle Teams" }).click()
 
