@@ -1,7 +1,6 @@
 <script lang="ts" setup>
   import { useRouteQuery } from "@vueuse/router"
   import type { DropdownMenuItem } from "@nuxt/ui"
-  import type { LeagueConfiguration } from "@zenstackhq/runtime/models"
   import { DialogCreateLeague } from "#components"
 
   const { confirm } = useDialog()
