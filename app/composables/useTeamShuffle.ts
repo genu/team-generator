@@ -1,12 +1,21 @@
 import type { LeagueConfiguration, Player } from "@zenstackhq/runtime/models"
-import { groupBy, random, orderBy, filter, map, size, cloneDeep } from "lodash-es"
-import { SnapshotDataSchema, type SnapshotData, type SnapshotPlayer } from "#shared/schemas"
+import { groupBy, random, orderBy, filter, size, cloneDeep } from "lodash-es"
+import { SnapshotDataSchema, type SnapshotData, type SnapshotPlayer, type Snapshot } from "#shared/schemas"
 
-export const useTeamShuffle = (snapshotData: Ref<SnapshotData>) => {
+export const useTeamShuffle = (snapshotData: Ref<SnapshotData>, latestUnsavedSnapshot?: Ref<Snapshot | undefined>) => {
   const teamThatChoseFirst = ref(0)
   const teamChoosing = ref(0)
   const teams = ref<SnapshotData>({})
   const isShuffled = ref(false)
+
+  // Helper function to update latestUnsavedSnapshot
+  const updateLatestUnsavedSnapshot = () => {
+    if (latestUnsavedSnapshot) {
+      latestUnsavedSnapshot.value = {
+        data: cloneDeep(teams.value),
+      }
+    }
+  }
 
   watch(
     snapshotData,
@@ -92,6 +101,9 @@ export const useTeamShuffle = (snapshotData: Ref<SnapshotData>) => {
     }
     isShuffled.value = true
 
+    // Update latestUnsavedSnapshot after shuffle
+    updateLatestUnsavedSnapshot()
+
     return cloneDeep(teams)
   }
 
@@ -104,6 +116,9 @@ export const useTeamShuffle = (snapshotData: Ref<SnapshotData>) => {
 
     const upatedTeams = [...teams.value[toTeam].slice(0, at), player, ...teams.value[toTeam].slice(at)]
     teams.value = { ...teams.value, [toTeam]: upatedTeams }
+
+    // Update latestUnsavedSnapshot after modifying teams
+    updateLatestUnsavedSnapshot()
   }
 
   const removePlayerFromTeam = (fromTeam: number, at: number) => {
@@ -111,6 +126,9 @@ export const useTeamShuffle = (snapshotData: Ref<SnapshotData>) => {
 
     const upatedTeams = [...teams.value[fromTeam].slice(0, at), ...teams.value[fromTeam].slice(at + 1)]
     teams.value = { ...teams.value, [fromTeam]: upatedTeams }
+
+    // Update latestUnsavedSnapshot after modifying teams
+    updateLatestUnsavedSnapshot()
   }
 
   const getSnapshot = () => {
