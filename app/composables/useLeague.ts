@@ -105,11 +105,27 @@ export const useLeague = (leagueId: Ref<number | undefined>) => {
       players: league.value.players.map(({ id, name, isActive, isGoalie, rank }) => ({ id, name, isActive, isGoalie, rank })),
     }
 
-    const snapshots = league.value.snapshots.map((s) => SnapshotSchem.parse(s))
+    // Only include players that have changed or are new
+    const changedPlayers = formData.players.filter((player, index) => {
+      const originalPlayer = league.value?.players[index]
+      if (!originalPlayer) return true // New player
+      return (
+        player.name !== originalPlayer.name ||
+        player.isActive !== originalPlayer.isActive ||
+        player.isGoalie !== originalPlayer.isGoalie ||
+        player.rank !== originalPlayer.rank
+      )
+    })
 
-    if (latestUnsavedSnapshot.value) {
-      snapshots.push(latestUnsavedSnapshot.value)
-    }
+    // Only save the latest snapshot if there's a new one
+    const snapshotData = latestUnsavedSnapshot.value
+      ? {
+          create: {
+            data: latestUnsavedSnapshot.value.data!,
+            leagueId: league.value.id!,
+          },
+        }
+      : undefined
 
     await updateLeagueAsync({
       data: {
@@ -120,30 +136,18 @@ export const useLeague = (leagueId: Ref<number | undefined>) => {
           teamColors: formData.options.teamColors,
           rules: formData.rules,
         },
-        players: {
-          upsert: formData.players.map(({ id, ...player }) => ({
-            where: { id: id || -1 },
-            create: {
-              ...player,
-            },
-            update: {
-              ...player,
-            },
-          })),
-        },
-        snapshots: {
-          upsert: snapshots.map(({ id, ...snapshot }) => ({
-            where: { id: id || -1 },
-            create: {
-              ...snapshot,
-              data: snapshot.data!,
-            },
-            update: {
-              ...snapshot,
-              data: snapshot.data!,
-            },
-          })),
-        },
+        ...(changedPlayers.length > 0 && {
+          players: {
+            upsert: changedPlayers.map(({ id, ...player }) => ({
+              where: { id: id || -1 },
+              create: { ...player },
+              update: { ...player },
+            })),
+          },
+        }),
+        ...(snapshotData && {
+          snapshots: snapshotData,
+        }),
       },
       where: {
         id: league.value?.id,
