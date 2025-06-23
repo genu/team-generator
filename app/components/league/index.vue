@@ -69,7 +69,6 @@
 
 <template>
   <div class="flex flex-col gap-2 lg:gap-2">
-    <pre>{{ leagueConfiguration }}</pre>
     <div v-if="players.length > 0" class="flex justify-between gap-4">
       <div>
         <DevOnly>

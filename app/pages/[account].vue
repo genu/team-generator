@@ -2,24 +2,28 @@
   import { useRouteQuery } from "@vueuse/router"
   import type { DropdownMenuItem } from "@nuxt/ui"
   import type { LeagueConfiguration } from "@zenstackhq/runtime/models"
-  import { DialogCreateLeague, LeagueEdit } from "#components"
-  import { SnapshotPlayerSchema, SnapshotSchem, type Snapshot } from "#shared/schemas"
-  import type { LeagueEditForm } from "#shared/schemas/forms"
+  import { DialogCreateLeague } from "#components"
 
   const { confirm } = useDialog()
   const overlay = useOverlay()
-  const leagueActions = useLeagueActions()
   const accountHash = useRouteParams("account", undefined, { transform: String })
   const leagueId = useRouteQuery("league", undefined, { transform: (value) => (value ? parseInt(value) : undefined) })
+  const {
+    league,
+    isLoading: isLoadingLeague,
+    deleteLeagueAsync,
+    isUpdatingLeague,
+    editedLeagueData,
+    latestUnsavedSnapshot,
+    currentPlayers,
+    parsedSnapshots,
+    leagueConfiguration,
+    actions,
+  } = useLeague(leagueId)
 
-  const { y: scrollY } = useScroll(import.meta.client ? window : null)
   const toast = useToast()
 
   const createLeagueDialog = overlay.create(DialogCreateLeague)
-  const editLeagueDrawer = overlay.create(LeagueEdit)
-
-  const leagueFormData = ref<LeagueEditForm>()
-  const localLeagueFormData = ref<LeagueEditForm | null>(null)
 
   const {
     data: account,
@@ -30,39 +34,8 @@
     include: { leagues: { select: { id: true, name: true } } },
   })
 
-  const {
-    data: league,
-    isLoading: isLoadingLeague,
-    suspense: suspenseLeague,
-  } = useFindUniqueLeague(
-    computed(() => ({
-      where: { id: leagueId.value },
-      include: { snapshots: true, players: { orderBy: { id: "asc" } } },
-    })),
-    {
-      enabled: () => leagueId.value !== undefined,
-    },
-  )
-
-  const { mutateAsync: deleteLeagueAsync } = useDeleteLeague()
-  const { mutateAsync: updateLeagueAsync, isPending: isUpdatingLeague } = useUpdateLeague()
-  const { mutateAsync: duplicateLeagueAsync } = leagueActions.duplicate()
-
-  const latestUnsavedSnapshot = ref<Snapshot>()
-
-  const currentPlayers = computed(() => {
-    if (!localLeagueFormData.value && !league.value) return []
-
-    const players = localLeagueFormData.value?.players ?? league.value?.players
-
-    if (!players) return []
-
-    return players.map((p) => SnapshotPlayerSchema.parse(p))
-  })
-
   onServerPrefetch(async () => {
     await suspenseAccount()
-    if (leagueId.value) await suspenseLeague()
   })
 
   const leagueMenu: DropdownMenuItem[] = [
@@ -77,9 +50,9 @@
         if (!account.value) return
 
         const res = createLeagueDialog.open({ accountId: account.value.id })
-        const leagueId = await res.result
+        const newLeagueId = await res.result
 
-        await navigateTo(`/${account.value.hash}?league=${leagueId}`)
+        await navigateTo(`/${account.value.hash}?league=${newLeagueId}`)
       },
     },
     {
@@ -87,14 +60,7 @@
       icon: "i-ph-copy",
       onSelect: async () => {
         if (!league.value) return
-
-        const { id } = await duplicateLeagueAsync(league.value.id!)
-        toast.add({
-          icon: "i-heroicons-check-20-solid",
-          title: `"${league.value.name}" league duplicated`,
-        })
-
-        leagueId.value = id
+        await actions.duplicate()
       },
     },
     {
@@ -135,109 +101,23 @@
         to: `/${account.value?.hash}?league=${league.id}`,
       })) || []
 
-    if (localLeagueFormData.value) {
+    if (editedLeagueData.value) {
       // Remove the current league from the dropdown
-      mappedLeagues = mappedLeagues.filter((league) => league.id !== localLeagueFormData.value?.id)
+      mappedLeagues = mappedLeagues.filter((league) => league.id !== editedLeagueData.value?.id)
 
       // Add the current locally edited league to the dropdown
       mappedLeagues.push({
-        id: localLeagueFormData.value?.id,
-        label: localLeagueFormData.value?.options.name,
+        id: editedLeagueData.value?.id,
+        label: editedLeagueData.value?.options.name,
         exactQuery: true,
         class: "data-testid-league-dropdown-item",
         exactActiveClass: "bg-indigo-500 text-white",
-        to: `/${account.value?.hash}?league=${localLeagueFormData.value?.id}`,
+        to: `/${account.value?.hash}?league=${editedLeagueData.value?.id}`,
       })
     }
 
     return [mappedLeagues, leagueMenu]
   })
-
-  const save = async () => {
-    await saveLeague()
-    localLeagueFormData.value = null
-
-    toast.add({
-      icon: "i-heroicons-check-20-solid",
-      title: "Saved",
-    })
-    scrollY.value = 0
-  }
-
-  const saveLeague = async () => {
-    const formData = localLeagueFormData.value || leagueFormData.value
-    if (!formData || !league.value) return
-
-    const snapshots = league.value.snapshots.map((s) => SnapshotSchem.parse(s))
-
-    if (latestUnsavedSnapshot.value) {
-      snapshots.push(latestUnsavedSnapshot.value)
-    }
-
-    await updateLeagueAsync({
-      data: {
-        accountId: league.value.accountId,
-        name: formData.options.name,
-        configuration: {
-          teamCount: formData.options.teamCount,
-          teamColors: formData.options.teamColors,
-          rules: formData.rules,
-        },
-        players: {
-          upsert: formData.players.map(({ id, ...player }) => ({
-            where: { id: id || -1 },
-            create: {
-              ...player,
-            },
-            update: {
-              ...player,
-            },
-          })),
-        },
-        snapshots: {
-          upsert: snapshots.map(({ id, ...snapshot }) => ({
-            where: { id: id || -1 },
-            create: {
-              ...snapshot,
-              data: snapshot.data!,
-            },
-            update: {
-              ...snapshot,
-              data: snapshot.data!,
-            },
-          })),
-        },
-      },
-      where: {
-        id: league.value?.id,
-      },
-    })
-  }
-
-  const onEditLeague = async () => {
-    if (!league.value) return
-
-    const formData = localLeagueFormData.value || {
-      id: league.value.id,
-      options: {
-        name: league.value.name!,
-        teamCount: league.value.configuration.teamCount,
-        teamColors: league.value.configuration.teamColors as ShirtColorEnum[],
-      },
-      rules: {
-        keepGoalies: league.value.configuration.rules.keepGoalies!,
-        goaliesFirst: league.value.configuration.rules.goaliesFirst!,
-        noBestGolieAndPlayer: league.value.configuration.rules.noBestGolieAndPlayer!,
-      },
-      players: league.value.players.map(({ id, name, isActive, isGoalie, rank }) => ({ id, name, isActive, isGoalie, rank })),
-    }
-
-    const { result } = editLeagueDrawer.open({
-      league: formData,
-    })
-
-    localLeagueFormData.value = await result
-  }
 </script>
 
 <template>
@@ -259,7 +139,7 @@
 
           <UDropdownMenu :items="leaguesDropdown" arrow size="lg" :disabled="isUpdatingLeague">
             <UButton
-              :label="localLeagueFormData?.options.name || league?.name || 'Select League'"
+              :label="editedLeagueData?.options.name || league?.name || 'Select League'"
               data-testid="league-dropdown-button"
               color="neutral"
               variant="solid"
@@ -271,8 +151,8 @@
         </h2>
         <div class="flex md:mt-0 md:ml-4 gap-4">
           <UButtonGroup size="lg">
-            <UButton variant="soft" color="neutral" label="Edit" :disabled="isUpdatingLeague" @click="onEditLeague" />
-            <UButton data-testid="league-save-button" :loading="isUpdatingLeague" label="Save" @click="save" />
+            <UButton variant="soft" color="neutral" label="Edit" :disabled="isUpdatingLeague" @click="actions.edit" />
+            <UButton data-testid="league-save-button" :loading="isUpdatingLeague" label="Save" @click="actions.save" />
           </UButtonGroup>
         </div>
       </div>
@@ -300,13 +180,13 @@
               v-if="currentPlayers.length === 0"
               icon="i-ph-users-three-light"
               :label="`Add some players to the ${league.name}`"
-              @click="onEditLeague" />
+              @click="actions.edit" />
             <League
-              v-else
+              v-else-if="leagueConfiguration"
               v-model:latest-unsaved-="latestUnsavedSnapshot"
               :league-id="league.id"
-              :snapshots="league.snapshots.map((s) => SnapshotSchem.parse(s))"
-              :league-configuration="localLeagueFormData!.options as LeagueConfiguration"
+              :snapshots="parsedSnapshots"
+              :league-configuration="leagueConfiguration"
               :league="league"
               :players="currentPlayers" />
           </div>

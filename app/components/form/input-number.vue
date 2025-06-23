@@ -8,6 +8,7 @@
     hint?: string
     size?: FormFieldProps["size"]
     required?: FormFieldProps["required"]
+    disableKeyboardInput?: boolean
     ui?: {
       input?: InputNumberProps["ui"]
       field?: FormFieldProps["ui"]
@@ -19,6 +20,7 @@
   }
 
   const { name, label, ...props } = defineProps<Props>()
+  const inputNumberRef = useTemplateRef("inputNumberRef")
 
   const { fieldValue, errorMessage, isDisabled, isTouched, ...field } = useCustomField<number>({
     ...props,
@@ -34,6 +36,17 @@
   const onBlur = () => {
     field.setTouched(true)
   }
+
+  onMounted(() => {
+    if (!inputNumberRef.value || !props.disableKeyboardInput) return
+
+    const input = inputNumberRef.value.$el.querySelector("input")
+
+    if (input) {
+      input.setAttribute("readonly", "true")
+      input.setAttribute("disabled", "true")
+    }
+  })
 </script>
 
 <template>
@@ -47,6 +60,7 @@
     :size="size"
     :required="required">
     <UInputNumber
+      ref="inputNumberRef"
       :placeholder="placeholder"
       :disabled="isDisabled"
       :model-value="fieldValue"
