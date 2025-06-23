@@ -3,6 +3,7 @@ import { PlayerEditFormSchema } from "./player-edit.form"
 
 export type LeagueEditForm = z.infer<typeof LeagueEditFormSchema>
 export type LeagueEditOptionsForm = z.infer<typeof LeagueEditOptionsFormSchema>
+export type ShirtColorEnum = z.infer<typeof ShirtColorEnum>
 
 export const ShirtColorEnum = z.enum(["Black", "White", "Red", "Green", "Blue", "Yellow", "Cyan", "Magenta", "Gray"])
 

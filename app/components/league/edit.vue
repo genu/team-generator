@@ -127,7 +127,14 @@
               </template>
               <template #rank-cell="{ row }">
                 <div class="w-24">
-                  <FormInputNumber :name="`players.${row.index}.rank`" size="lg" :min="1" :max="10" :step="1" />
+                  <FormInputNumber
+                    :name="`players.${row.index}.rank`"
+                    disable-keyboard-input
+                    size="lg"
+                    :min="1"
+                    :max="10"
+                    :step="1"
+                    :ui="{ input: { base: 'disabled' } }" />
                 </div>
               </template>
               <template #isGoalie-cell="{ row }">
