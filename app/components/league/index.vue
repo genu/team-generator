@@ -33,7 +33,10 @@
     return SnapshotDataSchema.parse(snapshotToUse.data)
   })
 
-  const { shuffle, teams, isShuffled, movePlayer, addPlayerToTeam, removePlayerFromTeam } = useTeamShuffle(snapshot)
+  const { shuffle, teams, isShuffled, movePlayer, addPlayerToTeam, removePlayerFromTeam } = useTeamShuffle(
+    snapshot,
+    latestUnsavedSnapshot,
+  )
 
   const configuration = computed(() => leagueConfiguration)
 
@@ -47,11 +50,7 @@
   }
 
   const onShuffleTeams = () => {
-    const snapshotData = shuffle(players, configuration.value)
-
-    latestUnsavedSnapshot.value = {
-      data: snapshotData.value,
-    }
+    shuffle(players, configuration.value)
   }
 </script>
 
