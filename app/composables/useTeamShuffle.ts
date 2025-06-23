@@ -3,7 +3,6 @@ import { groupBy, random, orderBy, filter, map, size, cloneDeep } from "lodash-e
 import { SnapshotDataSchema, type SnapshotData, type SnapshotPlayer } from "#shared/schemas"
 
 export const useTeamShuffle = (snapshotData: Ref<SnapshotData>) => {
-  const methodology = useMethodology()
   const teamThatChoseFirst = ref(0)
   const teamChoosing = ref(0)
   const teams = ref<SnapshotData>({})
@@ -44,14 +43,9 @@ export const useTeamShuffle = (snapshotData: Ref<SnapshotData>) => {
     teamChoosing.value = random(0, options.teamCount - 1)
     teamThatChoseFirst.value = teamChoosing.value
 
-    // Reset teams and methodology
-
     teams.value = {}
-    methodology.reset()
 
     let rank = 10
-
-    methodology.write(`Team ${teamChoosing.value} is choosing first`)
 
     // First pick goal keepers
     if (options.rules?.goaliesFirst) {
@@ -61,12 +55,8 @@ export const useTeamShuffle = (snapshotData: Ref<SnapshotData>) => {
         ["desc"],
       )
 
-      methodology.write(`Choosing Goalkeepers first (${map(goalKeepers, "name").join(", ")})`)
-
       while (goalKeepers.length > 0) {
         const randomGoalkeeper = goalKeepers.splice(0, 1)[0] as Player
-
-        methodology.write(`Team ${teamChoosing.value} chose goal keeper ${randomGoalkeeper.name} (${randomGoalkeeper.rank})`)
 
         if (!teams.value[teamChoosing.value]) {
           teams.value[teamChoosing.value] = reactive([])
@@ -77,7 +67,6 @@ export const useTeamShuffle = (snapshotData: Ref<SnapshotData>) => {
         // Next team chooses
         teamChoosing.value = (teamChoosing.value + 1) % options.teamCount
       }
-      methodology.write("Finished selecting goalkeepers")
     }
 
     while (rank > 0) {
@@ -88,8 +77,6 @@ export const useTeamShuffle = (snapshotData: Ref<SnapshotData>) => {
 
         // Goalies were already chosen, this team can choose again.
         if (options.rules?.goaliesFirst && randomPlayerFromRank.isGoalie) continue
-
-        methodology.write(`Team ${teamChoosing.value} chose ${randomPlayerFromRank.name} (${randomPlayerFromRank.rank})`)
 
         if (!teams.value[teamChoosing.value]) {
           teams.value[teamChoosing.value] = reactive([])
@@ -132,7 +119,6 @@ export const useTeamShuffle = (snapshotData: Ref<SnapshotData>) => {
 
   return {
     shuffle,
-    methodology,
     teams,
     isShuffled,
     teamThatChoseFirst,

@@ -23,7 +23,7 @@
     if (!isValid) {
       toast.add({
         title: "Player name is required",
-        icon: "i-heroicons-exclamation-triangle-solid",
+        icon: "i-ph-warning-fill",
         color: "warning",
       })
       return

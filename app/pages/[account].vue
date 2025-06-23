@@ -1,7 +1,6 @@
 <script lang="ts" setup>
   import { useRouteQuery } from "@vueuse/router"
   import type { DropdownMenuItem } from "@nuxt/ui"
-  import type { LeagueConfiguration } from "@zenstackhq/runtime/models"
   import { DialogCreateLeague } from "#components"
 
   const { confirm } = useDialog()
@@ -82,7 +81,7 @@
               select: { name: true },
             })
             toast.add({
-              icon: "i-heroicons-check-20-solid",
+              icon: "i-ph-check-fat-fill",
               title: `${deletedLeague?.name} deleted`,
             })
           })
@@ -143,7 +142,7 @@
               data-testid="league-dropdown-button"
               color="neutral"
               variant="solid"
-              trailing-icon="i-heroicons-chevron-down-20-solid" />
+              trailing-icon="i-ph-caret-down" />
             <template #delete-league-leading>
               <UIcon name="i-ph-trash" class="text-red-500 size-6" />
             </template>
@@ -183,7 +182,7 @@
               @click="actions.edit" />
             <League
               v-else-if="leagueConfiguration"
-              v-model:latest-unsaved-="latestUnsavedSnapshot"
+              v-model:latest-unsaved-snapshot="latestUnsavedSnapshot"
               :league-id="league.id"
               :snapshots="parsedSnapshots"
               :league-configuration="leagueConfiguration"

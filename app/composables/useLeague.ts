@@ -23,7 +23,7 @@ export const useLeague = (leagueId: Ref<number | undefined>) => {
   } = useFindUniqueLeague(
     computed(() => ({
       where: { id: leagueId.value },
-      include: { snapshots: true, players: { orderBy: { id: "asc" } } },
+      include: { snapshots: { orderBy: { createdAt: "desc" } }, players: { orderBy: { id: "asc" } } },
     })),
     {
       enabled: () => leagueId.value !== undefined,
@@ -89,14 +89,43 @@ export const useLeague = (leagueId: Ref<number | undefined>) => {
   }
 
   const save = async () => {
-    const formData = editedLeagueData.value
-    if (!formData || !league.value) return
+    if (!league.value || (!editedLeagueData.value && !latestUnsavedSnapshot.value)) return
 
-    const snapshots = league.value.snapshots.map((s) => SnapshotSchem.parse(s))
-
-    if (latestUnsavedSnapshot.value) {
-      snapshots.push(latestUnsavedSnapshot.value)
+    const formData = editedLeagueData.value || {
+      options: {
+        name: league.value.name!,
+        teamCount: league.value.configuration.teamCount,
+        teamColors: league.value.configuration.teamColors as ShirtColorEnum[],
+      },
+      rules: {
+        keepGoalies: league.value.configuration.rules.keepGoalies!,
+        goaliesFirst: league.value.configuration.rules.goaliesFirst!,
+        noBestGolieAndPlayer: league.value.configuration.rules.noBestGolieAndPlayer!,
+      },
+      players: league.value.players.map(({ id, name, isActive, isGoalie, rank }) => ({ id, name, isActive, isGoalie, rank })),
     }
+
+    // Only include players that have changed or are new
+    const changedPlayers = formData.players.filter((player, index) => {
+      const originalPlayer = league.value?.players[index]
+      if (!originalPlayer) return true // New player
+      return (
+        player.name !== originalPlayer.name ||
+        player.isActive !== originalPlayer.isActive ||
+        player.isGoalie !== originalPlayer.isGoalie ||
+        player.rank !== originalPlayer.rank
+      )
+    })
+
+    // Only save the latest snapshot if there's a new one
+    const snapshotData = latestUnsavedSnapshot.value
+      ? {
+          create: {
+            data: latestUnsavedSnapshot.value.data!,
+            leagueId: league.value.id!,
+          },
+        }
+      : undefined
 
     await updateLeagueAsync({
       data: {
@@ -107,30 +136,18 @@ export const useLeague = (leagueId: Ref<number | undefined>) => {
           teamColors: formData.options.teamColors,
           rules: formData.rules,
         },
-        players: {
-          upsert: formData.players.map(({ id, ...player }) => ({
-            where: { id: id || -1 },
-            create: {
-              ...player,
-            },
-            update: {
-              ...player,
-            },
-          })),
-        },
-        snapshots: {
-          upsert: snapshots.map(({ id, ...snapshot }) => ({
-            where: { id: id || -1 },
-            create: {
-              ...snapshot,
-              data: snapshot.data!,
-            },
-            update: {
-              ...snapshot,
-              data: snapshot.data!,
-            },
-          })),
-        },
+        ...(changedPlayers.length > 0 && {
+          players: {
+            upsert: changedPlayers.map(({ id, ...player }) => ({
+              where: { id: id || -1 },
+              create: { ...player },
+              update: { ...player },
+            })),
+          },
+        }),
+        ...(snapshotData && {
+          snapshots: snapshotData,
+        }),
       },
       where: {
         id: league.value?.id,

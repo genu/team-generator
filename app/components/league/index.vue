@@ -1,6 +1,5 @@
 <script lang="ts" setup>
   import type { LeagueConfiguration } from "@zenstackhq/runtime/models"
-  import { keys } from "lodash-es"
   import { useBrowserLocation } from "@vueuse/core"
   import { DialogShareLeague } from "#components"
   import { SnapshotDataSchema, type Snapshot, type SnapshotPlayer } from "#shared/schemas"
@@ -34,20 +33,9 @@
     return SnapshotDataSchema.parse(snapshotToUse.data)
   })
 
-  const {
-    shuffle,
-    methodology: shuffleMethodology,
-    teams,
-    isShuffled,
-    movePlayer,
-    addPlayerToTeam,
-    removePlayerFromTeam,
-  } = useTeamShuffle(snapshot)
-
-  const { methodology } = shuffleMethodology
+  const { shuffle, teams, isShuffled, movePlayer, addPlayerToTeam, removePlayerFromTeam } = useTeamShuffle(snapshot)
 
   const configuration = computed(() => leagueConfiguration)
-  const numberOfGeneratedTeams = computed(() => keys(teams).length)
 
   const toggleBookmark = async () => {
     await createSnapshotAsync({
@@ -78,7 +66,7 @@
       <div class="flex items-center gap-2">
         <UButton
           color="neutral"
-          icon="i-heroicons-share-20-solid"
+          icon="i-ph-share-network-fill"
           label="Share"
           variant="ghost"
           @click="shareLeagueDialog.open({ shareUrl: location.href! })" />
@@ -87,10 +75,7 @@
     </div>
     <div class="flex justify-end">
       <div v-if="players.length > 0 && !isShuffled" class="flex flex-col items-center mt-2 mr-3">
-        <UIcon
-          name="i-heroicons-arrow-long-up-20-solid"
-          class="text-4xl text-gray-400 animate-bounce"
-          style="--fa-bounce-jump-scale-y: 1" />
+        <UIcon name="i-ph-arrow-up-bold" class="text-4xl text-gray-400 animate-bounce" style="--fa-bounce-jump-scale-y: 1" />
         <span class="block text-sm font-medium text-gray-900">Click to shuffle</span>
       </div>
     </div>
@@ -106,29 +91,6 @@
         @move-player="movePlayer"
         @add-player="addPlayerToTeam"
         @remove-player="removePlayerFromTeam" />
-    </div>
-
-    <div v-if="numberOfGeneratedTeams > 0" class="flex justify-around py-2">
-      <UAccordion :items="[{ label: ' How were teams chosen?', slot: 'methodology' }]">
-        <template #methodology>
-          <UCard class="text-sm">
-            <div class="not-italic">
-              <h2 class="py-0 my-0">Strategy</h2>
-              <ul class="pb-2 mx-5 list-disc">
-                <li>Players are grouped by ranks</li>
-                <li>A random team is selected to choose first</li>
-                <li>Each team chooses a random player from the highest ranked group</li>
-                <li>Process continues from highest ranked players to lowest ranked players until all players are selected</li>
-              </ul>
-            </div>
-            <div>
-              <p v-for="(instruction, idx) in methodology" :key="idx" class="mt-2 capitalize" :class="{ 'font-bold': idx === 0 }">
-                {{ instruction }}
-              </p>
-            </div>
-          </UCard>
-        </template>
-      </UAccordion>
     </div>
   </div>
 </template>
