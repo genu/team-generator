@@ -47,7 +47,7 @@
     "dotenv-cli": "^8.0.0",
     "eslint": "9.29.0",
     "eslint-config-prettier": "10.1.5",
-    "eslint-plugin-prettier": "5.5.0",
+    "eslint-plugin-prettier": "5.5.1",
     "nuxt": "^3.17.5",
     "prisma": "^6.10.1",
     "std-env": "^3.9.0",
