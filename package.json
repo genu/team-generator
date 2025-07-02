@@ -51,7 +51,7 @@
     "nuxt": "^3.17.5",
     "prisma": "^6.10.1",
     "std-env": "^3.9.0",
-    "vue-tsc": "^2.2.10",
+    "vue-tsc": "^3.0.0",
     "zenstack": "2.16.0"
   },
   "dependencies": {
