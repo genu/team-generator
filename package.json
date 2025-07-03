@@ -34,7 +34,7 @@
     "dotenv": "dotenv"
   },
   "devDependencies": {
-    "@nuxt/eslint": "1.5.1",
+    "@nuxt/eslint": "1.5.2",
     "@nuxt/test-utils": "^3.19.1",
     "@playwright/test": "^1.53.1",
     "@tanstack/eslint-plugin-query": "5.81.2",
