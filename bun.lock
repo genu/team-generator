@@ -4,7 +4,7 @@
     "": {
       "name": "teams-generator",
       "dependencies": {
-        "@formwerk/core": "^0.10.7",
+        "@formwerk/core": "^0.11.0",
         "@hebilicious/vue-query-nuxt": "^0.3.0",
         "@iconify-json/ph": "^1.2.2",
         "@nuxt/ui": "^3.1.3",
@@ -217,9 +217,9 @@
 
     "@floating-ui/vue": ["@floating-ui/vue@1.1.6", "", { "dependencies": { "@floating-ui/dom": "^1.0.0", "@floating-ui/utils": "^0.2.9", "vue-demi": ">=0.13.0" } }, "sha512-XFlUzGHGv12zbgHNk5FN2mUB7ROul3oG2ENdTpWdE+qMFxyNxWSRmsoyhiEnpmabNm6WnUvR1OvJfUfN4ojC1A=="],
 
-    "@formwerk/core": ["@formwerk/core@0.10.7", "", { "dependencies": { "@formwerk/devtools": "0.10.7", "@internationalized/date": "^3.8.0", "@standard-schema/spec": "1.0.0", "@standard-schema/utils": "^0.3.0", "klona": "^2.0.6", "type-fest": "^4.41.0" }, "peerDependencies": { "vue": ">=3.5.0" } }, "sha512-MAHskya76q8Gf4E8MQYV4XkPeneo1ujnKzDGlzCa0PsaVvhLj4m5+AngrgRt+6Gc9EdzrUGW8WykFcK9zdtwBw=="],
+    "@formwerk/core": ["@formwerk/core@0.11.0", "", { "dependencies": { "@formwerk/devtools": "0.11.0", "@internationalized/date": "^3.8.2", "@standard-schema/spec": "1.0.0", "@standard-schema/utils": "^0.3.0", "klona": "^2.0.6", "type-fest": "^4.41.0" }, "peerDependencies": { "vue": ">=3.5.0" } }, "sha512-A6MgJOgADRw2kntQIgmhiyOy8TW01uNFeZIyfDUUTEKyxoX+kvBxqu5Wj2RnaS0c6ioA5GuhWON9qqhKkC+gMg=="],
 
-    "@formwerk/devtools": ["@formwerk/devtools@0.10.7", "", { "dependencies": { "@vue/devtools-api": "^7.7.6", "@vue/devtools-kit": "^7.7.6", "klona": "^2.0.6", "type-fest": "^4.41.0" } }, "sha512-6vY68LQV5tyJCrutykU8nz50z9Z5y+2zFycQQoAyA3uVyWYz+h++QPzz2lO7Np3Swq73rOqyOFjeRaAO8J9ehw=="],
+    "@formwerk/devtools": ["@formwerk/devtools@0.11.0", "", { "dependencies": { "@vue/devtools-api": "^7.7.7", "@vue/devtools-kit": "^7.7.7", "klona": "^2.0.6", "type-fest": "^4.41.0" } }, "sha512-1QifA3RUuBFSY7jbx35ME6h3m7j3wbaKq+1SLpvXrEuJOllC7L0BHv4JIvfTDdCr3u7Ja6c5leUI23c8nN+psA=="],
 
     "@hebilicious/vue-query-nuxt": ["@hebilicious/vue-query-nuxt@0.3.0", "", { "dependencies": { "@nuxt/kit": "^3.8.2", "defu": "^6.1.3", "esbuild": "^0.19.5", "magicast": "^0.3.0" }, "peerDependencies": { "@tanstack/vue-query": "^5.4.3", "nuxt": "^3.8.0" } }, "sha512-3ULFb4Sq4vp7VCuMFTlvHOIipgLsFPTAUfSoPNrXiUzvuetsLquijaIFWMlgetWC/+1o5WEBXSVcrmX46uZB6w=="],
 
