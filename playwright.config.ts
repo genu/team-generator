@@ -19,7 +19,7 @@ export default defineConfig<ConfigOptions>({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: "bun test:ci",
+    command: "pnpm test:ci",
     url: "http://localhost:3001",
     reuseExistingServer: !isCI,
     timeout: 300000, // 5 minutes

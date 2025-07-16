@@ -3,33 +3,36 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": "22.x"
+    "node": "22.x",
+    "pnpm": "10.x"
   },
+  "packageManager": "pnpm@10.12.4",
   "zenstack": {
     "schema": "./zenstack/schema.zmodel"
   },
   "scripts": {
-    "build": "zenstack generate && dotenv -e .env -- prisma migrate deploy && nuxt build",
     "clean": "nuxt cleanup && rm -rf node_modules .generated .nuxt",
     "dev": "nuxt dev",
     "start": "NODE_OPTIONS='--no-experimental-require-module' node .output/server/index.mjs",
     "generate": "nuxt generate",
     "preview": "NODE_OPTIONS='--no-experimental-require-module' nuxt preview",
-    "postinstall": "zenstack generate && nuxt prepare",
-    "playwright": "playwright",
+    "postinstall": "run-s nuxt:prepare db:generate",
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
-    "test": "bun docker:up -d && playwright test && bun docker:down",
-    "test:db": "bun docker:down && bun docker:up",
+    "test": "pnpm docker:up -d && playwright test && pnpm docker:down",
+    "test:db": "pnpm docker:down && pnpm docker:up",
     "test:dev": "zenstack generate && dotenv -e .env.test -- prisma migrate dev && nuxt dev --dotenv .env.test",
     "test:ci": "zenstack generate && dotenv -e .env.test -- prisma migrate dev && nuxt build --dotenv .env.test && NODE_OPTIONS='--no-experimental-require-module' nuxt preview --dotenv .env.test",
     "test:db:reset": "dotenv -e .env.test -- prisma migrate reset --force",
+    "prisma": "dotenv -e .env -- prisma",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "prisma": "dotenv -e .env -- prisma",
     "zenstack": "zenstack",
+    "nuxt:prepare": "nuxt prepare",
+    "nuxt:build": "dotenv -e .env -- prisma migrate deploy && nuxt build",
     "db:generate": "zenstack generate",
     "db:migrate": "dotenv -e .env -- prisma migrate",
+    "playwright": "playwright",
     "playwright:ui": "playwright test --ui",
     "dotenv": "dotenv"
   },
@@ -50,6 +53,7 @@
     "eslint-plugin-prettier": "5.5.1",
     "nuxt": "^3.17.5",
     "prisma": "^6.10.1",
+    "npm-run-all2": "^8.0.4",
     "std-env": "^3.9.0",
     "vue-tsc": "^3.0.0",
     "zenstack": "2.16.1"
