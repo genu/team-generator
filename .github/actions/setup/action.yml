@@ -1,0 +1,26 @@
+name: 'Setup Node.js and pnpm'
+description: 'Sets up Node.js, pnpm, caches dependencies, and installs them'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version-file: "package.json"
+    
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v4
+    
+    - name: Cache dependencies
+      uses: namespacelabs/nscloud-cache-action@v1
+      with:
+        path: |
+          node_modules
+          ~/.pnpm-store
+          .generated
+          .nuxt
+    
+    - name: Install Dependencies
+      run: pnpm install --frozen-lockfile
+      shell: bash
