@@ -34,10 +34,10 @@
     "dotenv": "dotenv"
   },
   "devDependencies": {
-    "@nuxt/eslint": "1.7.1",
+    "@nuxt/eslint": "1.8.0",
     "@nuxt/test-utils": "^3.19.1",
     "@playwright/test": "^1.53.1",
-    "@tanstack/eslint-plugin-query": "5.81.2",
+    "@tanstack/eslint-plugin-query": "5.83.1",
     "@types/lodash-es": "4.17.12",
     "@types/msgpack-lite": "^0.1.11",
     "@types/node": "^24.0.3",
@@ -47,7 +47,7 @@
     "dotenv-cli": "^8.0.0",
     "eslint": "9.32.0",
     "eslint-config-prettier": "10.1.8",
-    "eslint-plugin-prettier": "5.5.3",
+    "eslint-plugin-prettier": "5.5.4",
     "nuxt": "^3.17.5",
     "prisma": "^6.10.1",
     "std-env": "^3.9.0",
