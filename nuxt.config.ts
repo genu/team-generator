@@ -1,5 +1,5 @@
 export default defineNuxtConfig({
-  modules: ["@nuxt/ui", "@nuxt/eslint", "@vueuse/nuxt", "@hebilicious/vue-query-nuxt", "@nuxt/test-utils/module"],
+  modules: ["@nuxt/ui", "@nuxt/eslint", "@vueuse/nuxt", "@nuxt/test-utils/module", "@pinia/colada-nuxt", "@pinia/nuxt"],
   imports: {
     dirs: ["../.generated/vue-query", "./composables/data", "./.generated/zod"],
   },
@@ -20,9 +20,6 @@ export default defineNuxtConfig({
       },
     },
   },
-  future: {
-    compatibilityVersion: 4,
-  },
   compatibilityDate: "2024-10-26",
   nitro: {
     imports: {
@@ -35,18 +32,6 @@ export default defineNuxtConfig({
   eslint: {
     config: {
       stylistic: true,
-    },
-  },
-  vueQuery: {
-    vueQueryPluginOptions: {
-      enableDevtoolsV6Plugin: true,
-      queryClientConfig: {
-        defaultOptions: {
-          queries: {
-            staleTime: 300000, // 5 minutes
-          },
-        },
-      },
     },
   },
 })
