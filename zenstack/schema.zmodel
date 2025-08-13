@@ -1,26 +1,10 @@
 import "./includes/json-types"
 
-generator client {
-    provider = "prisma-client-js"
-}
-
-plugin prisma {
-    provider = '@core/prisma'
-    output = './schema.prisma'
-    format = true
-}
-
-plugin hooks {
-    provider = '@zenstackhq/tanstack-query'
-    output = "../.generated/vue-query"
-    target = "vue"
-}
-
-plugin zod {
-    provider = '@core/zod'
-    output = '../.generated/zod'
-    modelOnly = true
-}
+// plugin zod {
+//     provider = '@core/zod'
+//     output = '../.generated/zod'
+//     modelOnly = true
+// }
 
 datasource db {
     provider = "postgresql"
@@ -32,7 +16,7 @@ model Account {
     hash    String   @unique @default(uuid())
     leagues League[]
 
-    @@allow('all', true)
+    // @@allow('all', true)
 }
 
 model League {
@@ -46,18 +30,18 @@ model League {
     createdAt     DateTime            @default(now())
     updatedAt     DateTime?
 
-    @@allow('all', true)
+    // @@allow('all', true)
 }
 
 model Snapshot {
-    id        Int          @id @default(autoincrement())
+    id        Int       @id @default(autoincrement())
     data      Json
-    league    League       @relation(fields: [leagueId], references: [id], onDelete: Cascade)
-    createdAt DateTime     @default(now())
+    league    League    @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+    createdAt DateTime  @default(now())
     updatedAt DateTime?
     leagueId  Int
 
-    @@allow('all', true)
+    // @@allow('all', true)
 }
 
 model Player {
@@ -71,5 +55,5 @@ model Player {
     createdAt DateTime  @default(now())
     updatedAt DateTime?
 
-    @@allow('all', true)
+    // @@allow('all', true)
 }
