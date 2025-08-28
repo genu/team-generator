@@ -1,3 +1,5 @@
+import { fileURLToPath } from "url"
+
 export default defineNuxtConfig({
   modules: ["@nuxt/ui", "@nuxt/eslint", "@vueuse/nuxt", "@nuxt/test-utils/module", "@pinia/colada-nuxt", "@pinia/nuxt"],
   imports: {
@@ -20,10 +22,13 @@ export default defineNuxtConfig({
       },
     },
   },
+  alias: {
+    "#generated": fileURLToPath(new URL("./.generated", import.meta.url)),
+  },
   compatibilityDate: "2024-10-26",
   nitro: {
     imports: {
-      dirs: ["./server/helpers", "./server/social-clients", "./server/services", "./server/flows", "./.generated/zod"],
+      dirs: ["./server/helpers", "./server/services", "./.generated/zod"],
     },
   },
   typescript: {
