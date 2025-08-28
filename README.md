@@ -28,3 +28,36 @@ Start the development server on http://localhost:3000
 ```bash
 pnpm dev
 ```
+
+## Testing
+
+### Automated Test Suite
+To run the full test suite (handles all setup automatically):
+
+```bash
+bun run test
+```
+
+### Manual Test Setup (for VS Code or local debugging)
+For running tests manually or in VS Code, follow these steps in order:
+
+1. Start the test database:
+```bash
+bun test:db
+```
+
+2. Run migrations and start the dev server on port 3001:
+```bash
+bun test:dev
+```
+
+3. Run tests (in VS Code Playwright extension or command line):
+```bash
+bun playwright test
+# OR
+bun playwright:ui
+```
+
+### Other Test Commands
+- `bun test:db:reset` - Reset the test database
+- `bun test:ci` - Build and preview mode for CI (alternative to test:dev)
