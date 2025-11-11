@@ -44,7 +44,7 @@
     "@vueuse/core": "^13.4.0",
     "@vueuse/nuxt": "^13.4.0",
     "@zenstackhq/tanstack-query": "^2.16.0",
-    "dotenv-cli": "^8.0.0",
+    "dotenv-cli": "^11.0.0",
     "eslint": "9.35.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-prettier": "5.5.4",
