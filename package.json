@@ -48,7 +48,7 @@
     "eslint": "9.35.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-prettier": "5.5.4",
-    "nuxt": "^3.17.5",
+    "nuxt": "^4.0.0",
     "prisma": "^6.10.1",
     "std-env": "^3.9.0",
     "vue-tsc": "^3.0.0",
