@@ -1,9 +1,9 @@
-import { fileURLToPath } from "url"
+import { resolve } from "pathe"
 
 export default defineNuxtConfig({
   modules: ["@nuxt/ui", "@nuxt/eslint", "@vueuse/nuxt", "@nuxt/test-utils/module", "@pinia/colada-nuxt", "@pinia/nuxt"],
   imports: {
-    dirs: ["../.generated/vue-query", "./composables/data", "./.generated/zod"],
+    dirs: ["./queries"],
   },
   css: ["~/assets/css/main.css"],
   colorMode: {
@@ -16,19 +16,18 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      logrocketAppId: "",
       site: {
         url: "",
       },
     },
   },
   alias: {
-    "#generated": fileURLToPath(new URL("./.generated", import.meta.url)),
+    "#generated": resolve("./.generated/"),
   },
   compatibilityDate: "2024-10-26",
   nitro: {
     imports: {
-      dirs: ["./server/helpers", "./server/services", "./.generated/zod"],
+      dirs: ["./server/helpers", "./server/services"],
     },
   },
   typescript: {
