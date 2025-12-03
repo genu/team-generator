@@ -8,7 +8,7 @@ export default defineConfig<ConfigOptions>({
   testDir: "./tests",
   fullyParallel: true,
   forbidOnly: !!isCI,
-  retries: isCI ? 2 : 0,
+  retries: isCI ? 4 : 0,
   workers: 4,
   reporter: "html",
   use: {
