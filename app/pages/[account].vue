@@ -31,7 +31,7 @@
     include: { leagues: { select: { id: true, name: true } } },
   })
 
-  const leagueMenu: DropdownMenuItem[] = [
+  const leagueMenu = computed<DropdownMenuItem[]>(() => [
     {
       label: "Your Leagues",
       type: "label",
@@ -59,20 +59,31 @@
     {
       label: "Delete this league",
       slot: "delete-league",
+      disabled: (account.value?.leagues.length ?? 0) <= 1,
       onSelect: async () => {
         confirm({
           title: "Delete League",
           description: `Are you sure you want to remove "${league.value?.name}" league?`,
         })
           .onConfirm(async () => {
-            if (!league.value) return
+            if (!league.value || !account.value?.hash) return
 
+            const currentLeagueId = league.value.id
+            const accountLeagues = [...account.value.leagues]
+            const hash = account.value.hash
             const deletedLeague = await deleteLeagueAsync({
               where: {
-                id: league.value.id,
+                id: currentLeagueId,
               },
               select: { name: true },
             })
+
+            // Find the next available league to select
+            const nextLeague = accountLeagues.find((l) => l.id !== currentLeagueId)
+            if (nextLeague) {
+              await navigateTo(`/${hash}?league=${nextLeague.id}`)
+            }
+
             toast.add({
               icon: "i-ph-check-fat-fill",
               title: `${deletedLeague?.name} deleted`,
@@ -81,7 +92,7 @@
           .open()
       },
     },
-  ]
+  ])
 
   const leaguesDropdown = computed<DropdownMenuItem[][]>(() => {
     let mappedLeagues: DropdownMenuItem[] =
@@ -109,7 +120,7 @@
       })
     }
 
-    return [mappedLeagues, leagueMenu]
+    return [mappedLeagues, leagueMenu.value]
   })
 </script>
 

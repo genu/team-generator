@@ -13,15 +13,6 @@ test.describe("Managing leagues", () => {
     await expect(await page.getByTestId("league-dropdown-button")).toContainText("La Liga")
   })
 
-  test("deleting a league", async ({ page }) => {
-    // Delete the league
-    await page.getByTestId("league-dropdown-button").click()
-    await page.getByRole("menuitem", { name: "Delete this league" }).click()
-    await page.getByRole("button", { name: "Yes" }).click()
-
-    await expect(await page.getByTestId("league-dropdown-button")).toContainText("Select League")
-  })
-
   test("duplicate a league", async ({ page }) => {
     // Duplicate the league
     await page.getByTestId("league-dropdown-button").click()
@@ -37,5 +28,33 @@ test.describe("Managing leagues", () => {
 
     // Open the league menu
     await expect(await getNumberOfLeagues(page)).toBe(2)
+  })
+
+  test.describe("deleting leagues", () => {
+    test("should auto select the next available league", async ({ page }) => {
+      // Create a second league
+      await createLeagueFromMenu(page, "Premier League")
+      await expect(page.getByTestId("league-dropdown-button")).toContainText("Premier League")
+
+      // Verify we have 2 leagues
+      await expect(await getNumberOfLeagues(page)).toBe(2)
+
+      // Delete the current league (Premier League)
+      await page.getByRole("menuitem", { name: "Delete this league" }).click()
+      await page.getByRole("button", { name: "Yes" }).click()
+
+      // Should automatically select the remaining league (La Liga)
+      await expect(page.getByTestId("league-dropdown-button")).toContainText("La Liga")
+      await expect(await getNumberOfLeagues(page)).toBe(1)
+    })
+
+    test("should prevent deleting the last league", async ({ page }) => {
+      // There's only one league (La Liga) from beforeEach
+      await page.getByTestId("league-dropdown-button").click()
+
+      // The delete option should be disabled or not available
+      const deleteMenuItem = page.getByRole("menuitem", { name: "Delete this league" })
+      await expect(deleteMenuItem).toBeDisabled()
+    })
   })
 })
