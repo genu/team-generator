@@ -64,7 +64,6 @@
           title: "Delete League",
           description: `Are you sure you want to remove "${league.value?.name}" league?`,
         })
-          .open()
           .onConfirm(async () => {
             if (!league.value) return
 
@@ -79,6 +78,7 @@
               title: `${deletedLeague?.name} deleted`,
             })
           })
+          .open()
       },
     },
   ]
