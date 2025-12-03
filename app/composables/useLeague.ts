@@ -1,14 +1,14 @@
-import { useMutation, useQueryClient } from "@tanstack/vue-query"
 import type { LeagueEditForm } from "#shared/schemas/forms"
 import type { Snapshot } from "#shared/schemas"
-import { SnapshotPlayerSchema, SnapshotSchem } from "#shared/schemas"
+import { SnapshotPlayerSchema, SnapshotSchema } from "#shared/schemas"
 import { LeagueEdit } from "#components"
-import type { ShirtColorEnum } from "#shared/schemas/forms/league-edit.form"
 
 export const useLeague = (leagueId: Ref<number | undefined>) => {
-  const queryClient = useQueryClient()
-  const { mutateAsync: deleteLeagueAsync } = useDeleteLeague()
-  const { mutateAsync: updateLeagueAsync, isPending: isUpdatingLeague } = useUpdateLeague()
+  const queryCache = useQueryCache()
+  const client = useClientQueries()
+
+  const { mutateAsync: deleteLeagueAsync } = client.league.useDelete()
+  const { mutateAsync: updateLeagueAsync, isLoading: isUpdatingLeague } = client.league.useUpdate()
   const overlay = useOverlay()
   const toast = useToast()
   const { y: scrollY } = useScroll(import.meta.client ? window : null)
@@ -16,11 +16,7 @@ export const useLeague = (leagueId: Ref<number | undefined>) => {
   const editedLeagueData = ref<LeagueEditForm | null>(null)
   const latestUnsavedSnapshot = ref<Snapshot>()
 
-  const {
-    data: league,
-    isLoading,
-    suspense: suspenseLeague,
-  } = useFindUniqueLeague(
+  const { data: league, isLoading } = client.league.useFindUnique(
     computed(() => ({
       where: { id: leagueId.value },
       include: { snapshots: { orderBy: { createdAt: "desc" } }, players: { orderBy: { id: "asc" } } },
@@ -43,11 +39,7 @@ export const useLeague = (leagueId: Ref<number | undefined>) => {
 
   const parsedSnapshots = computed(() => {
     if (!league.value?.snapshots) return []
-    return league.value.snapshots.map((s) => SnapshotSchem.parse(s))
-  })
-
-  onServerPrefetch(async () => {
-    if (leagueId.value) await suspenseLeague()
+    return league.value.snapshots.map((s) => SnapshotSchema.parse(s))
   })
 
   watch(league, (newLeague) => {
@@ -64,7 +56,7 @@ export const useLeague = (leagueId: Ref<number | undefined>) => {
   })
 
   const { mutateAsync: duplicateLeagueAsync } = useMutation({
-    mutationFn: async (leagueId: number) => {
+    mutation: async (leagueId: number) => {
       const res = await $fetch("/api/account/league/duplicate", {
         method: "POST",
         body: { id: leagueId },
@@ -72,7 +64,7 @@ export const useLeague = (leagueId: Ref<number | undefined>) => {
       return res
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["zenstack", "Account"] })
+      queryCache.invalidateQueries({ key: ["zenstack", "account"] })
     },
   })
 
@@ -95,7 +87,7 @@ export const useLeague = (leagueId: Ref<number | undefined>) => {
       options: {
         name: league.value.name!,
         teamCount: league.value.configuration.teamCount,
-        teamColors: league.value.configuration.teamColors as ShirtColorEnum[],
+        teamColors: league.value.configuration.teamColors,
       },
       rules: {
         keepGoalies: league.value.configuration.rules.keepGoalies!,

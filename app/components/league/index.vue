@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-  import type { LeagueConfiguration } from "@zenstackhq/runtime/models"
+  import type { LeagueConfiguration } from "#generated/zenstack/models"
   import { useBrowserLocation } from "@vueuse/core"
   import { DialogShareLeague } from "#components"
   import { SnapshotDataSchema, type Snapshot, type SnapshotPlayer } from "#shared/schemas"
@@ -15,7 +15,9 @@
 
   const location = useBrowserLocation()
   const overlay = useOverlay()
-  const { mutateAsync: createSnapshotAsync } = useCreateSnapshot()
+  const client = useClientQueries()
+
+  const { mutateAsync: createSnapshotAsync } = client.snapshot.useCreate()
 
   const shareLeagueDialog = overlay.create(DialogShareLeague)
 

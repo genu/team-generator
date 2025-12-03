@@ -2,9 +2,6 @@ import { resolve } from "pathe"
 
 export default defineNuxtConfig({
   modules: ["@nuxt/ui", "@nuxt/eslint", "@vueuse/nuxt", "@nuxt/test-utils/module", "@pinia/colada-nuxt", "@pinia/nuxt"],
-  imports: {
-    dirs: ["./queries"],
-  },
   css: ["~/assets/css/main.css"],
   colorMode: {
     preference: "light",
@@ -12,13 +9,6 @@ export default defineNuxtConfig({
   ui: {
     theme: {
       colors: ["primary", "secondary", "tertiary", "info", "success", "warning", "error"],
-    },
-  },
-  runtimeConfig: {
-    public: {
-      site: {
-        url: "",
-      },
     },
   },
   alias: {

@@ -85,7 +85,7 @@
             <div class="bg-tertiary text-center text-sm text-inverted sticky top-0 w-full">Squad</div>
             <div
               class="relative w-full flex items-center justify-end bg-tertiary dark:bg-gray-800 border-gray-800 border p-2 border-t-0 -mt-px">
-              <FormsAddPlayer ref="addPlayerFormRef" @add-player="onAddPlayer" />
+              <FormsAddPlayer ref="addPlayerFormRef" class="w-full" @add-player="onAddPlayer" />
             </div>
             <div
               v-if="leagueForm.players?.length && leagueForm.players.length > 0"
@@ -119,7 +119,9 @@
               :ui="{ thead: leagueForm.players?.length === 0 ? 'hidden' : '', td: 'p-1.5', th: 'py-1.5 px-2' }">
               <template #isActive-cell="{ row }">
                 <div class="flex items-center justify-center">
-                  <FormSwitch :name="`players.${row.index}.isActive`" size="lg" />
+                  <FormwerkField :name="`players.${row.index}.isActive`" #="{ value, setValue }">
+                    <USwitch :model-value="value" size="lg" @update:model-value="setValue" />
+                  </FormwerkField>
                 </div>
               </template>
               <template #name-cell="{ row }">
@@ -127,23 +129,28 @@
               </template>
               <template #rank-cell="{ row }">
                 <div class="w-24">
-                  <FormInputNumber
-                    :name="`players.${row.index}.rank`"
-                    disable-keyboard-input
-                    size="lg"
-                    :min="1"
-                    :max="10"
-                    :step="1"
-                    :ui="{ input: { base: 'disabled' } }" />
+                  <FormwerkField :name="`players.${row.index}.rank`" #="{ value, setValue }">
+                    <UInputNumber
+                      :model-value="value"
+                      size="lg"
+                      :min="1"
+                      :max="10"
+                      :step="1"
+                      :ui="{ base: 'disabled' }"
+                      @update:model-value="setValue" />
+                  </FormwerkField>
                 </div>
               </template>
               <template #isGoalie-cell="{ row }">
                 <div class="flex items-center justify-center">
-                  <FormCheckbox
-                    :name="`players.${row.index}.isGoalie`"
-                    size="xl"
-                    color="neutral"
-                    :ui="{ input: { root: 'justify-around' } }" />
+                  <FormwerkField :name="`players.${row.index}.isGoalie`" #="{ value, setValue }">
+                    <UCheckbox
+                      :model-value="value"
+                      :ui="{ root: 'justify-around' }"
+                      size="xl"
+                      color="neutral"
+                      @update:model-value="setValue" />
+                  </FormwerkField>
                 </div>
               </template>
               <template #actions-cell="{ row }">
@@ -166,83 +173,10 @@
             type="single"
             :ui="{ trigger: 'px-2' }">
             <template #options>
-              <FormGroup name="options" class="flex flex-col gap-2 p-2">
-                <FormInput
-                  name="name"
-                  size="lg"
-                  placeholder="League Name"
-                  label="League Name:"
-                  :ui="{
-                    field: { root: 'flex items-center gap-2', labelWrapper: 'flex justify-end', wrapper: 'w-28', container: 'flex-1' },
-                    input: { root: 'flex items-center gap-2' },
-                  }" />
-                <FormInputNumber
-                  name="teamCount"
-                  label="# of Teams:"
-                  size="lg"
-                  placeholder="Team Count"
-                  :ui="{
-                    field: { root: 'flex items-center gap-2', labelWrapper: 'flex justify-end', wrapper: 'w-28', container: 'flex-1' },
-                    input: { root: 'w-28' },
-                  }"
-                  disable-keyboard-input
-                  :increment="{ color: 'info', variant: 'solid', size: 'sm' }"
-                  :decrement="{ color: 'info', variant: 'solid', size: 'sm' }" />
-
-                <DevOnly>
-                  <FormCheckbox
-                    :ui="{
-                      field: {
-                        root: 'flex items-center gap-2',
-                        labelWrapper: 'flex justify-end',
-                        wrapper: 'w-28',
-                        container: 'flex-1',
-                      },
-                    }"
-                    size="lg"
-                    color="info"
-                    name="useTeamColors"
-                    label="Use Team Colors"
-                    description="Assign shirt colors for teams" />
-
-                  <FormSelect
-                    v-if="leagueForm.options?.useTeamColors"
-                    name="teamColors"
-                    size="lg"
-                    placeholder="Select Team Colors"
-                    value-key="name"
-                    label-key="name"
-                    :items="colors"
-                    multiple
-                    :ui="{
-                      field: {
-                        root: 'flex items-center gap-2',
-                        labelWrapper: 'flex justify-end',
-                        wrapper: 'w-28',
-                        container: 'flex-1',
-                      },
-                      input: { base: 'flex w-full', content: 'w-full' },
-                    }">
-                    <template #input-item-label="{ item }">
-                      <div
-                        :style="{ backgroundColor: (item as ShirtColor).background, color: (item as ShirtColor).foreground }"
-                        class="p-1 rounded-md bg-gray-200">
-                        {{ (item as ShirtColor).name }}
-                      </div>
-                    </template>
-                  </FormSelect>
-                </DevOnly>
-              </FormGroup>
+              <FormsLeagueOptions />
             </template>
             <template #rules>
-              <FormGroup name="rules" class="flex flex-col gap-2 p-2">
-                <FormCheckbox name="goaliesFirst" label="Choose goalies first" />
-                <FormCheckbox
-                  name="noBestGolieAndPlayer"
-                  disabled
-                  label="Best goalie cannot be on same team with best player (soon)" />
-                <FormCheckbox name="keepGoalies" label="Keep goalies (soon)" disabled />
-              </FormGroup>
+              <FormsLeagueRules />
             </template>
           </UAccordion>
         </div>

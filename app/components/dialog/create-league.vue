@@ -1,24 +1,29 @@
 <script lang="ts" setup>
+  import { EditLeagueFormSchema } from "#shared/schemas/forms"
   import { useForm } from "@formwerk/core"
-  import { CreateLeagueFormSchema } from "#shared/schemas/forms"
 
   const { accountId } = defineProps<{ accountId: number }>()
+
+  const client = useClientQueries()
   const emits = defineEmits<{ close: [number] }>()
 
-  const { mutateAsync: asyncCreateLeague, isPending: loading } = useCreateLeague()
-
-  const form = useForm({
-    id: "CreateLeagueForm",
-    schema: CreateLeagueFormSchema,
-  })
+  const { mutateAsync: asyncCreateLeague, isLoading: loading } = client.league.useCreate()
   const toast = useToast()
 
-  const onCreateLeague = form.handleSubmit(async (form) => {
-    const { name } = form.toJSON()
+  const editLeagueForm = useForm({
+    schema: EditLeagueFormSchema,
+    id: "EditLeague",
+    initialValues: {
+      name: "",
+    },
+  })
+
+  const onCreateLeague = editLeagueForm.handleSubmit(async (form) => {
+    const data = form.toJSON()
 
     const league = await asyncCreateLeague({
       data: {
-        name,
+        ...data,
         accountId,
         configuration: {
           teamCount: 2,
@@ -44,7 +49,11 @@
 
 <template>
   <OverlayModal title="Create a League" size="xs">
-    <FormInput name="name" placeholder="League Name" />
+    <FormwerkForm>
+      <FormwerkField name="name" #="{ setValue, value }">
+        <UInput :model-value="value" placeholder="League Name" @update:model-value="setValue" />
+      </FormwerkField>
+    </FormwerkForm>
 
     <template #footer-right>
       <UButton color="primary" :loading @click="onCreateLeague()">Create</UButton>

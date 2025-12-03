@@ -1,14 +1,17 @@
 import "./includes/json-types"
 
-// plugin zod {
-//     provider = '@core/zod'
-//     output = '../.generated/zod'
-//     modelOnly = true
-// }
-
 datasource db {
     provider = "postgresql"
     url      = env("DATABASE_URL")
+}
+
+plugin ts {
+    provider = '@core/typescript'
+    output = '../.generated/zenstack'
+}
+
+plugin policy {
+    provider = "@zenstackhq/plugin-policy"
 }
 
 model Account {
@@ -16,7 +19,7 @@ model Account {
     hash    String   @unique @default(uuid())
     leagues League[]
 
-    // @@allow('all', true)
+    @@allow('all', true)
 }
 
 model League {
@@ -30,7 +33,7 @@ model League {
     createdAt     DateTime            @default(now())
     updatedAt     DateTime?
 
-    // @@allow('all', true)
+    @@allow('all', true)
 }
 
 model Snapshot {
@@ -41,7 +44,7 @@ model Snapshot {
     updatedAt DateTime?
     leagueId  Int
 
-    // @@allow('all', true)
+    @@allow('all', true)
 }
 
 model Player {
@@ -55,5 +58,5 @@ model Player {
     createdAt DateTime  @default(now())
     updatedAt DateTime?
 
-    // @@allow('all', true)
+    @@allow('all', true)
 }

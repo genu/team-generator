@@ -7,6 +7,7 @@
   const overlay = useOverlay()
   const accountHash = useRouteParams("account", undefined, { transform: String })
   const leagueId = useRouteQuery("league", undefined, { transform: (value) => (value ? parseInt(value) : undefined) })
+
   const {
     league,
     isLoading: isLoadingLeague,
@@ -23,18 +24,11 @@
   const toast = useToast()
 
   const createLeagueDialog = overlay.create(DialogCreateLeague)
+  const client = useClientQueries()
 
-  const {
-    data: account,
-    isLoading,
-    suspense: suspenseAccount,
-  } = useFindUniqueAccount({
+  const { data: account, isLoading } = client.account.useFindUnique({
     where: { hash: accountHash.value },
     include: { leagues: { select: { id: true, name: true } } },
-  })
-
-  onServerPrefetch(async () => {
-    await suspenseAccount()
   })
 
   const leagueMenu: DropdownMenuItem[] = [
@@ -149,10 +143,10 @@
           </UDropdownMenu>
         </h2>
         <div class="flex md:mt-0 md:ml-4 gap-4">
-          <UButtonGroup size="lg">
+          <UFieldGroup size="lg">
             <UButton variant="soft" color="neutral" label="Edit" :disabled="isUpdatingLeague" @click="actions.edit" />
             <UButton data-testid="league-save-button" :loading="isUpdatingLeague" label="Save" @click="actions.save" />
-          </UButtonGroup>
+          </UFieldGroup>
         </div>
       </div>
 
@@ -166,20 +160,35 @@
               <USkeleton v-for="n in 3" :key="n" class="flex-1 h-40" />
             </div>
           </div>
-          <EmptyStateButton
+          <UEmpty
             v-else-if="!league"
+            description="You have no league selected."
             icon="i-ph-users-three-light"
-            label="Create a league"
-            @click="createLeagueDialog.open()" />
+            :actions="[
+              {
+                label: 'Create a league',
+                onClick: () => {
+                  createLeagueDialog.open()
+                },
+                variant: 'soft',
+              },
+            ]" />
 
           <div v-else>
-            <Title>{{ league?.name }}</Title>
+            <Title>{{ league.name }}</Title>
 
-            <EmptyStateButton
+            <UEmpty
               v-if="currentPlayers.length === 0"
+              class="w-8/10 mx-auto"
+              :description="`Add some players to the ${league.name}`"
               icon="i-ph-users-three-light"
-              :label="`Add some players to the ${league.name}`"
-              @click="actions.edit" />
+              :actions="[
+                {
+                  label: 'Add players',
+                  onClick: actions.edit,
+                },
+              ]" />
+
             <League
               v-else-if="leagueConfiguration"
               v-model:latest-unsaved-snapshot="latestUnsavedSnapshot"

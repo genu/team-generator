@@ -1,5 +1,5 @@
-import type { LeagueConfiguration, Player } from "@zenstackhq/runtime/models"
-import { groupBy, random, orderBy, filter, size, cloneDeep } from "lodash-es"
+import type { LeagueConfiguration, Player } from "#generated/zenstack/models"
+import { groupBy, random, orderBy, size, cloneDeep } from "lodash-es"
 import { SnapshotDataSchema, type SnapshotData, type SnapshotPlayer, type Snapshot } from "#shared/schemas"
 
 export const useTeamShuffle = (snapshotData: Ref<SnapshotData>, latestUnsavedSnapshot?: Ref<Snapshot | undefined>) => {
@@ -46,7 +46,7 @@ export const useTeamShuffle = (snapshotData: Ref<SnapshotData>, latestUnsavedSna
    * @returns Non-reactive snapshot of teams
    */
   const shuffle = (players: SnapshotPlayer[], options: LeagueConfiguration) => {
-    const onlyActivePlayers = filter(players, (player) => player.isActive)
+    const onlyActivePlayers = players.filter((player) => player.isActive)
     const groupedByRank = groupBy(onlyActivePlayers, "rank")
 
     teamChoosing.value = random(0, options.teamCount - 1)
@@ -59,7 +59,7 @@ export const useTeamShuffle = (snapshotData: Ref<SnapshotData>, latestUnsavedSna
     // First pick goal keepers
     if (options.rules?.goaliesFirst) {
       const goalKeepers = orderBy(
-        filter(players, (player) => player.isGoalie && player.isActive),
+        players.filter((player) => player.isGoalie && player.isActive),
         ["rank"],
         ["desc"],
       )
@@ -79,7 +79,7 @@ export const useTeamShuffle = (snapshotData: Ref<SnapshotData>, latestUnsavedSna
     }
 
     while (rank > 0) {
-      const playersAtRank = groupedByRank[rank] || []
+      const playersAtRank: SnapshotPlayer[] = groupedByRank[rank] || []
 
       while (playersAtRank.length > 0) {
         const randomPlayerFromRank = playersAtRank.splice(random(0, playersAtRank.length - 1), 1)[0]!
