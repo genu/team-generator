@@ -114,14 +114,12 @@ export const useLeague = (leagueId: Ref<number | undefined>) => {
       ? {
           create: {
             data: latestUnsavedSnapshot.value.data!,
-            leagueId: league.value.id!,
           },
         }
       : undefined
 
     await updateLeagueAsync({
       data: {
-        accountId: league.value.accountId,
         name: formData.options.name,
         configuration: {
           teamCount: formData.options.teamCount,
