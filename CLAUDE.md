@@ -15,18 +15,20 @@ Team Generator is a Nuxt 4 application for creating balanced teams based on play
 - `pnpm preview` - Preview production build
 
 ### Database Management
-- `pnpm db:migrate` - Run database migrations (development)
-- `pnpm db:generate` - Generate ZenStack output to `.generated/zenstack` (runs on postinstall)
-- `zen generate` - Generate ZenStack schemas directly
-- `zen migrate dev` - Run migrations with ZenStack
-- `zen migrate deploy` - Deploy migrations (production)
+- `pnpm db:migrate` - Run database migrations (development) - uses `zen migrate dev`
+- `pnpm db:generate` - Generate ZenStack output with `--lite` flag to `.generated/zenstack` (runs on postinstall)
+- `pnpm db:deploy` - Deploy migrations (production) - uses `zen migrate deploy`
+- Direct ZenStack CLI usage:
+  - `zen generate` - Generate ZenStack schemas directly
+  - `zen migrate dev` - Run migrations with ZenStack directly
+  - `zen migrate deploy` - Deploy migrations (production) directly
 
 ### Testing
 - `pnpm test` - Full automated test suite (manages Docker containers)
-- `pnpm test:dev` - Start test server on port 3001 with test database
-- `pnpm test:ci` - Build and preview for CI testing
-- `pnpm test:db` - Start test database container
-- `pnpm test:db:reset` - Reset test database
+- `pnpm test:dev` - Reset test database and start dev server on port 3001 with test database
+- `pnpm test:server` - Preview production build with test database
+- `pnpm test:db` - Stop and restart test database container (fresh start)
+- `pnpm test:db:reset` - Reset test database (force reset migrations)
 - `pnpm playwright test` - Run Playwright tests
 - `pnpm playwright:ui` - Run Playwright with UI
 
@@ -52,18 +54,22 @@ Team Generator is a Nuxt 4 application for creating balanced teams based on play
 - **Nuxt 4**: Vue.js framework with file-based routing in [app/pages/](app/pages/)
 - **UI Framework**: Nuxt UI with custom theme colors (primary, secondary, tertiary, info, success, warning, error)
 - **State Management**: Pinia with Pinia Colada for reactive data fetching
+  - Global Pinia Colada options in [colada.options.ts](colada.options.ts)
 - **Data Fetching**: `zenstack-pinia-colada` package integrates ZenStack with Pinia Colada queries
   - [app/composables/useClientQueries.ts](app/composables/useClientQueries.ts) wraps the integration
   - [app/components/provide/ZenstackContext.vue](app/components/provide/ZenstackContext.vue) provides query settings with custom fetch
-- **Styling**: Tailwind CSS with custom form components
-- **Formwerk**: Form handling library integrated at `@formwerk/core`
+  - [app/components/provide/AppContext.vue](app/components/provide/AppContext.vue) wraps the app with necessary providers
+- **Styling**: Tailwind CSS
+- **Forms**: Formwerk (`@formwerk/core`) for form handling with custom components in [layers/core/app/components/formwerk/](layers/core/app/components/formwerk/)
 
 ### Key Directories
 - `app/` - Main application code (Nuxt 4 structure)
 - `server/` - API routes and utilities
 - `shared/` - Shared schemas and types
 - `zenstack/` - Database schema and migrations
+- `layers/core/` - Nuxt layer with core Formwerk components and configuration
 - `tests/` - Playwright test suites
+- `.generated/zenstack/` - Auto-generated ZenStack client code (do not edit)
 
 ### Data Flow
 1. ZenStack generates enhanced Prisma client with type-safe models and RPC client
@@ -99,6 +105,10 @@ Playwright tests run on port 3001 with separate test database (`.env.test`). The
 ## Important Notes
 
 - **Package Manager**: pnpm with lockfile (Node.js 22.x, pnpm 10.x required)
+  - Package manager is pinned via `packageManager` field in package.json
+  - Uses `.npmrc` with `shamefully-hoist=true` configuration
 - **Generated files**: Never edit files in `.generated/zenstack` - regenerate with `pnpm db:generate`
-- **Database changes**: Always update [zenstack/schema.zmodel](zenstack/schema.zmodel), then run `zen migrate dev`
+- **Database changes**: Always update [zenstack/schema.zmodel](zenstack/schema.zmodel), then run `pnpm db:migrate` or `zen migrate dev`
 - **Nuxt config**: Module configuration at [nuxt.config.ts](nuxt.config.ts) with layer support in [layers/core/](layers/core/)
+- **Custom form components**: Removed in favor of Nuxt UI native components and Formwerk integration in core layer
+- **Test database**: Uses separate `.env.test` file - test commands automatically reset the database before running

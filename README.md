@@ -24,15 +24,17 @@ PostgreSQL is used for data storage. You can use Docker or a local PostgreSQL in
    DATABASE_URL="postgresql://user:password@localhost:5432/team_generator"
    ```
 
-3. Install dependencies (this will also generate ZenStack schemas):
+3. Install dependencies (this will also run Nuxt prepare and generate ZenStack schemas):
    ```bash
    pnpm install
    ```
+   The `postinstall` script automatically runs `nuxt:prepare` and `db:generate`.
 
 4. Run database migrations:
    ```bash
    pnpm db:migrate
    ```
+   This uses `zen migrate dev` under the hood.
 
 ## Development Server
 
@@ -61,10 +63,11 @@ For running tests manually, follow these steps in order:
    pnpm test:db
    ```
 
-2. Run migrations and start the dev server on port 3001:
+2. Reset database and start the dev server on port 3001:
    ```bash
    pnpm test:dev
    ```
+   This command automatically resets the test database before starting the server.
 
 3. Run tests (in VS Code Playwright extension or command line):
    ```bash
@@ -75,5 +78,5 @@ For running tests manually, follow these steps in order:
 
 ### Other Test Commands
 - `pnpm test:db:reset` - Reset the test database
-- `pnpm test:ci` - Build and preview mode for CI (alternative to test:dev)
+- `pnpm test:server` - Preview production build with test database
 
