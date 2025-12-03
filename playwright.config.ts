@@ -19,7 +19,7 @@ export default defineConfig<ConfigOptions>({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: isCI ? "dotenv -e .env.test -- nuxt preview" : "pnpm test:ci",
+    command: isCI ? "pnpm dotenv -e .env.test -- nuxt preview" : "pnpm test:ci",
     url: "http://localhost:3001",
     reuseExistingServer: !isCI,
     timeout: 300000, // 5 minutes
