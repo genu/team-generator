@@ -15,10 +15,11 @@ Team Generator is a Nuxt 4 application for creating balanced teams based on play
 - `pnpm preview` - Preview production build
 
 ### Database Management
-- `pnpm prisma migrate dev` - Run database migrations (development)
-- `pnpm db:migrate` - Prisma migrate wrapper with env loading
-- `pnpm db:generate` - Generate ZenStack output to .generated/zenstack
-- `zenstack generate` - Generate ZenStack schemas directly
+- `pnpm db:migrate` - Run database migrations (development)
+- `pnpm db:generate` - Generate ZenStack output to `.generated/zenstack` (runs on postinstall)
+- `zen generate` - Generate ZenStack schemas directly
+- `zen migrate dev` - Run migrations with ZenStack
+- `zen migrate deploy` - Deploy migrations (production)
 
 ### Testing
 - `pnpm test` - Full automated test suite (manages Docker containers)
@@ -41,15 +42,21 @@ Team Generator is a Nuxt 4 application for creating balanced teams based on play
 ## Architecture
 
 ### Database Layer
-- **ZenStack**: Enhanced Prisma with additional features, schema located at `zenstack/schema.zmodel`
-- **Models**: Account → League → Players/Snapshots hierarchy
-- **Generated files**: ZenStack outputs to `.generated/zenstack`
+- **ZenStack**: Enhanced Prisma with additional features, schema located at [zenstack/schema.zmodel](zenstack/schema.zmodel)
+- **Models**: Account → League → Players/Snapshots hierarchy with cascade delete
+- **Generated files**: ZenStack outputs to `.generated/zenstack` (both full and lite schemas)
+- **Database client**: Server uses ZenStackClient with PostgreSQL via Kysely dialect in [server/utils/database.ts](server/utils/database.ts)
+- **API endpoint**: ZenStack RPC handler at [server/api/model/[...].ts](server/api/model/[...].ts) provides model CRUD operations
 
 ### Frontend Architecture
-- **Nuxt 4**: Vue.js framework with file-based routing
-- **UI Framework**: Nuxt UI with custom theme colors
-- **State Management**: Pinia with Pinia Colada for data fetching
-- **Styling**: Tailwind CSS with custom components in `components/form/`
+- **Nuxt 4**: Vue.js framework with file-based routing in [app/pages/](app/pages/)
+- **UI Framework**: Nuxt UI with custom theme colors (primary, secondary, tertiary, info, success, warning, error)
+- **State Management**: Pinia with Pinia Colada for reactive data fetching
+- **Data Fetching**: `zenstack-pinia-colada` package integrates ZenStack with Pinia Colada queries
+  - [app/composables/useClientQueries.ts](app/composables/useClientQueries.ts) wraps the integration
+  - [app/components/provide/ZenstackContext.vue](app/components/provide/ZenstackContext.vue) provides query settings with custom fetch
+- **Styling**: Tailwind CSS with custom form components
+- **Formwerk**: Form handling library integrated at `@formwerk/core`
 
 ### Key Directories
 - `app/` - Main application code (Nuxt 4 structure)
@@ -59,22 +66,39 @@ Team Generator is a Nuxt 4 application for creating balanced teams based on play
 - `tests/` - Playwright test suites
 
 ### Data Flow
-- ZenStack generates enhanced Prisma client
-- Pinia Colada handles API state management
-- Form validation using shared Zod schemas in `shared/schemas/`
-- Team generation logic in `composables/useTeamShuffle.ts`
+1. ZenStack generates enhanced Prisma client with type-safe models and RPC client
+2. Frontend uses `useClientQueries()` to create reactive queries against `/api/model` endpoint
+3. Pinia Colada manages query caching, invalidation, and optimistic updates
+4. Form validation uses shared Zod schemas in [shared/schemas/](shared/schemas/)
+5. Team generation algorithm in [app/composables/useTeamShuffle.ts](app/composables/useTeamShuffle.ts:48):
+   - Optionally assigns goalies first (if `rules.goaliesFirst`)
+   - Distributes players by rank (highest to lowest) across teams in round-robin fashion
+   - Supports drag-and-drop player reordering with snapshot updates
 
 ## Environment Setup
 
-1. Install dependencies: `pnpm install`
-2. Copy `.env.example` to `.env` 
-3. Set `DATABASE_URL` in `.env`
-4. Run migrations: `pnpm prisma migrate dev`
+1. Install dependencies: `pnpm install` (runs `nuxt:prepare` and `db:generate` on postinstall)
+2. Copy `.env.example` to `.env`
+3. Set `DATABASE_URL` in `.env` (PostgreSQL connection string)
+4. Run migrations: `pnpm db:migrate`
+5. Start development server: `pnpm dev`
 
 ## Testing Strategy
 
-Tests run on port 3001 with separate test database. Use `pnpm test` for full automation or follow the manual setup sequence for development/debugging.
+Playwright tests run on port 3001 with separate test database (`.env.test`). The test suite includes:
+- [tests/manage-leagues.spec.ts](tests/manage-leagues.spec.ts) - League CRUD operations
+- [tests/manage-squad.spec.ts](tests/manage-squad.spec.ts) - Player and team management
 
-## Package Manager
+**Automated approach:** `pnpm test` handles Docker container lifecycle and runs full suite.
 
-Uses `pnpm` with lockfile. Node.js 22.x and pnpm 10.x required.
+**Manual approach** (for debugging):
+1. `pnpm test:db` - Start PostgreSQL container
+2. `pnpm test:dev` - Run migrations and start dev server on port 3001
+3. `pnpm playwright:ui` - Launch Playwright UI
+
+## Important Notes
+
+- **Package Manager**: pnpm with lockfile (Node.js 22.x, pnpm 10.x required)
+- **Generated files**: Never edit files in `.generated/zenstack` - regenerate with `pnpm db:generate`
+- **Database changes**: Always update [zenstack/schema.zmodel](zenstack/schema.zmodel), then run `zen migrate dev`
+- **Nuxt config**: Module configuration at [nuxt.config.ts](nuxt.config.ts) with layer support in [layers/core/](layers/core/)
