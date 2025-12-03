@@ -7,9 +7,8 @@
   }>()
 
   const toast = useToast()
-
   const form = useForm({
-    id: "AddPlayerForm",
+    id: "AddPlayer",
     schema: PlayerEditFormSchema,
     initialValues: {
       isActive: true,
@@ -17,6 +16,7 @@
       rank: 1,
     },
   })
+
   const onAddPlayer = async () => {
     const { isValid, output } = await form.validate()
 
@@ -26,6 +26,7 @@
         icon: "i-ph-warning-fill",
         color: "warning",
       })
+
       return
     }
 
@@ -33,16 +34,18 @@
   }
 
   defineExpose({
-    reset: () => {
-      form.reset({ touched: false, revalidate: false })
-    },
+    reset: () => form.reset({ touched: false, revalidate: false }),
   })
 </script>
 
 <template>
-  <FormInput name="name" placeholder="Player Name" :show-error="false" @keyup.enter="onAddPlayer">
-    <template #input-trailing>
-      <UButton color="success" icon="i-ph-plus-bold" label="Add Player" size="sm" @click="onAddPlayer" />
-    </template>
-  </FormInput>
+  <FormwerkForm>
+    <FormwerkField #="{ setValue, value }" name="name">
+      <UInput :model-value="value" placeholder="Player Name" @update:model-value="setValue" @keyup.enter="onAddPlayer">
+        <template #trailing>
+          <UButton color="success" icon="i-ph-plus-bold" label="Add Player" size="sm" @click="onAddPlayer" />
+        </template>
+      </UInput>
+    </FormwerkField>
+  </FormwerkForm>
 </template>

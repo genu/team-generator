@@ -1,15 +1,16 @@
-import { enhance } from "@zenstackhq/runtime"
-import { PrismaClient } from "@prisma/client"
+import { ZenStackClient } from "@zenstackhq/orm"
+import { schema } from "#generated/zenstack/schema"
+import { PostgresDialect } from "kysely"
+import { Pool } from "pg"
 
-const sudo = new PrismaClient({
-  log: import.meta.dev ? ["info"] : [],
+const db = new ZenStackClient(schema, {
+  dialect: new PostgresDialect({
+    pool: new Pool({ connectionString: process.env.DATABASE_URL }),
+  }),
 })
 
 export const $database = () => {
-  const db = enhance(sudo, undefined, { logPrismaQuery: true })
-
   return {
-    sudo,
     db,
   }
 }

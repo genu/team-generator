@@ -27,22 +27,21 @@ export const useDialog = () => {
         return dialogInstance
       },
       open: () => {
-        modal.open()
+        modal.open({
+          ...options,
+          onConfirm: async () => {
+            await confirmCallback()
+            modal.close()
+          },
+          onDismiss: async () => {
+            await dismissCallback()
+            modal.close()
+          },
+        })
 
         return dialogInstance
       },
     }
-
-    modal.patch({
-      onConfirm: async () => {
-        await confirmCallback()
-        modal.close()
-      },
-      onDismiss: async () => {
-        await dismissCallback()
-        modal.close()
-      },
-    })
 
     return dialogInstance
   }

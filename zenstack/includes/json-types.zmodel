@@ -5,9 +5,21 @@ type LeagueRules {
 }
 
 
+enum ShirtColor {
+    Black
+    White
+    Red
+    Green
+    Blue
+    Yellow
+    Cyan
+    Magenta
+    Gray
+}
+
 type LeagueConfiguration {
     teamCount     Int
     useTeamColors Boolean?
-    teamColors    String[]?
+    teamColors    ShirtColor[]?
     rules         LeagueRules
 }

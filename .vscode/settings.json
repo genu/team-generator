@@ -32,7 +32,12 @@
   "[vue]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "[zmodel]": {
-    "editor.defaultFormatter": "zenstack.zenstack"
+  "package-json-upgrade.ignoreVersions": {
+    "@types/node": ">=24",
+    "typescript": ">=5.8.3",
+    "kysely": ">= 0.27.6"
+  },
+  "[zmodel-v3]": {
+    "editor.defaultFormatter": "zenstack.zenstack-v3"
   }
 }

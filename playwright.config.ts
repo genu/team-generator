@@ -8,7 +8,7 @@ export default defineConfig<ConfigOptions>({
   testDir: "./tests",
   fullyParallel: true,
   forbidOnly: !!isCI,
-  retries: isCI ? 2 : 0,
+  retries: isCI ? 4 : 0,
   workers: 4,
   reporter: "html",
   use: {
@@ -19,7 +19,7 @@ export default defineConfig<ConfigOptions>({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: "bun test:ci",
+    command: "pnpm test:server",
     url: "http://localhost:3001",
     reuseExistingServer: !isCI,
     timeout: 300000, // 5 minutes

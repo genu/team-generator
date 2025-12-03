@@ -1,12 +1,15 @@
 import z from "zod"
-import { PlayerSchema } from "~~/.generated/zod/models"
 
-export type Snapshot = z.infer<typeof SnapshotSchem>
+export type Snapshot = z.infer<typeof SnapshotSchema>
 export type SnapshotData = z.infer<typeof SnapshotDataSchema>
 export type SnapshotPlayer = z.infer<typeof SnapshotPlayerSchema>
 
-export const SnapshotPlayerSchema = PlayerSchema.pick({ name: true, rank: true, isActive: true, isGoalie: true }).extend({
+export const SnapshotPlayerSchema = z.object({
   id: z.number().optional(),
+  name: z.string().optional(),
+  rank: z.number().min(1).optional(),
+  isActive: z.boolean().optional(),
+  isGoalie: z.boolean().optional(),
 })
 export const SnapshotDataSchema = z.record(
   z.union([z.string(), z.number()]).transform((val) => {
@@ -20,7 +23,7 @@ export const SnapshotDataSchema = z.record(
   z.array(SnapshotPlayerSchema),
 )
 
-export const SnapshotSchem = z.object({
+export const SnapshotSchema = z.object({
   id: z.number().optional(),
   data: SnapshotDataSchema,
 })

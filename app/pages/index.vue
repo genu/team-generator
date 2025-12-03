@@ -2,8 +2,9 @@
   import { DialogCreateLeague } from "#components"
 
   const overlay = useOverlay()
+  const client = useClientQueries()
 
-  const { mutateAsync: createAccountAsync } = useCreateAccount()
+  const { mutateAsync: createAccountAsync } = client.account.useCreate()
 
   const createLeagueDialog = overlay.create(DialogCreateLeague)
 
@@ -19,7 +20,6 @@
     if (!account) throw new Error("Account creation failed unexpectedly")
 
     const res = createLeagueDialog.open({ accountId: account.id })
-
     const leagueId = await res.result
 
     await navigateTo(`/${account.hash}?league=${leagueId}`)
@@ -35,7 +35,11 @@
     </h2>
     <div class="absolute top-0 left-0 flex flex-col w-full py-5 mt-14 lg:mt-20">
       <div class="w-full px-2">
-        <EmptyStateButton icon="i-ph-users-three-light" label="Setup a league" @click="createAccount" />
+        <UEmpty
+          :ui="{ root: 'w-2/3 mx-auto' }"
+          description="You have no leagues yet. Create a new league to get started."
+          icon="i-ph-users-three-light"
+          :actions="[{ label: 'Setup a League', onClick: createAccount, variant: 'soft' }]" />
       </div>
     </div>
   </div>

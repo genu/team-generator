@@ -1,11 +1,21 @@
 import z from "zod"
 import { PlayerEditFormSchema } from "./player-edit.form"
+import { ShirtColor } from "#generated/zenstack/models"
 
 export type LeagueEditForm = z.infer<typeof LeagueEditFormSchema>
 export type LeagueEditOptionsForm = z.infer<typeof LeagueEditOptionsFormSchema>
-export type ShirtColorEnum = z.infer<typeof ShirtColorEnum>
 
-export const ShirtColorEnum = z.enum(["Black", "White", "Red", "Green", "Blue", "Yellow", "Cyan", "Magenta", "Gray"])
+export const ShirtColorEnum = z.enum([
+  ShirtColor.Black,
+  ShirtColor.Blue,
+  ShirtColor.Cyan,
+  ShirtColor.Gray,
+  ShirtColor.Green,
+  ShirtColor.Magenta,
+  ShirtColor.Red,
+  ShirtColor.White,
+  ShirtColor.Yellow,
+])
 
 export const LeagueEditOptionsFormSchema = z.object({
   name: z.string().optional(),

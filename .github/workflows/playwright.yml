@@ -23,27 +23,37 @@ jobs:
     env:
       DATABASE_URL: postgresql://test:test@localhost:5432/test
     steps:
-      - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Install dependencies
-        run: bun i
+      - name: Setup
+        uses: ./.github/actions/setup
+        timeout-minutes: 10
+
+      - name: PostInstall
+        run:  |
+          pnpm nuxt:prepare
+          pnpm db:generate
 
       - name: Cache Playwright browsers
         uses: actions/cache@v4
         with:
           path: ~/.cache/ms-playwright
-          key: playwright-browsers-${{ runner.os }}-${{ hashFiles('**/bun.lock') }}
+          key: playwright-browsers-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             playwright-browsers-${{ runner.os }}-
 
       - name: Install Playwright Browsers
-        run: bun playwright install --with-deps
+        run: pnpm playwright install --with-deps
+
+      - name: Run database migrations
+        run: pnpm db:deploy
+
+      - name: Build application
+        run: pnpm nuxt:build
 
       - name: Run Playwright tests
-        run: bun playwright test
+        run: pnpm playwright test
 
       - uses: actions/upload-artifact@v4
         if: always()

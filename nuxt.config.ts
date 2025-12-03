@@ -1,8 +1,7 @@
+import { resolve } from "pathe"
+
 export default defineNuxtConfig({
-  modules: ["@nuxt/ui", "@nuxt/eslint", "@vueuse/nuxt", "@hebilicious/vue-query-nuxt", "@nuxt/test-utils/module"],
-  imports: {
-    dirs: ["../.generated/vue-query", "./composables/data", "./.generated/zod"],
-  },
+  modules: ["@nuxt/ui", "@nuxt/eslint", "@vueuse/nuxt", "@nuxt/test-utils/module", "@pinia/colada-nuxt", "@pinia/nuxt"],
   css: ["~/assets/css/main.css"],
   colorMode: {
     preference: "light",
@@ -12,21 +11,13 @@ export default defineNuxtConfig({
       colors: ["primary", "secondary", "tertiary", "info", "success", "warning", "error"],
     },
   },
-  runtimeConfig: {
-    public: {
-      logrocketAppId: "",
-      site: {
-        url: "",
-      },
-    },
-  },
-  future: {
-    compatibilityVersion: 4,
+  alias: {
+    "#generated": resolve("./.generated/"),
   },
   compatibilityDate: "2024-10-26",
   nitro: {
     imports: {
-      dirs: ["./server/helpers", "./server/social-clients", "./server/services", "./server/flows", "./.generated/zod"],
+      dirs: ["./server/helpers", "./server/services"],
     },
   },
   typescript: {
@@ -35,18 +26,6 @@ export default defineNuxtConfig({
   eslint: {
     config: {
       stylistic: true,
-    },
-  },
-  vueQuery: {
-    vueQueryPluginOptions: {
-      enableDevtoolsV6Plugin: true,
-      queryClientConfig: {
-        defaultOptions: {
-          queries: {
-            staleTime: 300000, // 5 minutes
-          },
-        },
-      },
     },
   },
 })

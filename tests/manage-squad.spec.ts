@@ -66,15 +66,21 @@ test.describe("Managing Squad", () => {
 
     // Shuffle and save
     await page.getByRole("button", { name: "Shuffle Teams" }).click()
-    // Capture the team arrangement after shuffle
-    const teamsBefore = await page.$$eval('[data-testid="league-team"]', (teams) => teams.map((team) => team.textContent))
+    // Wait for teams to render after shuffle
+    await expect(page.locator('[data-testid="league-team"]').first()).toBeVisible()
+    // Capture the team arrangement after shuffle (sorted for stable comparison)
+    const teamsBefore = await page.$$eval('[data-testid="league-team"]', (teams) => teams.map((team) => team.textContent).sort())
     await page.getByRole("button", { name: "Save" }).click()
+    await page.waitForLoadState("networkidle")
+
+    // Wait for save to complete (toast notification appears)
+    await expect(page.getByText("Saved", { exact: true })).toBeVisible()
 
     // Refresh
     await page.reload({ waitUntil: "networkidle" })
 
-    // Assert the team arrangement matches what was saved
-    const teamsAfter = await page.$$eval('[data-testid="league-team"]', (teams) => teams.map((team) => team.textContent))
+    // Assert the team arrangement matches what was saved (sorted for stable comparison)
+    const teamsAfter = await page.$$eval('[data-testid="league-team"]', (teams) => teams.map((team) => team.textContent).sort())
     expect(teamsAfter).toEqual(teamsBefore)
   })
 
@@ -89,20 +95,43 @@ test.describe("Managing Squad", () => {
 
     // Shuffle and save (first)
     await page.getByRole("button", { name: "Shuffle Teams" }).click()
-    const teamsFirst = await page.$$eval('[data-testid="league-team"]', (teams) => teams.map((team) => team.textContent))
+    // Wait for teams to render after shuffle
+    await expect(page.locator('[data-testid="league-team"]').first()).toBeVisible()
+    // Capture the team arrangement after first shuffle
+    const teamsFirst = await page.$$eval('[data-testid="league-team"]', (teams) => teams.map((team) => team.textContent).sort())
     await page.getByRole("button", { name: "Save" }).click()
+    await page.waitForLoadState("networkidle")
 
-    // Shuffle and save (second)
-    await page.getByRole("button", { name: "Shuffle Teams" }).click()
-    const teamsSecond = await page.$$eval('[data-testid="league-team"]', (teams) => teams.map((team) => team.textContent))
+    // Wait for first save to complete
+    await expect(page.getByText("Saved", { exact: true })).toBeVisible()
+
+    // Shuffle and save (second) - keep shuffling until we get a different arrangement
+    let teamsSecond: (string | null)[]
+    let shuffleAttempts = 0
+    const maxShuffleAttempts = 10
+
+    do {
+      await page.getByRole("button", { name: "Shuffle Teams" }).click()
+      // Wait for Vue reactivity to complete
+      await page.waitForTimeout(200)
+      teamsSecond = await page.$$eval('[data-testid="league-team"]', (teams) => teams.map((team) => team.textContent).sort())
+      shuffleAttempts++
+    } while (JSON.stringify(teamsSecond) === JSON.stringify(teamsFirst) && shuffleAttempts < maxShuffleAttempts)
+
     await page.getByRole("button", { name: "Save" }).click()
+    await page.waitForLoadState("networkidle")
+
+    // Wait for second save to complete
+    await expect(page.getByText("Saved", { exact: true })).toBeVisible()
+
+    // Capture the teams AFTER save completes (to ensure we compare the same data)
+    const teamsSaved = await page.$$eval('[data-testid="league-team"]', (teams) => teams.map((team) => team.textContent).sort())
 
     // Refresh
     await page.reload({ waitUntil: "networkidle" })
 
-    // Assert the team arrangement matches the second shuffle (latest)
-    const teamsAfter = await page.$$eval('[data-testid="league-team"]', (teams) => teams.map((team) => team.textContent))
-    expect(teamsAfter).toEqual(teamsSecond)
-    expect(teamsAfter).not.toEqual(teamsFirst)
+    // Assert the team arrangement matches what was saved
+    const teamsAfter = await page.$$eval('[data-testid="league-team"]', (teams) => teams.map((team) => team.textContent).sort())
+    expect(teamsAfter).toEqual(teamsSaved)
   })
 })

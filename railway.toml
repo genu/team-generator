@@ -1,8 +1,8 @@
 [build]
 builder = "nixpacks"
-buildCommand = "bun run build"
+buildCommand = "pnpm run build"
 
 [deploy]
-startCommand = "bun start"
+startCommand = "pnpm db:deploy && pnpm start"
 restartPolicyType = "on_failure"
 restartPolicyMaxRetries = 5
