@@ -1,6 +1,6 @@
 [build]
 builder = "nixpacks"
-buildCommand = "pnpm run nuxt:build"
+buildCommand = "pnpm nuxt:prepare && pnpm nuxt:build"
 
 [deploy]
 startCommand = "pnpm db:deploy && pnpm start"
