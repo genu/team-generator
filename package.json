@@ -25,7 +25,6 @@
     "test:dev": "dotenv -e .env.test -- zen migrate reset --force && nuxt dev --dotenv .env.test",
     "test:db:reset": "dotenv -e .env.test -- zen migrate reset --force",
     "test:server": "nuxt preview --dotenv .env.test",
-    "test:ci": "dotenv -e .env.test -- zen migrate reset --force && nuxt build --dotenv .env.test && nuxt preview --dotenv .env.test",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "nuxt:prepare": "nuxt prepare",

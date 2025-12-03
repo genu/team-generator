@@ -30,8 +30,10 @@ jobs:
         uses: ./.github/actions/setup
         timeout-minutes: 10
 
-      - name: Generate ZenStack schemas
-        run: pnpm db:generate
+      - name: PostInstall
+        run:  |
+          pnpm nuxt:prepare
+          pnpm db:generate
 
       - name: Cache Playwright browsers
         uses: actions/cache@v4
