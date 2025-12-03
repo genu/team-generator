@@ -43,7 +43,7 @@ jobs:
 
       - name: Build test application
         run: |
-          pnpm zen generate
+          pnpm db:generate
           pnpm dotenv -e .env.test -- zen migrate reset --force
           pnpm dotenv -e .env.test -- nuxt build
 
