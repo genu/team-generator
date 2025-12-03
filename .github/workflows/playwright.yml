@@ -41,6 +41,12 @@ jobs:
       - name: Install Playwright Browsers
         run: pnpm playwright install --with-deps
 
+      - name: Build test application
+        run: |
+          zen generate
+          dotenv -e .env.test -- zen migrate reset --force
+          dotenv -e .env.test -- nuxt build
+
       - name: Run Playwright tests
         run: pnpm playwright test
 
