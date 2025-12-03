@@ -21,6 +21,7 @@
       #="{ value, setValue }"
       size="lg"
       label="# of Teams:"
+      name="teamCount"
       :ui="{ root: 'flex items-center gap-2', labelWrapper: 'flex justify-end', wrapper: 'w-28', container: 'flex-1' }">
       <UInputNumber
         disable-keyboard-input
