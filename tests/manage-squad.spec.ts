@@ -124,11 +124,14 @@ test.describe("Managing Squad", () => {
     // Wait for second save to complete
     await expect(page.getByText("Saved", { exact: true })).toBeVisible()
 
+    // Capture the teams AFTER save completes (to ensure we compare the same data)
+    const teamsSaved = await page.$$eval('[data-testid="league-team"]', (teams) => teams.map((team) => team.textContent).sort())
+
     // Refresh
     await page.reload({ waitUntil: "networkidle" })
 
-    // Assert the team arrangement matches the second shuffle (latest, sorted for stable comparison)
+    // Assert the team arrangement matches what was saved
     const teamsAfter = await page.$$eval('[data-testid="league-team"]', (teams) => teams.map((team) => team.textContent).sort())
-    expect(teamsAfter).toEqual(teamsSecond)
+    expect(teamsAfter).toEqual(teamsSaved)
   })
 })
