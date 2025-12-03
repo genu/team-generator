@@ -64,7 +64,7 @@ export const useLeague = (leagueId: Ref<number | undefined>) => {
       return res
     },
     onSuccess: () => {
-      queryCache.invalidateQueries({ key: ["zenstack", "account"] })
+      queryCache.invalidateQueries({ key: ["zenstack", "Account"] })
     },
   })
 

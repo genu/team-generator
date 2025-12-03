@@ -18,7 +18,18 @@ test.describe("Managing leagues", () => {
     await page.getByTestId("league-dropdown-button").click()
     await page.getByRole("menuitem", { name: "Duplicate League" }).click()
 
+    // Verify the duplicated league is now selected
     await expect(await page.getByTestId("league-dropdown-button")).toContainText("La Liga (copy)")
+
+    // Verify we now have 2 leagues in the dropdown
+    await expect(await getNumberOfLeagues(page)).toBe(2)
+
+    // Verify both leagues are present in the dropdown
+    const originalLeague = page.locator(".data-testid-league-dropdown-item").filter({ hasText: "La Liga" }).first()
+    const duplicatedLeague = page.locator(".data-testid-league-dropdown-item").filter({ hasText: "La Liga (copy)" })
+
+    await expect(originalLeague).toBeVisible()
+    await expect(duplicatedLeague).toBeVisible()
   })
 
   test("creating a new league from menu", async ({ page }) => {
