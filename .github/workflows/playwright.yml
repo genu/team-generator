@@ -24,7 +24,7 @@ jobs:
       DATABASE_URL: postgresql://test:test@localhost:5432/test
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup
         uses: ./.github/actions/setup
