@@ -3,7 +3,11 @@
 
   useHead({
     titleTemplate: (title) => title || "Team Generator",
-    meta: [{ name: "viewport", content: "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" }],
+    link: [{ rel: "manifest", href: "/manifest.webmanifest" }],
+    meta: [
+      { name: "viewport", content: "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" },
+      { name: "theme-color", content: "#2563EB" },
+    ],
   })
 </script>
 

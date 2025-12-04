@@ -1,7 +1,15 @@
 import { resolve } from "pathe"
 
 export default defineNuxtConfig({
-  modules: ["@nuxt/ui", "@nuxt/eslint", "@vueuse/nuxt", "@nuxt/test-utils/module", "@pinia/colada-nuxt", "@pinia/nuxt"],
+  modules: [
+    "@nuxt/ui",
+    "@nuxt/eslint",
+    "@vueuse/nuxt",
+    "@nuxt/test-utils/module",
+    "@pinia/colada-nuxt",
+    "@pinia/nuxt",
+    "@vite-pwa/nuxt",
+  ],
   css: ["~/assets/css/main.css"],
   colorMode: {
     preference: "light",
@@ -26,6 +34,18 @@ export default defineNuxtConfig({
   eslint: {
     config: {
       stylistic: true,
+    },
+  },
+  pwa: {
+    registerType: "autoUpdate",
+    manifest: {
+      name: "Team Generator",
+      short_name: "TeamGen",
+      description: "Generate balanced teams for your games quickly and easily.",
+      theme_color: "#2563EB",
+    },
+    pwaAssets: {
+      image: "public/soccer-ball.png",
     },
   },
 })
