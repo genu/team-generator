@@ -45,6 +45,8 @@
     "@types/lodash-es": "4.17.12",
     "@types/node": "24.10.1",
     "@types/pg": "8.15.6",
+    "@vite-pwa/assets-generator": "^1.0.2",
+    "@vite-pwa/nuxt": "^1.1.0",
     "@vueuse/core": "14.1.0",
     "@vueuse/nuxt": "14.1.0",
     "@zenstackhq/cli": "3.0.0-beta.27",
@@ -56,6 +58,8 @@
     "npm-run-all2": "8.0.4",
     "nuxt": "4.2.1",
     "pinia": "3.0.4",
+    "sharp": "^0.34.5",
+    "sharp-ico": "^0.1.5",
     "std-env": "3.10.0",
     "vue-tsc": "3.1.5"
   },
