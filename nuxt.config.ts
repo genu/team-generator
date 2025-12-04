@@ -40,9 +40,10 @@ export default defineNuxtConfig({
     registerType: "autoUpdate",
     manifest: {
       name: "Team Generator",
-      short_name: "TeamGen",
+      short_name: "Team Generator",
       description: "Generate balanced teams for your games quickly and easily.",
       theme_color: "#2563EB",
+      start_url: ".",
     },
     pwaAssets: {
       image: "public/soccer-ball.png",
