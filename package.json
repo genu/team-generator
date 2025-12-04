@@ -2,6 +2,7 @@
   "name": "teams-generator",
   "version": "1.1.0",
   "private": true,
+  "description": "Generate teams randomly based on rank. This is useful if you want to create linueups of balanced teams.",
   "type": "module",
   "engines": {
     "node": "24.x",
