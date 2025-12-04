@@ -72,7 +72,7 @@
       header: 'bg-tertiary border-0 flex justify-between',
       title: 'text-inverted',
       content:
-        'data-[state=open]:animate-[slide-in-from-top_200ms_ease-out] data-[state=closed]:animate-[slide-out-to-top_200ms_ease-in]',
+        'data-[state=open]:animate-[slide-in-from-top_100ms_ease-out] data-[state=closed]:animate-[slide-out-to-top_75ms_ease-in]',
     }">
     <template #header>
       <span class="text-inverted font-semibold">Edit League</span>
@@ -120,7 +120,7 @@
               <template #isActive-cell="{ row }">
                 <div class="flex items-center justify-center">
                   <FormwerkField :name="`players.${row.index}.isActive`" #="{ value, setValue }">
-                    <USwitch :model-value="value" size="lg" @update:model-value="setValue" />
+                    <USwitch :model-value="value" size="xl" @update:model-value="setValue" />
                   </FormwerkField>
                 </div>
               </template>
