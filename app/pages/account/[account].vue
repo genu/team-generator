@@ -38,7 +38,7 @@
     },
     {
       label: "Create new League",
-      icon: "i-ph-plus-square",
+      icon: "i-lucide-circle-plus",
       onSelect: async () => {
         if (!account.value) return
 
@@ -50,7 +50,7 @@
     },
     {
       label: "Duplicate League",
-      icon: "i-ph-copy",
+      icon: "i-lucide-copy",
       onSelect: async () => {
         if (!league.value) return
         await actions.duplicate()
@@ -85,7 +85,7 @@
             }
 
             toast.add({
-              icon: "i-ph-check-fat-fill",
+              icon: "i-lucide-check",
               title: `${deletedLeague?.name} deleted`,
             })
           })
@@ -136,9 +136,9 @@
       <div
         class="sticky top-0 z-40 flex items-center justify-between w-full h-16 px-2 bg-gray-900 rounded-none lg:h-20 md:px-5 md:rounded-b-md">
         <h2
-          class="relative text-base flex items-center gap-2 font-bold text-white capitalize cursor-pointer md:text-2xl leading-7 sm:truncate sm:text-3xl sm:tracking-tight">
+          class="relative text-base flex items-center font-bold text-white capitalize cursor-pointer md:text-2xl leading-7 sm:truncate sm:text-3xl sm:tracking-tight">
           <NuxtLink to="/" class="flex items-center">
-            <UIcon name="i-ph-soccer-ball" class="text-3xl" />
+            <NuxtImg src="/soccer-ball-inverted.png" sizes="25px" />
           </NuxtLink>
 
           <UDropdownMenu :items="leaguesDropdown" arrow size="lg" :disabled="isUpdatingLeague">
@@ -147,9 +147,9 @@
               data-testid="league-dropdown-button"
               color="neutral"
               variant="solid"
-              trailing-icon="i-ph-caret-down" />
+              trailing-icon="i-lucide-chevron-down" />
             <template #delete-league-leading>
-              <UIcon name="i-ph-trash" class="text-red-500 size-6" />
+              <UIcon name="i-lucide-trash-2" class="text-red-500 size-6" />
             </template>
           </UDropdownMenu>
         </h2>
@@ -174,7 +174,7 @@
           <UEmpty
             v-else-if="!league"
             description="You have no league selected."
-            icon="i-ph-users-three-light"
+            icon="i-lucide-users-round"
             :actions="[
               {
                 label: 'Create a league',
@@ -192,7 +192,7 @@
               v-if="currentPlayers.length === 0"
               class="w-8/10 mx-auto"
               :description="`Add some players to the ${league.name}`"
-              icon="i-ph-users-three-light"
+              icon="i-lucide-users-round"
               :actions="[
                 {
                   label: 'Add players',

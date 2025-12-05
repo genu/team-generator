@@ -38,7 +38,9 @@
     "dotenv": "dotenv"
   },
   "devDependencies": {
+    "@iconify-json/lucide": "^1.2.78",
     "@nuxt/eslint": "1.11.0",
+    "@nuxt/image": "2.0.0",
     "@nuxt/test-utils": "3.21.0",
     "@pinia/colada-devtools": "^0.1.9",
     "@pinia/nuxt": "0.11.3",
@@ -66,7 +68,6 @@
   },
   "dependencies": {
     "@formwerk/core": "0.14.3",
-    "@iconify-json/ph": "1.2.2",
     "@nuxt/ui": "4.2.1",
     "@pinia/colada": "^0.18.0",
     "@pinia/colada-nuxt": "0.2.4",

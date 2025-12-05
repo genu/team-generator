@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     "@pinia/colada-nuxt",
     "@pinia/nuxt",
     "@vite-pwa/nuxt",
+    "@nuxt/image",
   ],
   css: ["~/assets/css/main.css"],
   colorMode: {
@@ -24,6 +25,7 @@ export default defineNuxtConfig({
   },
   routeRules: {
     "/": { prerender: true },
+    "/account/**": { ssr: true, swr: 3600 },
   },
   compatibilityDate: "2024-10-26",
   nitro: {
