@@ -45,7 +45,7 @@
         const res = createLeagueDialog.open({ accountId: account.value.id })
         const newLeagueId = await res.result
 
-        await navigateTo(`/${account.value.hash}?league=${newLeagueId}`)
+        await navigateTo(`/account/${account.value.hash}?league=${newLeagueId}`)
       },
     },
     {
@@ -81,7 +81,7 @@
             // Find the next available league to select
             const nextLeague = accountLeagues.find((l) => l.id !== currentLeagueId)
             if (nextLeague) {
-              await navigateTo(`/${hash}?league=${nextLeague.id}`)
+              await navigateTo(`/account/${hash}?league=${nextLeague.id}`)
             }
 
             toast.add({
@@ -102,7 +102,7 @@
         exactQuery: true,
         class: "data-testid-league-dropdown-item",
         exactActiveClass: "bg-indigo-500 text-white",
-        to: `/${account.value?.hash}?league=${league.id}`,
+        to: `/account/${account.value?.hash}?league=${league.id}`,
       })) || []
 
     if (editedLeagueData.value) {
