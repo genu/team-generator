@@ -25,7 +25,6 @@ export default defineNuxtConfig({
   },
   routeRules: {
     "/": { prerender: true },
-    "/account/**": { ssr: true, swr: 3600 },
   },
   compatibilityDate: "2024-10-26",
   nitro: {
