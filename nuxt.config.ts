@@ -22,6 +22,9 @@ export default defineNuxtConfig({
   alias: {
     "#generated": resolve("./.generated/"),
   },
+  routeRules: {
+    "/": { prerender: true },
+  },
   compatibilityDate: "2024-10-26",
   nitro: {
     imports: {
