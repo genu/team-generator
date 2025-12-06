@@ -116,7 +116,7 @@
         exactQuery: true,
         class: "data-testid-league-dropdown-item",
         exactActiveClass: "bg-indigo-500 text-white",
-        to: `/${account.value?.hash}?league=${editedLeagueData.value?.id}`,
+        to: `/account/${account.value?.hash}?league=${editedLeagueData.value?.id}`,
       })
     }
 
