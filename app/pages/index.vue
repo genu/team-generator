@@ -22,7 +22,7 @@
     const res = createLeagueDialog.open({ accountId: account.id })
     const leagueId = await res.result
 
-    await navigateTo(`/${account.hash}?league=${leagueId}`)
+    await navigateTo(`/account/${account.hash}?league=${leagueId}`)
   }
 </script>
 
@@ -38,7 +38,7 @@
         <UEmpty
           :ui="{ root: 'w-2/3 mx-auto' }"
           description="You have no leagues yet. Create a new league to get started."
-          icon="i-ph-users-three-light"
+          icon="i-lucide-users-round"
           :actions="[{ label: 'Setup a League', onClick: createAccount, variant: 'soft' }]" />
       </div>
     </div>
