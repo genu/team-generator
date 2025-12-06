@@ -138,7 +138,7 @@
         <h2
           class="relative text-base flex items-center font-bold text-white capitalize cursor-pointer md:text-2xl leading-7 sm:truncate sm:text-3xl sm:tracking-tight">
           <NuxtLink to="/" class="flex items-center">
-            <NuxtImg src="/soccer-ball-inverted.png" sizes="25px" />
+            <NuxtImg src="/soccer-ball-inverted.png" sizes="25px" alt="Team Generator logo" />
           </NuxtLink>
 
           <UDropdownMenu :items="leaguesDropdown" arrow size="lg" :disabled="isUpdatingLeague">
