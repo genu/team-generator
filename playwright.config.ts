@@ -20,7 +20,7 @@ export default defineConfig<ConfigOptions>({
   /* Run your local dev server before starting the tests */
   webServer: {
     command: "pnpm test:server",
-    port: 3001,
+    url: "http://localhost:3001",
     reuseExistingServer: !isCI,
     stdout: "pipe",
     stderr: "pipe",
