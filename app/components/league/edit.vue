@@ -32,7 +32,7 @@
     if (existingPlayer) {
       toast.add({
         title: "Player already exists",
-        icon: "i-ph-warning-fill",
+        icon: "i-lucide-triangle-alert",
         color: "warning",
       })
       return
@@ -76,7 +76,7 @@
     }">
     <template #header>
       <span class="text-inverted font-semibold">Edit League</span>
-      <UButton label="Close" icon="i-ph-caret-up" variant="solid" color="neutral" size="md" @click="onClose" />
+      <UButton label="Close" icon="i-lucide-chevron-up" variant="solid" color="neutral" size="md" @click="onClose" />
     </template>
     <template #body>
       <div class="flex flex-col-reverse w-full md:flex-row md:h-full">
@@ -155,7 +155,7 @@
               </template>
               <template #actions-cell="{ row }">
                 <div class="flex justify-around items-center">
-                  <UButton color="error" variant="soft" icon="i-ph-trash" @click="onRemovePlayer(row.index)" />
+                  <UButton color="error" variant="soft" icon="i-lucide-trash-2" @click="onRemovePlayer(row.index)" />
                 </div>
               </template>
               <template #empty>There no players in this league</template>

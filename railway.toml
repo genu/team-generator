@@ -1,5 +1,5 @@
 [build]
-builder = "nixpacks"
+builder = "railpack"
 buildCommand = "pnpm nuxt:prepare && pnpm nuxt:build"
 
 [deploy]

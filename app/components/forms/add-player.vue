@@ -23,7 +23,7 @@
     if (!isValid) {
       toast.add({
         title: "Player name is required",
-        icon: "i-ph-warning-fill",
+        icon: "i-lucide-triangle-alert",
         color: "warning",
       })
 
@@ -43,7 +43,7 @@
     <FormwerkField #="{ setValue, value }" name="name">
       <UInput :model-value="value" placeholder="Player Name" @update:model-value="setValue" @keyup.enter="onAddPlayer">
         <template #trailing>
-          <UButton color="success" icon="i-ph-plus-bold" label="Add Player" size="sm" @click="onAddPlayer" />
+          <UButton color="success" icon="i-lucide-plus" label="Add Player" size="sm" @click="onAddPlayer" />
         </template>
       </UInput>
     </FormwerkField>

@@ -17,11 +17,9 @@ jobs:
           POSTGRES_PASSWORD: test
           POSTGRES_DB: test
         ports:
-          - 5432:5432
+          - 5433:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
-    env:
-      DATABASE_URL: postgresql://test:test@localhost:5432/test
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
@@ -45,9 +43,6 @@ jobs:
 
       - name: Install Playwright Browsers
         run: pnpm playwright install --with-deps
-
-      - name: Run database migrations
-        run: pnpm db:deploy
 
       - name: Build application
         run: pnpm nuxt:build
