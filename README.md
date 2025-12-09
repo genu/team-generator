@@ -52,31 +52,30 @@ The project uses Playwright for end-to-end testing with a separate test database
 To run the full test suite (handles Docker container setup automatically):
 
 ```bash
-pnpm test
+pnpm test        # Run tests headlessly
+pnpm test:ui     # Run tests with Playwright UI
 ```
 
-### Manual Test Setup (for debugging or VS Code Playwright extension)
-For running tests manually, follow these steps in order:
+Both commands automatically start the test database and preview server, then run tests.
 
-1. Start the test database:
-   ```bash
-   pnpm test:db
-   ```
+### Development Testing
+For running tests against the dev server (with hot reload):
 
-2. Reset database and start the dev server on port 3001:
-   ```bash
-   pnpm test:dev
-   ```
-   This command automatically resets the test database before starting the server.
+```bash
+pnpm test:dev
+```
 
-3. Run tests (in VS Code Playwright extension or command line):
-   ```bash
-   pnpm playwright test
-   # OR use the interactive UI
-   pnpm playwright:ui
-   ```
+This starts Docker and the dev server on port 3001 with the test database. Then in a separate terminal, run:
 
-### Other Test Commands
-- `pnpm test:db:reset` - Reset the test database
-- `pnpm test:server` - Preview production build with test database
+```bash
+pnpm playwright test --ui
+```
+
+When done, stop the dev server (Ctrl+C) and run `pnpm docker:down` to stop the database.
+
+### Manual Test Commands
+- `pnpm test:server:dev` - Start dev server with test database (requires Docker already running)
+- `pnpm test:server` - Start preview server with test database (used by Playwright automatically)
+- `pnpm docker:up` - Start test database container
+- `pnpm docker:down` - Stop test database container
 

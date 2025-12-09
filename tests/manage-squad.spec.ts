@@ -73,8 +73,8 @@ test.describe("Managing Squad", () => {
     await page.getByRole("button", { name: "Save" }).click()
     await page.waitForLoadState("networkidle")
 
-    // Wait for save to complete (toast notification appears)
-    await expect(page.getByText("Saved", { exact: true })).toBeVisible()
+    // Wait for save to complete (at least one toast notification appears)
+    await expect(page.getByText("Saved", { exact: true }).first()).toBeVisible()
 
     // Refresh
     await page.reload({ waitUntil: "networkidle" })
@@ -102,8 +102,8 @@ test.describe("Managing Squad", () => {
     await page.getByRole("button", { name: "Save" }).click()
     await page.waitForLoadState("networkidle")
 
-    // Wait for first save to complete
-    await expect(page.getByText("Saved", { exact: true })).toBeVisible()
+    // Wait for first save to complete (at least one toast notification appears)
+    await expect(page.getByText("Saved", { exact: true }).first()).toBeVisible()
 
     // Shuffle and save (second) - keep shuffling until we get a different arrangement
     let teamsSecond: (string | null)[]
@@ -121,8 +121,8 @@ test.describe("Managing Squad", () => {
     await page.getByRole("button", { name: "Save" }).click()
     await page.waitForLoadState("networkidle")
 
-    // Wait for second save to complete
-    await expect(page.getByText("Saved", { exact: true })).toBeVisible()
+    // Wait for second save to complete (at least one toast notification appears)
+    await expect(page.getByText("Saved", { exact: true }).first()).toBeVisible()
 
     // Capture the teams AFTER save completes (to ensure we compare the same data)
     const teamsSaved = await page.$$eval('[data-testid="league-team"]', (teams) => teams.map((team) => team.textContent).sort())

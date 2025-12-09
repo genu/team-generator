@@ -73,7 +73,7 @@ export const useLeague = (leagueId: Ref<number | undefined>) => {
 
     const { id } = await duplicateLeagueAsync(league.value.id!)
     toast.add({
-      icon: "i-heroicons-check-20-solid",
+      icon: "i-lucide-check",
       title: `"${league.value.name}" league duplicated`,
     })
 
@@ -147,7 +147,7 @@ export const useLeague = (leagueId: Ref<number | undefined>) => {
     editedLeagueData.value = null
 
     toast.add({
-      icon: "i-heroicons-check-20-solid",
+      icon: "i-lucide-check",
       title: "Saved",
     })
     scrollY.value = 0
