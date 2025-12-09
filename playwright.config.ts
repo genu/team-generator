@@ -20,8 +20,10 @@ export default defineConfig<ConfigOptions>({
   /* Run your local dev server before starting the tests */
   webServer: {
     command: "pnpm test:server",
-    url: "http://localhost:3001",
+    port: 3001,
     reuseExistingServer: !isCI,
-    timeout: 300000, // 5 minutes
+    stdout: "pipe",
+    stderr: "pipe",
+    timeout: 120000, // 120 seconds
   },
 })
