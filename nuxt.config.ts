@@ -10,6 +10,7 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "@vite-pwa/nuxt",
     "@nuxt/image",
+    "nuxt-ui-formwerk",
   ],
   css: ["~/assets/css/main.css"],
   colorMode: {

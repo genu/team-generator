@@ -38,6 +38,9 @@ importers:
       lodash-es:
         specifier: 4.17.21
         version: 4.17.21
+      nuxt-ui-formwerk:
+        specifier: ^0.1.6
+        version: 0.1.6(@formwerk/core@0.14.3(vue@3.5.26(typescript@5.9.3)))(@nuxt/ui@4.2.1(@babel/parser@7.28.5)(change-case@5.4.4)(db0@0.3.4)(embla-carousel@8.6.0)(ioredis@5.8.2)(magicast@0.5.1)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-router@4.6.4(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3))(zod@4.1.13))(magicast@0.5.1)(vue@3.5.26(typescript@5.9.3))
       pg:
         specifier: 8.16.3
         version: 8.16.3
@@ -5038,6 +5041,12 @@ packages:
 
   nth-check@2.1.1:
     resolution: {integrity: sha512-lqjrjmaOoAnWfMmBPL+XNnynZh2+swxiX3WUE0s4yEHI6m+AwrK2UZOimIRl3X/4QctVqS8AiZjFqyOGrMXb/w==}
+
+  nuxt-ui-formwerk@0.1.6:
+    resolution: {integrity: sha512-Uz5Gf6+7m2PTxljoJ/o1O6xdsG0mReTBCZXVjk0hMBxRD014pxxOCtkYRCA37hBQGe3PN5CoXA02zm6AReeWsw==}
+    peerDependencies:
+      '@formwerk/core': ^0.14.4
+      '@nuxt/ui': ^4.0.0
 
   nuxt@4.2.2:
     resolution: {integrity: sha512-n6oYFikgLEb70J4+K19jAzfx4exZcRSRX7yZn09P5qlf2Z59VNOBqNmaZO5ObzvyGUZ308SZfL629/Q2v2FVjw==}
@@ -12316,6 +12325,16 @@ snapshots:
   nth-check@2.1.1:
     dependencies:
       boolbase: 1.0.0
+
+  nuxt-ui-formwerk@0.1.6(@formwerk/core@0.14.3(vue@3.5.26(typescript@5.9.3)))(@nuxt/ui@4.2.1(@babel/parser@7.28.5)(change-case@5.4.4)(db0@0.3.4)(embla-carousel@8.6.0)(ioredis@5.8.2)(magicast@0.5.1)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-router@4.6.4(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3))(zod@4.1.13))(magicast@0.5.1)(vue@3.5.26(typescript@5.9.3)):
+    dependencies:
+      '@formwerk/core': 0.14.3(vue@3.5.26(typescript@5.9.3))
+      '@nuxt/kit': 4.2.2(magicast@0.5.1)
+      '@nuxt/ui': 4.2.1(@babel/parser@7.28.5)(change-case@5.4.4)(db0@0.3.4)(embla-carousel@8.6.0)(ioredis@5.8.2)(magicast@0.5.1)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-router@4.6.4(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3))(zod@4.1.13)
+      '@vueuse/core': 14.1.0(vue@3.5.26(typescript@5.9.3))
+    transitivePeerDependencies:
+      - magicast
+      - vue
 
   nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@24.10.3)(@vue/compiler-sfc@3.5.26)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.1(jiti@2.6.1))(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.54.0)(terser@5.44.1)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2):
     dependencies:
