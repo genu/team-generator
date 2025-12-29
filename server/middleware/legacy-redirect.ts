@@ -1,12 +1,18 @@
 export default defineEventHandler((event) => {
   const url = getRequestURL(event)
 
-  // Match any path that looks like a UUID directly at root level
-  // Example: /fc7fee0f-4900-4e86-a92f-dc050b721dfb or /fc7fee0f-4900-4e86-a92f-dc050b721dfb?league=43
-  const uuidPattern = /^\/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})(\/.*)?$/i
-  const match = url.pathname.match(uuidPattern)
+  // Match any path that looks like a UUID or hash directly at root level
+  // Examples:
+  // - UUID: /fc7fee0f-4900-4e86-a92f-dc050b721dfb?league=43
+  // - Hash: /TS0q26z134VLzKzRFQCRG?league=87
+  const accountPattern = /^\/([0-9a-zA-Z_-]+)(\/.*)?$/i
+  const match = url.pathname.match(accountPattern)
 
-  if (match && !url.pathname.startsWith("/account/")) {
+  // Only redirect if:
+  // 1. Pattern matches
+  // 2. Not already under /account/
+  // 3. Not a known route (api, _nuxt, etc.)
+  if (match && !url.pathname.startsWith("/account/") && !url.pathname.startsWith("/api/") && !url.pathname.startsWith("/_nuxt/")) {
     const accountId = match[1]
     const remainingPath = match[2] || ""
 
