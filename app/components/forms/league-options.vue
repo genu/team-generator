@@ -10,7 +10,7 @@
       label="League Name:"
       size="lg"
       :ui="{ root: 'flex items-center gap-2', labelWrapper: 'flex justify-end', wrapper: 'w-28', container: 'flex-1' }">
-      <UInput v-model="model" :ui="{ root: 'flex items-center gap-2' }" placeholder="League Name" />
+      <UInput v-bind="model" :ui="{ root: 'flex items-center gap-2' }" placeholder="League Name" />
     </FormwerkField>
 
     <FormwerkField
@@ -20,7 +20,7 @@
       name="teamCount"
       :ui="{ root: 'flex items-center gap-2', labelWrapper: 'flex justify-end', wrapper: 'w-28', container: 'flex-1' }">
       <UInputNumber
-        v-model="model"
+        v-bind="model"
         disable-keyboard-input
         :ui="{ root: 'w-28' }"
         :increment="{ color: 'info', variant: 'solid', size: 'sm' }"
@@ -36,7 +36,7 @@
           wrapper: 'w-28',
           container: 'flex-1',
         }">
-        <UCheckbox v-model="model" label="Use Team Colors" color="info" description="Assign shirt colors for teams" />
+        <UCheckbox v-bind="model" label="Use Team Colors" color="info" description="Assign shirt colors for teams" />
       </FormwerkField>
       <FormwerkField
         #="{ model }"
@@ -49,7 +49,7 @@
         size="lg"
         :items="[]">
         <USelect
-          v-model="model"
+          v-bind="model"
           :ui="{ base: 'flex w-full', content: 'w-full' }"
           :items="colors"
           placeholder="Select Team Colors"

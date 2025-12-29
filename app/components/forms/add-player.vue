@@ -41,7 +41,7 @@
 <template>
   <FormwerkForm>
     <FormwerkField #="{ model }" name="name">
-      <UInput v-model="model" placeholder="Player Name" @keyup.enter="onAddPlayer">
+      <UInput v-bind="model" placeholder="Player Name" @keyup.enter="onAddPlayer">
         <template #trailing>
           <UButton color="success" icon="i-lucide-plus" label="Add Player" size="sm" @click="onAddPlayer" />
         </template>

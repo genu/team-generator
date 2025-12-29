@@ -120,7 +120,7 @@
               <template #isActive-cell="{ row }">
                 <div class="flex items-center justify-center">
                   <FormwerkField :name="`players.${row.index}.isActive`" #="{ model }">
-                    <USwitch v-model="model" size="xl" />
+                    <USwitch v-bind="model" size="xl" />
                   </FormwerkField>
                 </div>
               </template>
@@ -130,14 +130,14 @@
               <template #rank-cell="{ row }">
                 <div class="w-24">
                   <FormwerkField :name="`players.${row.index}.rank`" #="{ model }">
-                    <UInputNumber v-model="model" size="lg" :min="1" :max="10" :step="1" :ui="{ base: 'disabled' }" />
+                    <UInputNumber v-bind="model" size="lg" :min="1" :max="10" :step="1" :ui="{ base: 'disabled' }" />
                   </FormwerkField>
                 </div>
               </template>
               <template #isGoalie-cell="{ row }">
                 <div class="flex items-center justify-center">
                   <FormwerkField :name="`players.${row.index}.isGoalie`" #="{ model }">
-                    <UCheckbox v-model="model" :ui="{ root: 'justify-around' }" size="xl" color="neutral" />
+                    <UCheckbox v-bind="model" :ui="{ root: 'justify-around' }" size="xl" color="neutral" />
                   </FormwerkField>
                 </div>
               </template>
