@@ -50,8 +50,8 @@
 <template>
   <OverlayModal title="Create a League" size="xs">
     <FormwerkForm>
-      <FormwerkField name="name" #="{ setValue, value }">
-        <UInput :model-value="value" placeholder="League Name" @update:model-value="setValue" />
+      <FormwerkField name="name" #="{ model }">
+        <UInput v-model="model" placeholder="League Name" />
       </FormwerkField>
     </FormwerkForm>
 

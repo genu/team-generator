@@ -40,8 +40,8 @@
 
 <template>
   <FormwerkForm>
-    <FormwerkField #="{ setValue, value }" name="name">
-      <UInput :model-value="value" placeholder="Player Name" @update:model-value="setValue" @keyup.enter="onAddPlayer">
+    <FormwerkField #="{ model }" name="name">
+      <UInput v-model="model" placeholder="Player Name" @keyup.enter="onAddPlayer">
         <template #trailing>
           <UButton color="success" icon="i-lucide-plus" label="Add Player" size="sm" @click="onAddPlayer" />
         </template>

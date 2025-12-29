@@ -5,35 +5,30 @@
 <template>
   <FormwerkGroup name="options" class="flex flex-col gap-2 p-2">
     <FormwerkField
-      #="{ value, setValue }"
+      #="{ model }"
       name="name"
       label="League Name:"
       size="lg"
       :ui="{ root: 'flex items-center gap-2', labelWrapper: 'flex justify-end', wrapper: 'w-28', container: 'flex-1' }">
-      <UInput
-        :model-value="value"
-        :ui="{ root: 'flex items-center gap-2' }"
-        placeholder="League Name"
-        @update:model-value="setValue" />
+      <UInput v-model="model" :ui="{ root: 'flex items-center gap-2' }" placeholder="League Name" />
     </FormwerkField>
 
     <FormwerkField
-      #="{ value, setValue }"
+      #="{ model }"
       size="lg"
       label="# of Teams:"
       name="teamCount"
       :ui="{ root: 'flex items-center gap-2', labelWrapper: 'flex justify-end', wrapper: 'w-28', container: 'flex-1' }">
       <UInputNumber
+        v-model="model"
         disable-keyboard-input
-        :model-value="value"
         :ui="{ root: 'w-28' }"
         :increment="{ color: 'info', variant: 'solid', size: 'sm' }"
-        :decrement="{ color: 'info', variant: 'solid', size: 'sm' }"
-        @update:model-value="setValue" />
+        :decrement="{ color: 'info', variant: 'solid', size: 'sm' }" />
     </FormwerkField>
     <DevOnly>
       <FormwerkField
-        #="{ value, setValue }"
+        #="{ model }"
         size="lg"
         :ui="{
           root: 'flex items-center gap-2',
@@ -41,15 +36,10 @@
           wrapper: 'w-28',
           container: 'flex-1',
         }">
-        <UCheckbox
-          :model-value="value"
-          label="Use Team Colors"
-          color="info"
-          description="Assign shirt colors for teams"
-          @update:model-value="setValue" />
+        <UCheckbox v-model="model" label="Use Team Colors" color="info" description="Assign shirt colors for teams" />
       </FormwerkField>
       <FormwerkField
-        #="{ value, setValue }"
+        #="{ model }"
         :ui="{
           root: 'flex items-center gap-2',
           labelWrapper: 'flex justify-end',
@@ -59,14 +49,13 @@
         size="lg"
         :items="[]">
         <USelect
+          v-model="model"
           :ui="{ base: 'flex w-full', content: 'w-full' }"
           :items="colors"
-          :model-value="value"
           placeholder="Select Team Colors"
           multiple
           value-key="name"
-          label-key="name"
-          @update:model-value="setValue">
+          label-key="name">
           <template #item-label="{ item }">
             <div
               :style="{ backgroundColor: (item as ShirtColor).background, color: (item as ShirtColor).foreground }"
