@@ -57,8 +57,8 @@ importers:
         specifier: 2.0.5
         version: 2.0.5(vue@3.5.26(typescript@5.9.3))
       zenstack-pinia-colada:
-        specifier: /Users/AV6AB7Z/Documents/git.nosync/os/zenstack-pinia-colada
-        version: link:../zenstack-pinia-colada
+        specifier: 0.1.6
+        version: 0.1.6(@pinia/colada@0.20.0(pinia@3.0.4(typescript@5.9.3)(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3)))(pg@8.16.3)(pinia@3.0.4(typescript@5.9.3)(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3))(zod@4.2.1)
       zod:
         specifier: 4.2.1
         version: 4.2.1
@@ -2997,6 +2997,9 @@ packages:
   '@zenstackhq/cli@3.1.0':
     resolution: {integrity: sha512-Ze4k9uFThTgjr2mCD6oT+9FhEn2JNdyFEerggA38zNsP56ZcLoSj8IPR/audwHo1oz8LXl1fJuj3XCWO5zzDPg==}
     hasBin: true
+
+  '@zenstackhq/client-helpers@3.1.0':
+    resolution: {integrity: sha512-LqCZFh2/eVf/nCfPMUKNJYVQKGGKGDDrNR0HzRPiegeNjJDAUW9b2+Wot64YPskkWerpn3jZJ/qQFsuaWYPF+Q==}
 
   '@zenstackhq/common-helpers@3.1.0':
     resolution: {integrity: sha512-S4S5hYopHOVzK3A0nmJReqpug5XKyh+h2pWsCIA8pEB7wTWt+5Ppyo1NoEB8iPH2jFdMh+Q1m/9pVPXVpHXDbQ==}
@@ -6992,6 +6995,13 @@ packages:
   youch@4.1.0-beta.13:
     resolution: {integrity: sha512-3+AG1Xvt+R7M7PSDudhbfbwiyveW6B8PLBIwTyEC598biEYIjHhC89i6DBEvR0EZUjGY3uGSnC429HpIa2Z09g==}
 
+  zenstack-pinia-colada@0.1.6:
+    resolution: {integrity: sha512-kT3c6AfUVkHS+R5UX1nfQ5MfYjI9T85Ngg1ZWbdpphgO7JjZatX+EiyrDJCKxp3bkNw/YbS5R95pwNnW53Qa2w==}
+    peerDependencies:
+      '@pinia/colada': '>=0.10.0 <1.0.0'
+      pinia: ^3.0.0
+      vue: ^3.0.0
+
   zip-stream@6.0.1:
     resolution: {integrity: sha512-zK7YHHz4ZXpW89AHXUPbQVGKI7uvkd3hzusTdotCg1UxyaVtg0zFJSTfW/Dq5f7OBBVnq6cZIaC8Ti4hb6dtCA==}
     engines: {node: '>= 14'}
@@ -10264,6 +10274,13 @@ snapshots:
       - magicast
       - supports-color
       - typescript
+
+  '@zenstackhq/client-helpers@3.1.0':
+    dependencies:
+      '@zenstackhq/common-helpers': 3.1.0
+      '@zenstackhq/schema': 3.1.0
+      decimal.js: 10.6.0
+      superjson: 2.2.6
 
   '@zenstackhq/common-helpers@3.1.0': {}
 
@@ -14865,6 +14882,21 @@ snapshots:
       '@speed-highlight/core': 1.2.14
       cookie-es: 2.0.0
       youch-core: 0.3.3
+
+  zenstack-pinia-colada@0.1.6(@pinia/colada@0.20.0(pinia@3.0.4(typescript@5.9.3)(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3)))(pg@8.16.3)(pinia@3.0.4(typescript@5.9.3)(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3))(zod@4.2.1):
+    dependencies:
+      '@pinia/colada': 0.20.0(pinia@3.0.4(typescript@5.9.3)(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3))
+      '@zenstackhq/client-helpers': 3.1.0
+      '@zenstackhq/common-helpers': 3.1.0
+      '@zenstackhq/orm': 3.1.0(pg@8.16.3)(zod@4.2.1)
+      '@zenstackhq/schema': 3.1.0
+      pinia: 3.0.4(typescript@5.9.3)(vue@3.5.26(typescript@5.9.3))
+      vue: 3.5.26(typescript@5.9.3)
+    transitivePeerDependencies:
+      - better-sqlite3
+      - pg
+      - sql.js
+      - zod
 
   zip-stream@6.0.1:
     dependencies:
