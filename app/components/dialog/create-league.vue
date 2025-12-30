@@ -51,7 +51,7 @@
   <OverlayModal title="Create a League" size="xs">
     <FormwerkForm>
       <FormwerkField name="name" #="{ model }">
-        <UInput v-model="model" placeholder="League Name" />
+        <UInput v-bind="model" placeholder="League Name" />
       </FormwerkField>
     </FormwerkForm>
 

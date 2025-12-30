@@ -39,8 +39,8 @@ importers:
         specifier: 4.17.22
         version: 4.17.22
       nuxt-ui-formwerk:
-        specifier: ^0.1.9
-        version: 0.1.9(@formwerk/core@0.14.4(vue@3.5.26(typescript@5.9.3)))(@nuxt/ui@4.3.0(7fd41145a32554523c83cfcfb148f88a))(magicast@0.5.1)(vue@3.5.26(typescript@5.9.3))
+        specifier: ^0.1.10
+        version: 0.1.10(@formwerk/core@0.14.4(vue@3.5.26(typescript@5.9.3)))(@nuxt/ui@4.3.0(7fd41145a32554523c83cfcfb148f88a))(magicast@0.5.1)(vue@3.5.26(typescript@5.9.3))
       pg:
         specifier: 8.16.3
         version: 8.16.3
@@ -5272,8 +5272,8 @@ packages:
   nth-check@2.1.1:
     resolution: {integrity: sha512-lqjrjmaOoAnWfMmBPL+XNnynZh2+swxiX3WUE0s4yEHI6m+AwrK2UZOimIRl3X/4QctVqS8AiZjFqyOGrMXb/w==}
 
-  nuxt-ui-formwerk@0.1.9:
-    resolution: {integrity: sha512-a9xYNRLBULNTwruEt/waTnEOBqQYSNWHBbbbac+u3QzwrKqONYkTfO3scET2E7vh2em2isJRyloZsaGLwtFxIw==}
+  nuxt-ui-formwerk@0.1.10:
+    resolution: {integrity: sha512-DgFhwQGVQmUQ5+76Jmc0nHwj8B8U38a0zPhXbB9Tn+9LADx4g+yHJcgBYBmuENps5PAf2UUXW97lKltwDIB9Kg==}
     peerDependencies:
       '@formwerk/core': ^0.14.4
       '@nuxt/ui': ^4.0.0
@@ -12893,7 +12893,7 @@ snapshots:
     dependencies:
       boolbase: 1.0.0
 
-  nuxt-ui-formwerk@0.1.9(@formwerk/core@0.14.4(vue@3.5.26(typescript@5.9.3)))(@nuxt/ui@4.3.0(7fd41145a32554523c83cfcfb148f88a))(magicast@0.5.1)(vue@3.5.26(typescript@5.9.3)):
+  nuxt-ui-formwerk@0.1.10(@formwerk/core@0.14.4(vue@3.5.26(typescript@5.9.3)))(@nuxt/ui@4.3.0(7fd41145a32554523c83cfcfb148f88a))(magicast@0.5.1)(vue@3.5.26(typescript@5.9.3)):
     dependencies:
       '@formwerk/core': 0.14.4(vue@3.5.26(typescript@5.9.3))
       '@nuxt/kit': 4.2.2(magicast@0.5.1)
