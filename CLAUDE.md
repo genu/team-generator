@@ -60,14 +60,13 @@ Team Generator is a Nuxt 4 application for creating balanced teams based on play
   - [app/components/provide/ZenstackContext.vue](app/components/provide/ZenstackContext.vue) provides query settings with custom fetch
   - [app/components/provide/AppContext.vue](app/components/provide/AppContext.vue) wraps the app with necessary providers
 - **Styling**: Tailwind CSS
-- **Forms**: Formwerk (`@formwerk/core`) for form handling with custom components in [layers/core/app/components/formwerk/](layers/core/app/components/formwerk/)
+- **Forms**: Formwerk (`@formwerk/core`) for form handling with Nuxt UI integration via `nuxt-ui-formwerk` package
 
 ### Key Directories
 - `app/` - Main application code (Nuxt 4 structure)
 - `server/` - API routes and utilities
 - `shared/` - Shared schemas and types
 - `zenstack/` - Database schema and migrations
-- `layers/core/` - Nuxt layer with core Formwerk components and configuration
 - `tests/` - Playwright test suites
 - `.generated/zenstack/` - Auto-generated ZenStack client code (do not edit)
 
@@ -109,6 +108,6 @@ Playwright tests run on port 3001 with separate test database (`.env.test`). The
   - Uses `.npmrc` with `shamefully-hoist=true` configuration
 - **Generated files**: Never edit files in `.generated/zenstack` - regenerate with `pnpm db:generate`
 - **Database changes**: Always update [zenstack/schema.zmodel](zenstack/schema.zmodel), then run `pnpm db:migrate` or `zen migrate dev`
-- **Nuxt config**: Module configuration at [nuxt.config.ts](nuxt.config.ts) with layer support in [layers/core/](layers/core/)
-- **Custom form components**: Removed in favor of Nuxt UI native components and Formwerk integration in core layer
+- **Nuxt config**: Module configuration at [nuxt.config.ts](nuxt.config.ts)
+- **Form components**: Uses `nuxt-ui-formwerk` package for Formwerk + Nuxt UI integration (externalized from local layers)
 - **Test database**: Uses separate `.env.test` file - test commands automatically reset the database before running

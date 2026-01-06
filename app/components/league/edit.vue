@@ -119,8 +119,8 @@
               :ui="{ thead: leagueForm.players?.length === 0 ? 'hidden' : '', td: 'p-1.5', th: 'py-1.5 px-2' }">
               <template #isActive-cell="{ row }">
                 <div class="flex items-center justify-center">
-                  <FormwerkField :name="`players.${row.index}.isActive`" #="{ value, setValue }">
-                    <USwitch :model-value="value" size="xl" @update:model-value="setValue" />
+                  <FormwerkField :name="`players.${row.index}.isActive`" #="{ model }">
+                    <USwitch v-bind="model" size="xl" />
                   </FormwerkField>
                 </div>
               </template>
@@ -129,27 +129,15 @@
               </template>
               <template #rank-cell="{ row }">
                 <div class="w-24">
-                  <FormwerkField :name="`players.${row.index}.rank`" #="{ value, setValue }">
-                    <UInputNumber
-                      :model-value="value"
-                      size="lg"
-                      :min="1"
-                      :max="10"
-                      :step="1"
-                      :ui="{ base: 'disabled' }"
-                      @update:model-value="setValue" />
+                  <FormwerkField :name="`players.${row.index}.rank`" #="{ model }">
+                    <UInputNumber v-bind="model" size="lg" :min="1" :max="10" :step="1" :ui="{ base: 'disabled' }" />
                   </FormwerkField>
                 </div>
               </template>
               <template #isGoalie-cell="{ row }">
                 <div class="flex items-center justify-center">
-                  <FormwerkField :name="`players.${row.index}.isGoalie`" #="{ value, setValue }">
-                    <UCheckbox
-                      :model-value="value"
-                      :ui="{ root: 'justify-around' }"
-                      size="xl"
-                      color="neutral"
-                      @update:model-value="setValue" />
+                  <FormwerkField :name="`players.${row.index}.isGoalie`" #="{ model }">
+                    <UCheckbox v-bind="model" :ui="{ root: 'justify-around' }" size="xl" color="neutral" />
                   </FormwerkField>
                 </div>
               </template>
