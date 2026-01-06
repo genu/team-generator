@@ -16,13 +16,13 @@ importers:
         version: 0.14.4(vue@3.5.26(typescript@5.9.3))
       '@nuxt/ui':
         specifier: 4.3.0
-        version: 4.3.0(7fd41145a32554523c83cfcfb148f88a)
+        version: 4.3.0(281ba4a7cdde2409088dbc25e9859685)
       '@pinia/colada':
-        specifier: ^0.20.0
-        version: 0.20.0(pinia@3.0.4(typescript@5.9.3)(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3))
+        specifier: ^0.21.0
+        version: 0.21.0(pinia@3.0.4(typescript@5.9.3)(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3))
       '@pinia/colada-nuxt':
         specifier: 0.3.0
-        version: 0.3.0(@pinia/colada@0.20.0(pinia@3.0.4(typescript@5.9.3)(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3)))(magicast@0.5.1)
+        version: 0.3.0(@pinia/colada@0.21.0(pinia@3.0.4(typescript@5.9.3)(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3)))(magicast@0.5.1)
       '@vueuse/components':
         specifier: 14.1.0
         version: 14.1.0(vue@3.5.26(typescript@5.9.3))
@@ -30,20 +30,20 @@ importers:
         specifier: 14.1.0
         version: 14.1.0(vue-router@4.6.4(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3))
       '@zenstackhq/orm':
-        specifier: 3.1.0
-        version: 3.1.0(pg@8.16.3)(zod@4.2.1)
+        specifier: 3.1.1
+        version: 3.1.1(pg@8.16.3)(zod@4.3.5)
       '@zenstackhq/plugin-policy':
-        specifier: 3.1.0
-        version: 3.1.0(kysely@0.28.9)(pg@8.16.3)(zod@4.2.1)
+        specifier: 3.1.1
+        version: 3.1.1(kysely@0.28.9)(pg@8.16.3)(zod@4.3.5)
       '@zenstackhq/server':
-        specifier: 3.1.0
-        version: 3.1.0(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@24.10.3)(@vue/compiler-sfc@3.5.26)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.54.0)(terser@5.44.1)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.2.1(typescript@5.9.3))(yaml@2.8.2))(pg@8.16.3)(zod@4.2.1)
+        specifier: 3.1.1
+        version: 3.1.1(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@24.10.3)(@vue/compiler-sfc@3.5.26)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.54.0)(terser@5.44.1)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.2.2(typescript@5.9.3))(yaml@2.8.2))(pg@8.16.3)(zod@4.3.5)
       lodash-es:
         specifier: 4.17.22
         version: 4.17.22
       nuxt-ui-formwerk:
-        specifier: ^0.1.12
-        version: 0.1.12(@formwerk/core@0.14.4(vue@3.5.26(typescript@5.9.3)))(@nuxt/ui@4.3.0(7fd41145a32554523c83cfcfb148f88a))(magicast@0.5.1)(vue@3.5.26(typescript@5.9.3))
+        specifier: ^0.1.13
+        version: 0.1.13(@formwerk/core@0.14.4(vue@3.5.26(typescript@5.9.3)))(@internationalized/date@3.10.1)(@nuxt/ui@4.3.0(281ba4a7cdde2409088dbc25e9859685))(magicast@0.5.1)(vue@3.5.26(typescript@5.9.3))
       pg:
         specifier: 8.16.3
         version: 8.16.3
@@ -57,11 +57,11 @@ importers:
         specifier: 2.0.5
         version: 2.0.5(vue@3.5.26(typescript@5.9.3))
       zenstack-pinia-colada:
-        specifier: 0.1.6
-        version: 0.1.6(@pinia/colada@0.20.0(pinia@3.0.4(typescript@5.9.3)(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3)))(pg@8.16.3)(pinia@3.0.4(typescript@5.9.3)(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3))(zod@4.2.1)
+        specifier: 0.1.12
+        version: 0.1.12(@pinia/colada@0.21.0(pinia@3.0.4(typescript@5.9.3)(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3)))(@zenstackhq/client-helpers@3.1.0)(@zenstackhq/common-helpers@3.1.1)(@zenstackhq/orm@3.1.1(pg@8.16.3)(zod@4.3.5))(@zenstackhq/schema@3.1.1)(pinia@3.0.4(typescript@5.9.3)(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3))
       zod:
-        specifier: 4.2.1
-        version: 4.2.1
+        specifier: 4.3.5
+        version: 4.3.5
     devDependencies:
       '@iconify-json/lucide':
         specifier: ^1.2.82
@@ -73,11 +73,11 @@ importers:
         specifier: 2.0.0
         version: 2.0.0(db0@0.3.4)(ioredis@5.8.2)(magicast@0.5.1)
       '@nuxt/test-utils':
-        specifier: 3.21.0
-        version: 3.21.0(@playwright/test@1.57.0)(magicast@0.5.1)(playwright-core@1.57.0)(typescript@5.9.3)
+        specifier: 3.23.0
+        version: 3.23.0(@playwright/test@1.57.0)(magicast@0.5.1)(playwright-core@1.57.0)(typescript@5.9.3)
       '@pinia/colada-devtools':
-        specifier: ^0.4.0
-        version: 0.4.0
+        specifier: ^0.4.1
+        version: 0.4.1
       '@pinia/nuxt':
         specifier: 0.11.3
         version: 0.11.3(magicast@0.5.1)(pinia@3.0.4(typescript@5.9.3)(vue@3.5.26(typescript@5.9.3)))
@@ -104,10 +104,10 @@ importers:
         version: 14.1.0(vue@3.5.26(typescript@5.9.3))
       '@vueuse/nuxt':
         specifier: 14.1.0
-        version: 14.1.0(magicast@0.5.1)(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@24.10.3)(@vue/compiler-sfc@3.5.26)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.54.0)(terser@5.44.1)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.2.1(typescript@5.9.3))(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))
+        version: 14.1.0(magicast@0.5.1)(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@24.10.3)(@vue/compiler-sfc@3.5.26)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.54.0)(terser@5.44.1)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.2.2(typescript@5.9.3))(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))
       '@zenstackhq/cli':
-        specifier: 3.1.0
-        version: 3.1.0(magicast@0.5.1)(typescript@5.9.3)
+        specifier: 3.1.1
+        version: 3.1.1(magicast@0.5.1)(typescript@5.9.3)
       changelogen:
         specifier: ^0.6.2
         version: 0.6.2(magicast@0.5.1)
@@ -128,7 +128,7 @@ importers:
         version: 8.0.4
       nuxt:
         specifier: 4.2.2
-        version: 4.2.2(@parcel/watcher@2.5.1)(@types/node@24.10.3)(@vue/compiler-sfc@3.5.26)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.54.0)(terser@5.44.1)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.2.1(typescript@5.9.3))(yaml@2.8.2)
+        version: 4.2.2(@parcel/watcher@2.5.1)(@types/node@24.10.3)(@vue/compiler-sfc@3.5.26)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.54.0)(terser@5.44.1)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.2.2(typescript@5.9.3))(yaml@2.8.2)
       pinia:
         specifier: 3.0.4
         version: 3.0.4(typescript@5.9.3)(vue@3.5.26(typescript@5.9.3))
@@ -142,8 +142,8 @@ importers:
         specifier: 3.10.0
         version: 3.10.0
       vue-tsc:
-        specifier: 3.2.1
-        version: 3.2.1(typescript@5.9.3)
+        specifier: 3.2.2
+        version: 3.2.2(typescript@5.9.3)
 
 packages:
 
@@ -727,6 +727,9 @@ packages:
 
   '@clack/prompts@1.0.0-alpha.8':
     resolution: {integrity: sha512-YZGC4BmTKSF5OturNKEz/y4xNjYGmGk6NI785CQucJ7OEdX0qbMmL/zok+9bL6c7qE3WSYffyK5grh2RnkGNtQ==}
+
+  '@clack/prompts@1.0.0-alpha.9':
+    resolution: {integrity: sha512-sKs0UjiHFWvry4SiRfBi5Qnj0C/6AYx8aKkFPZQSuUZXgAram25ZDmhQmP7vj1aFyLpfHWtLQjWvOvcat0TOLg==}
 
   '@cloudflare/kv-asset-handler@0.4.1':
     resolution: {integrity: sha512-Nu8ahitGFFJztxUml9oD/DLb7Z28C8cd8F46IVQ7y5Btz575pvMY8AqZsXkX7Gds29eCKdMgIHjIvzskHgPSFg==}
@@ -1476,9 +1479,9 @@ packages:
     engines: {node: '>=18.12.0'}
     hasBin: true
 
-  '@nuxt/test-utils@3.21.0':
-    resolution: {integrity: sha512-A6XExfgHq88+XuXAU4MMr5QBHS2mWA5qRVSvsMPP2U+YSsnk+Vt7P7dxbvJPE4+n6LHbC1IM0QjTVteo+VCxOA==}
-    engines: {node: ^20.0.0 || ^22.0.0 || >=24.0.0}
+  '@nuxt/test-utils@3.23.0':
+    resolution: {integrity: sha512-NZKWSwvfIiTO2qhMoJHVbUQLgJMe96J9ccLhPPqN5+a/XzISZ027LG9wWVp1tC5oB0qQ3eUDhrxmq6Lj8EQLMQ==}
+    engines: {node: ^20.11.1 || ^22.0.0 || >=24.0.0}
     peerDependencies:
       '@cucumber/cucumber': ^10.3.1 || >=11.0.0
       '@jest/globals': ^29.5.0 || >=30.0.0
@@ -1918,16 +1921,16 @@ packages:
     resolution: {integrity: sha512-dfUnCxiN9H4ap84DvD2ubjw+3vUNpstxa0TneY/Paat8a3R4uQZDLSvWjmznAY/DoahqTHl9V46HF/Zs3F29pg==}
     engines: {node: '>= 10.0.0'}
 
-  '@pinia/colada-devtools@0.4.0':
-    resolution: {integrity: sha512-1AffG0DGXDpMB2m7pA7Bh7gWObaK95us9u4EPwjpVixZRK55K6KaULQm+51i6ysTVhniDK13LiRrogaR3dH37Q==}
+  '@pinia/colada-devtools@0.4.1':
+    resolution: {integrity: sha512-BmurCHPmgfaq3fZEoKim/g0vrVpM5psAdYsh/kvpmwiARKRlNGR1GPj1Uhm+EE1fpCMfzuQDwRqffb+zydooRw==}
 
   '@pinia/colada-nuxt@0.3.0':
     resolution: {integrity: sha512-vf6m8ffclFcgX1sK9w4iPh04RaQnno7qXHToiKDSEn2agnKId05lfotW6z6Dat9Pb0uwY7vCAXqrYhIxUdxrLw==}
     peerDependencies:
       '@pinia/colada': '>=0.20.0'
 
-  '@pinia/colada@0.20.0':
-    resolution: {integrity: sha512-IY8ssG7xsVlIq5uvnkQtPMKJ4NHxGeeP04HFKR46DOe58UY07JQFKvbDOj3d+nX/Ki+VAb3TGeHIqQdBWf0eWQ==}
+  '@pinia/colada@0.21.0':
+    resolution: {integrity: sha512-Y7c4gRsZcZCOyxKFbvSadC55sHKJJqKjD3KC1wiOBFl9ubqBlzqOPZl7fj0LkoqbsZYGqAdA0FtNfe9cvgQOXA==}
     peerDependencies:
       pinia: ^2.2.6 || ^3.0.0
       vue: ^3.5.17
@@ -2887,6 +2890,9 @@ packages:
   '@vue/language-core@3.2.1':
     resolution: {integrity: sha512-g6oSenpnGMtpxHGAwKuu7HJJkNZpemK/zg3vZzZbJ6cnnXq1ssxuNrXSsAHYM3NvH8p4IkTw+NLmuxyeYz4r8A==}
 
+  '@vue/language-core@3.2.2':
+    resolution: {integrity: sha512-5DAuhxsxBN9kbriklh3Q5AMaJhyOCNiQJvCskN9/30XOpdLiqZU9Q+WvjArP17ubdGEyZtBzlIeG5nIjEbNOrQ==}
+
   '@vue/reactivity@3.5.26':
     resolution: {integrity: sha512-9EnYB1/DIiUYYnzlnUBgwU32NNvLp/nhxLXeWRhHUEeWNTn1ECxX8aGO7RTXeX6PPcxe3LLuNBFoJbV4QZ+CFQ==}
 
@@ -2994,8 +3000,8 @@ packages:
     peerDependencies:
       vue: ^3.5.0
 
-  '@zenstackhq/cli@3.1.0':
-    resolution: {integrity: sha512-Ze4k9uFThTgjr2mCD6oT+9FhEn2JNdyFEerggA38zNsP56ZcLoSj8IPR/audwHo1oz8LXl1fJuj3XCWO5zzDPg==}
+  '@zenstackhq/cli@3.1.1':
+    resolution: {integrity: sha512-w+ml9dh2tZJuViF6wqIiEjYQMl2nvUbVIDLzrctDkbS699bsY58I2qDCFAh1zRb4gcPEOAAud9Kwmzbz0UH5rw==}
     hasBin: true
 
   '@zenstackhq/client-helpers@3.1.0':
@@ -3004,11 +3010,14 @@ packages:
   '@zenstackhq/common-helpers@3.1.0':
     resolution: {integrity: sha512-S4S5hYopHOVzK3A0nmJReqpug5XKyh+h2pWsCIA8pEB7wTWt+5Ppyo1NoEB8iPH2jFdMh+Q1m/9pVPXVpHXDbQ==}
 
-  '@zenstackhq/language@3.1.0':
-    resolution: {integrity: sha512-m64bpl9QlzXC45S3irfb4PjAlYYnjZ3NcGSZ2PojRBux+vZHbPHfsj/4NssqAfWSxluHy3LLweN11/zS7/LQgg==}
+  '@zenstackhq/common-helpers@3.1.1':
+    resolution: {integrity: sha512-QB75r8f0lgeVNNXmBeqRHPvtit2EqaGPlzR9OfIzW2v9QjCBFt8jGqlNBky8Y7x/Up2MkJ1+UvUBDxAHGWfXOg==}
 
-  '@zenstackhq/orm@3.1.0':
-    resolution: {integrity: sha512-uw2S+mBXG1jXEWWyWPcx04d6eWCyX1KPrqkh2VTkqVBfZpB8OQbxdIyi0YCCUWE0JG7VwANgUGtZw17TLzlMeQ==}
+  '@zenstackhq/language@3.1.1':
+    resolution: {integrity: sha512-sBWD8TchaZrDpzrmujX5wUwio4XlFp62NXXdq+/4iWyKAjado45UqIWjNJ61X+SNHnBa4PIRx/VFPT4xyIhkQQ==}
+
+  '@zenstackhq/orm@3.1.1':
+    resolution: {integrity: sha512-Blo1P9qrWaVXaom4y+FUKj9SqleRbE/VJ3debqo4e8zbmcv1UGdSOO3X4AHuNLHDWZJ7attrWbaB6IOnKEJxow==}
     peerDependencies:
       better-sqlite3: ^12.5.0
       pg: ^8.13.1
@@ -3022,19 +3031,22 @@ packages:
       sql.js:
         optional: true
 
-  '@zenstackhq/plugin-policy@3.1.0':
-    resolution: {integrity: sha512-4HQP/rwcR+WwenWjq79wUP6Chp9RUJB/8WWOcyle5DX9WpRDtLdDjuWmvaubA3r3/LuY5TGFJe5UnDlKI6nYfg==}
+  '@zenstackhq/plugin-policy@3.1.1':
+    resolution: {integrity: sha512-//4lMKAk5OeVu+U/8R+ZdAG2afQPC7KkPXbj7aLVQiZkDKV6kw94rastLNnW6AJQn6n0yMQ38uT2tYtik3xINA==}
     peerDependencies:
       kysely: ~0.28.8
 
   '@zenstackhq/schema@3.1.0':
     resolution: {integrity: sha512-dXqnZaZ0+BWf8/pl1rMal5aRN7AFoy+PKa2LGBHCqiNZwxz7Ad0aaXyIezzaZ7N+1yIxMPKtGC5CASe+9QmPhw==}
 
-  '@zenstackhq/sdk@3.1.0':
-    resolution: {integrity: sha512-WFz7Oa5sn+FP/2eT6PJ09SGyP97AtusgNzwNeX85WcLtFEx8z+d0KomoQ1CPjwmE/SdF/QjJihZvvIMvGyzh/g==}
+  '@zenstackhq/schema@3.1.1':
+    resolution: {integrity: sha512-G+wyCHAr7eCRzsaRPTjE4Jr6IEeFZdQo1Mn6Ivqq7CghEciFUiA9TF4CJqtjUMqsrg2Wjhu69m1EdAUO4B283g==}
 
-  '@zenstackhq/server@3.1.0':
-    resolution: {integrity: sha512-Y0lFIx5PVcCcSRAme/F6rX0ZZGPS29aHtIdfLTJ2szHeC2nM98rG/gq6DPhkrMesXltQeWj+41BJG7vwV14vtA==}
+  '@zenstackhq/sdk@3.1.1':
+    resolution: {integrity: sha512-dION49UOoXz9g8+JuvJhEE58j7HrN4nFgUZ4H/z7KXHllHuMA6mZgMA8gQ6mdBAqFu1HZwZ1Z8YNYWH4ijb8aQ==}
+
+  '@zenstackhq/server@3.1.1':
+    resolution: {integrity: sha512-73557bP80qZcfaWn/ebucU61mNzLD7XXeSWi+6gcifzMq6o01oXKl4B4ohEtHlmqYXGndrca4SJRzoGa2oe0Tw==}
     peerDependencies:
       '@sveltejs/kit': ^2.0.0
       elysia: ^1.3.0
@@ -4326,6 +4338,15 @@ packages:
   h3@1.15.4:
     resolution: {integrity: sha512-z5cFQWDffyOe4vQ9xIqNfCZdV4p//vy6fBnr8Q1AWnVZ0teurKMG66rLj++TKwKPUP3u7iMUvrvKaEUiQw2QWQ==}
 
+  h3@2.0.1-rc.7:
+    resolution: {integrity: sha512-qbrRu1OLXmUYnysWOCVrYhtC/m8ZuXu/zCbo3U/KyphJxbPFiC76jHYwVrmEcss9uNAHO5BoUguQ46yEpgI2PA==}
+    engines: {node: '>=20.11.1'}
+    peerDependencies:
+      crossws: ^0.4.1
+    peerDependenciesMeta:
+      crossws:
+        optional: true
+
   has-bigints@1.1.0:
     resolution: {integrity: sha512-R3pbpkcIqv2Pm3dUwgjclDRVmWpTJW2DcMzcIhEXEx1oh/CEMObMm3KLmRJOdvhM7o4uQBnwr8pzRK2sJWIqfg==}
     engines: {node: '>= 0.4'}
@@ -5161,10 +5182,11 @@ packages:
   nth-check@2.1.1:
     resolution: {integrity: sha512-lqjrjmaOoAnWfMmBPL+XNnynZh2+swxiX3WUE0s4yEHI6m+AwrK2UZOimIRl3X/4QctVqS8AiZjFqyOGrMXb/w==}
 
-  nuxt-ui-formwerk@0.1.12:
-    resolution: {integrity: sha512-mQVy3SQ109CxCOfOI3GBn61mwgg5oflnmqyGj7ZydRe3W3OjnYRIcPnaDKCLHEkoNFD3YFh1WTZV4429npMRvw==}
+  nuxt-ui-formwerk@0.1.13:
+    resolution: {integrity: sha512-/x6mchkix5WgbEbSWRSGlPk4Ox0lj6T0JiEzSjRlWq46GZkHFEP4poSLYZygHy7fh0CoWwf3tyc1fvB9dhzghw==}
     peerDependencies:
       '@formwerk/core': ^0.14.4
+      '@internationalized/date': '>=3.10.0'
       '@nuxt/ui': ^4.0.0
 
   nuxt@4.2.2:
@@ -5918,6 +5940,9 @@ packages:
   rope-sequence@1.3.4:
     resolution: {integrity: sha512-UT5EDe2cu2E/6O4igUr5PSFs23nvvukicWHx6GnOPlHAiiYbzNuCRQCuiUdHJQcqKalLKlrYJnjY0ySGsXNQXQ==}
 
+  rou3@0.7.12:
+    resolution: {integrity: sha512-iFE4hLDuloSWcD7mjdCDhx2bKcIsYbtOTpfH5MHHLSKMOUyjqQXTeZVa289uuwEGEKFoE/BAPbhaU4B774nceg==}
+
   run-applescript@7.1.0:
     resolution: {integrity: sha512-DPe5pVFaAsinSaV6QjQ6gdiedWDcRCbUuiQfQa2wmWV7+xC9bGulGI8+TdRmoFkAPaBXk8CrAbnlY2ISniJ47Q==}
     engines: {node: '>=18'}
@@ -6097,6 +6122,11 @@ packages:
   split2@4.2.0:
     resolution: {integrity: sha512-UcjcJOWknrNkF6PLX83qcHM6KHgVKNkV62Y8a5uYDVv9ydGQVwAHMKqHdJje1VTWpljG0WYpCDhrCdAOYH4TWg==}
     engines: {node: '>= 10.x'}
+
+  srvx@0.10.0:
+    resolution: {integrity: sha512-NqIsR+wQCfkvvwczBh8J8uM4wTZx41K2lLSEp/3oMp917ODVVMtW5Me4epCmQ3gH8D+0b+/t4xxkUKutyhimTA==}
+    engines: {node: '>=20.16.0'}
+    hasBin: true
 
   srvx@0.9.8:
     resolution: {integrity: sha512-RZaxTKJEE/14HYn8COLuUOJAt0U55N9l1Xf6jj+T0GoA01EUH1Xz5JtSUOI+EHn+AEgPCVn7gk6jHJffrr06fQ==}
@@ -6788,8 +6818,8 @@ packages:
     peerDependencies:
       vue: '>=3.0.0'
 
-  vue-tsc@3.2.1:
-    resolution: {integrity: sha512-I23Rk8dkQfmcSbxDO0dmg9ioMLjKA1pjlU3Lz6Jfk2pMGu3Uryu9810XkcZH24IzPbhzPCnkKo2rEMRX0skSrw==}
+  vue-tsc@3.2.2:
+    resolution: {integrity: sha512-r9YSia/VgGwmbbfC06hDdAatH634XJ9nVl6Zrnz1iK4ucp8Wu78kawplXnIDa3MSu1XdQQePTHLXYwPDWn+nyQ==}
     hasBin: true
     peerDependencies:
       typescript: '>=5.0.0'
@@ -6995,10 +7025,14 @@ packages:
   youch@4.1.0-beta.13:
     resolution: {integrity: sha512-3+AG1Xvt+R7M7PSDudhbfbwiyveW6B8PLBIwTyEC598biEYIjHhC89i6DBEvR0EZUjGY3uGSnC429HpIa2Z09g==}
 
-  zenstack-pinia-colada@0.1.6:
-    resolution: {integrity: sha512-kT3c6AfUVkHS+R5UX1nfQ5MfYjI9T85Ngg1ZWbdpphgO7JjZatX+EiyrDJCKxp3bkNw/YbS5R95pwNnW53Qa2w==}
+  zenstack-pinia-colada@0.1.12:
+    resolution: {integrity: sha512-1ZEykBMM1vMha0cYqg9wbWImF75cJLqTyhpt0kIUZu8O1Gopfu6uZ3bVsJXW1a0ABOoYjLYVtqzHYLqTrGmBDA==}
     peerDependencies:
       '@pinia/colada': '>=0.10.0 <1.0.0'
+      '@zenstackhq/client-helpers': ^3.0.0
+      '@zenstackhq/common-helpers': ^3.0.0
+      '@zenstackhq/orm': ^3.0.0
+      '@zenstackhq/schema': ^3.0.0
       pinia: ^3.0.0
       vue: ^3.0.0
 
@@ -7012,8 +7046,8 @@ packages:
     peerDependencies:
       zod: ^3.25.0 || ^4.0.0
 
-  zod@4.2.1:
-    resolution: {integrity: sha512-0wZ1IRqGGhMP76gLqz8EyfBXKk0J2qo2+H3fi4mcUP/KtTocoX08nmIAHl1Z2kJIZbZee8KOpBCSNPRgauucjw==}
+  zod@4.3.5:
+    resolution: {integrity: sha512-k7Nwx6vuWx1IJ9Bjuf4Zt1PEllcwe7cls3VNzm4CQ1/hgtFUK2bRNG3rvnpPUhFjmqJKAKtjV576KnUkHocg/g==}
 
 snapshots:
 
@@ -7756,6 +7790,12 @@ snapshots:
       sisteransi: 1.0.5
 
   '@clack/prompts@1.0.0-alpha.8':
+    dependencies:
+      '@clack/core': 1.0.0-alpha.7
+      picocolors: 1.1.1
+      sisteransi: 1.0.5
+
+  '@clack/prompts@1.0.0-alpha.9':
     dependencies:
       '@clack/core': 1.0.0-alpha.7
       picocolors: 1.1.1
@@ -8613,7 +8653,7 @@ snapshots:
     transitivePeerDependencies:
       - magicast
 
-  '@nuxt/nitro-server@4.2.2(db0@0.3.4)(ioredis@5.8.2)(magicast@0.5.1)(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@24.10.3)(@vue/compiler-sfc@3.5.26)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.54.0)(terser@5.44.1)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.2.1(typescript@5.9.3))(yaml@2.8.2))(typescript@5.9.3)':
+  '@nuxt/nitro-server@4.2.2(db0@0.3.4)(ioredis@5.8.2)(magicast@0.5.1)(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@24.10.3)(@vue/compiler-sfc@3.5.26)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.54.0)(terser@5.44.1)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.2.2(typescript@5.9.3))(yaml@2.8.2))(typescript@5.9.3)':
     dependencies:
       '@nuxt/devalue': 2.0.2
       '@nuxt/kit': 4.2.2(magicast@0.5.1)
@@ -8631,7 +8671,7 @@ snapshots:
       klona: 2.0.6
       mocked-exports: 0.1.1
       nitropack: 2.12.9
-      nuxt: 4.2.2(@parcel/watcher@2.5.1)(@types/node@24.10.3)(@vue/compiler-sfc@3.5.26)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.54.0)(terser@5.44.1)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.2.1(typescript@5.9.3))(yaml@2.8.2)
+      nuxt: 4.2.2(@parcel/watcher@2.5.1)(@types/node@24.10.3)(@vue/compiler-sfc@3.5.26)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.54.0)(terser@5.44.1)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.2.2(typescript@5.9.3))(yaml@2.8.2)
       pathe: 2.0.3
       pkg-types: 2.3.0
       radix3: 1.1.2
@@ -8702,8 +8742,9 @@ snapshots:
     transitivePeerDependencies:
       - magicast
 
-  '@nuxt/test-utils@3.21.0(@playwright/test@1.57.0)(magicast@0.5.1)(playwright-core@1.57.0)(typescript@5.9.3)':
+  '@nuxt/test-utils@3.23.0(@playwright/test@1.57.0)(magicast@0.5.1)(playwright-core@1.57.0)(typescript@5.9.3)':
     dependencies:
+      '@clack/prompts': 1.0.0-alpha.9
       '@nuxt/kit': 3.20.2(magicast@0.5.1)
       c12: 3.3.3(magicast@0.5.1)
       consola: 3.4.2
@@ -8714,10 +8755,12 @@ snapshots:
       fake-indexeddb: 6.2.5
       get-port-please: 3.2.0
       h3: 1.15.4
+      h3-next: h3@2.0.1-rc.7
       local-pkg: 1.1.2
       magic-string: 0.30.21
       node-fetch-native: 1.6.7
       node-mock-http: 1.0.4
+      nypm: 0.6.2
       ofetch: 1.5.1
       pathe: 2.0.3
       perfect-debounce: 2.0.0
@@ -8733,10 +8776,11 @@ snapshots:
       '@playwright/test': 1.57.0
       playwright-core: 1.57.0
     transitivePeerDependencies:
+      - crossws
       - magicast
       - typescript
 
-  '@nuxt/ui@4.3.0(7fd41145a32554523c83cfcfb148f88a)':
+  '@nuxt/ui@4.3.0(281ba4a7cdde2409088dbc25e9859685)':
     dependencies:
       '@iconify/vue': 5.0.0(vue@3.5.26(typescript@5.9.3))
       '@internationalized/date': 3.10.1
@@ -8799,7 +8843,7 @@ snapshots:
       vue-component-type-helpers: 3.2.1
     optionalDependencies:
       vue-router: 4.6.4(vue@3.5.26(typescript@5.9.3))
-      zod: 4.2.1
+      zod: 4.3.5
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -8844,7 +8888,7 @@ snapshots:
       - vite
       - vue
 
-  '@nuxt/vite-builder@4.2.2(@types/node@24.10.3)(eslint@9.39.2(jiti@2.6.1))(lightningcss@1.30.2)(magicast@0.5.1)(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@24.10.3)(@vue/compiler-sfc@3.5.26)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.54.0)(terser@5.44.1)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.2.1(typescript@5.9.3))(yaml@2.8.2))(optionator@0.9.4)(rollup@4.54.0)(terser@5.44.1)(typescript@5.9.3)(vue-tsc@3.2.1(typescript@5.9.3))(vue@3.5.26(typescript@5.9.3))(yaml@2.8.2)':
+  '@nuxt/vite-builder@4.2.2(@types/node@24.10.3)(eslint@9.39.2(jiti@2.6.1))(lightningcss@1.30.2)(magicast@0.5.1)(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@24.10.3)(@vue/compiler-sfc@3.5.26)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.54.0)(terser@5.44.1)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.2.2(typescript@5.9.3))(yaml@2.8.2))(optionator@0.9.4)(rollup@4.54.0)(terser@5.44.1)(typescript@5.9.3)(vue-tsc@3.2.2(typescript@5.9.3))(vue@3.5.26(typescript@5.9.3))(yaml@2.8.2)':
     dependencies:
       '@nuxt/kit': 4.2.2(magicast@0.5.1)
       '@rollup/plugin-replace': 6.0.3(rollup@4.54.0)
@@ -8864,7 +8908,7 @@ snapshots:
       magic-string: 0.30.21
       mlly: 1.8.0
       mocked-exports: 0.1.1
-      nuxt: 4.2.2(@parcel/watcher@2.5.1)(@types/node@24.10.3)(@vue/compiler-sfc@3.5.26)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.54.0)(terser@5.44.1)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.2.1(typescript@5.9.3))(yaml@2.8.2)
+      nuxt: 4.2.2(@parcel/watcher@2.5.1)(@types/node@24.10.3)(@vue/compiler-sfc@3.5.26)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.54.0)(terser@5.44.1)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.2.2(typescript@5.9.3))(yaml@2.8.2)
       pathe: 2.0.3
       pkg-types: 2.3.0
       postcss: 8.5.6
@@ -8875,7 +8919,7 @@ snapshots:
       unenv: 2.0.0-rc.24
       vite: 7.3.0(@types/node@24.10.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2)
       vite-node: 5.2.0(@types/node@24.10.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2)
-      vite-plugin-checker: 0.12.0(eslint@9.39.2(jiti@2.6.1))(optionator@0.9.4)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.2.1(typescript@5.9.3))
+      vite-plugin-checker: 0.12.0(eslint@9.39.2(jiti@2.6.1))(optionator@0.9.4)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.2.2(typescript@5.9.3))
       vue: 3.5.26(typescript@5.9.3)
       vue-bundle-renderer: 2.2.0
     transitivePeerDependencies:
@@ -9124,18 +9168,17 @@ snapshots:
       '@parcel/watcher-win32-ia32': 2.5.1
       '@parcel/watcher-win32-x64': 2.5.1
 
-  '@pinia/colada-devtools@0.4.0': {}
+  '@pinia/colada-devtools@0.4.1': {}
 
-  '@pinia/colada-nuxt@0.3.0(@pinia/colada@0.20.0(pinia@3.0.4(typescript@5.9.3)(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3)))(magicast@0.5.1)':
+  '@pinia/colada-nuxt@0.3.0(@pinia/colada@0.21.0(pinia@3.0.4(typescript@5.9.3)(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3)))(magicast@0.5.1)':
     dependencies:
       '@nuxt/kit': 4.2.2(magicast@0.5.1)
-      '@pinia/colada': 0.20.0(pinia@3.0.4(typescript@5.9.3)(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3))
+      '@pinia/colada': 0.21.0(pinia@3.0.4(typescript@5.9.3)(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3))
     transitivePeerDependencies:
       - magicast
 
-  '@pinia/colada@0.20.0(pinia@3.0.4(typescript@5.9.3)(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3))':
+  '@pinia/colada@0.21.0(pinia@3.0.4(typescript@5.9.3)(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3))':
     dependencies:
-      '@vue/devtools-api': 8.0.5
       pinia: 3.0.4(typescript@5.9.3)(vue@3.5.26(typescript@5.9.3))
       vue: 3.5.26(typescript@5.9.3)
 
@@ -10149,6 +10192,16 @@ snapshots:
       path-browserify: 1.0.1
       picomatch: 4.0.3
 
+  '@vue/language-core@3.2.2':
+    dependencies:
+      '@volar/language-core': 2.4.27
+      '@vue/compiler-dom': 3.5.26
+      '@vue/shared': 3.5.26
+      alien-signals: 3.1.2
+      muggle-string: 0.4.1
+      path-browserify: 1.0.1
+      picomatch: 4.0.3
+
   '@vue/reactivity@3.5.26':
     dependencies:
       '@vue/shared': 3.5.26
@@ -10220,13 +10273,13 @@ snapshots:
 
   '@vueuse/metadata@14.1.0': {}
 
-  '@vueuse/nuxt@14.1.0(magicast@0.5.1)(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@24.10.3)(@vue/compiler-sfc@3.5.26)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.54.0)(terser@5.44.1)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.2.1(typescript@5.9.3))(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))':
+  '@vueuse/nuxt@14.1.0(magicast@0.5.1)(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@24.10.3)(@vue/compiler-sfc@3.5.26)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.54.0)(terser@5.44.1)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.2.2(typescript@5.9.3))(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))':
     dependencies:
       '@nuxt/kit': 4.2.2(magicast@0.5.1)
       '@vueuse/core': 14.1.0(vue@3.5.26(typescript@5.9.3))
       '@vueuse/metadata': 14.1.0
       local-pkg: 1.1.2
-      nuxt: 4.2.2(@parcel/watcher@2.5.1)(@types/node@24.10.3)(@vue/compiler-sfc@3.5.26)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.54.0)(terser@5.44.1)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.2.1(typescript@5.9.3))(yaml@2.8.2)
+      nuxt: 4.2.2(@parcel/watcher@2.5.1)(@types/node@24.10.3)(@vue/compiler-sfc@3.5.26)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.54.0)(terser@5.44.1)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.2.2(typescript@5.9.3))(yaml@2.8.2)
       vue: 3.5.26(typescript@5.9.3)
     transitivePeerDependencies:
       - magicast
@@ -10254,11 +10307,11 @@ snapshots:
     dependencies:
       vue: 3.5.26(typescript@5.9.3)
 
-  '@zenstackhq/cli@3.1.0(magicast@0.5.1)(typescript@5.9.3)':
+  '@zenstackhq/cli@3.1.1(magicast@0.5.1)(typescript@5.9.3)':
     dependencies:
-      '@zenstackhq/common-helpers': 3.1.0
-      '@zenstackhq/language': 3.1.0
-      '@zenstackhq/sdk': 3.1.0
+      '@zenstackhq/common-helpers': 3.1.1
+      '@zenstackhq/language': 3.1.1
+      '@zenstackhq/sdk': 3.1.1
       colors: 1.4.0
       commander: 8.3.0
       execa: 9.6.1
@@ -10284,19 +10337,21 @@ snapshots:
 
   '@zenstackhq/common-helpers@3.1.0': {}
 
-  '@zenstackhq/language@3.1.0':
+  '@zenstackhq/common-helpers@3.1.1': {}
+
+  '@zenstackhq/language@3.1.1':
     dependencies:
-      '@zenstackhq/common-helpers': 3.1.0
+      '@zenstackhq/common-helpers': 3.1.1
       langium: 3.5.0
       pluralize: 8.0.0
       ts-pattern: 5.9.0
       vscode-languageserver: 9.0.1
 
-  '@zenstackhq/orm@3.1.0(pg@8.16.3)(zod@4.2.1)':
+  '@zenstackhq/orm@3.1.1(pg@8.16.3)(zod@4.3.5)':
     dependencies:
       '@paralleldrive/cuid2': 2.3.1
-      '@zenstackhq/common-helpers': 3.1.0
-      '@zenstackhq/schema': 3.1.0
+      '@zenstackhq/common-helpers': 3.1.1
+      '@zenstackhq/schema': 3.1.1
       cuid: 3.0.0
       decimal.js: 10.6.0
       json-stable-stringify: 1.3.0
@@ -10306,15 +10361,15 @@ snapshots:
       ts-pattern: 5.9.0
       ulid: 3.0.2
       uuid: 11.1.0
-      zod: 4.2.1
-      zod-validation-error: 4.0.2(zod@4.2.1)
+      zod: 4.3.5
+      zod-validation-error: 4.0.2(zod@4.3.5)
     optionalDependencies:
       pg: 8.16.3
 
-  '@zenstackhq/plugin-policy@3.1.0(kysely@0.28.9)(pg@8.16.3)(zod@4.2.1)':
+  '@zenstackhq/plugin-policy@3.1.1(kysely@0.28.9)(pg@8.16.3)(zod@4.3.5)':
     dependencies:
-      '@zenstackhq/common-helpers': 3.1.0
-      '@zenstackhq/orm': 3.1.0(pg@8.16.3)(zod@4.2.1)
+      '@zenstackhq/common-helpers': 3.1.1
+      '@zenstackhq/orm': 3.1.1(pg@8.16.3)(zod@4.3.5)
       kysely: 0.28.9
       ts-pattern: 5.9.0
     transitivePeerDependencies:
@@ -10327,27 +10382,31 @@ snapshots:
     dependencies:
       decimal.js: 10.6.0
 
-  '@zenstackhq/sdk@3.1.0':
+  '@zenstackhq/schema@3.1.1':
     dependencies:
-      '@zenstackhq/common-helpers': 3.1.0
-      '@zenstackhq/language': 3.1.0
+      decimal.js: 10.6.0
+
+  '@zenstackhq/sdk@3.1.1':
+    dependencies:
+      '@zenstackhq/common-helpers': 3.1.1
+      '@zenstackhq/language': 3.1.1
       langium: 3.5.0
       ts-pattern: 5.9.0
       typescript: 5.9.3
 
-  '@zenstackhq/server@3.1.0(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@24.10.3)(@vue/compiler-sfc@3.5.26)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.54.0)(terser@5.44.1)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.2.1(typescript@5.9.3))(yaml@2.8.2))(pg@8.16.3)(zod@4.2.1)':
+  '@zenstackhq/server@3.1.1(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@24.10.3)(@vue/compiler-sfc@3.5.26)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.54.0)(terser@5.44.1)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.2.2(typescript@5.9.3))(yaml@2.8.2))(pg@8.16.3)(zod@4.3.5)':
     dependencies:
-      '@zenstackhq/common-helpers': 3.1.0
-      '@zenstackhq/orm': 3.1.0(pg@8.16.3)(zod@4.2.1)
+      '@zenstackhq/common-helpers': 3.1.1
+      '@zenstackhq/orm': 3.1.1(pg@8.16.3)(zod@4.3.5)
       decimal.js: 10.6.0
       superjson: 2.2.6
       ts-japi: 1.12.1
       ts-pattern: 5.9.0
       url-pattern: 1.0.3
-      zod: 4.2.1
-      zod-validation-error: 4.0.2(zod@4.2.1)
+      zod: 4.3.5
+      zod-validation-error: 4.0.2(zod@4.3.5)
     optionalDependencies:
-      nuxt: 4.2.2(@parcel/watcher@2.5.1)(@types/node@24.10.3)(@vue/compiler-sfc@3.5.26)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.54.0)(terser@5.44.1)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.2.1(typescript@5.9.3))(yaml@2.8.2)
+      nuxt: 4.2.2(@parcel/watcher@2.5.1)(@types/node@24.10.3)(@vue/compiler-sfc@3.5.26)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.54.0)(terser@5.44.1)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.2.2(typescript@5.9.3))(yaml@2.8.2)
     transitivePeerDependencies:
       - better-sqlite3
       - pg
@@ -11818,6 +11877,11 @@ snapshots:
       ufo: 1.6.1
       uncrypto: 0.1.3
 
+  h3@2.0.1-rc.7:
+    dependencies:
+      rou3: 0.7.12
+      srvx: 0.10.0
+
   has-bigints@1.1.0: {}
 
   has-flag@4.0.0: {}
@@ -12693,26 +12757,27 @@ snapshots:
     dependencies:
       boolbase: 1.0.0
 
-  nuxt-ui-formwerk@0.1.12(@formwerk/core@0.14.4(vue@3.5.26(typescript@5.9.3)))(@nuxt/ui@4.3.0(7fd41145a32554523c83cfcfb148f88a))(magicast@0.5.1)(vue@3.5.26(typescript@5.9.3)):
+  nuxt-ui-formwerk@0.1.13(@formwerk/core@0.14.4(vue@3.5.26(typescript@5.9.3)))(@internationalized/date@3.10.1)(@nuxt/ui@4.3.0(281ba4a7cdde2409088dbc25e9859685))(magicast@0.5.1)(vue@3.5.26(typescript@5.9.3)):
     dependencies:
       '@formwerk/core': 0.14.4(vue@3.5.26(typescript@5.9.3))
+      '@internationalized/date': 3.10.1
       '@nuxt/kit': 4.2.2(magicast@0.5.1)
-      '@nuxt/ui': 4.3.0(7fd41145a32554523c83cfcfb148f88a)
+      '@nuxt/ui': 4.3.0(281ba4a7cdde2409088dbc25e9859685)
       '@vueuse/core': 14.1.0(vue@3.5.26(typescript@5.9.3))
     transitivePeerDependencies:
       - magicast
       - vue
 
-  nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@24.10.3)(@vue/compiler-sfc@3.5.26)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.54.0)(terser@5.44.1)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.2.1(typescript@5.9.3))(yaml@2.8.2):
+  nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@24.10.3)(@vue/compiler-sfc@3.5.26)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.54.0)(terser@5.44.1)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.2.2(typescript@5.9.3))(yaml@2.8.2):
     dependencies:
       '@dxup/nuxt': 0.2.2(magicast@0.5.1)
       '@nuxt/cli': 3.31.3(cac@6.7.14)(magicast@0.5.1)
       '@nuxt/devtools': 3.1.1(vite@7.3.0(@types/node@24.10.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))
       '@nuxt/kit': 4.2.2(magicast@0.5.1)
-      '@nuxt/nitro-server': 4.2.2(db0@0.3.4)(ioredis@5.8.2)(magicast@0.5.1)(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@24.10.3)(@vue/compiler-sfc@3.5.26)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.54.0)(terser@5.44.1)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.2.1(typescript@5.9.3))(yaml@2.8.2))(typescript@5.9.3)
+      '@nuxt/nitro-server': 4.2.2(db0@0.3.4)(ioredis@5.8.2)(magicast@0.5.1)(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@24.10.3)(@vue/compiler-sfc@3.5.26)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.54.0)(terser@5.44.1)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.2.2(typescript@5.9.3))(yaml@2.8.2))(typescript@5.9.3)
       '@nuxt/schema': 4.2.2
       '@nuxt/telemetry': 2.6.6(magicast@0.5.1)
-      '@nuxt/vite-builder': 4.2.2(@types/node@24.10.3)(eslint@9.39.2(jiti@2.6.1))(lightningcss@1.30.2)(magicast@0.5.1)(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@24.10.3)(@vue/compiler-sfc@3.5.26)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.54.0)(terser@5.44.1)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.2.1(typescript@5.9.3))(yaml@2.8.2))(optionator@0.9.4)(rollup@4.54.0)(terser@5.44.1)(typescript@5.9.3)(vue-tsc@3.2.1(typescript@5.9.3))(vue@3.5.26(typescript@5.9.3))(yaml@2.8.2)
+      '@nuxt/vite-builder': 4.2.2(@types/node@24.10.3)(eslint@9.39.2(jiti@2.6.1))(lightningcss@1.30.2)(magicast@0.5.1)(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@24.10.3)(@vue/compiler-sfc@3.5.26)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.54.0)(terser@5.44.1)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.2.2(typescript@5.9.3))(yaml@2.8.2))(optionator@0.9.4)(rollup@4.54.0)(terser@5.44.1)(typescript@5.9.3)(vue-tsc@3.2.2(typescript@5.9.3))(vue@3.5.26(typescript@5.9.3))(yaml@2.8.2)
       '@unhead/vue': 2.1.1(vue@3.5.26(typescript@5.9.3))
       '@vue/shared': 3.5.26
       c12: 3.3.3(magicast@0.5.1)
@@ -13647,6 +13712,8 @@ snapshots:
 
   rope-sequence@1.3.4: {}
 
+  rou3@0.7.12: {}
+
   run-applescript@7.1.0: {}
 
   run-parallel@1.2.0:
@@ -13877,6 +13944,8 @@ snapshots:
   speakingurl@14.0.1: {}
 
   split2@4.2.0: {}
+
+  srvx@0.10.0: {}
 
   srvx@0.9.8: {}
 
@@ -14460,7 +14529,7 @@ snapshots:
       - tsx
       - yaml
 
-  vite-plugin-checker@0.12.0(eslint@9.39.2(jiti@2.6.1))(optionator@0.9.4)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.2.1(typescript@5.9.3)):
+  vite-plugin-checker@0.12.0(eslint@9.39.2(jiti@2.6.1))(optionator@0.9.4)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.2.2(typescript@5.9.3)):
     dependencies:
       '@babel/code-frame': 7.27.1
       chokidar: 4.0.3
@@ -14475,7 +14544,7 @@ snapshots:
       eslint: 9.39.2(jiti@2.6.1)
       optionator: 0.9.4
       typescript: 5.9.3
-      vue-tsc: 3.2.1(typescript@5.9.3)
+      vue-tsc: 3.2.2(typescript@5.9.3)
 
   vite-plugin-inspect@11.3.3(@nuxt/kit@4.2.2(magicast@0.5.1))(vite@7.3.0(@types/node@24.10.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2)):
     dependencies:
@@ -14535,7 +14604,7 @@ snapshots:
 
   vitest-environment-nuxt@1.0.1(@playwright/test@1.57.0)(magicast@0.5.1)(playwright-core@1.57.0)(typescript@5.9.3):
     dependencies:
-      '@nuxt/test-utils': 3.21.0(@playwright/test@1.57.0)(magicast@0.5.1)(playwright-core@1.57.0)(typescript@5.9.3)
+      '@nuxt/test-utils': 3.23.0(@playwright/test@1.57.0)(magicast@0.5.1)(playwright-core@1.57.0)(typescript@5.9.3)
     transitivePeerDependencies:
       - '@cucumber/cucumber'
       - '@jest/globals'
@@ -14543,6 +14612,7 @@ snapshots:
       - '@testing-library/vue'
       - '@vitest/ui'
       - '@vue/test-utils'
+      - crossws
       - happy-dom
       - jsdom
       - magicast
@@ -14602,10 +14672,10 @@ snapshots:
     dependencies:
       vue: 3.5.26(typescript@5.9.3)
 
-  vue-tsc@3.2.1(typescript@5.9.3):
+  vue-tsc@3.2.2(typescript@5.9.3):
     dependencies:
       '@volar/typescript': 2.4.27
-      '@vue/language-core': 3.2.1
+      '@vue/language-core': 3.2.2
       typescript: 5.9.3
 
   vue@3.5.26(typescript@5.9.3):
@@ -14883,20 +14953,15 @@ snapshots:
       cookie-es: 2.0.0
       youch-core: 0.3.3
 
-  zenstack-pinia-colada@0.1.6(@pinia/colada@0.20.0(pinia@3.0.4(typescript@5.9.3)(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3)))(pg@8.16.3)(pinia@3.0.4(typescript@5.9.3)(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3))(zod@4.2.1):
+  zenstack-pinia-colada@0.1.12(@pinia/colada@0.21.0(pinia@3.0.4(typescript@5.9.3)(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3)))(@zenstackhq/client-helpers@3.1.0)(@zenstackhq/common-helpers@3.1.1)(@zenstackhq/orm@3.1.1(pg@8.16.3)(zod@4.3.5))(@zenstackhq/schema@3.1.1)(pinia@3.0.4(typescript@5.9.3)(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3)):
     dependencies:
-      '@pinia/colada': 0.20.0(pinia@3.0.4(typescript@5.9.3)(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3))
+      '@pinia/colada': 0.21.0(pinia@3.0.4(typescript@5.9.3)(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3))
       '@zenstackhq/client-helpers': 3.1.0
-      '@zenstackhq/common-helpers': 3.1.0
-      '@zenstackhq/orm': 3.1.0(pg@8.16.3)(zod@4.2.1)
-      '@zenstackhq/schema': 3.1.0
+      '@zenstackhq/common-helpers': 3.1.1
+      '@zenstackhq/orm': 3.1.1(pg@8.16.3)(zod@4.3.5)
+      '@zenstackhq/schema': 3.1.1
       pinia: 3.0.4(typescript@5.9.3)(vue@3.5.26(typescript@5.9.3))
       vue: 3.5.26(typescript@5.9.3)
-    transitivePeerDependencies:
-      - better-sqlite3
-      - pg
-      - sql.js
-      - zod
 
   zip-stream@6.0.1:
     dependencies:
@@ -14904,8 +14969,8 @@ snapshots:
       compress-commons: 6.0.2
       readable-stream: 4.7.0
 
-  zod-validation-error@4.0.2(zod@4.2.1):
+  zod-validation-error@4.0.2(zod@4.3.5):
     dependencies:
-      zod: 4.2.1
+      zod: 4.3.5
 
-  zod@4.2.1: {}
+  zod@4.3.5: {}
