@@ -30,14 +30,14 @@ importers:
         specifier: 14.1.0
         version: 14.1.0(vue-router@4.6.4(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3))
       '@zenstackhq/orm':
-        specifier: 3.1.1
-        version: 3.1.1(pg@8.16.3)(zod@4.3.5)
+        specifier: 3.2.0
+        version: 3.2.0(pg@8.16.3)(zod@4.3.5)
       '@zenstackhq/plugin-policy':
-        specifier: 3.1.1
-        version: 3.1.1(kysely@0.28.9)(pg@8.16.3)(zod@4.3.5)
+        specifier: 3.2.0
+        version: 3.2.0(kysely@0.28.9)(pg@8.16.3)(zod@4.3.5)
       '@zenstackhq/server':
-        specifier: 3.1.1
-        version: 3.1.1(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@24.10.4)(@vue/compiler-sfc@3.5.26)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.54.0)(terser@5.44.1)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.2.2(typescript@5.9.3))(yaml@2.8.2))(pg@8.16.3)(zod@4.3.5)
+        specifier: 3.2.0
+        version: 3.2.0(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@24.10.4)(@vue/compiler-sfc@3.5.26)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.54.0)(terser@5.44.1)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.2.2(typescript@5.9.3))(yaml@2.8.2))(pg@8.16.3)(zod@4.3.5)
       lodash-es:
         specifier: 4.17.22
         version: 4.17.22
@@ -58,7 +58,7 @@ importers:
         version: 2.0.5(vue@3.5.26(typescript@5.9.3))
       zenstack-pinia-colada:
         specifier: 0.1.13
-        version: 0.1.13(@pinia/colada@0.21.0(pinia@3.0.4(typescript@5.9.3)(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3)))(@zenstackhq/client-helpers@3.1.0)(@zenstackhq/common-helpers@3.1.1)(@zenstackhq/orm@3.1.1(pg@8.16.3)(zod@4.3.5))(@zenstackhq/schema@3.1.1)(pinia@3.0.4(typescript@5.9.3)(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3))
+        version: 0.1.13(@pinia/colada@0.21.0(pinia@3.0.4(typescript@5.9.3)(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3)))(@zenstackhq/client-helpers@3.1.0)(@zenstackhq/common-helpers@3.2.0)(@zenstackhq/orm@3.2.0(pg@8.16.3)(zod@4.3.5))(@zenstackhq/schema@3.2.0)(pinia@3.0.4(typescript@5.9.3)(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3))
       zod:
         specifier: 4.3.5
         version: 4.3.5
@@ -106,8 +106,8 @@ importers:
         specifier: 14.1.0
         version: 14.1.0(magicast@0.5.1)(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@24.10.4)(@vue/compiler-sfc@3.5.26)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.54.0)(terser@5.44.1)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.2.2(typescript@5.9.3))(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))
       '@zenstackhq/cli':
-        specifier: 3.1.1
-        version: 3.1.1(magicast@0.5.1)(typescript@5.9.3)
+        specifier: 3.2.0
+        version: 3.2.0(magicast@0.5.1)(typescript@5.9.3)
       changelogen:
         specifier: ^0.6.2
         version: 0.6.2(magicast@0.5.1)
@@ -3000,8 +3000,9 @@ packages:
     peerDependencies:
       vue: ^3.5.0
 
-  '@zenstackhq/cli@3.1.1':
-    resolution: {integrity: sha512-w+ml9dh2tZJuViF6wqIiEjYQMl2nvUbVIDLzrctDkbS699bsY58I2qDCFAh1zRb4gcPEOAAud9Kwmzbz0UH5rw==}
+  '@zenstackhq/cli@3.2.0':
+    resolution: {integrity: sha512-fPEyd3R7Z5+nxOAK9N0t6ojyLBsHfw83kpX4tMWbHePYJ91ih48U9Zl+sZElMqzQtH8PsmbMMeu8SDlsXLXReA==}
+    engines: {node: '>=20'}
     hasBin: true
 
   '@zenstackhq/client-helpers@3.1.0':
@@ -3010,14 +3011,14 @@ packages:
   '@zenstackhq/common-helpers@3.1.0':
     resolution: {integrity: sha512-S4S5hYopHOVzK3A0nmJReqpug5XKyh+h2pWsCIA8pEB7wTWt+5Ppyo1NoEB8iPH2jFdMh+Q1m/9pVPXVpHXDbQ==}
 
-  '@zenstackhq/common-helpers@3.1.1':
-    resolution: {integrity: sha512-QB75r8f0lgeVNNXmBeqRHPvtit2EqaGPlzR9OfIzW2v9QjCBFt8jGqlNBky8Y7x/Up2MkJ1+UvUBDxAHGWfXOg==}
+  '@zenstackhq/common-helpers@3.2.0':
+    resolution: {integrity: sha512-AT3+iSG1IFb3E2ad6AARqQbKNqvc2uJ31C65UIOqVarHAq4YNFkPC8wDoe7Ezo/6ShZmJNcHW97DCgNSdqftRw==}
 
-  '@zenstackhq/language@3.1.1':
-    resolution: {integrity: sha512-sBWD8TchaZrDpzrmujX5wUwio4XlFp62NXXdq+/4iWyKAjado45UqIWjNJ61X+SNHnBa4PIRx/VFPT4xyIhkQQ==}
+  '@zenstackhq/language@3.2.0':
+    resolution: {integrity: sha512-VKr+hECjbRs7v4hl0BD9foARrA8aK7Y5thhMfT33Zgkpoc+5E9G5vmtj80W++mJdlGAF6JhHQV+oDk5wzd8dnQ==}
 
-  '@zenstackhq/orm@3.1.1':
-    resolution: {integrity: sha512-Blo1P9qrWaVXaom4y+FUKj9SqleRbE/VJ3debqo4e8zbmcv1UGdSOO3X4AHuNLHDWZJ7attrWbaB6IOnKEJxow==}
+  '@zenstackhq/orm@3.2.0':
+    resolution: {integrity: sha512-ECR/XzNTZ+SVaxb7FTLCDlqDGpD7vUCTnZtzYeAouxNNXw4bcw9R8wNJTztsVRKdAVBpZuEAUjYZnZMdQkuWeg==}
     peerDependencies:
       better-sqlite3: ^12.5.0
       pg: ^8.13.1
@@ -3031,22 +3032,22 @@ packages:
       sql.js:
         optional: true
 
-  '@zenstackhq/plugin-policy@3.1.1':
-    resolution: {integrity: sha512-//4lMKAk5OeVu+U/8R+ZdAG2afQPC7KkPXbj7aLVQiZkDKV6kw94rastLNnW6AJQn6n0yMQ38uT2tYtik3xINA==}
+  '@zenstackhq/plugin-policy@3.2.0':
+    resolution: {integrity: sha512-z+hQcVc9E1vIEu9WNCtGYGII0SigLDA+AMLm54ZuMP5g+3KJXfliYOBtVH4R0tl+9iJHORxJaRg0LVC9Gb2Wfg==}
     peerDependencies:
       kysely: ~0.28.8
 
   '@zenstackhq/schema@3.1.0':
     resolution: {integrity: sha512-dXqnZaZ0+BWf8/pl1rMal5aRN7AFoy+PKa2LGBHCqiNZwxz7Ad0aaXyIezzaZ7N+1yIxMPKtGC5CASe+9QmPhw==}
 
-  '@zenstackhq/schema@3.1.1':
-    resolution: {integrity: sha512-G+wyCHAr7eCRzsaRPTjE4Jr6IEeFZdQo1Mn6Ivqq7CghEciFUiA9TF4CJqtjUMqsrg2Wjhu69m1EdAUO4B283g==}
+  '@zenstackhq/schema@3.2.0':
+    resolution: {integrity: sha512-LsT8J7Ylg1WbsF93kMx16uEJFwfmiJvhn/6aDMTY/qwILxLdY2NJA3B+nlbEf+YQPl6oUzr85UfTppW/rZxkyg==}
 
-  '@zenstackhq/sdk@3.1.1':
-    resolution: {integrity: sha512-dION49UOoXz9g8+JuvJhEE58j7HrN4nFgUZ4H/z7KXHllHuMA6mZgMA8gQ6mdBAqFu1HZwZ1Z8YNYWH4ijb8aQ==}
+  '@zenstackhq/sdk@3.2.0':
+    resolution: {integrity: sha512-B+Gf88h6WwwND5xukbOiIwNbVWrCoK3eIGnQ6maAZeg9eBR0swpgH+ugY82pNSTzk3yualPawQej02G6SSEiIw==}
 
-  '@zenstackhq/server@3.1.1':
-    resolution: {integrity: sha512-73557bP80qZcfaWn/ebucU61mNzLD7XXeSWi+6gcifzMq6o01oXKl4B4ohEtHlmqYXGndrca4SJRzoGa2oe0Tw==}
+  '@zenstackhq/server@3.2.0':
+    resolution: {integrity: sha512-1b/MyomHdOjSDu6V7TQlWx/wVDZLAYZjFKX6hhc4VvxglCxykQ2hqdCjd4l4eVRYeJJTErvDnWJjawc5eFNC1w==}
     peerDependencies:
       '@sveltejs/kit': ^2.0.0
       elysia: ^1.3.0
@@ -5638,6 +5639,10 @@ packages:
   postgres-array@2.0.0:
     resolution: {integrity: sha512-VpZrUqU5A69eQyW2c5CA1jtLecCsN2U/bD6VilrFDWq5+5UIEVO7nazS3TEcHf1zuPYO/sqGvUvW62g86RXZuA==}
     engines: {node: '>=4'}
+
+  postgres-array@3.0.4:
+    resolution: {integrity: sha512-nAUSGfSDGOaOAEGwqsRY27GPOea7CNipJPOA7lPbdEpx5Kg3qzdP0AaWC5MlhTWV9s4hFX39nomVZ+C4tnGOJQ==}
+    engines: {node: '>=12'}
 
   postgres-bytea@1.0.1:
     resolution: {integrity: sha512-5+5HqXnsZPE65IJZSMkZtURARZelel2oXUEO8rH83VS/hxH5vv1uHquPg5wZs8yMAfdv971IU+kcPUczi7NVBQ==}
@@ -10307,11 +10312,12 @@ snapshots:
     dependencies:
       vue: 3.5.26(typescript@5.9.3)
 
-  '@zenstackhq/cli@3.1.1(magicast@0.5.1)(typescript@5.9.3)':
+  '@zenstackhq/cli@3.2.0(magicast@0.5.1)(typescript@5.9.3)':
     dependencies:
-      '@zenstackhq/common-helpers': 3.1.1
-      '@zenstackhq/language': 3.1.1
-      '@zenstackhq/sdk': 3.1.1
+      '@zenstackhq/common-helpers': 3.2.0
+      '@zenstackhq/language': 3.2.0
+      '@zenstackhq/sdk': 3.2.0
+      chokidar: 5.0.0
       colors: 1.4.0
       commander: 8.3.0
       execa: 9.6.1
@@ -10337,26 +10343,27 @@ snapshots:
 
   '@zenstackhq/common-helpers@3.1.0': {}
 
-  '@zenstackhq/common-helpers@3.1.1': {}
+  '@zenstackhq/common-helpers@3.2.0': {}
 
-  '@zenstackhq/language@3.1.1':
+  '@zenstackhq/language@3.2.0':
     dependencies:
-      '@zenstackhq/common-helpers': 3.1.1
+      '@zenstackhq/common-helpers': 3.2.0
       langium: 3.5.0
       pluralize: 8.0.0
       ts-pattern: 5.9.0
       vscode-languageserver: 9.0.1
 
-  '@zenstackhq/orm@3.1.1(pg@8.16.3)(zod@4.3.5)':
+  '@zenstackhq/orm@3.2.0(pg@8.16.3)(zod@4.3.5)':
     dependencies:
       '@paralleldrive/cuid2': 2.3.1
-      '@zenstackhq/common-helpers': 3.1.1
-      '@zenstackhq/schema': 3.1.1
+      '@zenstackhq/common-helpers': 3.2.0
+      '@zenstackhq/schema': 3.2.0
       cuid: 3.0.0
       decimal.js: 10.6.0
       json-stable-stringify: 1.3.0
       kysely: 0.28.9
       nanoid: 5.1.6
+      postgres-array: 3.0.4
       toposort: 2.0.2
       ts-pattern: 5.9.0
       ulid: 3.0.2
@@ -10366,10 +10373,10 @@ snapshots:
     optionalDependencies:
       pg: 8.16.3
 
-  '@zenstackhq/plugin-policy@3.1.1(kysely@0.28.9)(pg@8.16.3)(zod@4.3.5)':
+  '@zenstackhq/plugin-policy@3.2.0(kysely@0.28.9)(pg@8.16.3)(zod@4.3.5)':
     dependencies:
-      '@zenstackhq/common-helpers': 3.1.1
-      '@zenstackhq/orm': 3.1.1(pg@8.16.3)(zod@4.3.5)
+      '@zenstackhq/common-helpers': 3.2.0
+      '@zenstackhq/orm': 3.2.0(pg@8.16.3)(zod@4.3.5)
       kysely: 0.28.9
       ts-pattern: 5.9.0
     transitivePeerDependencies:
@@ -10382,22 +10389,22 @@ snapshots:
     dependencies:
       decimal.js: 10.6.0
 
-  '@zenstackhq/schema@3.1.1':
+  '@zenstackhq/schema@3.2.0':
     dependencies:
       decimal.js: 10.6.0
 
-  '@zenstackhq/sdk@3.1.1':
+  '@zenstackhq/sdk@3.2.0':
     dependencies:
-      '@zenstackhq/common-helpers': 3.1.1
-      '@zenstackhq/language': 3.1.1
+      '@zenstackhq/common-helpers': 3.2.0
+      '@zenstackhq/language': 3.2.0
       langium: 3.5.0
       ts-pattern: 5.9.0
       typescript: 5.9.3
 
-  '@zenstackhq/server@3.1.1(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@24.10.4)(@vue/compiler-sfc@3.5.26)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.54.0)(terser@5.44.1)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.2.2(typescript@5.9.3))(yaml@2.8.2))(pg@8.16.3)(zod@4.3.5)':
+  '@zenstackhq/server@3.2.0(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@24.10.4)(@vue/compiler-sfc@3.5.26)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.54.0)(terser@5.44.1)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.2.2(typescript@5.9.3))(yaml@2.8.2))(pg@8.16.3)(zod@4.3.5)':
     dependencies:
-      '@zenstackhq/common-helpers': 3.1.1
-      '@zenstackhq/orm': 3.1.1(pg@8.16.3)(zod@4.3.5)
+      '@zenstackhq/common-helpers': 3.2.0
+      '@zenstackhq/orm': 3.2.0(pg@8.16.3)(zod@4.3.5)
       decimal.js: 10.6.0
       superjson: 2.2.6
       ts-japi: 1.12.1
@@ -13354,6 +13361,8 @@ snapshots:
 
   postgres-array@2.0.0: {}
 
+  postgres-array@3.0.4: {}
+
   postgres-bytea@1.0.1: {}
 
   postgres-date@1.0.7: {}
@@ -14953,13 +14962,13 @@ snapshots:
       cookie-es: 2.0.0
       youch-core: 0.3.3
 
-  zenstack-pinia-colada@0.1.13(@pinia/colada@0.21.0(pinia@3.0.4(typescript@5.9.3)(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3)))(@zenstackhq/client-helpers@3.1.0)(@zenstackhq/common-helpers@3.1.1)(@zenstackhq/orm@3.1.1(pg@8.16.3)(zod@4.3.5))(@zenstackhq/schema@3.1.1)(pinia@3.0.4(typescript@5.9.3)(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3)):
+  zenstack-pinia-colada@0.1.13(@pinia/colada@0.21.0(pinia@3.0.4(typescript@5.9.3)(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3)))(@zenstackhq/client-helpers@3.1.0)(@zenstackhq/common-helpers@3.2.0)(@zenstackhq/orm@3.2.0(pg@8.16.3)(zod@4.3.5))(@zenstackhq/schema@3.2.0)(pinia@3.0.4(typescript@5.9.3)(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3)):
     dependencies:
       '@pinia/colada': 0.21.0(pinia@3.0.4(typescript@5.9.3)(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3))
       '@zenstackhq/client-helpers': 3.1.0
-      '@zenstackhq/common-helpers': 3.1.1
-      '@zenstackhq/orm': 3.1.1(pg@8.16.3)(zod@4.3.5)
-      '@zenstackhq/schema': 3.1.1
+      '@zenstackhq/common-helpers': 3.2.0
+      '@zenstackhq/orm': 3.2.0(pg@8.16.3)(zod@4.3.5)
+      '@zenstackhq/schema': 3.2.0
       pinia: 3.0.4(typescript@5.9.3)(vue@3.5.26(typescript@5.9.3))
       vue: 3.5.26(typescript@5.9.3)
 
