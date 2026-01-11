@@ -43,7 +43,7 @@ importers:
         version: 4.17.22
       nuxt-ui-formwerk:
         specifier: ^0.1.13
-        version: 0.1.14(@formwerk/core@0.14.4(vue@3.5.26(typescript@5.9.3)))(@internationalized/date@3.10.1)(@nuxt/ui@4.3.0(3f62e11d941e2f17418a839eedaf445f))(magicast@0.5.1)(vue@3.5.26(typescript@5.9.3))
+        version: 0.1.16(@formwerk/core@0.14.4(vue@3.5.26(typescript@5.9.3)))(@internationalized/date@3.10.1)(@nuxt/ui@4.3.0(3f62e11d941e2f17418a839eedaf445f))(magicast@0.5.1)(vue@3.5.26(typescript@5.9.3))
       pg:
         specifier: 8.16.3
         version: 8.16.3
@@ -65,7 +65,7 @@ importers:
     devDependencies:
       '@iconify-json/lucide':
         specifier: ^1.2.82
-        version: 1.2.83
+        version: 1.2.84
       '@nuxt/eslint':
         specifier: 1.12.1
         version: 1.12.1(@typescript-eslint/utils@8.51.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@vue/compiler-sfc@3.5.26)(eslint@9.39.2(jiti@2.6.1))(magicast@0.5.1)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.7)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))
@@ -1162,8 +1162,8 @@ packages:
     resolution: {integrity: sha512-bV0Tgo9K4hfPCek+aMAn81RppFKv2ySDQeMoSZuvTASywNTnVJCArCZE2FWqpvIatKu7VMRLWlR1EazvVhDyhQ==}
     engines: {node: '>=18.18'}
 
-  '@iconify-json/lucide@1.2.83':
-    resolution: {integrity: sha512-k/255BFdcE+gY8cwQOlJMKjxOScW++8tiMxWw8jJXqHoQhBmOgsxm8SHVUIZqSrquMCcSNJn6rx67ZTQhoR2cA==}
+  '@iconify-json/lucide@1.2.84':
+    resolution: {integrity: sha512-m45MY1aW2swSK6Neb3J2qdZ+BxZ1VTdN7UeoXENwyMACG9bqGHWYJYxWoFzwoSnCfYLyKWTcBhesBgMd5IrUzQ==}
 
   '@iconify/collections@1.0.633':
     resolution: {integrity: sha512-4ZSkmNE27ACM0td+oAXid5hNql6niaPA3TlKgyNB+BnlGhT5fYWPk8AKSF5KYaInDswSGUyF1aulhhw+LfJF7A==}
@@ -5183,8 +5183,8 @@ packages:
   nth-check@2.1.1:
     resolution: {integrity: sha512-lqjrjmaOoAnWfMmBPL+XNnynZh2+swxiX3WUE0s4yEHI6m+AwrK2UZOimIRl3X/4QctVqS8AiZjFqyOGrMXb/w==}
 
-  nuxt-ui-formwerk@0.1.14:
-    resolution: {integrity: sha512-/eVIuZg+TfkAmTiywhWi03HLJ2nQ6T02AcrUvU89J3oVx8scifFApsqq6lwbwNHg926+RBvU6iNEhappknwdLQ==}
+  nuxt-ui-formwerk@0.1.16:
+    resolution: {integrity: sha512-5qRxZVwH481nvVshCp98mHSyobJnk6kCryCpBPm9+J1ziOiK6CZJm7MyV1nfArznxk3fF4fm6ig1Q73WgqlBFg==}
     peerDependencies:
       '@formwerk/core': ^0.14.4
       '@internationalized/date': '>=3.10.0'
@@ -8123,7 +8123,7 @@ snapshots:
 
   '@humanwhocodes/retry@0.4.3': {}
 
-  '@iconify-json/lucide@1.2.83':
+  '@iconify-json/lucide@1.2.84':
     dependencies:
       '@iconify/types': 2.0.0
 
@@ -12767,7 +12767,7 @@ snapshots:
     dependencies:
       boolbase: 1.0.0
 
-  nuxt-ui-formwerk@0.1.14(@formwerk/core@0.14.4(vue@3.5.26(typescript@5.9.3)))(@internationalized/date@3.10.1)(@nuxt/ui@4.3.0(3f62e11d941e2f17418a839eedaf445f))(magicast@0.5.1)(vue@3.5.26(typescript@5.9.3)):
+  nuxt-ui-formwerk@0.1.16(@formwerk/core@0.14.4(vue@3.5.26(typescript@5.9.3)))(@internationalized/date@3.10.1)(@nuxt/ui@4.3.0(3f62e11d941e2f17418a839eedaf445f))(magicast@0.5.1)(vue@3.5.26(typescript@5.9.3)):
     dependencies:
       '@formwerk/core': 0.14.4(vue@3.5.26(typescript@5.9.3))
       '@internationalized/date': 3.10.1
