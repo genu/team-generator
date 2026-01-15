@@ -77,7 +77,7 @@
     "@zenstackhq/server": "3.2.1",
     "lodash-es": "4.17.22",
     "nuxt-ui-formwerk": "^0.1.13",
-    "pg": "8.17.0",
+    "pg": "8.17.1",
     "pg-connection-string": "2.10.0",
     "typescript": "5.9.3",
     "vue-slicksort": "2.0.5",
