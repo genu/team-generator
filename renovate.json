@@ -1,13 +1,55 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended"],
+  "extends": [
+    "config:recommended",
+    ":dependencyDashboard",
+    ":semanticCommitTypeAll(deps)",
+    ":label(dependencies)",
+    ":disablePeerDependencies"
+  ],
   "packageRules": [
     {
+      "description": "Group Nuxt ecosystem packages",
+      "groupName": "nuxt",
+      "matchPackageNames": ["/^@nuxt//", "/^nuxt$/", "/^nuxi$/"]
+    },
+    {
+      "description": "Group Vue ecosystem packages",
+      "groupName": "vue",
+      "matchPackageNames": ["/^vue$/", "/^@vue//", "/^@vueuse//"]
+    },
+    {
+      "description": "Group Prisma/ZenStack packages",
+      "groupName": "prisma-zenstack",
+      "matchPackageNames": ["/^@prisma//", "/^prisma$/", "/^zenstack/"]
+    },
+    {
+      "description": "Group Pinia packages",
+      "groupName": "pinia",
+      "matchPackageNames": ["/^pinia/", "/^@pinia//"]
+    },
+    {
+      "description": "Group Playwright packages",
+      "groupName": "playwright",
+      "matchPackageNames": ["/^@playwright//", "/^playwright$/"]
+    },
+    {
+      "description": "Group linting tools",
+      "groupName": "linting",
+      "matchPackageNames": ["/^eslint/", "/^prettier/"]
+    },
+    {
+      "description": "Group all non-major dependencies",
       "groupName": "all non-major dependencies",
       "groupSlug": "all-minor-patch",
       "matchUpdateTypes": ["minor", "patch"],
-      "automerge": true,
       "matchPackageNames": ["*"]
+    },
+    {
+      "description": "Automerge minor/patch devDependencies",
+      "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true
     }
   ],
   "lockFileMaintenance": {
