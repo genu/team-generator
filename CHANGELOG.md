@@ -1,6 +1,27 @@
 # Changelog
 
 
+## [1.2.0](https://github.com/genu/team-generator/compare/v1.1.0...v1.2.0) (2026-02-03)
+
+
+### Features
+
+* add PWA support ([51a8b8a](https://github.com/genu/team-generator/commit/51a8b8a722efc30d19bdf9c43fddc1b8c9261e28))
+* add PWA support ([53538e0](https://github.com/genu/team-generator/commit/53538e084b55b22d784e14bb56638d896c740aa9))
+
+
+### Bug Fixes
+
+* **deps:** update all non-major dependencies ([3e05769](https://github.com/genu/team-generator/commit/3e05769b2e41f5d1fc824aad3bf54d0aa78ec30b))
+* **deps:** update all non-major dependencies ([a68d2b2](https://github.com/genu/team-generator/commit/a68d2b2f9fbc974da914860180ae46c9356fcf3e))
+* **deps:** update all non-major dependencies ([#337](https://github.com/genu/team-generator/issues/337)) ([a356ca5](https://github.com/genu/team-generator/commit/a356ca50bd13b997b523a6920130a9739a793e06))
+* **deps:** update all non-major dependencies ([#359](https://github.com/genu/team-generator/issues/359)) ([512b2b2](https://github.com/genu/team-generator/commit/512b2b297a1c02e7259acff2fcb20cb22085e66c))
+* **deps:** update all non-major dependencies ([#362](https://github.com/genu/team-generator/issues/362)) ([55e07b3](https://github.com/genu/team-generator/commit/55e07b3c8f102a015134f3c2b72cf83bcb3aea51))
+* **deps:** update all non-major dependencies to v3.2.0 ([#348](https://github.com/genu/team-generator/issues/348)) ([98852f6](https://github.com/genu/team-generator/commit/98852f6b7d4377c8b845f383c9617f84b9464e43))
+* **deps:** update all non-major dependencies to v3.2.1 ([#354](https://github.com/genu/team-generator/issues/354)) ([bd257e2](https://github.com/genu/team-generator/commit/bd257e2c3eb433c69cac146d4bfd77ef45885290))
+* **deps:** update dependency pg to v8.17.1 ([#360](https://github.com/genu/team-generator/issues/360)) ([267901a](https://github.com/genu/team-generator/commit/267901a9403f73ad38f01acdb4460ed04f3226cd))
+* issue with improper redirect when using hashes ([fad2f97](https://github.com/genu/team-generator/commit/fad2f9760e58f457a3b8e5345ca869350016e108))
+
 ## v1.1.0
 
 
@@ -156,4 +177,3 @@
 ### ❤️ Contributors
 
 - Eugen Istoc <eugenistoc@gmail.com>
-
