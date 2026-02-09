@@ -119,9 +119,9 @@
               :ui="{ thead: leagueForm.players?.length === 0 ? 'hidden' : '', td: 'p-1.5', th: 'py-1.5 px-2' }">
               <template #isActive-cell="{ row }">
                 <div class="flex items-center justify-center">
-                  <FormwerkField :name="`players.${row.index}.isActive`" #="{ model }">
+                  <UFormField :name="`players.${row.index}.isActive`" #="{ model }">
                     <USwitch v-bind="model" size="xl" />
-                  </FormwerkField>
+                  </UFormField>
                 </div>
               </template>
               <template #name-cell="{ row }">
@@ -129,16 +129,16 @@
               </template>
               <template #rank-cell="{ row }">
                 <div class="w-24">
-                  <FormwerkField :name="`players.${row.index}.rank`" #="{ model }">
+                  <UFormField :name="`players.${row.index}.rank`" #="{ model }">
                     <UInputNumber v-bind="model" size="lg" :min="1" :max="10" :step="1" :ui="{ base: 'disabled' }" />
-                  </FormwerkField>
+                  </UFormField>
                 </div>
               </template>
               <template #isGoalie-cell="{ row }">
                 <div class="flex items-center justify-center">
-                  <FormwerkField :name="`players.${row.index}.isGoalie`" #="{ model }">
+                  <UFormField :name="`players.${row.index}.isGoalie`" #="{ model }">
                     <UCheckbox v-bind="model" :ui="{ root: 'justify-around' }" size="xl" color="neutral" />
-                  </FormwerkField>
+                  </UFormField>
                 </div>
               </template>
               <template #actions-cell="{ row }">

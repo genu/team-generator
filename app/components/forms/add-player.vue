@@ -39,13 +39,13 @@
 </script>
 
 <template>
-  <FormwerkForm>
-    <FormwerkField #="{ model }" name="name">
+  <UForm>
+    <UFormField #="{ model }" name="name">
       <UInput v-bind="model" placeholder="Player Name" @keyup.enter="onAddPlayer">
         <template #trailing>
           <UButton color="success" icon="i-lucide-plus" label="Add Player" size="sm" @click="onAddPlayer" />
         </template>
       </UInput>
-    </FormwerkField>
-  </FormwerkForm>
+    </UFormField>
+  </UForm>
 </template>

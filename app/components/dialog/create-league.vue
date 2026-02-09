@@ -49,11 +49,11 @@
 
 <template>
   <OverlayModal title="Create a League" size="xs">
-    <FormwerkForm>
-      <FormwerkField name="name" #="{ model }">
+    <UForm>
+      <UFormField name="name" #="{ model }">
         <UInput v-bind="model" placeholder="League Name" />
-      </FormwerkField>
-    </FormwerkForm>
+      </UFormField>
+    </UForm>
 
     <template #footer-right>
       <UButton color="primary" :loading @click="onCreateLeague()">Create</UButton>

@@ -3,17 +3,17 @@
 </script>
 
 <template>
-  <FormwerkGroup name="options" class="flex flex-col gap-2 p-2">
-    <FormwerkField
+  <UFormGroup name="options" class="flex flex-col gap-2 p-2">
+    <UFormField
       #="{ model }"
       name="name"
       label="League Name:"
       size="lg"
       :ui="{ root: 'flex items-center gap-2', labelWrapper: 'flex justify-end', wrapper: 'w-28', container: 'flex-1' }">
       <UInput v-bind="model" :ui="{ root: 'flex items-center gap-2' }" placeholder="League Name" />
-    </FormwerkField>
+    </UFormField>
 
-    <FormwerkField
+    <UFormField
       #="{ model }"
       size="lg"
       label="# of Teams:"
@@ -25,9 +25,9 @@
         :ui="{ root: 'w-28' }"
         :increment="{ color: 'info', variant: 'solid', size: 'sm' }"
         :decrement="{ color: 'info', variant: 'solid', size: 'sm' }" />
-    </FormwerkField>
+    </UFormField>
     <DevOnly>
-      <FormwerkField
+      <UFormField
         #="{ model }"
         size="lg"
         :ui="{
@@ -37,8 +37,8 @@
           container: 'flex-1',
         }">
         <UCheckbox v-bind="model" label="Use Team Colors" color="info" description="Assign shirt colors for teams" />
-      </FormwerkField>
-      <FormwerkField
+      </UFormField>
+      <UFormField
         #="{ model }"
         :ui="{
           root: 'flex items-center gap-2',
@@ -64,7 +64,7 @@
             </div>
           </template>
         </USelect>
-      </FormwerkField>
+      </UFormField>
     </DevOnly>
-  </FormwerkGroup>
+  </UFormGroup>
 </template>
