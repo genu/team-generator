@@ -38,7 +38,6 @@
     "@iconify-json/lucide": "1.2.89",
     "@nuxt/eslint": "1.14.0",
     "@nuxt/image": "2.0.0",
-    "@nuxt/test-utils": "4.0.0",
     "@pinia/colada-devtools": "0.4.2",
     "@pinia/nuxt": "0.11.3",
     "@playwright/test": "1.58.2",
