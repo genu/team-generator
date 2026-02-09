@@ -32,3 +32,37 @@ export const getNumberOfTeams = async (page: Page) => {
 
   return teams.length
 }
+
+export const enableTeamColors = async (page: Page, colors: string[]) => {
+  await page.getByRole("button", { name: "League Options" }).click()
+  await page.getByText("Use Team Colors").click()
+
+  // Open the color select dropdown
+  const colorSelect = page.getByRole("combobox").last()
+  await colorSelect.click()
+
+  // Select each color
+  for (const color of colors) {
+    await page.getByRole("option", { name: color, exact: true }).click()
+  }
+
+  // Close the dropdown
+  await page.keyboard.press("Escape")
+}
+
+export const getTeamColors = async (page: Page): Promise<(string | null)[]> => {
+  const teams = page.locator('[data-testid="league-team"]')
+  const count = await teams.count()
+  const colors: (string | null)[] = []
+
+  for (let i = 0; i < count; i++) {
+    const colorButton = teams.nth(i).locator(".absolute.right-1.top-1 button.cursor-pointer")
+    if (await colorButton.isVisible().catch(() => false)) {
+      colors.push((await colorButton.textContent())?.trim() ?? null)
+    } else {
+      colors.push(null)
+    }
+  }
+
+  return colors
+}
