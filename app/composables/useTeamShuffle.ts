@@ -107,15 +107,13 @@ export const useTeamShuffle = (snapshotData: Ref<SnapshotData>, latestUnsavedSna
     return cloneDeep(teams)
   }
 
-  const movePlayer = (fromIndex: number, toIndex: number) => {
-    console.log("movePlayer", fromIndex, toIndex)
-  }
+  const movePlayer = (_fromIndex: number, _toIndex: number) => {}
 
   const addPlayerToTeam = (toTeam: number, at: number, player: SnapshotPlayer) => {
     if (!teams.value[toTeam]) return
 
-    const upatedTeams = [...teams.value[toTeam].slice(0, at), player, ...teams.value[toTeam].slice(at)]
-    teams.value = { ...teams.value, [toTeam]: upatedTeams }
+    const updatedTeams = [...teams.value[toTeam].slice(0, at), player, ...teams.value[toTeam].slice(at)]
+    teams.value = { ...teams.value, [toTeam]: updatedTeams }
 
     // Update latestUnsavedSnapshot after modifying teams
     updateLatestUnsavedSnapshot()
@@ -124,8 +122,8 @@ export const useTeamShuffle = (snapshotData: Ref<SnapshotData>, latestUnsavedSna
   const removePlayerFromTeam = (fromTeam: number, at: number) => {
     if (!teams.value[fromTeam]) return
 
-    const upatedTeams = [...teams.value[fromTeam].slice(0, at), ...teams.value[fromTeam].slice(at + 1)]
-    teams.value = { ...teams.value, [fromTeam]: upatedTeams }
+    const updatedTeams = [...teams.value[fromTeam].slice(0, at), ...teams.value[fromTeam].slice(at + 1)]
+    teams.value = { ...teams.value, [fromTeam]: updatedTeams }
 
     // Update latestUnsavedSnapshot after modifying teams
     updateLatestUnsavedSnapshot()

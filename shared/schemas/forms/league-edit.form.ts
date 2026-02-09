@@ -19,16 +19,15 @@ export const ShirtColorEnum = z.enum([
 
 export const LeagueEditOptionsFormSchema = z.object({
   name: z.string().optional(),
-  teamCount: z.number().default(2),
+  teamCount: z.number().min(2, "At least 2 teams required").max(20, "Maximum 20 teams").default(2),
   useTeamColors: z.boolean().optional(),
   teamColors: z.array(ShirtColorEnum).optional(),
 })
 
 export const LeagueEditRulesFormSchema = z.object({
   goaliesFirst: z.boolean().optional(),
-  noBestGolieAndPlayer: z.boolean().optional(),
+  noBestGoalieAndPlayer: z.boolean().optional(),
   keepGoalies: z.boolean().optional(),
-  beniMode: z.boolean().optional(),
 })
 
 export const LeagueEditFormSchema = z.object({

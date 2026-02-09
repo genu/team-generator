@@ -62,7 +62,7 @@
           borderColor: shirtColor.border || shirtColor.foreground,
         }"
         class="absolute right-1 top-1 px-2 py-1 text-xs flex items-center font-medium rounded-sm border">
-        <UPopover :ui="{ content: 'p-2' }">
+        <UPopover :ui="{ content: 'p-2' }" arrow>
           <button class="cursor-pointer">
             {{ shirtColor.name }}
           </button>

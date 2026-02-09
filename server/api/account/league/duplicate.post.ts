@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
     ...dataToDuplicate
   } = await db.league.findUniqueOrThrow({
     where: {
-      id: parseInt(toDuplicate as string),
+      id: parseInt(toDuplicate),
     },
     include: {
       players: true,

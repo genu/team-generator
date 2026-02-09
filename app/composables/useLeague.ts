@@ -100,7 +100,7 @@ export const useLeague = (leagueId: Ref<number | undefined>) => {
       rules: {
         keepGoalies: league.value.configuration.rules.keepGoalies!,
         goaliesFirst: league.value.configuration.rules.goaliesFirst!,
-        noBestGolieAndPlayer: league.value.configuration.rules.noBestGolieAndPlayer!,
+        noBestGoalieAndPlayer: league.value.configuration.rules.noBestGoalieAndPlayer!,
       },
       players: league.value.players.map(({ id, name, isActive, isGoalie, rank }) => ({ id, name, isActive, isGoalie, rank })),
     }
@@ -178,7 +178,7 @@ export const useLeague = (leagueId: Ref<number | undefined>) => {
       rules: {
         keepGoalies: league.value.configuration.rules.keepGoalies!,
         goaliesFirst: league.value.configuration.rules.goaliesFirst!,
-        noBestGolieAndPlayer: league.value.configuration.rules.noBestGolieAndPlayer!,
+        noBestGoalieAndPlayer: league.value.configuration.rules.noBestGoalieAndPlayer!,
       },
       players: league.value.players.map(({ id, name, isActive, isGoalie, rank }) => ({ id, name, isActive, isGoalie, rank })),
     }

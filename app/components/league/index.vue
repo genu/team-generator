@@ -46,6 +46,13 @@
 
   const configuration = computed(() => leagueConfiguration)
 
+  const teamsArray = computed(() =>
+    Object.entries(teams.value).map(([key, players]) => ({
+      teamNumber: Number(key),
+      players,
+    })),
+  )
+
   const teamColorOverrides = ref<ShirtColorEnum[]>()
 
   const teamColors = computed(() => {
@@ -56,10 +63,11 @@
 
   // Only reset overrides when the available colors actually change (e.g., user edited league options)
   watch(
-    () => JSON.stringify(leagueConfiguration.teamColors),
+    () => leagueConfiguration.teamColors,
     () => {
       teamColorOverrides.value = undefined
     },
+    { deep: true },
   )
 
   const changeTeamColor = (teamNumber: number, color: ShirtColorEnum) => {
@@ -110,14 +118,14 @@
 
     <div class="items-start mt-2 gap-3 md:gap-3 grid grid-cols-2 lg:grid-cols-3">
       <Team
-        v-for="(snapshotPlayers, idx) in teams"
-        :key="idx"
+        v-for="team in teamsArray"
+        :key="team.teamNumber"
         data-testid="league-team"
-        :team-name="`Team ${parseInt(idx as unknown as string) + 1}`"
-        :team-number="parseInt(idx as unknown as string)"
-        :team-color="configuration.useTeamColors ? teamColors[parseInt(idx as unknown as string)] : undefined"
+        :team-name="`Team ${team.teamNumber + 1}`"
+        :team-number="team.teamNumber"
+        :team-color="configuration.useTeamColors ? teamColors[team.teamNumber] : undefined"
         :available-colors="configuration.useTeamColors ? (configuration.teamColors as ShirtColorEnum[]) : undefined"
-        :players="snapshotPlayers"
+        :players="team.players"
         @move-player="movePlayer"
         @add-player="addPlayerToTeam"
         @remove-player="removePlayerFromTeam"

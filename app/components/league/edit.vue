@@ -145,7 +145,7 @@
                   <UButton color="error" variant="soft" icon="i-lucide-trash-2" @click="onRemovePlayer(row.index)" />
                 </div>
               </template>
-              <template #empty>There no players in this league</template>
+              <template #empty>There are no players in this league</template>
             </UTable>
           </div>
         </div>

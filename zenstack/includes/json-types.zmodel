@@ -1,6 +1,6 @@
 type LeagueRules {
     goaliesFirst         Boolean? @default(false)
-    noBestGolieAndPlayer Boolean? @default(false)
+    noBestGoalieAndPlayer Boolean? @default(false)
     keepGoalies          Boolean? @default(false)
 }
 

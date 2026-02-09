@@ -53,8 +53,7 @@
       footer: 'justify-end gap-3',
     }">
     <template #body>
-      <!-- eslint-disable-next-line vue/no-v-html -->
-      <div class="text-sm text-gray-500" v-html="description" />
+      <div class="text-sm text-gray-500">{{ description }}</div>
     </template>
     <template #footer>
       <UButton
