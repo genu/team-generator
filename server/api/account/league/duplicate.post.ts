@@ -3,7 +3,15 @@ export default defineEventHandler(async (event) => {
 
   const { db } = $database()
 
-  const { id, name, configuration, createdAt, players, updatedAt, ...dataToDuplicate } = await db.league.findUniqueOrThrow({
+  const {
+    id: _id,
+    createdAt: _createdAt,
+    updatedAt: _updatedAt,
+    name,
+    configuration,
+    players,
+    ...dataToDuplicate
+  } = await db.league.findUniqueOrThrow({
     where: {
       id: parseInt(toDuplicate as string),
     },
@@ -19,7 +27,7 @@ export default defineEventHandler(async (event) => {
       configuration: configuration,
       players: {
         createMany: {
-          data: players.map(({ id, leagueId, createdAt, updatedAt, ...playerDataToCopy }) => ({
+          data: players.map(({ id: _id, leagueId: _leagueId, createdAt: _createdAt, updatedAt: _updatedAt, ...playerDataToCopy }) => ({
             ...playerDataToCopy,
           })),
         },
