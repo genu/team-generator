@@ -4,17 +4,18 @@
   import { DialogShareLeague } from "#components"
   import { SnapshotDataSchema, type Snapshot, type SnapshotPlayer } from "#shared/schemas"
 
-  const { players, snapshots, leagueConfiguration, leagueId } = defineProps<{
+  const { players, snapshots, leagueConfiguration, leagueId, teamColors } = defineProps<{
     leagueId: number
     leagueConfiguration: LeagueConfiguration
     players: SnapshotPlayer[]
     snapshots: Snapshot[]
+    teamColors: ShirtColorEnum[]
   }>()
 
   const latestUnsavedSnapshot = defineModel<Snapshot | undefined>("latestUnsavedSnapshot")
 
   const emit = defineEmits<{
-    updateTeamColors: [ShirtColorEnum[]]
+    changeTeamColor: [number, ShirtColorEnum]
   }>()
 
   const location = useBrowserLocation()
@@ -28,7 +29,7 @@
   const snapshot = computed(() => {
     const latestSavedSnapshot = snapshots[0]
 
-    let snapshotToUse: Snapshot = { data: {} }
+    let snapshotToUse: Snapshot = { data: [] }
 
     if (latestUnsavedSnapshot.value) {
       snapshotToUse = latestUnsavedSnapshot.value
@@ -39,43 +40,18 @@
     return SnapshotDataSchema.parse(snapshotToUse.data)
   })
 
-  const { shuffle, teams, isShuffled, movePlayer, addPlayerToTeam, removePlayerFromTeam } = useTeamShuffle(
-    snapshot,
-    latestUnsavedSnapshot,
-  )
+  const onTeamsChanged = (teams: SnapshotPlayer[][]) => {
+    latestUnsavedSnapshot.value = { data: teams }
+  }
 
-  const configuration = computed(() => leagueConfiguration)
+  const { shuffle, teams, isShuffled, movePlayer, addPlayerToTeam, removePlayerFromTeam } = useTeamShuffle(snapshot, onTeamsChanged)
 
   const teamsArray = computed(() =>
-    Object.entries(teams.value).map(([key, players]) => ({
-      teamNumber: Number(key),
+    teams.value.map((players, index) => ({
+      teamNumber: index,
       players,
     })),
   )
-
-  const teamColorOverrides = ref<ShirtColorEnum[]>()
-
-  const teamColors = computed(() => {
-    if (teamColorOverrides.value) return teamColorOverrides.value
-    const cfg = leagueConfiguration as Record<string, unknown>
-    return [...((cfg.teamColorAssignments as ShirtColorEnum[]) ?? leagueConfiguration.teamColors ?? [])] as ShirtColorEnum[]
-  })
-
-  // Only reset overrides when the available colors actually change (e.g., user edited league options)
-  watch(
-    () => leagueConfiguration.teamColors,
-    () => {
-      teamColorOverrides.value = undefined
-    },
-    { deep: true },
-  )
-
-  const changeTeamColor = (teamNumber: number, color: ShirtColorEnum) => {
-    const updated = [...teamColors.value]
-    updated[teamNumber] = color
-    teamColorOverrides.value = updated
-    emit("updateTeamColors", updated)
-  }
 
   const toggleBookmark = async () => {
     await createSnapshotAsync({
@@ -87,7 +63,7 @@
   }
 
   const onShuffleTeams = () => {
-    shuffle(players, configuration.value)
+    shuffle(players, leagueConfiguration)
   }
 </script>
 
@@ -123,13 +99,13 @@
         data-testid="league-team"
         :team-name="`Team ${team.teamNumber + 1}`"
         :team-number="team.teamNumber"
-        :team-color="configuration.useTeamColors ? teamColors[team.teamNumber] : undefined"
-        :available-colors="configuration.useTeamColors ? (configuration.teamColors as ShirtColorEnum[]) : undefined"
+        :team-color="leagueConfiguration.useTeamColors ? teamColors[team.teamNumber] : undefined"
+        :available-colors="leagueConfiguration.useTeamColors ? (leagueConfiguration.teamColors as ShirtColorEnum[]) : undefined"
         :players="team.players"
         @move-player="movePlayer"
         @add-player="addPlayerToTeam"
         @remove-player="removePlayerFromTeam"
-        @change-color="changeTeamColor" />
+        @change-color="(teamNumber: number, color: ShirtColorEnum) => emit('changeTeamColor', teamNumber, color)" />
     </div>
   </div>
 </template>

@@ -94,7 +94,7 @@
       @sort-remove="(e: SortRemoveEvent) => emit('removePlayer', props.teamNumber, e.oldIndex)">
       <SlickItem
         v-for="(player, index) in props.players"
-        :key="player"
+        :key="player.id ?? index"
         :index="index"
         class="z-auto flex items-center px-2 py-1 text-sm text-gray-600 capitalize bg-gray-100 cursor-pointer select-none gap-2 rounded-md"
         :class="{ 'font-bold': player.isGoalie }">

@@ -1,60 +1,36 @@
-import type { LeagueConfiguration, Player } from "#generated/zenstack/models"
-import { groupBy, random, orderBy, size, cloneDeep } from "lodash-es"
-import { SnapshotDataSchema, type SnapshotData, type SnapshotPlayer, type Snapshot } from "#shared/schemas"
+import type { LeagueConfiguration } from "#generated/zenstack/models"
+import { groupBy, random, orderBy, cloneDeep } from "lodash-es"
+import type { SnapshotData, SnapshotPlayer } from "#shared/schemas"
 
-export const useTeamShuffle = (snapshotData: Ref<SnapshotData>, latestUnsavedSnapshot?: Ref<Snapshot | undefined>) => {
-  const teamThatChoseFirst = ref(0)
-  const teamChoosing = ref(0)
-  const teams = ref<SnapshotData>({})
+type TeamsChangedCallback = (teams: SnapshotData) => void
+
+export const useTeamShuffle = (snapshotData: Ref<SnapshotData>, onTeamsChanged?: TeamsChangedCallback) => {
+  const teams = ref<SnapshotData>([])
   const isShuffled = ref(false)
 
-  // Helper function to update latestUnsavedSnapshot
-  const updateLatestUnsavedSnapshot = () => {
-    if (latestUnsavedSnapshot) {
-      latestUnsavedSnapshot.value = {
-        data: cloneDeep(teams.value),
-      }
-    }
+  const notifyChange = () => {
+    onTeamsChanged?.(cloneDeep(teams.value))
   }
 
   watch(
     snapshotData,
     (snapshot) => {
-      const snapshotData = SnapshotDataSchema.parse(snapshot)
-
-      if (size(snapshotData) > 0) {
-        let newTeams: SnapshotData = {}
-
-        for (const teamKey in snapshotData) {
-          newTeams = {
-            ...newTeams,
-            [teamKey]: snapshotData[Number(teamKey)]!,
-          }
-        }
+      if (snapshot.length > 0) {
+        teams.value = snapshot.map((team) => [...team])
         isShuffled.value = true
-        teams.value = newTeams
       }
     },
     { immediate: true },
   )
 
-  /**
-   *
-   * @param players Players to Shuffle
-   * @param options
-   *
-   * @returns Non-reactive snapshot of teams
-   */
   const shuffle = (players: SnapshotPlayer[], options: LeagueConfiguration) => {
     const onlyActivePlayers = players.filter((player) => player.isActive)
     const groupedByRank = groupBy(onlyActivePlayers, "rank")
 
-    teamChoosing.value = random(0, options.teamCount - 1)
-    teamThatChoseFirst.value = teamChoosing.value
+    let teamChoosing = random(0, options.teamCount - 1)
 
-    teams.value = {}
-
-    let rank = 10
+    // Build local result as plain arrays
+    const result: SnapshotPlayer[][] = Array.from({ length: options.teamCount }, () => [])
 
     // First pick goal keepers
     if (options.rules?.goaliesFirst) {
@@ -64,47 +40,35 @@ export const useTeamShuffle = (snapshotData: Ref<SnapshotData>, latestUnsavedSna
         ["desc"],
       )
 
-      while (goalKeepers.length > 0) {
-        const randomGoalkeeper = goalKeepers.splice(0, 1)[0] as Player
-
-        if (!teams.value[teamChoosing.value]) {
-          teams.value[teamChoosing.value] = reactive([])
-        }
-
-        teams.value[teamChoosing.value]!.push(randomGoalkeeper)
-
-        // Next team chooses
-        teamChoosing.value = (teamChoosing.value + 1) % options.teamCount
+      for (const goalkeeper of goalKeepers) {
+        result[teamChoosing]!.push(goalkeeper)
+        teamChoosing = (teamChoosing + 1) % options.teamCount
       }
     }
 
+    const maxRank = Math.max(...Object.keys(groupedByRank).map(Number), 0)
+    let rank = maxRank
+
     while (rank > 0) {
-      const playersAtRank: SnapshotPlayer[] = groupedByRank[rank] || []
+      const playersAtRank: SnapshotPlayer[] = [...(groupedByRank[rank] || [])]
 
       while (playersAtRank.length > 0) {
         const randomPlayerFromRank = playersAtRank.splice(random(0, playersAtRank.length - 1), 1)[0]!
 
-        // Goalies were already chosen, this team can choose again.
+        // Goalies were already chosen, skip them
         if (options.rules?.goaliesFirst && randomPlayerFromRank.isGoalie) continue
 
-        if (!teams.value[teamChoosing.value]) {
-          teams.value[teamChoosing.value] = reactive([])
-        }
-
-        teams.value[teamChoosing.value]!.push(randomPlayerFromRank)
-
-        // Next team chooses
-        teamChoosing.value = (teamChoosing.value + 1) % options.teamCount
+        result[teamChoosing]!.push(randomPlayerFromRank)
+        teamChoosing = (teamChoosing + 1) % options.teamCount
       }
 
       rank--
     }
+
+    // Assign once
+    teams.value = result
     isShuffled.value = true
-
-    // Update latestUnsavedSnapshot after shuffle
-    updateLatestUnsavedSnapshot()
-
-    return cloneDeep(teams)
+    notifyChange()
   }
 
   const movePlayer = (_fromIndex: number, _toIndex: number) => {}
@@ -112,35 +76,25 @@ export const useTeamShuffle = (snapshotData: Ref<SnapshotData>, latestUnsavedSna
   const addPlayerToTeam = (toTeam: number, at: number, player: SnapshotPlayer) => {
     if (!teams.value[toTeam]) return
 
-    const updatedTeams = [...teams.value[toTeam].slice(0, at), player, ...teams.value[toTeam].slice(at)]
-    teams.value = { ...teams.value, [toTeam]: updatedTeams }
-
-    // Update latestUnsavedSnapshot after modifying teams
-    updateLatestUnsavedSnapshot()
+    const updated = teams.value.map((team, i) => (i === toTeam ? [...team.slice(0, at), player, ...team.slice(at)] : [...team]))
+    teams.value = updated
+    notifyChange()
   }
 
   const removePlayerFromTeam = (fromTeam: number, at: number) => {
     if (!teams.value[fromTeam]) return
 
-    const updatedTeams = [...teams.value[fromTeam].slice(0, at), ...teams.value[fromTeam].slice(at + 1)]
-    teams.value = { ...teams.value, [fromTeam]: updatedTeams }
-
-    // Update latestUnsavedSnapshot after modifying teams
-    updateLatestUnsavedSnapshot()
-  }
-
-  const getSnapshot = () => {
-    return cloneDeep(teams)
+    const updated = teams.value.map((team, i) => (i === fromTeam ? [...team.slice(0, at), ...team.slice(at + 1)] : [...team]))
+    teams.value = updated
+    notifyChange()
   }
 
   return {
     shuffle,
     teams,
     isShuffled,
-    teamThatChoseFirst,
     addPlayerToTeam,
     removePlayerFromTeam,
     movePlayer,
-    getSnapshot,
   }
 }

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
   import { useRouteQuery } from "@vueuse/router"
   import type { DropdownMenuItem } from "@nuxt/ui"
-  import { DialogCreateLeague } from "#components"
+  import { DialogCreateLeague, LeagueEdit } from "#components"
 
   const { confirm } = useDialog()
   const overlay = useOverlay()
@@ -18,6 +18,9 @@
     currentPlayers,
     parsedSnapshots,
     leagueConfiguration,
+    teamColors,
+    toFormData,
+    onEditResult,
     actions,
   } = useLeague(leagueId)
 
@@ -30,6 +33,17 @@
     where: { hash: accountHash.value },
     include: { leagues: { select: { id: true, name: true } } },
   })
+
+  const edit = async () => {
+    const formData = toFormData()
+    if (!formData) return
+
+    const { result } = overlay.create(LeagueEdit).open({
+      league: formData,
+    })
+
+    onEditResult(await result)
+  }
 
   const leagueMenu = computed<DropdownMenuItem[]>(() => [
     {
@@ -155,7 +169,7 @@
         </h2>
         <div class="flex md:mt-0 md:ml-4 gap-4">
           <UFieldGroup size="lg">
-            <UButton variant="soft" color="neutral" label="Edit" :disabled="isUpdatingLeague" @click="actions.edit" />
+            <UButton variant="soft" color="neutral" label="Edit" :disabled="isUpdatingLeague" @click="edit" />
             <UButton data-testid="league-save-button" :loading="isUpdatingLeague" label="Save" @click="actions.save" />
           </UFieldGroup>
         </div>
@@ -196,7 +210,7 @@
               :actions="[
                 {
                   label: 'Add players',
-                  onClick: actions.edit,
+                  onClick: edit,
                 },
               ]" />
 
@@ -206,9 +220,9 @@
               :league-id="league.id"
               :snapshots="parsedSnapshots"
               :league-configuration="leagueConfiguration"
-              :league="league"
+              :team-colors="teamColors"
               :players="currentPlayers"
-              @update-team-colors="actions.updateTeamColors" />
+              @change-team-color="actions.changeTeamColor" />
           </div>
         </div>
       </div>

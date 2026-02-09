@@ -1,7 +1,6 @@
 import type { LeagueEditForm } from "#shared/schemas/forms"
 import type { Snapshot } from "#shared/schemas"
 import { SnapshotPlayerSchema, SnapshotSchema } from "#shared/schemas"
-import { LeagueEdit } from "#components"
 
 export const useLeague = (leagueId: Ref<number | undefined>) => {
   const queryCache = useQueryCache()
@@ -9,7 +8,6 @@ export const useLeague = (leagueId: Ref<number | undefined>) => {
 
   const { mutateAsync: deleteLeagueAsync } = client.league.useDelete()
   const { mutateAsync: updateLeagueAsync, isLoading: isUpdatingLeague } = client.league.useUpdate()
-  const overlay = useOverlay()
   const toast = useToast()
   const { y: scrollY } = useScroll(import.meta.client ? window : null)
 
@@ -28,7 +26,7 @@ export const useLeague = (leagueId: Ref<number | undefined>) => {
   )
 
   const leagueConfiguration = computed(() => {
-    const base = editedLeagueData.value
+    return editedLeagueData.value
       ? {
           teamCount: editedLeagueData.value.options.teamCount,
           useTeamColors: editedLeagueData.value.options.useTeamColors,
@@ -36,13 +34,32 @@ export const useLeague = (leagueId: Ref<number | undefined>) => {
           rules: editedLeagueData.value.rules,
         }
       : league.value?.configuration
-
-    if (base && pendingTeamColorAssignments.value) {
-      return { ...base, teamColorAssignments: pendingTeamColorAssignments.value }
-    }
-
-    return base
   })
+
+  // Consolidated team color state
+  const teamColors = computed<ShirtColorEnum[]>(() => {
+    if (pendingTeamColorAssignments.value) return pendingTeamColorAssignments.value
+    if (!leagueConfiguration.value) return []
+    const cfg = leagueConfiguration.value as Record<string, unknown>
+    return [...((cfg.teamColorAssignments as ShirtColorEnum[]) ?? (leagueConfiguration.value.teamColors as ShirtColorEnum[]) ?? [])]
+  })
+
+  // Reset overrides only when the available colors actually change (not just reference)
+  watch(
+    () => leagueConfiguration.value?.teamColors,
+    (newColors, oldColors) => {
+      if (JSON.stringify(newColors) !== JSON.stringify(oldColors)) {
+        pendingTeamColorAssignments.value = undefined
+      }
+    },
+    { deep: true },
+  )
+
+  const changeTeamColor = (teamNumber: number, color: ShirtColorEnum) => {
+    const updated = [...teamColors.value]
+    updated[teamNumber] = color
+    pendingTeamColorAssignments.value = updated
+  }
 
   const parsedSnapshots = computed(() => {
     if (!league.value?.snapshots) return []
@@ -87,15 +104,16 @@ export const useLeague = (leagueId: Ref<number | undefined>) => {
     leagueId.value = id
   }
 
-  const save = async () => {
-    if (!league.value || (!editedLeagueData.value && !latestUnsavedSnapshot.value && !pendingTeamColorAssignments.value)) return
-
-    const formData = editedLeagueData.value || {
+  const toFormData = (): LeagueEditForm | null => {
+    if (editedLeagueData.value) return editedLeagueData.value
+    if (!league.value) return null
+    return {
+      id: league.value.id,
       options: {
         name: league.value.name!,
         teamCount: league.value.configuration.teamCount,
-        useTeamColors: league.value.configuration.useTeamColors,
-        teamColors: league.value.configuration.teamColors,
+        useTeamColors: league.value.configuration.useTeamColors ?? false,
+        teamColors: (league.value.configuration.teamColors ?? []) as ShirtColorEnum[],
       },
       rules: {
         keepGoalies: league.value.configuration.rules.keepGoalies!,
@@ -104,6 +122,13 @@ export const useLeague = (leagueId: Ref<number | undefined>) => {
       },
       players: league.value.players.map(({ id, name, isActive, isGoalie, rank }) => ({ id, name, isActive, isGoalie, rank })),
     }
+  }
+
+  const save = async () => {
+    if (!league.value || (!editedLeagueData.value && !latestUnsavedSnapshot.value && !pendingTeamColorAssignments.value)) return
+
+    const formData = toFormData()
+    if (!formData) return
 
     // Only include players that have changed or are new
     const changedPlayers = formData.players.filter((player, index) => {
@@ -164,34 +189,8 @@ export const useLeague = (leagueId: Ref<number | undefined>) => {
     scrollY.value = 0
   }
 
-  const edit = async () => {
-    if (!league.value) return
-
-    const formData = editedLeagueData.value || {
-      id: league.value.id,
-      options: {
-        name: league.value.name!,
-        teamCount: league.value.configuration.teamCount,
-        useTeamColors: league.value.configuration.useTeamColors ?? false,
-        teamColors: league.value.configuration.teamColors as ShirtColorEnum[],
-      },
-      rules: {
-        keepGoalies: league.value.configuration.rules.keepGoalies!,
-        goaliesFirst: league.value.configuration.rules.goaliesFirst!,
-        noBestGoalieAndPlayer: league.value.configuration.rules.noBestGoalieAndPlayer!,
-      },
-      players: league.value.players.map(({ id, name, isActive, isGoalie, rank }) => ({ id, name, isActive, isGoalie, rank })),
-    }
-
-    const { result } = overlay.create(LeagueEdit).open({
-      league: formData,
-    })
-
-    editedLeagueData.value = await result
-  }
-
-  const updateTeamColors = (colors: ShirtColorEnum[]) => {
-    pendingTeamColorAssignments.value = colors
+  const onEditResult = (result: LeagueEditForm) => {
+    editedLeagueData.value = result
   }
 
   return {
@@ -204,6 +203,9 @@ export const useLeague = (leagueId: Ref<number | undefined>) => {
     currentPlayers,
     parsedSnapshots,
     leagueConfiguration,
-    actions: { duplicate, save, edit, updateTeamColors },
+    teamColors,
+    toFormData,
+    onEditResult,
+    actions: { duplicate, save, changeTeamColor },
   }
 }

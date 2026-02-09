@@ -11,16 +11,20 @@ export const SnapshotPlayerSchema = z.object({
   isActive: z.boolean().optional(),
   isGoalie: z.boolean().optional(),
 })
-export const SnapshotDataSchema = z.record(
-  z.union([z.string(), z.number()]).transform((val) => {
-    // Then transform to ensure it's a number
-    const num = typeof val === "string" ? Number(val) : val
-
-    if (isNaN(num)) throw new Error(`Invalid numeric key: ${val}`)
-
-    return num
-  }),
-  z.array(SnapshotPlayerSchema),
+export const SnapshotDataSchema = z.preprocess(
+  (val) => {
+    // Backward compat: convert {"0": [...], "1": [...]} record format to array
+    if (val && typeof val === "object" && !Array.isArray(val)) {
+      const record = val as Record<string, unknown>
+      const keys = Object.keys(record)
+        .map(Number)
+        .filter((n) => !isNaN(n))
+        .sort((a, b) => a - b)
+      return keys.map((k) => record[String(k)])
+    }
+    return val
+  },
+  z.array(z.array(SnapshotPlayerSchema)),
 )
 
 export const SnapshotSchema = z.object({
