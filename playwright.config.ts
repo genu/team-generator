@@ -8,7 +8,7 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 1,
-  workers: process.env.CI ? 1 : undefined,
+  workers: undefined,
   reporter: process.env.CI
     ? [["html", { open: "never", outputFolder: "./tests/report" }], ["github"], ["list"]]
     : [["html", { open: "never", outputFolder: "./tests/report" }], ["list"]],
