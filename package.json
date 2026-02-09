@@ -64,7 +64,7 @@
   "dependencies": {
     "@formwerk/core": "0.14.4",
     "@nuxt/ui": "4.4.0",
-    "@pinia/colada": "0.21.3",
+    "@pinia/colada": "0.21.4",
     "@pinia/colada-nuxt": "0.3.1",
     "@vueuse/components": "14.2.0",
     "@vueuse/router": "14.2.0",
