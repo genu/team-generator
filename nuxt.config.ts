@@ -5,7 +5,7 @@ export default defineNuxtConfig({
     "@nuxt/ui",
     "@nuxt/eslint",
     "@vueuse/nuxt",
-"@pinia/colada-nuxt",
+    "@pinia/colada-nuxt",
     "@pinia/nuxt",
     "@vite-pwa/nuxt",
     "@nuxt/image",

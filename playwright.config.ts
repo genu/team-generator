@@ -24,9 +24,7 @@ export default defineConfig({
     use: devices[name],
   })),
   webServer: {
-    command: process.env.CI
-      ? "pnpm test:db:reset && pnpm test:preview"
-      : "pnpm test:db:reset && pnpm test:build && pnpm test:preview",
+    command: process.env.CI ? "pnpm test:db:reset && pnpm test:preview" : "pnpm test:db:reset && pnpm test:build && pnpm test:preview",
     url: "http://localhost:3000",
     reuseExistingServer: !process.env.CI,
     timeout: 300_000, // 5 minutes
