@@ -27,11 +27,6 @@ export default defineNuxtConfig({
     "/": { prerender: true },
   },
   compatibilityDate: "2024-10-26",
-  nitro: {
-    imports: {
-      dirs: ["./server/helpers", "./server/services"],
-    },
-  },
   typescript: {
     typeCheck: process.env.NODE_ENV === "production",
   },

@@ -55,7 +55,6 @@ Team Generator is a Nuxt 4 application for creating balanced teams based on play
 - **Nuxt 4**: Vue.js framework with file-based routing in [app/pages/](app/pages/)
 - **UI Framework**: Nuxt UI with custom theme colors (primary, secondary, tertiary, info, success, warning, error)
 - **State Management**: Pinia with Pinia Colada for reactive data fetching
-  - Global Pinia Colada options in [colada.options.ts](colada.options.ts)
 - **Data Fetching**: `zenstack-pinia-colada` package integrates ZenStack with Pinia Colada queries
   - [app/composables/useClientQueries.ts](app/composables/useClientQueries.ts) wraps the integration
   - [app/components/provide/ZenstackContext.vue](app/components/provide/ZenstackContext.vue) provides query settings with custom fetch

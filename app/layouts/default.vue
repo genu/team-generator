@@ -7,11 +7,11 @@
       <!-- <UDivider /> -->
       <div class="text-sm">
         Project by
-        <NuxtLink to="https://twitter.com/eugenistoc" target="_blank">
+        <NuxtLink to="https://twitter.com/eugenistoc" target="_blank" rel="noopener noreferrer">
           <UButton color="primary" variant="link">Eugen Istoc</UButton>
         </NuxtLink>
         |
-        <NuxtLink to="https://github.com/genu/team-generator" target="_blank">
+        <NuxtLink to="https://github.com/genu/team-generator" target="_blank" rel="noopener noreferrer">
           <UButton color="primary" variant="link">Source Code</UButton>
         </NuxtLink>
       </div>
