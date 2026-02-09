@@ -24,13 +24,14 @@ Team Generator is a Nuxt 4 application for creating balanced teams based on play
   - `zen migrate deploy` - Deploy migrations (production) directly
 
 ### Testing
-- `pnpm test` - Full automated test suite (manages Docker containers)
-- `pnpm test:dev` - Reset test database and start dev server on port 3001 with test database
-- `pnpm test:server` - Preview production build with test database
-- `pnpm test:db` - Stop and restart test database container (fresh start)
+- `pnpm test` - Full automated test suite (manages Docker containers, Playwright handles server startup)
+- `pnpm test:ui` - Full suite with Playwright UI
+- `pnpm test:dev` - Start Docker, reset test database, and launch dev server with test env
 - `pnpm test:db:reset` - Reset test database (force reset migrations)
-- `pnpm playwright test` - Run Playwright tests
-- `pnpm playwright:ui` - Run Playwright with UI
+- `pnpm test:build` - Build the app with test environment
+- `pnpm test:preview` - Preview the app with test environment
+- `pnpm playwright test` - Run Playwright tests directly (requires server already running)
+- `pnpm playwright test --ui` - Run Playwright with UI
 
 ### Code Quality
 - `pnpm lint` - Run ESLint
@@ -90,16 +91,16 @@ Team Generator is a Nuxt 4 application for creating balanced teams based on play
 
 ## Testing Strategy
 
-Playwright tests run on port 3001 with separate test database (`.env.test`). The test suite includes:
+Playwright tests run on port 3000 with a separate test database (`.env.test`). The Playwright `webServer` config handles database reset, build, and server startup automatically. The test suite includes:
 - [tests/manage-leagues.spec.ts](tests/manage-leagues.spec.ts) - League CRUD operations
 - [tests/manage-squad.spec.ts](tests/manage-squad.spec.ts) - Player and team management
 
-**Automated approach:** `pnpm test` handles Docker container lifecycle and runs full suite.
+**Automated approach:** `pnpm test` handles Docker container lifecycle and delegates server startup to Playwright's webServer config.
 
 **Manual approach** (for debugging):
-1. `pnpm test:db` - Start PostgreSQL container
-2. `pnpm test:dev` - Run migrations and start dev server on port 3001
-3. `pnpm playwright:ui` - Launch Playwright UI
+1. `pnpm docker:up` - Start PostgreSQL container
+2. `pnpm test:dev` - Reset test database and start dev server
+3. `pnpm playwright test --ui` - Launch Playwright UI
 
 ## Important Notes
 

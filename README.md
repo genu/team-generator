@@ -46,36 +46,41 @@ pnpm dev
 
 ## Testing
 
-The project uses Playwright for end-to-end testing with a separate test database.
+The project uses Playwright for end-to-end testing with a separate test database (configured in `.env.test`). The Playwright `webServer` config handles building, migrating, and starting the preview server automatically.
 
 ### Automated Test Suite
-To run the full test suite (handles Docker container setup automatically):
 
 ```bash
 pnpm test        # Run tests headlessly
 pnpm test:ui     # Run tests with Playwright UI
 ```
 
-Both commands automatically start the test database and preview server, then run tests.
+Both commands manage the Docker container lifecycle and delegate server startup to Playwright's `webServer` config, which resets the test database, builds, and starts a preview server on port 3000.
 
 ### Development Testing
-For running tests against the dev server (with hot reload):
+
+For iterating on tests with hot reload:
 
 ```bash
 pnpm test:dev
 ```
 
-This starts Docker and the dev server on port 3001 with the test database. Then in a separate terminal, run:
+This starts Docker, resets the test database, and launches the dev server with `.env.test`. Then in a separate terminal:
 
 ```bash
 pnpm playwright test --ui
 ```
 
-When done, stop the dev server (Ctrl+C) and run `pnpm docker:down` to stop the database.
+### Test Scripts
 
-### Manual Test Commands
-- `pnpm test:server:dev` - Start dev server with test database (requires Docker already running)
-- `pnpm test:server` - Start preview server with test database (used by Playwright automatically)
-- `pnpm docker:up` - Start test database container
-- `pnpm docker:down` - Stop test database container
+| Script | Description |
+|---|---|
+| `pnpm test` | Full automated suite (Docker + Playwright) |
+| `pnpm test:ui` | Full suite with Playwright UI |
+| `pnpm test:dev` | Dev server with test database for manual testing |
+| `pnpm test:db:reset` | Reset test database (force reset migrations) |
+| `pnpm test:build` | Build the app with test environment |
+| `pnpm test:preview` | Preview the app with test environment |
+| `pnpm docker:up` | Start test database container |
+| `pnpm docker:down` | Stop test database container |
 
