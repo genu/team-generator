@@ -18,11 +18,11 @@ importers:
         specifier: 4.4.0
         version: 4.4.0(@tiptap/extensions@3.19.0(@tiptap/core@3.19.0(@tiptap/pm@3.19.0))(@tiptap/pm@3.19.0))(@tiptap/y-tiptap@3.0.2(prosemirror-model@1.25.4)(prosemirror-state@1.4.4)(prosemirror-view@1.41.6)(y-protocols@1.0.7(yjs@13.6.29))(yjs@13.6.29))(change-case@5.4.4)(db0@0.3.4(better-sqlite3@12.6.2)(mysql2@3.16.3))(embla-carousel@8.6.0)(ioredis@5.9.2)(magicast@0.5.2)(tailwindcss@4.1.18)(typescript@5.9.3)(vite@7.3.1(@types/node@24.10.12)(jiti@2.6.1)(lightningcss@1.31.1)(terser@5.46.0)(yaml@2.8.2))(vue-router@4.6.4(vue@3.5.27(typescript@5.9.3)))(vue@3.5.27(typescript@5.9.3))(yjs@13.6.29)(zod@4.3.6)
       '@pinia/colada':
-        specifier: 0.21.3
-        version: 0.21.3(pinia@3.0.4(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3)))(vue@3.5.27(typescript@5.9.3))
+        specifier: 0.21.4
+        version: 0.21.4(pinia@3.0.4(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3)))(vue@3.5.27(typescript@5.9.3))
       '@pinia/colada-nuxt':
         specifier: 0.3.1
-        version: 0.3.1(@pinia/colada@0.21.3(pinia@3.0.4(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3)))(vue@3.5.27(typescript@5.9.3)))(magicast@0.5.2)
+        version: 0.3.1(@pinia/colada@0.21.4(pinia@3.0.4(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3)))(vue@3.5.27(typescript@5.9.3)))(magicast@0.5.2)
       '@vueuse/components':
         specifier: 14.2.0
         version: 14.2.0(vue@3.5.27(typescript@5.9.3))
@@ -58,7 +58,7 @@ importers:
         version: 2.0.5(vue@3.5.27(typescript@5.9.3))
       zenstack-pinia-colada:
         specifier: 0.2.1
-        version: 0.2.1(@pinia/colada@0.21.3(pinia@3.0.4(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3)))(vue@3.5.27(typescript@5.9.3)))(@zenstackhq/client-helpers@3.3.3)(@zenstackhq/common-helpers@3.3.3)(@zenstackhq/orm@3.3.3(better-sqlite3@12.6.2)(mysql2@3.16.3)(pg@8.18.0)(zod@4.3.6))(@zenstackhq/schema@3.3.3)(pinia@3.0.4(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3)))(vue@3.5.27(typescript@5.9.3))
+        version: 0.2.1(@pinia/colada@0.21.4(pinia@3.0.4(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3)))(vue@3.5.27(typescript@5.9.3)))(@zenstackhq/client-helpers@3.3.3)(@zenstackhq/common-helpers@3.3.3)(@zenstackhq/orm@3.3.3(better-sqlite3@12.6.2)(mysql2@3.16.3)(pg@8.18.0)(zod@4.3.6))(@zenstackhq/schema@3.3.3)(pinia@3.0.4(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3)))(vue@3.5.27(typescript@5.9.3))
       zod:
         specifier: 4.3.6
         version: 4.3.6
@@ -2031,8 +2031,8 @@ packages:
     peerDependencies:
       '@pinia/colada': '>=0.21.2'
 
-  '@pinia/colada@0.21.3':
-    resolution: {integrity: sha512-TEBol2rcAW6FH7sLxpVmDcZr1nH30pmCBPQB4uVfMVEZcy9gvEae8+gxlDF+CpxpCsMOVmODxtViOOLbrPnbBQ==}
+  '@pinia/colada@0.21.4':
+    resolution: {integrity: sha512-z/nPQy8QhOAYK5uWkA8G3oVEMsLFk9jEcsIdzVK2iyKjkwyDeGMAI61/Wj+FGVpl47xUt6hn+CNxeXv7P2uIaw==}
     peerDependencies:
       pinia: ^2.2.6 || ^3.0.0
       vue: ^3.5.17
@@ -9528,14 +9528,14 @@ snapshots:
 
   '@pinia/colada-devtools@0.4.2': {}
 
-  '@pinia/colada-nuxt@0.3.1(@pinia/colada@0.21.3(pinia@3.0.4(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3)))(vue@3.5.27(typescript@5.9.3)))(magicast@0.5.2)':
+  '@pinia/colada-nuxt@0.3.1(@pinia/colada@0.21.4(pinia@3.0.4(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3)))(vue@3.5.27(typescript@5.9.3)))(magicast@0.5.2)':
     dependencies:
       '@nuxt/kit': 4.3.1(magicast@0.5.2)
-      '@pinia/colada': 0.21.3(pinia@3.0.4(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3)))(vue@3.5.27(typescript@5.9.3))
+      '@pinia/colada': 0.21.4(pinia@3.0.4(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3)))(vue@3.5.27(typescript@5.9.3))
     transitivePeerDependencies:
       - magicast
 
-  '@pinia/colada@0.21.3(pinia@3.0.4(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3)))(vue@3.5.27(typescript@5.9.3))':
+  '@pinia/colada@0.21.4(pinia@3.0.4(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3)))(vue@3.5.27(typescript@5.9.3))':
     dependencies:
       pinia: 3.0.4(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3))
       vue: 3.5.27(typescript@5.9.3)
@@ -15588,9 +15588,9 @@ snapshots:
       cookie-es: 2.0.0
       youch-core: 0.3.3
 
-  zenstack-pinia-colada@0.2.1(@pinia/colada@0.21.3(pinia@3.0.4(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3)))(vue@3.5.27(typescript@5.9.3)))(@zenstackhq/client-helpers@3.3.3)(@zenstackhq/common-helpers@3.3.3)(@zenstackhq/orm@3.3.3(better-sqlite3@12.6.2)(mysql2@3.16.3)(pg@8.18.0)(zod@4.3.6))(@zenstackhq/schema@3.3.3)(pinia@3.0.4(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3)))(vue@3.5.27(typescript@5.9.3)):
+  zenstack-pinia-colada@0.2.1(@pinia/colada@0.21.4(pinia@3.0.4(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3)))(vue@3.5.27(typescript@5.9.3)))(@zenstackhq/client-helpers@3.3.3)(@zenstackhq/common-helpers@3.3.3)(@zenstackhq/orm@3.3.3(better-sqlite3@12.6.2)(mysql2@3.16.3)(pg@8.18.0)(zod@4.3.6))(@zenstackhq/schema@3.3.3)(pinia@3.0.4(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3)))(vue@3.5.27(typescript@5.9.3)):
     dependencies:
-      '@pinia/colada': 0.21.3(pinia@3.0.4(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3)))(vue@3.5.27(typescript@5.9.3))
+      '@pinia/colada': 0.21.4(pinia@3.0.4(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3)))(vue@3.5.27(typescript@5.9.3))
       '@zenstackhq/client-helpers': 3.3.3
       '@zenstackhq/common-helpers': 3.3.3
       '@zenstackhq/orm': 3.3.3(better-sqlite3@12.6.2)(mysql2@3.16.3)(pg@8.18.0)(zod@4.3.6)
