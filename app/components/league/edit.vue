@@ -12,7 +12,6 @@
   }>()
 
   const toast = useToast()
-  const { colors } = useShirtColors()
   const addPlayerForm = useTemplateRef("addPlayerFormRef")
 
   const { values: leagueForm, ...form } = useForm({

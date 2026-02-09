@@ -14,53 +14,55 @@ export interface ShirtColor {
   name: ShirtColorEnum
   foreground: string
   background: string
+  border?: string
 }
 
 export const useShirtColors = () => {
   const colors: ShirtColor[] = [
     {
       name: ShirtColorEnum.Black,
-      foreground: "#000000",
+      foreground: "#1a1a1a",
       background: "#FFFFFF",
     },
     {
       name: ShirtColorEnum.White,
       foreground: "#FFFFFF",
-      background: "#000000",
+      background: "#333333",
+      border: "#CCCCCC",
     },
     {
       name: ShirtColorEnum.Red,
-      foreground: "#FF0000",
+      foreground: "#DC2626",
       background: "#FFFFFF",
     },
     {
       name: ShirtColorEnum.Green,
-      foreground: "#00FF00",
+      foreground: "#16A34A",
       background: "#FFFFFF",
     },
     {
       name: ShirtColorEnum.Blue,
-      foreground: "#0000FF",
+      foreground: "#2563EB",
       background: "#FFFFFF",
     },
     {
       name: ShirtColorEnum.Yellow,
-      foreground: "#FFFF00",
-      background: "#FFFFFF",
+      foreground: "#EAB308",
+      background: "#422006",
     },
     {
       name: ShirtColorEnum.Cyan,
-      foreground: "#00FFFF",
+      foreground: "#06B6D4",
       background: "#FFFFFF",
     },
     {
       name: ShirtColorEnum.Magenta,
-      foreground: "#FF00FF",
+      foreground: "#D946EF",
       background: "#FFFFFF",
     },
     {
       name: ShirtColorEnum.Gray,
-      foreground: "#808080",
+      foreground: "#6B7280",
       background: "#FFFFFF",
     },
   ]

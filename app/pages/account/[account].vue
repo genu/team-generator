@@ -207,7 +207,8 @@
               :snapshots="parsedSnapshots"
               :league-configuration="leagueConfiguration"
               :league="league"
-              :players="currentPlayers" />
+              :players="currentPlayers"
+              @update-team-colors="actions.updateTeamColors" />
           </div>
         </div>
       </div>

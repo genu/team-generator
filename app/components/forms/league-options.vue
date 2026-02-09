@@ -27,40 +27,44 @@
         :decrement="{ color: 'info', variant: 'solid', size: 'sm' }" />
     </UFormField>
     <UFormField
-      #="{ model }"
+      #="{ model: useTeamColorsModel }"
+      name="useTeamColors"
       size="lg"
       :ui="{
-        root: 'flex items-center gap-2',
+        root: 'flex flex-col gap-2',
         labelWrapper: 'flex justify-end',
         wrapper: 'w-28',
         container: 'flex-1',
       }">
-      <UCheckbox v-bind="model" label="Use Team Colors" color="info" description="Assign shirt colors for teams" />
-    </UFormField>
-    <UFormField
-      #="{ model }"
-      :ui="{
-        root: 'flex items-center gap-2',
-        labelWrapper: 'flex justify-end',
-        wrapper: 'w-28',
-        container: 'flex-1',
-      }"
-      size="lg"
-      :items="[]">
-      <USelect
-        v-bind="model"
-        :ui="{ base: 'flex w-full', content: 'w-full' }"
-        :items="colors"
-        placeholder="Select Team Colors"
-        multiple
-        value-key="name"
-        label-key="name">
-        <template #item-label="{ item }">
-          <div :style="{ backgroundColor: item.background, color: item.foreground }" class="p-1 rounded-md bg-gray-200">
-            {{ item.name }}
-          </div>
-        </template>
-      </USelect>
+      <div class="flex items-center gap-2">
+        <UCheckbox v-bind="useTeamColorsModel" label="Use Team Colors" color="info" description="Assign shirt colors for teams" />
+      </div>
+      <UFormField
+        v-if="useTeamColorsModel.modelValue"
+        #="{ model }"
+        name="teamColors"
+        :ui="{
+          root: 'flex items-center gap-2',
+          labelWrapper: 'flex justify-end',
+          wrapper: 'w-28',
+          container: 'flex-1',
+        }"
+        size="lg">
+        <USelect
+          v-bind="model"
+          :ui="{ base: 'flex w-full', content: 'w-full' }"
+          :items="colors"
+          placeholder="Select Team Colors"
+          multiple
+          value-key="name"
+          label-key="name">
+          <template #item-label="{ item }">
+            <div :style="{ backgroundColor: item.foreground, color: item.background }" class="p-1 rounded-md">
+              {{ item.name }}
+            </div>
+          </template>
+        </USelect>
+      </UFormField>
     </UFormField>
   </UFormGroup>
 </template>

@@ -15,6 +15,7 @@ export const useLeague = (leagueId: Ref<number | undefined>) => {
 
   const editedLeagueData = ref<LeagueEditForm | null>(null)
   const latestUnsavedSnapshot = ref<Snapshot>()
+  const pendingTeamColorAssignments = ref<ShirtColorEnum[]>()
 
   const { data: league, isLoading } = client.league.useFindUnique(
     computed(() => ({
@@ -27,14 +28,20 @@ export const useLeague = (leagueId: Ref<number | undefined>) => {
   )
 
   const leagueConfiguration = computed(() => {
-    if (editedLeagueData.value) {
-      return {
-        teamCount: editedLeagueData.value.options.teamCount,
-        teamColors: editedLeagueData.value.options.teamColors,
-        rules: editedLeagueData.value.rules,
-      }
+    const base = editedLeagueData.value
+      ? {
+          teamCount: editedLeagueData.value.options.teamCount,
+          useTeamColors: editedLeagueData.value.options.useTeamColors,
+          teamColors: editedLeagueData.value.options.teamColors,
+          rules: editedLeagueData.value.rules,
+        }
+      : league.value?.configuration
+
+    if (base && pendingTeamColorAssignments.value) {
+      return { ...base, teamColorAssignments: pendingTeamColorAssignments.value }
     }
-    return league.value?.configuration
+
+    return base
   })
 
   const parsedSnapshots = computed(() => {
@@ -81,12 +88,13 @@ export const useLeague = (leagueId: Ref<number | undefined>) => {
   }
 
   const save = async () => {
-    if (!league.value || (!editedLeagueData.value && !latestUnsavedSnapshot.value)) return
+    if (!league.value || (!editedLeagueData.value && !latestUnsavedSnapshot.value && !pendingTeamColorAssignments.value)) return
 
     const formData = editedLeagueData.value || {
       options: {
         name: league.value.name!,
         teamCount: league.value.configuration.teamCount,
+        useTeamColors: league.value.configuration.useTeamColors,
         teamColors: league.value.configuration.teamColors,
       },
       rules: {
@@ -123,7 +131,9 @@ export const useLeague = (leagueId: Ref<number | undefined>) => {
         name: formData.options.name,
         configuration: {
           teamCount: formData.options.teamCount,
+          useTeamColors: formData.options.useTeamColors,
           teamColors: formData.options.teamColors,
+          ...(pendingTeamColorAssignments.value && { teamColorAssignments: pendingTeamColorAssignments.value }),
           rules: formData.rules,
         },
         ...(changedPlayers.length > 0 && {
@@ -145,6 +155,7 @@ export const useLeague = (leagueId: Ref<number | undefined>) => {
     })
 
     editedLeagueData.value = null
+    pendingTeamColorAssignments.value = undefined
 
     toast.add({
       icon: "i-lucide-check",
@@ -161,6 +172,7 @@ export const useLeague = (leagueId: Ref<number | undefined>) => {
       options: {
         name: league.value.name!,
         teamCount: league.value.configuration.teamCount,
+        useTeamColors: league.value.configuration.useTeamColors ?? false,
         teamColors: league.value.configuration.teamColors as ShirtColorEnum[],
       },
       rules: {
@@ -178,6 +190,10 @@ export const useLeague = (leagueId: Ref<number | undefined>) => {
     editedLeagueData.value = await result
   }
 
+  const updateTeamColors = (colors: ShirtColorEnum[]) => {
+    pendingTeamColorAssignments.value = colors
+  }
+
   return {
     league,
     isLoading,
@@ -188,6 +204,6 @@ export const useLeague = (leagueId: Ref<number | undefined>) => {
     currentPlayers,
     parsedSnapshots,
     leagueConfiguration,
-    actions: { duplicate, save, edit },
+    actions: { duplicate, save, edit, updateTeamColors },
   }
 }

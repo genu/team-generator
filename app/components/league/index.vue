@@ -13,6 +13,10 @@
 
   const latestUnsavedSnapshot = defineModel<Snapshot | undefined>("latestUnsavedSnapshot")
 
+  const emit = defineEmits<{
+    updateTeamColors: [ShirtColorEnum[]]
+  }>()
+
   const location = useBrowserLocation()
   const overlay = useOverlay()
   const client = useClientQueries()
@@ -41,6 +45,29 @@
   )
 
   const configuration = computed(() => leagueConfiguration)
+
+  const teamColorOverrides = ref<ShirtColorEnum[]>()
+
+  const teamColors = computed(() => {
+    if (teamColorOverrides.value) return teamColorOverrides.value
+    const cfg = leagueConfiguration as Record<string, unknown>
+    return [...((cfg.teamColorAssignments as ShirtColorEnum[]) ?? leagueConfiguration.teamColors ?? [])] as ShirtColorEnum[]
+  })
+
+  // Only reset overrides when the available colors actually change (e.g., user edited league options)
+  watch(
+    () => JSON.stringify(leagueConfiguration.teamColors),
+    () => {
+      teamColorOverrides.value = undefined
+    },
+  )
+
+  const changeTeamColor = (teamNumber: number, color: ShirtColorEnum) => {
+    const updated = [...teamColors.value]
+    updated[teamNumber] = color
+    teamColorOverrides.value = updated
+    emit("updateTeamColors", updated)
+  }
 
   const toggleBookmark = async () => {
     await createSnapshotAsync({
@@ -88,10 +115,13 @@
         data-testid="league-team"
         :team-name="`Team ${parseInt(idx as unknown as string) + 1}`"
         :team-number="parseInt(idx as unknown as string)"
+        :team-color="configuration.useTeamColors ? teamColors[parseInt(idx as unknown as string)] : undefined"
+        :available-colors="configuration.useTeamColors ? (configuration.teamColors as ShirtColorEnum[]) : undefined"
         :players="snapshotPlayers"
         @move-player="movePlayer"
         @add-player="addPlayerToTeam"
-        @remove-player="removePlayerFromTeam" />
+        @remove-player="removePlayerFromTeam"
+        @change-color="changeTeamColor" />
     </div>
   </div>
 </template>
