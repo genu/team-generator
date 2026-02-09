@@ -1,6 +1,23 @@
 # Changelog
 
 
+## [1.3.0](https://github.com/genu/team-generator/compare/v1.2.0...v1.3.0) (2026-02-09)
+
+
+### Features
+
+* add ability to set team colors ([70ad4b7](https://github.com/genu/team-generator/commit/70ad4b7211ba6a4d868bba558835cf6adbc48c14))
+* add CI and release workflows for integration testing and deployment ([d52711c](https://github.com/genu/team-generator/commit/d52711c2ccdca7d844a786c56051b6156b36fa3b))
+* enhance team color functionality and UI updates across components ([73b62d8](https://github.com/genu/team-generator/commit/73b62d83357b6faf87592ea134e6bf49aa5fad23))
+* implement legacy URL redirection and add tests for query parameter preservation ([c060b0b](https://github.com/genu/team-generator/commit/c060b0b9bc39ed18b58e97d2477b7e1c8d7a39a4))
+
+
+### Bug Fixes
+
+* correct formatting in nuxt.config.ts and streamline command in playwright.config.ts ([04fc3f4](https://github.com/genu/team-generator/commit/04fc3f4746a1fd083c6ff2543c577f34306b484e))
+* remove conditional workers setting in Playwright configuration ([b6f26fc](https://github.com/genu/team-generator/commit/b6f26fcb7ed8efa71e48eca709e366d267fbf6f3))
+* rename variables for clarity in duplicate league handler ([8970d0b](https://github.com/genu/team-generator/commit/8970d0b655cc459253d65c12baf15d45697f00b4))
+
 ## [1.2.0](https://github.com/genu/team-generator/compare/v1.1.0...v1.2.0) (2026-02-03)
 
 
