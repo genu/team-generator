@@ -1,7 +1,10 @@
-name: Playwright Tests
+name: CI
+
 on:
   pull_request:
-    branches: [master]
+    branches:
+      - master
+
 jobs:
   test:
     name: Integration Tests
@@ -19,15 +22,15 @@ jobs:
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v6
 
       - name: Setup
         uses: ./.github/actions/setup
         timeout-minutes: 10
 
-      - name: PostInstall
-        run:  |
+      - name: Prepare
+        run: |
           pnpm nuxt:prepare
           pnpm db:generate
 
@@ -48,7 +51,8 @@ jobs:
       - name: Run Playwright tests
         run: pnpm playwright test
 
-      - uses: actions/upload-artifact@v6
+      - name: Upload report
+        uses: actions/upload-artifact@v6
         if: always()
         with:
           name: playwright-report
