@@ -16,7 +16,12 @@
     {
       "description": "Group Vue ecosystem packages",
       "groupName": "vue",
-      "matchPackageNames": ["/^vue$/", "/^@vue//", "/^@vueuse//"]
+      "matchPackageNames": ["/^vue$/", "/^@vue//"]
+    },
+    {
+      "description": "Group VueUse packages",
+      "groupName": "vueuse",
+      "matchPackageNames": ["/^@vueuse//"]
     },
     {
       "description": "Group Prisma/ZenStack packages",
