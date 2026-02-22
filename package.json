@@ -35,7 +35,7 @@
     "dotenv": "dotenv"
   },
   "devDependencies": {
-    "@iconify-json/lucide": "1.2.92",
+    "@iconify-json/lucide": "1.2.93",
     "@nuxt/eslint": "1.15.1",
     "@nuxt/image": "2.0.0",
     "@pinia/colada-devtools": "0.4.2",
