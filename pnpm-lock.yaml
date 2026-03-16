@@ -58,7 +58,7 @@ importers:
         version: 2.0.5(vue@3.5.30(typescript@5.9.3))
       zenstack-pinia-colada:
         specifier: 0.2.1
-        version: 0.2.1(@pinia/colada@0.21.4(pinia@3.0.4(typescript@5.9.3)(vue@3.5.30(typescript@5.9.3)))(vue@3.5.30(typescript@5.9.3)))(@zenstackhq/client-helpers@3.4.6)(@zenstackhq/common-helpers@3.3.3)(@zenstackhq/orm@3.3.3(better-sqlite3@12.8.0)(mysql2@3.20.0(@types/node@24.10.13))(pg@8.18.0)(zod@4.3.6))(@zenstackhq/schema@3.3.3)(pinia@3.0.4(typescript@5.9.3)(vue@3.5.30(typescript@5.9.3)))(vue@3.5.30(typescript@5.9.3))
+        version: 0.2.1(@pinia/colada@0.21.4(pinia@3.0.4(typescript@5.9.3)(vue@3.5.30(typescript@5.9.3)))(vue@3.5.30(typescript@5.9.3)))(@zenstackhq/client-helpers@3.4.6)(@zenstackhq/common-helpers@3.4.6)(@zenstackhq/orm@3.3.3(better-sqlite3@12.8.0)(mysql2@3.20.0(@types/node@24.10.13))(pg@8.18.0)(zod@4.3.6))(@zenstackhq/schema@3.4.6)(pinia@3.0.4(typescript@5.9.3)(vue@3.5.30(typescript@5.9.3)))(vue@3.5.30(typescript@5.9.3))
       zod:
         specifier: 4.3.6
         version: 4.3.6
@@ -133,8 +133,8 @@ importers:
         specifier: 0.1.5
         version: 0.1.5
       std-env:
-        specifier: 3.10.0
-        version: 3.10.0
+        specifier: 4.0.0
+        version: 4.0.0
       vue-tsc:
         specifier: 3.2.5
         version: 3.2.5(typescript@5.9.3)
@@ -15688,13 +15688,13 @@ snapshots:
       cookie-es: 2.0.0
       youch-core: 0.3.3
 
-  zenstack-pinia-colada@0.2.1(@pinia/colada@0.21.4(pinia@3.0.4(typescript@5.9.3)(vue@3.5.30(typescript@5.9.3)))(vue@3.5.30(typescript@5.9.3)))(@zenstackhq/client-helpers@3.4.6)(@zenstackhq/common-helpers@3.3.3)(@zenstackhq/orm@3.3.3(better-sqlite3@12.8.0)(mysql2@3.20.0(@types/node@24.10.13))(pg@8.18.0)(zod@4.3.6))(@zenstackhq/schema@3.3.3)(pinia@3.0.4(typescript@5.9.3)(vue@3.5.30(typescript@5.9.3)))(vue@3.5.30(typescript@5.9.3)):
+  zenstack-pinia-colada@0.2.1(@pinia/colada@0.21.4(pinia@3.0.4(typescript@5.9.3)(vue@3.5.30(typescript@5.9.3)))(vue@3.5.30(typescript@5.9.3)))(@zenstackhq/client-helpers@3.4.6)(@zenstackhq/common-helpers@3.4.6)(@zenstackhq/orm@3.3.3(better-sqlite3@12.8.0)(mysql2@3.20.0(@types/node@24.10.13))(pg@8.18.0)(zod@4.3.6))(@zenstackhq/schema@3.4.6)(pinia@3.0.4(typescript@5.9.3)(vue@3.5.30(typescript@5.9.3)))(vue@3.5.30(typescript@5.9.3)):
     dependencies:
       '@pinia/colada': 0.21.4(pinia@3.0.4(typescript@5.9.3)(vue@3.5.30(typescript@5.9.3)))(vue@3.5.30(typescript@5.9.3))
       '@zenstackhq/client-helpers': 3.4.6
-      '@zenstackhq/common-helpers': 3.3.3
+      '@zenstackhq/common-helpers': 3.4.6
       '@zenstackhq/orm': 3.3.3(better-sqlite3@12.8.0)(mysql2@3.20.0(@types/node@24.10.13))(pg@8.18.0)(zod@4.3.6)
-      '@zenstackhq/schema': 3.3.3
+      '@zenstackhq/schema': 3.4.6
       pinia: 3.0.4(typescript@5.9.3)(vue@3.5.30(typescript@5.9.3))
       vue: 3.5.30(typescript@5.9.3)
 
