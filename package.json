@@ -58,7 +58,7 @@
     "pinia": "3.0.4",
     "sharp": "0.34.5",
     "sharp-ico": "0.1.5",
-    "std-env": "3.10.0",
+    "std-env": "4.0.0",
     "vue-tsc": "3.2.5"
   },
   "dependencies": {
