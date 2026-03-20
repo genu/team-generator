@@ -50,7 +50,7 @@
     "@vueuse/nuxt": "14.2.1",
     "@zenstackhq/cli": "3.4.6",
     "dotenv-cli": "11.0.0",
-    "eslint": "10.0.3",
+    "eslint": "10.1.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-prettier": "5.5.5",
     "npm-run-all2": "8.0.4",
