@@ -8,7 +8,7 @@
     "node": "24.x",
     "pnpm": "10.x"
   },
-  "packageManager": "pnpm@10.32.1+sha512.a706938f0e89ac1456b6563eab4edf1d1faf3368d1191fc5c59790e96dc918e4456ab2e67d613de1043d2e8c81f87303e6b40d4ffeca9df15ef1ad567348f2be",
+  "packageManager": "pnpm@10.33.0+sha512.10568bb4a6afb58c9eb3630da90cc9516417abebd3fabbe6739f0ae795728da1491e9db5a544c76ad8eb7570f5c4bb3d6c637b2cb41bfdcdb47fa823c8649319",
   "scripts": {
     "clean": "nuxt cleanup && rm -rf node_modules .generated .nuxt",
     "dev": "nuxt dev",
@@ -35,7 +35,7 @@
     "dotenv": "dotenv"
   },
   "devDependencies": {
-    "@iconify-json/lucide": "1.2.98",
+    "@iconify-json/lucide": "1.2.100",
     "@nuxt/eslint": "1.15.2",
     "@nuxt/image": "2.0.0",
     "@pinia/colada-devtools": "0.4.5",
@@ -48,7 +48,7 @@
     "@vite-pwa/nuxt": "1.1.1",
     "@vueuse/core": "14.2.1",
     "@vueuse/nuxt": "14.2.1",
-    "@zenstackhq/cli": "3.4.6",
+    "@zenstackhq/cli": "3.5.2",
     "dotenv-cli": "11.0.0",
     "eslint": "10.1.0",
     "eslint-config-prettier": "10.1.8",
@@ -63,21 +63,21 @@
   },
   "dependencies": {
     "@formwerk/core": "0.14.4",
-    "@nuxt/ui": "4.5.1",
+    "@nuxt/ui": "4.6.0",
     "@pinia/colada": "1.0.0",
     "@pinia/colada-nuxt": "0.3.2",
     "@vueuse/components": "14.2.1",
     "@vueuse/router": "14.2.1",
-    "@zenstackhq/orm": "3.4.6",
-    "@zenstackhq/plugin-policy": "3.4.6",
-    "@zenstackhq/server": "3.4.6",
+    "@zenstackhq/orm": "3.5.2",
+    "@zenstackhq/plugin-policy": "3.5.2",
+    "@zenstackhq/server": "3.5.2",
     "lodash-es": "4.17.23",
-    "nuxt-ui-formwerk": "0.1.20",
+    "nuxt-ui-formwerk": "0.1.21",
     "pg": "8.20.0",
     "pg-connection-string": "2.12.0",
     "typescript": "5.9.3",
     "vue-slicksort": "2.0.5",
-    "zenstack-pinia-colada": "0.2.2",
+    "zenstack-pinia-colada": "0.2.5",
     "zod": "4.3.6"
   },
   "pnpm": {
