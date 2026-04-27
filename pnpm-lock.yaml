@@ -21,8 +21,8 @@ importers:
         specifier: 1.1.0
         version: 1.1.0(pinia@3.0.4(typescript@6.0.2)(vue@3.5.33(typescript@6.0.2)))(vue@3.5.33(typescript@6.0.2))
       '@pinia/colada-nuxt':
-        specifier: 0.3.2
-        version: 0.3.2(@pinia/colada@1.1.0(pinia@3.0.4(typescript@6.0.2)(vue@3.5.33(typescript@6.0.2)))(vue@3.5.33(typescript@6.0.2)))(magicast@0.5.2)
+        specifier: 1.0.0
+        version: 1.0.0(@pinia/colada@1.1.0(pinia@3.0.4(typescript@6.0.2)(vue@3.5.33(typescript@6.0.2)))(vue@3.5.33(typescript@6.0.2)))(magicast@0.5.2)
       '@vueuse/components':
         specifier: 14.2.1
         version: 14.2.1(vue@3.5.33(typescript@6.0.2))
@@ -58,7 +58,7 @@ importers:
         version: 2.0.5(vue@3.5.33(typescript@6.0.2))
       zenstack-pinia-colada:
         specifier: 0.2.5
-        version: 0.2.5(@pinia/colada@1.1.0(pinia@3.0.4(typescript@6.0.2)(vue@3.5.33(typescript@6.0.2)))(vue@3.5.33(typescript@6.0.2)))(@zenstackhq/client-helpers@3.6.3(pg@8.20.0)(zod@4.3.6))(@zenstackhq/common-helpers@3.5.2)(@zenstackhq/orm@3.5.2(pg@8.20.0)(zod@4.3.6))(@zenstackhq/schema@3.5.2)(pinia@3.0.4(typescript@6.0.2)(vue@3.5.33(typescript@6.0.2)))(vue@3.5.33(typescript@6.0.2))
+        version: 0.2.5(@pinia/colada@1.1.0(pinia@3.0.4(typescript@6.0.2)(vue@3.5.33(typescript@6.0.2)))(vue@3.5.33(typescript@6.0.2)))(@zenstackhq/client-helpers@3.6.3(pg@8.20.0)(zod@4.3.6))(@zenstackhq/common-helpers@3.6.3)(@zenstackhq/orm@3.5.2(pg@8.20.0)(zod@4.3.6))(@zenstackhq/schema@3.6.3)(pinia@3.0.4(typescript@6.0.2)(vue@3.5.33(typescript@6.0.2)))(vue@3.5.33(typescript@6.0.2))
       zod:
         specifier: 4.3.6
         version: 4.3.6
@@ -73,8 +73,8 @@ importers:
         specifier: 2.0.0
         version: 2.0.0(db0@0.3.4)(ioredis@5.10.1)(magicast@0.5.2)(srvx@0.11.15)
       '@pinia/colada-devtools':
-        specifier: 0.4.5
-        version: 0.4.5
+        specifier: 1.0.0
+        version: 1.0.0
       '@pinia/nuxt':
         specifier: 0.11.3
         version: 0.11.3(magicast@0.5.2)(pinia@3.0.4(typescript@6.0.2)(vue@3.5.33(typescript@6.0.2)))
@@ -1885,13 +1885,13 @@ packages:
     resolution: {integrity: sha512-tmmZ3lQxAe/k/+rNnXQRawJ4NjxO2hqiOLTHvWchtGZULp4RyFeh6aU4XdOYBFe2KE1oShQTv4AblOs2iOrNnQ==}
     engines: {node: '>= 10.0.0'}
 
-  '@pinia/colada-devtools@0.4.5':
-    resolution: {integrity: sha512-YSUa5nVmtbcQG+to7qysixNcB49bxEMUo+VvkU9YFrUNFPhPVUl+tMx3Xx79J024MEV46nQkyf1+hpQ4kwSsyg==}
+  '@pinia/colada-devtools@1.0.0':
+    resolution: {integrity: sha512-DS23RyFqQ+Gy2B4Wu5GjRLEeCRKZCnP0txjFxN04CMyt6quYudCdq4JnFByT6Km2aNd/TjjENFdfJK/gd8A+Sg==}
 
-  '@pinia/colada-nuxt@0.3.2':
-    resolution: {integrity: sha512-ICPbRZ03g43CPKYwxkWf3yFbW8iz7L7kF5QoJw7lok7k7fkz9t0tFc3SrOgjl7B8PEiw3syD7rRtu3CeGmuJeg==}
+  '@pinia/colada-nuxt@1.0.0':
+    resolution: {integrity: sha512-yxu6ZbzL4rjnue3jB8lxpv94FLF6CCzCsQvBdNu+MdMsFBVCCWsYRFcCIj0GIac3Zw7qrESCXUdi2qLqEYujMw==}
     peerDependencies:
-      '@pinia/colada': '>=0.21.6'
+      '@pinia/colada': '>=1.2.0'
 
   '@pinia/colada@1.1.0':
     resolution: {integrity: sha512-GoTOlaDuQuF+9Lj5MbY2oOOZeJSP/I0U9/+Ugo5nfCymlWSyjFFjE7QcHageNL7tQr+tfepb13ks8+qO6uSV/A==}
@@ -9201,9 +9201,9 @@ snapshots:
       '@parcel/watcher-win32-ia32': 2.5.6
       '@parcel/watcher-win32-x64': 2.5.6
 
-  '@pinia/colada-devtools@0.4.5': {}
+  '@pinia/colada-devtools@1.0.0': {}
 
-  '@pinia/colada-nuxt@0.3.2(@pinia/colada@1.1.0(pinia@3.0.4(typescript@6.0.2)(vue@3.5.33(typescript@6.0.2)))(vue@3.5.33(typescript@6.0.2)))(magicast@0.5.2)':
+  '@pinia/colada-nuxt@1.0.0(@pinia/colada@1.1.0(pinia@3.0.4(typescript@6.0.2)(vue@3.5.33(typescript@6.0.2)))(vue@3.5.33(typescript@6.0.2)))(magicast@0.5.2)':
     dependencies:
       '@nuxt/kit': 4.4.2(magicast@0.5.2)
       '@pinia/colada': 1.1.0(pinia@3.0.4(typescript@6.0.2)(vue@3.5.33(typescript@6.0.2)))(vue@3.5.33(typescript@6.0.2))
@@ -15100,13 +15100,13 @@ snapshots:
       cookie-es: 3.1.1
       youch-core: 0.3.3
 
-  zenstack-pinia-colada@0.2.5(@pinia/colada@1.1.0(pinia@3.0.4(typescript@6.0.2)(vue@3.5.33(typescript@6.0.2)))(vue@3.5.33(typescript@6.0.2)))(@zenstackhq/client-helpers@3.6.3(pg@8.20.0)(zod@4.3.6))(@zenstackhq/common-helpers@3.5.2)(@zenstackhq/orm@3.5.2(pg@8.20.0)(zod@4.3.6))(@zenstackhq/schema@3.5.2)(pinia@3.0.4(typescript@6.0.2)(vue@3.5.33(typescript@6.0.2)))(vue@3.5.33(typescript@6.0.2)):
+  zenstack-pinia-colada@0.2.5(@pinia/colada@1.1.0(pinia@3.0.4(typescript@6.0.2)(vue@3.5.33(typescript@6.0.2)))(vue@3.5.33(typescript@6.0.2)))(@zenstackhq/client-helpers@3.6.3(pg@8.20.0)(zod@4.3.6))(@zenstackhq/common-helpers@3.6.3)(@zenstackhq/orm@3.5.2(pg@8.20.0)(zod@4.3.6))(@zenstackhq/schema@3.6.3)(pinia@3.0.4(typescript@6.0.2)(vue@3.5.33(typescript@6.0.2)))(vue@3.5.33(typescript@6.0.2)):
     dependencies:
       '@pinia/colada': 1.1.0(pinia@3.0.4(typescript@6.0.2)(vue@3.5.33(typescript@6.0.2)))(vue@3.5.33(typescript@6.0.2))
       '@zenstackhq/client-helpers': 3.6.3(pg@8.20.0)(zod@4.3.6)
-      '@zenstackhq/common-helpers': 3.5.2
+      '@zenstackhq/common-helpers': 3.6.3
       '@zenstackhq/orm': 3.5.2(pg@8.20.0)(zod@4.3.6)
-      '@zenstackhq/schema': 3.5.2
+      '@zenstackhq/schema': 3.6.3
       pinia: 3.0.4(typescript@6.0.2)(vue@3.5.33(typescript@6.0.2))
       vue: 3.5.33(typescript@6.0.2)
 
