@@ -20,6 +20,20 @@ test.describe("Game Time", () => {
     await expect(page.getByTestId("league-game-time")).toBeHidden()
   })
 
+  test("a league without a game time saves and reloads without one", async ({ page }) => {
+    await setupLeagueWithPlayers(page)
+    await page.getByRole("button", { name: "Close" }).click()
+
+    await page.getByRole("button", { name: "Shuffle Teams" }).click()
+    await page.getByRole("button", { name: "Save" }).click()
+    await expect(page.getByText("Saved", { exact: true }).first()).toBeVisible()
+
+    await page.reload({ waitUntil: "networkidle" })
+
+    await expect(page.locator('[data-testid="league-team"]').first()).toBeVisible()
+    await expect(page.getByTestId("league-game-time")).toBeHidden()
+  })
+
   test("displays the game time above the teams", async ({ page }) => {
     await setupLeagueWithPlayers(page)
     await setGameTime(page, "18:30")
@@ -61,6 +75,14 @@ test.describe("Game Time", () => {
     await page.getByRole("button", { name: "Edit", exact: true }).click()
     await setGameTime(page, "")
     await page.getByRole("button", { name: "Close" }).click()
+
+    await expect(page.getByTestId("league-game-time")).toBeHidden()
+
+    // ...and stays cleared once saved
+    await page.getByRole("button", { name: "Save" }).click()
+    await expect(page.getByText("Saved", { exact: true }).first()).toBeVisible()
+
+    await page.reload({ waitUntil: "networkidle" })
 
     await expect(page.getByTestId("league-game-time")).toBeHidden()
   })
