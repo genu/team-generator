@@ -21,5 +21,6 @@ type LeagueConfiguration {
     teamCount     Int
     useTeamColors Boolean?
     teamColors    ShirtColor[]?
+    gameTime      String?
     rules         LeagueRules
 }

@@ -46,6 +46,8 @@
 
   const { shuffle, teams, isShuffled, movePlayer, addPlayerToTeam, removePlayerFromTeam } = useTeamShuffle(snapshot, onTeamsChanged)
 
+  const { formattedGameTime } = useGameTime(() => leagueConfiguration.gameTime)
+
   const teamsArray = computed(() =>
     teams.value.map((players, index) => ({
       teamNumber: index,
@@ -89,6 +91,15 @@
       <div v-if="players.length > 0 && !isShuffled" class="flex flex-col items-center mt-2 mr-3">
         <UIcon name="i-lucide-arrow-up" class="text-4xl text-gray-400 animate-bounce" style="--fa-bounce-jump-scale-y: 1" />
         <span class="block text-sm font-medium text-gray-900">Click to shuffle</span>
+      </div>
+    </div>
+
+    <div v-if="formattedGameTime" class="flex justify-center">
+      <div
+        data-testid="league-game-time"
+        class="flex items-center px-3 py-1 text-sm font-semibold text-gray-900 bg-white border border-gray-300 shadow-sm gap-2 rounded-full md:text-base">
+        <UIcon name="i-lucide-clock" class="text-base md:text-lg" />
+        <span>{{ formattedGameTime }}</span>
       </div>
     </div>
 

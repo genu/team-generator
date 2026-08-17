@@ -27,6 +27,15 @@
         :decrement="{ color: 'info', variant: 'solid', size: 'sm' }" />
     </UFormField>
     <UFormField
+      #="{ model }"
+      size="lg"
+      label="Game Time:"
+      name="gameTime"
+      :ui="{ root: 'flex items-center gap-2', labelWrapper: 'flex justify-end', wrapper: 'w-28', container: 'flex-1' }">
+      <UInput v-bind="model" data-testid="league-game-time-input" type="time" :ui="{ root: 'flex items-center gap-2' }" />
+    </UFormField>
+
+    <UFormField
       #="{ model: useTeamColorsModel }"
       name="useTeamColors"
       size="lg"
