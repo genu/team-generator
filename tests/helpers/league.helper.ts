@@ -50,6 +50,11 @@ export const enableTeamColors = async (page: Page, colors: string[]) => {
   await page.keyboard.press("Escape")
 }
 
+export const setGameTime = async (page: Page, time: string) => {
+  await page.getByRole("button", { name: "League Options" }).click()
+  await page.getByTestId("league-game-time-input").fill(time)
+}
+
 export const getTeamColors = async (page: Page): Promise<(string | null)[]> => {
   const teams = page.locator('[data-testid="league-team"]')
   const count = await teams.count()

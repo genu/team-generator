@@ -31,6 +31,7 @@ export const useLeague = (leagueId: Ref<number | undefined>) => {
           teamCount: editedLeagueData.value.options.teamCount,
           useTeamColors: editedLeagueData.value.options.useTeamColors,
           teamColors: editedLeagueData.value.options.teamColors,
+          gameTime: editedLeagueData.value.options.gameTime,
           rules: editedLeagueData.value.rules,
         }
       : league.value?.configuration
@@ -114,6 +115,7 @@ export const useLeague = (leagueId: Ref<number | undefined>) => {
         teamCount: league.value.configuration.teamCount,
         useTeamColors: league.value.configuration.useTeamColors ?? false,
         teamColors: (league.value.configuration.teamColors ?? []) as ShirtColorEnum[],
+        gameTime: league.value.configuration.gameTime ?? "",
       },
       rules: {
         keepGoalies: league.value.configuration.rules.keepGoalies!,
@@ -158,6 +160,7 @@ export const useLeague = (leagueId: Ref<number | undefined>) => {
           teamCount: formData.options.teamCount,
           useTeamColors: formData.options.useTeamColors,
           teamColors: formData.options.teamColors,
+          gameTime: formData.options.gameTime || null,
           ...(pendingTeamColorAssignments.value && { teamColorAssignments: pendingTeamColorAssignments.value }),
           rules: formData.rules,
         },

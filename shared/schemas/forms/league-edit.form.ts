@@ -22,6 +22,11 @@ export const LeagueEditOptionsFormSchema = z.object({
   teamCount: z.number().min(2, "At least 2 teams required").max(20, "Maximum 20 teams").default(2),
   useTeamColors: z.boolean().optional(),
   teamColors: z.array(ShirtColorEnum).optional(),
+  gameTime: z
+    .string()
+    .regex(/^([01]\d|2[0-3]):[0-5]\d$/, "Use a valid time (HH:MM)")
+    .or(z.literal(""))
+    .optional(),
 })
 
 export const LeagueEditRulesFormSchema = z.object({
