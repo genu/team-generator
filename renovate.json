@@ -7,6 +7,7 @@
     ":label(dependencies)",
     ":disablePeerDependencies"
   ],
+  "minimumReleaseAge": "3 days",
   "packageRules": [
     {
       "description": "Group Nuxt ecosystem packages",
