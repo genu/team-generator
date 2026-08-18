@@ -42,8 +42,8 @@ importers:
         specifier: 4.18.1
         version: 4.18.1
       nuxt-ui-formwerk:
-        specifier: 0.1.24
-        version: 0.1.24(@formwerk/core@0.14.4(vue@3.5.41(typescript@6.0.3)))(@internationalized/date@3.12.2)(@nuxt/ui@4.10.0(9b57a39025501aff14eca02184fcf7de))(magic-string@0.30.21)(magicast@0.5.3)(rolldown@1.2.4)(unplugin@3.3.0(esbuild@0.28.1)(rolldown@1.2.4)(rollup@4.62.2)(vite@8.2.1(@types/node@24.13.3)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.48.0)(yaml@2.9.0)))(vue@3.5.41(typescript@6.0.3))
+        specifier: 0.2.0
+        version: 0.2.0(@formwerk/core@0.14.4(vue@3.5.41(typescript@6.0.3)))(@nuxt/ui@4.10.0(9b57a39025501aff14eca02184fcf7de))(magic-string@0.30.21)(magicast@0.5.3)(rolldown@1.2.4)(unplugin@3.3.0(esbuild@0.28.1)(rolldown@1.2.4)(rollup@4.62.2)(vite@8.2.1(@types/node@24.13.3)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.48.0)(yaml@2.9.0)))(vue@3.5.41(typescript@6.0.3))
       pg:
         specifier: 8.23.0
         version: 8.23.0
@@ -5483,11 +5483,10 @@ packages:
   nth-check@2.1.1:
     resolution: {integrity: sha512-lqjrjmaOoAnWfMmBPL+XNnynZh2+swxiX3WUE0s4yEHI6m+AwrK2UZOimIRl3X/4QctVqS8AiZjFqyOGrMXb/w==}
 
-  nuxt-ui-formwerk@0.1.24:
-    resolution: {integrity: sha512-rIJz1Wiff+MjGHFR8uB9B+Vy6MqKlo0wuupGnaNaf4PJQJh4v5tNL6XbZ6oYxmGqCgk2RIiyEXGr8mwyMfXYxQ==}
+  nuxt-ui-formwerk@0.2.0:
+    resolution: {integrity: sha512-c+TMqd2/0HAD3bwbQ0Pvni3ZqxGUty1GPPvhjzqSi2YWzc3uA0DfJdUWjuFFUdYXoYXNTY+I1t+RYLREHGbl0w==}
     peerDependencies:
       '@formwerk/core': ^0.14.4
-      '@internationalized/date': ^3.10.0
       '@nuxt/ui': ^4.0.0
 
   nuxt@4.5.2:
@@ -9183,9 +9182,9 @@ snapshots:
       consola: 3.4.2
       defu: 6.1.7
       destr: 2.0.5
-      errx: 0.1.0
-      exsolve: 1.0.8
-      ignore: 7.0.5
+      errx: 0.1.2
+      exsolve: 1.1.1
+      ignore: 7.0.6
       jiti: 2.7.0
       klona: 2.0.6
       mlly: 1.8.2
@@ -9589,7 +9588,7 @@ snapshots:
   '@nuxtjs/color-mode@4.0.1(magic-string@0.30.21)(magicast@0.5.3)(rolldown@1.2.4)(unplugin@3.3.0(esbuild@0.28.1)(rolldown@1.2.4)(rollup@4.62.2)(vite@8.2.1(@types/node@24.13.3)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.48.0)(yaml@2.9.0)))':
     dependencies:
       '@nuxt/kit': 4.5.2(magic-string@0.30.21)(magicast@0.5.3)(rolldown@1.2.4)(unplugin@3.3.0(esbuild@0.28.1)(rolldown@1.2.4)(rollup@4.62.2)(vite@8.2.1(@types/node@24.13.3)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.48.0)(yaml@2.9.0)))
-      exsolve: 1.0.8
+      exsolve: 1.1.1
       pathe: 2.0.3
       pkg-types: 2.3.1
       semver: 7.8.5
@@ -10351,7 +10350,7 @@ snapshots:
       '@typescript-eslint/utils': 8.67.0(eslint@10.8.1(jiti@2.7.0))(typescript@6.0.3)
       '@typescript-eslint/visitor-keys': 8.67.0
       eslint: 10.8.1(jiti@2.7.0)
-      ignore: 7.0.5
+      ignore: 7.0.6
       natural-compare: 1.4.0
       ts-api-utils: 2.5.0(typescript@6.0.3)
       typescript: 6.0.3
@@ -11349,7 +11348,7 @@ snapshots:
       confbox: 0.2.4
       defu: 6.1.7
       dotenv: 16.6.1
-      exsolve: 1.0.8
+      exsolve: 1.1.1
       giget: 2.0.0
       jiti: 2.7.0
       ohash: 2.0.11
@@ -11366,7 +11365,7 @@ snapshots:
       confbox: 0.2.4
       defu: 6.1.7
       dotenv: 17.4.2
-      exsolve: 1.0.8
+      exsolve: 1.1.1
       giget: 3.3.0
       jiti: 2.7.0
       ohash: 2.0.11
@@ -11383,7 +11382,7 @@ snapshots:
       confbox: 0.2.4
       defu: 6.1.7
       dotenv: 17.4.2
-      exsolve: 1.0.8
+      exsolve: 1.1.1
       giget: 3.3.0
       jiti: 2.7.0
       ohash: 2.0.11
@@ -13605,10 +13604,9 @@ snapshots:
     dependencies:
       boolbase: 1.0.0
 
-  nuxt-ui-formwerk@0.1.24(@formwerk/core@0.14.4(vue@3.5.41(typescript@6.0.3)))(@internationalized/date@3.12.2)(@nuxt/ui@4.10.0(9b57a39025501aff14eca02184fcf7de))(magic-string@0.30.21)(magicast@0.5.3)(rolldown@1.2.4)(unplugin@3.3.0(esbuild@0.28.1)(rolldown@1.2.4)(rollup@4.62.2)(vite@8.2.1(@types/node@24.13.3)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.48.0)(yaml@2.9.0)))(vue@3.5.41(typescript@6.0.3)):
+  nuxt-ui-formwerk@0.2.0(@formwerk/core@0.14.4(vue@3.5.41(typescript@6.0.3)))(@nuxt/ui@4.10.0(9b57a39025501aff14eca02184fcf7de))(magic-string@0.30.21)(magicast@0.5.3)(rolldown@1.2.4)(unplugin@3.3.0(esbuild@0.28.1)(rolldown@1.2.4)(rollup@4.62.2)(vite@8.2.1(@types/node@24.13.3)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.48.0)(yaml@2.9.0)))(vue@3.5.41(typescript@6.0.3)):
     dependencies:
       '@formwerk/core': 0.14.4(vue@3.5.41(typescript@6.0.3))
-      '@internationalized/date': 3.12.2
       '@nuxt/kit': 4.5.2(magic-string@0.30.21)(magicast@0.5.3)(rolldown@1.2.4)(unplugin@3.3.0(esbuild@0.28.1)(rolldown@1.2.4)(rollup@4.62.2)(vite@8.2.1(@types/node@24.13.3)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.48.0)(yaml@2.9.0)))
       '@nuxt/ui': 4.10.0(9b57a39025501aff14eca02184fcf7de)
       '@vueuse/core': 14.4.0(vue@3.5.41(typescript@6.0.3))

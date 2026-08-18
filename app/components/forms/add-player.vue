@@ -39,7 +39,7 @@
 </script>
 
 <template>
-  <UForm>
+  <UFormRoot :form="form" as="div">
     <UFormField #="{ model }" name="name">
       <UInput v-bind="model" placeholder="Player Name" @keyup.enter="onAddPlayer">
         <template #trailing>
@@ -47,5 +47,5 @@
         </template>
       </UInput>
     </UFormField>
-  </UForm>
+  </UFormRoot>
 </template>
