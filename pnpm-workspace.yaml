@@ -1,5 +1,11 @@
 shamefullyHoist: true
 
+# nuxt-ui-formwerk is published from this repo's own author (genu/nuxt-ui-formwerk),
+# so pnpm 11's 24 hour minimumReleaseAge check guards nothing here - it only blocks
+# installs for a day after each of our own releases.
+minimumReleaseAgeExclude:
+  - nuxt-ui-formwerk
+
 overrides:
   sharp: 0.35.3
 
