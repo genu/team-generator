@@ -14,11 +14,17 @@
   const toast = useToast()
   const addPlayerForm = useTemplateRef("addPlayerFormRef")
 
-  const { values: leagueForm, ...form } = useForm({
+  const leagueFormApi = useForm({
     id: "LeagueEditForm",
     schema: LeagueEditFormSchema,
     initialValues: LeagueEditFormSchema.parse(league),
   })
+
+  // The fields live in UTable cell slots and in FormsLeagueOptions/FormsLeagueRules,
+  // so the root wiring is provided from here rather than wrapping them in a UFormRoot element.
+  useFormRoot(leagueFormApi)
+
+  const { values: leagueForm, ...form } = leagueFormApi
 
   const activeSquad = computed(() => filter(leagueForm.players, { isActive: true }))
 

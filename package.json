@@ -72,7 +72,7 @@
     "@zenstackhq/plugin-policy": "3.9.1",
     "@zenstackhq/server": "3.9.1",
     "lodash-es": "4.18.1",
-    "nuxt-ui-formwerk": "0.1.24",
+    "nuxt-ui-formwerk": "0.2.0",
     "pg": "8.23.0",
     "pg-connection-string": "2.14.0",
     "typescript": "6.0.3",
