@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [1.4.0](https://github.com/genu/team-generator/compare/v1.3.0...v1.4.0) (2026-08-18)
+
+
+### Features
+
+* **league:** add game time option shown above generated teams ([#415](https://github.com/genu/team-generator/issues/415)) ([cf16229](https://github.com/genu/team-generator/commit/cf1622934730dbcac43fb1e0b44ed52fa45a4807))
+
 ## [1.3.0](https://github.com/genu/team-generator/compare/v1.2.0...v1.3.0) (2026-02-09)
 
 
