@@ -103,9 +103,9 @@ Playwright tests run on port 3000 with a separate test database (`.env.test`). T
 
 ## Important Notes
 
-- **Package Manager**: pnpm with lockfile (Node.js 22.x, pnpm 10.x required)
+- **Package Manager**: pnpm with lockfile (Node.js 24.x, pnpm 11.x required)
   - Package manager is pinned via `packageManager` field in package.json
-  - Uses `.npmrc` with `shamefully-hoist=true` configuration
+  - pnpm settings (hoisting, overrides, build-script approvals) live in [pnpm-workspace.yaml](pnpm-workspace.yaml)
 - **Generated files**: Never edit files in `.generated/zenstack` - regenerate with `pnpm db:generate`
 - **Database changes**: Always update [zenstack/schema.zmodel](zenstack/schema.zmodel), then run `pnpm db:migrate` or `zen migrate dev`
 - **Nuxt config**: Module configuration at [nuxt.config.ts](nuxt.config.ts)

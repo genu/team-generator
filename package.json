@@ -79,10 +79,5 @@
     "vue-slicksort": "2.0.5",
     "zenstack-pinia-colada": "0.2.8",
     "zod": "4.4.3"
-  },
-  "pnpm": {
-    "overrides": {
-      "sharp": "0.35.3"
-    }
   }
 }
