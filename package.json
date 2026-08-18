@@ -6,9 +6,9 @@
   "type": "module",
   "engines": {
     "node": "24.x",
-    "pnpm": "10.x"
+    "pnpm": "11.x"
   },
-  "packageManager": "pnpm@10.34.5+sha512.a4ee05f2f73658255bd6a89859c065a45c28a57daefae2c893a168ee2b73168c37b91e83e57ea67654ad03f03031746430e8bce38e362e042605fb8abc80192e",
+  "packageManager": "pnpm@11.21.0",
   "scripts": {
     "clean": "nuxt cleanup && rm -rf node_modules .generated .nuxt",
     "dev": "nuxt dev",
@@ -79,10 +79,5 @@
     "vue-slicksort": "2.0.5",
     "zenstack-pinia-colada": "0.2.8",
     "zod": "4.4.3"
-  },
-  "pnpm": {
-    "overrides": {
-      "sharp": "0.35.3"
-    }
   }
 }

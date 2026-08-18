@@ -1,0 +1,20 @@
+shamefullyHoist: true
+
+# nuxt-ui-formwerk is published from this repo's own author (genu/nuxt-ui-formwerk),
+# so pnpm 11's 24 hour minimumReleaseAge check guards nothing here - it only blocks
+# installs for a day after each of our own releases.
+minimumReleaseAgeExclude:
+  - nuxt-ui-formwerk
+
+overrides:
+  sharp: 0.35.3
+
+# These packages' install scripts are not needed for this project's build, so
+# they stay unapproved (the same set pnpm 10 skipped by default).
+allowBuilds:
+  "@parcel/watcher": false
+  "@prisma/engines": false
+  esbuild: false
+  prisma: false
+  unrs-resolver: false
+  vue-demi: false
