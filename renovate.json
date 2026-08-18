@@ -7,7 +7,13 @@
     ":label(dependencies)",
     ":disablePeerDependencies"
   ],
+  "minimumReleaseAge": "3 days",
   "packageRules": [
+    {
+      "description": "Own packages need no release-age delay",
+      "matchPackageNames": ["nuxt-ui-formwerk"],
+      "minimumReleaseAge": null
+    },
     {
       "description": "Group Nuxt ecosystem packages",
       "groupName": "nuxt",
