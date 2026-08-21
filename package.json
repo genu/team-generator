@@ -8,7 +8,7 @@
     "node": "24.x",
     "pnpm": "11.x"
   },
-  "packageManager": "pnpm@11.21.0",
+  "packageManager": "pnpm@11.22.0",
   "scripts": {
     "clean": "nuxt cleanup && rm -rf node_modules .generated .nuxt",
     "dev": "nuxt dev",
@@ -35,7 +35,7 @@
     "dotenv": "dotenv"
   },
   "devDependencies": {
-    "@iconify-json/lucide": "1.2.123",
+    "@iconify-json/lucide": "1.2.124",
     "@nuxt/eslint": "1.17.0",
     "@nuxt/image": "2.1.0",
     "@pinia/colada-devtools": "1.1.2",
