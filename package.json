@@ -8,7 +8,7 @@
     "node": "24.x",
     "pnpm": "11.x"
   },
-  "packageManager": "pnpm@11.22.0",
+  "packageManager": "pnpm@11.24.0",
   "scripts": {
     "clean": "nuxt cleanup && rm -rf node_modules .generated .nuxt",
     "dev": "nuxt dev",
@@ -35,7 +35,7 @@
     "dotenv": "dotenv"
   },
   "devDependencies": {
-    "@iconify-json/lucide": "1.2.124",
+    "@iconify-json/lucide": "1.2.126",
     "@nuxt/eslint": "1.17.0",
     "@nuxt/image": "2.1.0",
     "@pinia/colada-devtools": "1.1.2",
@@ -48,9 +48,9 @@
     "@vite-pwa/nuxt": "1.1.1",
     "@vueuse/core": "14.4.0",
     "@vueuse/nuxt": "14.4.0",
-    "@zenstackhq/cli": "3.9.1",
+    "@zenstackhq/cli": "3.9.2",
     "dotenv-cli": "11.0.0",
-    "eslint": "10.8.1",
+    "eslint": "10.9.1",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-prettier": "5.5.6",
     "npm-run-all2": "9.0.3",
@@ -59,18 +59,18 @@
     "sharp": "0.35.3",
     "sharp-ico": "0.1.5",
     "std-env": "4.2.0",
-    "vue-tsc": "3.3.10"
+    "vue-tsc": "3.3.11"
   },
   "dependencies": {
     "@formwerk/core": "0.14.4",
-    "@nuxt/ui": "4.10.0",
+    "@nuxt/ui": "4.11.0",
     "@pinia/colada": "1.4.2",
     "@pinia/colada-nuxt": "1.0.2",
     "@vueuse/components": "14.4.0",
     "@vueuse/router": "14.4.0",
-    "@zenstackhq/orm": "3.9.1",
-    "@zenstackhq/plugin-policy": "3.9.1",
-    "@zenstackhq/server": "3.9.1",
+    "@zenstackhq/orm": "3.9.2",
+    "@zenstackhq/plugin-policy": "3.9.2",
+    "@zenstackhq/server": "3.9.2",
     "lodash-es": "4.18.1",
     "nuxt-ui-formwerk": "0.2.0",
     "pg": "8.23.0",
