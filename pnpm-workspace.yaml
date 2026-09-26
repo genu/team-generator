@@ -7,7 +7,7 @@ minimumReleaseAgeExclude:
   - nuxt-ui-formwerk
 
 overrides:
-  sharp: 0.35.3
+  sharp: 0.35.4
 
 # These packages' install scripts are not needed for this project's build, so
 # they stay unapproved (the same set pnpm 10 skipped by default).
