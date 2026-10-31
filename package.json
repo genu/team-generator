@@ -5,7 +5,7 @@
   "description": "Generate teams randomly based on rank. This is useful if you want to create lineups of balanced teams.",
   "type": "module",
   "engines": {
-    "node": "24.x",
+    "node": "26.x",
     "pnpm": "11.x"
   },
   "packageManager": "pnpm@11.24.0",
@@ -42,7 +42,7 @@
     "@pinia/nuxt": "1.0.2",
     "@playwright/test": "1.62.1",
     "@types/lodash-es": "4.17.12",
-    "@types/node": "24.13.3",
+    "@types/node": "26.6.5",
     "@types/pg": "8.23.1",
     "@vite-pwa/assets-generator": "1.0.2",
     "@vite-pwa/nuxt": "1.1.1",
