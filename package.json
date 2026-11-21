@@ -45,7 +45,7 @@
     "@types/node": "24.13.3",
     "@types/pg": "8.23.1",
     "@vite-pwa/assets-generator": "1.0.2",
-    "@vite-pwa/nuxt": "1.1.1",
+    "@vite-pwa/nuxt": "2.0.2",
     "@vueuse/core": "14.4.0",
     "@vueuse/nuxt": "14.4.0",
     "@zenstackhq/cli": "3.9.2",
